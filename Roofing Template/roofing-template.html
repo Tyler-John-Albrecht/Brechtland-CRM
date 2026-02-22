@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example Roofing & Exteriors | Tampa Bay's Most Trusted Roofer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#1a2744;--navy2:#0f1a32;--red:#c0392b;--red2:#e74c3c;
+  --gold:#f0a500;--light:#f8f9fb;--white:#ffffff;--gray:#6b7280;
+  --border:#e5e7eb;--text:#1f2937;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',sans-serif;color:var(--text);background:var(--white);}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:200;background:var(--white);box-shadow:0 2px 20px rgba(0,0,0,0.08);}
+.nav-top{background:var(--navy);padding:8px 40px;display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;color:rgba(255,255,255,0.85);}
+.nav-top a{color:var(--gold);text-decoration:none;font-weight:700;}
+.nav-main{padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:72px;}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-icon{width:46px;height:46px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.logo-text strong{display:block;font-size:1.05rem;color:var(--navy);letter-spacing:0.5px;}
+.logo-text span{font-size:0.72rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--text);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--red);}
+.nav-cta{background:var(--red);color:var(--white);padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:background 0.2s;white-space:nowrap;}
+.nav-cta:hover{background:var(--red2);}
+
+/* HERO */
+#hero{padding-top:112px;min-height:100vh;background:linear-gradient(135deg,var(--navy2) 0%,var(--navy) 60%,#1e3a5f 100%);display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-pattern{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:20px 20px;pointer-events:none;}
+.hero-inner{max-width:1200px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(240,165,0,0.15);border:1px solid rgba(240,165,0,0.4);color:var(--gold);padding:7px 16px;border-radius:20px;font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;}
+.hero-left h1{font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--white);line-height:1.1;font-weight:800;margin-bottom:20px;}
+.hero-left h1 span{color:var(--gold);}
+.hero-left p{color:rgba(255,255,255,0.75);font-size:1.08rem;line-height:1.75;margin-bottom:32px;max-width:520px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;}
+.btn-primary{background:var(--red);color:var(--white);padding:16px 32px;border-radius:6px;text-decoration:none;font-weight:700;font-size:1rem;transition:all 0.2s;display:inline-block;}
+.btn-primary:hover{background:var(--red2);transform:translateY(-2px);}
+.btn-secondary{background:transparent;color:var(--white);padding:16px 32px;border-radius:6px;text-decoration:none;font-weight:700;font-size:1rem;border:2px solid rgba(255,255,255,0.4);transition:all 0.2s;display:inline-block;}
+.btn-secondary:hover{border-color:var(--white);background:rgba(255,255,255,0.08);}
+.hero-trust{display:flex;gap:24px;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7);font-size:0.85rem;}
+.trust-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+/* HERO FORM */
+.hero-form{background:var(--white);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+.hero-form h3{font-size:1.25rem;color:var(--navy);font-weight:800;margin-bottom:4px;}
+.hero-form>p{color:var(--gray);font-size:0.85rem;margin-bottom:20px;}
+.form-field{margin-bottom:12px;}
+.form-field label{display:block;font-size:0.75rem;font-weight:600;color:var(--navy);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
+.form-field input,.form-field select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:0.9rem;color:var(--text);outline:none;transition:border-color 0.2s;background:var(--white);font-family:inherit;}
+.form-field input:focus,.form-field select:focus{border-color:var(--navy);}
+.form-field input.error,.form-field select.error{border-color:var(--red);}
+.form-field select{appearance:none;cursor:pointer;}
+.form-submit{width:100%;background:var(--red);color:var(--white);padding:14px;border:none;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px;font-family:inherit;}
+.form-submit:hover{background:var(--red2);}
+.form-submit:disabled{background:var(--gray);cursor:not-allowed;}
+.form-note{font-size:0.73rem;color:var(--gray);text-align:center;margin-top:8px;}
+
+/* FORM SUCCESS */
+.form-success{display:none;text-align:center;padding:20px 0;}
+.form-success-icon{font-size:3rem;margin-bottom:12px;}
+.form-success h4{color:var(--navy);font-size:1.15rem;font-weight:800;margin-bottom:8px;}
+.form-success p{color:var(--gray);font-size:0.88rem;line-height:1.65;}
+
+/* TRUST BAR */
+.trust-bar{background:var(--navy);padding:20px 40px;}
+.trust-bar-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap;}
+.trust-bar-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.85);}
+.stars{color:var(--gold);font-size:1rem;letter-spacing:1px;}
+.trust-bar-item strong{color:var(--white);font-size:1rem;}
+.trust-bar-item span{font-size:0.82rem;color:rgba(255,255,255,0.6);}
+.trust-divider{width:1px;height:36px;background:rgba(255,255,255,0.15);}
+
+/* SECTIONS */
+section{padding:90px 40px;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-tag{display:inline-block;background:rgba(192,57,43,0.08);color:var(--red);padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--navy);font-weight:800;margin-bottom:16px;line-height:1.15;}
+.section-sub{color:var(--gray);font-size:1rem;line-height:1.7;max-width:580px;}
+
+/* SERVICES */
+#services{background:var(--light);}
+.services-header{text-align:center;margin-bottom:50px;}
+.services-header .section-sub{margin:0 auto;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.service-card{background:var(--white);border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:all 0.25s;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1);border-color:var(--red);}
+.service-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);}
+.service-body{padding:24px;}
+.service-body h3{font-size:1.05rem;color:var(--navy);font-weight:700;margin-bottom:8px;}
+.service-body p{color:var(--gray);font-size:0.88rem;line-height:1.65;margin-bottom:14px;}
+.service-link{color:var(--red);font-weight:700;font-size:0.85rem;text-decoration:none;}
+.service-link:hover{text-decoration:underline;}
+
+/* WHY */
+#why{background:var(--white);}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.why-photo-stack{position:relative;height:480px;}
+.why-photo-main{position:absolute;top:0;left:0;width:78%;height:88%;background:linear-gradient(135deg,#2c3e50,var(--navy));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:5rem;overflow:hidden;}
+.why-photo-accent{position:absolute;bottom:0;right:0;width:48%;height:48%;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--navy);font-weight:800;text-align:center;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+.why-photo-accent .big-num{font-size:2.4rem;line-height:1;}
+.why-photo-accent .big-label{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+.why-items{display:flex;flex-direction:column;gap:24px;margin-top:32px;}
+.why-item{display:flex;gap:16px;align-items:flex-start;}
+.why-icon{width:48px;height:48px;flex-shrink:0;border-radius:10px;background:rgba(192,57,43,0.08);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-top:2px;}
+.why-item h4{font-size:1rem;color:var(--navy);font-weight:700;margin-bottom:5px;}
+.why-item p{color:var(--gray);font-size:0.88rem;line-height:1.65;}
+.cert-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
+.cert-badge{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px 16px;font-size:0.8rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:6px;}
+
+/* PROCESS */
+#process{background:var(--navy);padding:90px 40px;}
+#process .section-tag{background:rgba(240,165,0,0.15);color:var(--gold);}
+#process .section-title{color:var(--white);}
+#process .section-sub{color:rgba(255,255,255,0.65);}
+.process-header{text-align:center;margin-bottom:56px;}
+.process-header .section-sub{margin:0 auto;}
+.process-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}
+.process-steps::before{content:'';position:absolute;top:36px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--gold),rgba(240,165,0,0.3));z-index:0;}
+.process-step{text-align:center;padding:0 12px;position:relative;z-index:1;}
+.step-num{width:72px;height:72px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:1.4rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 4px 16px rgba(240,165,0,0.35);}
+.process-step h4{color:var(--white);font-size:0.95rem;font-weight:700;margin-bottom:8px;}
+.process-step p{color:rgba(255,255,255,0.55);font-size:0.82rem;line-height:1.6;}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--light);}
+.testimonials-header{text-align:center;margin-bottom:50px;}
+.testimonials-header .section-sub{margin:0 auto;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.testimonial-card{background:var(--white);border-radius:12px;padding:32px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.t-stars{color:var(--gold);font-size:1.1rem;margin-bottom:16px;letter-spacing:2px;}
+.t-text{color:var(--text);font-size:0.93rem;line-height:1.75;margin-bottom:20px;font-style:italic;}
+.t-author{display:flex;align-items:center;gap:12px;}
+.t-avatar{width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:var(--white);font-weight:700;font-size:1rem;flex-shrink:0;}
+.t-name{font-weight:700;font-size:0.9rem;color:var(--navy);}
+.t-meta{font-size:0.78rem;color:var(--gray);}
+.google-dot{width:8px;height:8px;border-radius:50%;background:#4285f4;display:inline-block;margin-right:4px;}
+
+/* GALLERY */
+#gallery{background:var(--white);}
+.gallery-header{text-align:center;margin-bottom:50px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.gallery-item{border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.gallery-split{display:grid;grid-template-columns:1fr 1fr;height:200px;}
+.gallery-before{background:linear-gradient(135deg,#8b7355,#6b5a42);display:flex;align-items:flex-end;justify-content:center;padding:10px;}
+.gallery-after{background:linear-gradient(135deg,#2c3e50,var(--navy));display:flex;align-items:flex-end;justify-content:center;padding:10px;}
+.gallery-label{display:block;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);background:rgba(0,0,0,0.5);padding:3px 8px;border-radius:3px;margin-bottom:6px;}
+.gallery-info{padding:16px;background:var(--white);}
+.gallery-info h4{font-size:0.92rem;color:var(--navy);font-weight:700;margin-bottom:4px;}
+.gallery-info p{font-size:0.8rem;color:var(--gray);}
+
+/* ABOUT */
+#about{background:var(--light);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.about-img{height:420px;background:linear-gradient(135deg,var(--navy),#1e3a5f);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative;overflow:hidden;}
+.about-badge{position:absolute;bottom:24px;left:24px;background:var(--white);border-radius:10px;padding:16px 20px;box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+.about-badge strong{display:block;font-size:1.4rem;color:var(--navy);}
+.about-badge span{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+.about-right p{color:var(--gray);line-height:1.8;margin-bottom:16px;}
+
+/* FINANCING */
+#financing{background:linear-gradient(135deg,var(--red) 0%,#8b1a10 100%);padding:80px 40px;text-align:center;}
+#financing .section-tag{background:rgba(255,255,255,0.15);color:var(--white);}
+#financing .section-title{color:var(--white);margin:0 auto 16px;}
+#financing p{color:rgba(255,255,255,0.8);max-width:560px;margin:0 auto 36px;line-height:1.7;}
+.financing-cards{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.fin-card{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:24px 28px;text-align:center;min-width:160px;}
+.fin-card strong{display:block;font-size:1.6rem;color:var(--white);font-weight:800;}
+.fin-card span{font-size:0.78rem;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px;}
+.btn-white{background:var(--white);color:var(--red);padding:16px 36px;border-radius:6px;text-decoration:none;font-weight:700;font-size:1rem;transition:all 0.2s;display:inline-block;}
+.btn-white:hover{background:var(--gold);color:var(--navy);}
+
+/* FAQ */
+#faq{background:var(--white);}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+.faq-items{margin-top:32px;display:flex;flex-direction:column;gap:12px;}
+.faq-item{border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
+.faq-q{width:100%;background:none;border:none;padding:18px 20px;text-align:left;font-size:0.95rem;font-weight:600;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s;font-family:inherit;}
+.faq-q:hover{background:var(--light);}
+.faq-icon{font-size:1.2rem;color:var(--red);flex-shrink:0;transition:transform 0.25s;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s ease;padding:0 20px;color:var(--gray);font-size:0.9rem;line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;padding:0 20px 16px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+
+/* LOCATION */
+#location{background:var(--light);}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+.location-map{height:360px;background:linear-gradient(135deg,#c8d6e5,#a0b4c8);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:2px solid var(--border);}
+.location-map-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:rgba(26,39,68,0.7);}
+.location-pin{font-size:3.5rem;}
+.location-map-overlay p{color:var(--white);font-weight:700;font-size:1.1rem;}
+.location-map-overlay span{color:rgba(255,255,255,0.65);font-size:0.85rem;}
+.cities-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;}
+.city-tag{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:0.82rem;color:var(--navy);font-weight:500;transition:all 0.2s;}
+.city-tag:hover{border-color:var(--red);color:var(--red);}
+
+/* CLOSING CTA */
+#cta-close{background:var(--navy);padding:90px 40px;text-align:center;}
+#cta-close h2{color:var(--white);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:16px;}
+#cta-close h2 span{color:var(--gold);}
+#cta-close p{color:rgba(255,255,255,0.65);max-width:520px;margin:0 auto 40px;line-height:1.7;}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:var(--navy2);padding:60px 40px 30px;}
+.footer-inner{max-width:1200px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px;}
+.footer-brand p{color:rgba(255,255,255,0.55);font-size:0.88rem;line-height:1.7;margin-top:14px;margin-bottom:20px;}
+.footer-contact a{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;margin-bottom:10px;transition:color 0.2s;}
+.footer-contact a:hover{color:var(--gold);}
+.footer-col h4{color:var(--white);font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:10px;}
+.footer-col a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.footer-col a:hover{color:var(--gold);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:rgba(255,255,255,0.35);font-size:0.78rem;}
+.footer-logo-text{font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:4px;}
+.footer-logo-sub{font-size:0.72rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;}
+
+/* PHOTO PLACEHOLDERS */
+.photo-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,0.4);font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;text-align:center;}
+.photo-placeholder .icon{font-size:3rem;opacity:0.6;}
+
+/* STICKY MOBILE BAR */
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,0.25);}
+.sticky-bar-inner{display:flex;}
+.sticky-bar a{flex:1;padding:16px;text-align:center;color:var(--white);font-weight:800;font-size:0.92rem;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;}
+.sticky-bar a:first-child{background:var(--red);}
+.sticky-bar a:first-child:hover{background:var(--red2);}
+.sticky-bar a:last-child{background:var(--navy);}
+.sticky-bar a:last-child:hover{background:#243660;}
+
+@media(max-width:900px){
+  .hero-inner,.why-grid,.about-grid,.faq-grid,.location-grid,.footer-top{grid-template-columns:1fr;}
+  .services-grid,.testimonials-grid,.gallery-grid{grid-template-columns:1fr 1fr;}
+  .process-steps{grid-template-columns:1fr 1fr;gap:30px;}
+  .process-steps::before{display:none;}
+  .nav-links{display:none;}
+  .nav-top{padding:8px 20px;}
+  .nav-main{padding:0 20px;}
+  section{padding:60px 20px;}
+  .sticky-bar{display:block;}
+  body{padding-bottom:56px;}
+}
+@media(max-width:600px){
+  .services-grid,.testimonials-grid,.gallery-grid,.cities-grid{grid-template-columns:1fr;}
+  .trust-bar-inner{gap:20px;}
+  .trust-divider{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-top">
+    <span>📍 Serving the Tampa Bay Area | Licensed & Insured | ROC #000000</span>
+    <a href="tel:5551234567">📞 (555) 123-4567 — Call or Text Anytime</a>
+  </div>
+  <div class="nav-main">
+    <div class="logo">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        <strong>Example Roofing & Exteriors</strong>
+        <span>Tampa Bay's Trusted Roofer</span>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#financing">Financing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Free Roof Inspection</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">⭐ 500+ 5-Star Reviews in Tampa Bay</div>
+      <h1>Leaking Roof? Storm Damage? <span>We'll Fix It Fast — and Get Your Insurance to Pay.</span></h1>
+      <p>Tampa Bay homeowners trust Example Roofing & Exteriors when it matters most. Free same-week inspections, full insurance claim support, and workmanship backed by a lifetime warranty.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Get My Free Inspection</a>
+        <a href="tel:5551234567" class="btn-secondary">📞 (555) 123-4567</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><div class="trust-dot"></div>Licensed & Fully Insured</div>
+        <div class="trust-item"><div class="trust-dot"></div>GAF Master Elite Certified</div>
+        <div class="trust-item"><div class="trust-dot"></div>Lifetime Workmanship Warranty</div>
+        <div class="trust-item"><div class="trust-dot"></div>No Payment Until Complete</div>
+      </div>
+    </div>
+
+    <!-- HERO FORM -->
+    <div class="hero-form" id="contact">
+      <h3>Get Your Free Roof Inspection</h3>
+      <p>Most inspections scheduled within 24–48 hours. No obligation, ever.</p>
+
+      <!-- FORM FIELDS -->
+      <div id="heroFormFields">
+        <div class="form-field">
+          <label>Full Name *</label>
+          <input type="text" id="hf_name" placeholder="Jane & John Smith">
+        </div>
+        <div class="form-field">
+          <label>Phone Number *</label>
+          <input type="tel" id="hf_phone" placeholder="(555) 000-0000">
+        </div>
+        <div class="form-field">
+          <label>Email Address *</label>
+          <input type="email" id="hf_email" placeholder="jane@email.com">
+        </div>
+        <div class="form-field">
+          <label>Service Needed</label>
+          <select id="hf_service">
+            <option value="">Select a service...</option>
+            <option>Free Roof Inspection</option>
+            <option>Roof Replacement</option>
+            <option>Roof Repair</option>
+            <option>Storm / Insurance Claim</option>
+            <option>Commercial Roofing</option>
+            <option>Gutters</option>
+            <option>Not Sure — Just Need Help</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Property Address *</label>
+          <input type="text" id="hf_address" placeholder="123 Main St, Tampa, FL">
+        </div>
+        <button class="form-submit" id="heroSubmitBtn" onclick="submitHeroForm()">Schedule My Free Inspection →</button>
+        <p class="form-note">🔒 Your info is never shared. We'll contact you within 1 business hour.</p>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="form-success" id="heroFormSuccess">
+        <div class="form-success-icon">✅</div>
+        <h4>You're All Set!</h4>
+        <p>Thanks for reaching out! Our team will call you within <strong>1 business hour</strong> to schedule your free roof inspection.<br><br>Questions in the meantime? Call us at <strong style="color:var(--navy)">(555) 123-4567</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>4.9</strong> <span>on Google (412 reviews)</span></div></div></div>
+    <div class="trust-divider"></div>
+    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>5.0</strong> <span>on Facebook (98 reviews)</span></div></div></div>
+    <div class="trust-divider"></div>
+    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>A+</strong> <span>BBB Accredited Business</span></div></div></div>
+    <div class="trust-divider"></div>
+    <div class="trust-bar-item"><strong>15+ Years</strong>&nbsp;<span>Serving Tampa Bay</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-bar-item"><strong>2,400+</strong>&nbsp;<span>Roofs Completed</span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header">
+      <div class="section-tag">What We Do</div>
+      <h2 class="section-title">Every Roofing Service Your Home Could Ever Need</h2>
+      <p class="section-sub">From a simple repair to a full replacement — we handle it all with the same level of care and craftsmanship every time.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🏠</div><span>Completed residential roof</span></div></div>
+        <div class="service-body"><h3>Residential Roof Replacement</h3><p>Your home deserves a roof that lasts. We install premium GAF shingles backed by a Lifetime warranty — and clean up completely when done.</p><a href="#contact" class="service-link">Get a Free Quote →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">⚡</div><span>Storm damage roof</span></div></div>
+        <div class="service-body"><h3>Storm Damage & Insurance Claims</h3><p>Florida storms are no joke. We inspect your roof, document the damage, and work directly with your insurance company so you get every dollar you deserve.</p><a href="#contact" class="service-link">Get a Free Inspection →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🔧</div><span>Crew doing roof repair</span></div></div>
+        <div class="service-body"><h3>Roof Repair</h3><p>Leaking roof? Missing shingles? Don't wait until a small problem becomes a costly one. Our repair team can often respond same or next day.</p><a href="#contact" class="service-link">Schedule a Repair →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🏢</div><span>Commercial flat roof</span></div></div>
+        <div class="service-body"><h3>Commercial Roofing</h3><p>We protect businesses too. From flat roofs to metal systems, our commercial team delivers on time, on budget, with zero disruption to operations.</p><a href="#contact" class="service-link">Get a Commercial Quote →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">💧</div><span>New gutter installation</span></div></div>
+        <div class="service-body"><h3>Gutters & Drainage</h3><p>Protect your foundation and landscaping with properly installed gutters. We offer seamless aluminum and steel gutters in a variety of styles and colors.</p><a href="#contact" class="service-link">Get a Gutter Quote →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🔍</div><span>Inspector on roof</span></div></div>
+        <div class="service-body"><h3>Free Roof Inspections</h3><p>Not sure if your roof needs attention? Our certified inspectors give you an honest, no-pressure assessment — complete with photos and a full report.</p><a href="#contact" class="service-link">Book My Free Inspection →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="why">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div>
+        <div class="why-photo-stack">
+          <div class="why-photo-main"><div class="photo-placeholder"><div class="icon">👷</div><span>Team in branded apparel on job site</span></div></div>
+          <div class="why-photo-accent"><div class="big-num">15+</div><div class="big-label">Years Serving<br>Tampa Bay</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag">Why Choose Us</div>
+        <h2 class="section-title">We Earn Your Trust Before We Ever Touch Your Roof</h2>
+        <p style="color:var(--gray);line-height:1.75;margin-bottom:8px;">We know you have options. Here's why homeowners across Tampa Bay choose us — and why they refer us to their neighbors.</p>
+        <div class="why-items">
+          <div class="why-item"><div class="why-icon">🏆</div><div><h4>GAF Master Elite® Certified</h4><p>Less than 2% of roofing contractors earn this certification. It means you get access to the best warranties GAF offers — including their coveted Golden Pledge® Lifetime Warranty.</p></div></div>
+          <div class="why-item"><div class="why-icon">📋</div><div><h4>Insurance Claim Experts</h4><p>We've helped hundreds of Tampa Bay homeowners navigate the insurance process and get their full claim approved. We handle the paperwork — you handle nothing.</p></div></div>
+          <div class="why-item"><div class="why-icon">💬</div><div><h4>Transparent Communication, Always</h4><p>You'll have a dedicated project manager from day one. You'll always know what's happening, what it costs, and when it'll be done — no surprises, ever.</p></div></div>
+          <div class="why-item"><div class="why-icon">🧹</div><div><h4>We Leave Your Property Cleaner Than We Found It</h4><p>Our crews use magnetic nail sweepers and do a full cleanup every day. Your yard, driveway, and landscaping will be spotless when we're done.</p></div></div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-badge">🏅 GAF Master Elite</div>
+          <div class="cert-badge">✅ Licensed & Insured</div>
+          <div class="cert-badge">🌟 BBB A+ Rated</div>
+          <div class="cert-badge">🛡️ Lifetime Warranty</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-inner">
+    <div class="process-header">
+      <div class="section-tag">How It Works</div>
+      <h2 class="section-title">From First Call to Final Inspection — We Make It Easy</h2>
+      <p class="section-sub">We've simplified the roofing process so you always know what's coming next. No confusion. No runaround.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step"><div class="step-num">1</div><h4>Schedule Your Free Inspection</h4><p>Call, text, or fill out our form. We'll be at your door within 24–48 hours.</p></div>
+      <div class="process-step"><div class="step-num">2</div><h4>Get Your Honest Assessment</h4><p>We inspect your roof, take photos, and give you a clear, no-pressure report.</p></div>
+      <div class="process-step"><div class="step-num">3</div><h4>Review Your Custom Quote</h4><p>We walk you through every line item. No hidden fees, no vague estimates.</p></div>
+      <div class="process-step"><div class="step-num">4</div><h4>We Handle Everything</h4><p>From permits to materials to installation — your project manager keeps you posted.</p></div>
+      <div class="process-step"><div class="step-num">5</div><h4>Final Walkthrough & Warranty</h4><p>We inspect with you, answer every question, and hand over your warranty documents.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header">
+      <div class="section-tag">Real Homeowners, Real Results</div>
+      <h2 class="section-title">Don't Take Our Word For It</h2>
+      <p class="section-sub">Over 500 five-star reviews from your neighbors across the Tampa Bay Area.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"After the hurricane, I thought I was going to be dealing with insurance headaches for months. Example Roofing handled every single thing. My roof was done in two days and looked better than the original. I cannot recommend them enough."</p>
+        <div class="t-author"><div class="t-avatar">MR</div><div><div class="t-name">Mike R.</div><div class="t-meta">Tampa, FL</div><div style="margin-top:4px;font-size:0.75rem;color:var(--gray)"><span class="google-dot"></span>Google Review</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Three other companies gave me quotes and none of them could explain what I was actually paying for. Example Roofing sat down with me for an hour, answered every question, and came in competitive. They've earned a customer for life."</p>
+        <div class="t-author"><div class="t-avatar">SL</div><div><div class="t-name">Sandra L.</div><div class="t-meta">St. Petersburg, FL</div><div style="margin-top:4px;font-size:0.75rem;color:var(--gray)"><span class="google-dot"></span>Google Review</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"From start to finish, this was the smoothest home improvement project I've ever been through. The crew was polite, fast, and cleaned up every nail. My new roof looks incredible. Already told four neighbors to call them."</p>
+        <div class="t-author"><div class="t-avatar">JT</div><div><div class="t-name">James T.</div><div class="t-meta">Clearwater, FL</div><div style="margin-top:4px;font-size:0.75rem;color:var(--gray)"><span class="google-dot"></span>Google Review</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="gallery-header">
+      <div class="section-tag">Our Work</div>
+      <h2 class="section-title">Before & After — See the Difference We Make</h2>
+      <p class="section-sub" style="margin:0 auto;">Real projects from real Tampa Bay homeowners.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="gallery-split">
+          <div class="gallery-before"><div style="text-align:center"><span class="gallery-label">Before</span><div style="font-size:2.5rem">🏚️</div></div></div>
+          <div class="gallery-after"><div style="text-align:center"><span class="gallery-label">After</span><div style="font-size:2.5rem">🏠</div></div></div>
+        </div>
+        <div class="gallery-info"><h4>Full Roof Replacement — Tampa</h4><p>Storm-damaged 22-year-old shingles replaced with GAF Timberline HDZ</p></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-split">
+          <div class="gallery-before"><div style="text-align:center"><span class="gallery-label">Before</span><div style="font-size:2.5rem">🏚️</div></div></div>
+          <div class="gallery-after"><div style="text-align:center"><span class="gallery-label">After</span><div style="font-size:2.5rem">🏠</div></div></div>
+        </div>
+        <div class="gallery-info"><h4>Insurance Claim — Clearwater</h4><p>Hail damage claim approved — full replacement at no out-of-pocket cost</p></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-split">
+          <div class="gallery-before"><div style="text-align:center"><span class="gallery-label">Before</span><div style="font-size:2.5rem">🏚️</div></div></div>
+          <div class="gallery-after"><div style="text-align:center"><span class="gallery-label">After</span><div style="font-size:2.5rem">🏠</div></div></div>
+        </div>
+        <div class="gallery-info"><h4>Commercial Flat Roof — St. Pete</h4><p>15,000 sq ft TPO membrane system installed in 3 days with zero disruption</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;"><a href="#contact" class="btn-primary">See More Projects & Get a Free Quote</a></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img">
+        <div class="photo-placeholder"><div class="icon">👨‍💼</div><span>Owner / leadership headshot</span></div>
+        <div class="about-badge"><strong>2,400+</strong><span>Roofs Completed</span></div>
+      </div>
+      <div class="about-right">
+        <div class="section-tag">Our Story</div>
+        <h2 class="section-title">We Started This Company Because Homeowners Deserved Better</h2>
+        <p>After years of watching homeowners get overcharged, misled, and left with subpar work, our founder decided to do things differently.</p>
+        <p>Example Roofing & Exteriors was built on one principle: treat every homeowner the way we'd want our own family treated. That means honest inspections, transparent pricing, premium materials, and showing up when we say we will.</p>
+        <p>Today, we're proud to be one of the most reviewed and trusted roofing companies in the Tampa Bay Area — not because of fancy marketing, but because our customers tell their neighbors about us.</p>
+        <div class="cert-row">
+          <div class="cert-badge">🏅 GAF Master Elite</div>
+          <div class="cert-badge">✅ FL License #CCC000000</div>
+          <div class="cert-badge">🛡️ $2M Liability Insurance</div>
+          <div class="cert-badge">🌟 BBB A+ Since 2010</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCING -->
+<section id="financing">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-tag">Flexible Financing</div>
+    <h2 class="section-title">A New Roof Shouldn't Break the Bank</h2>
+    <p>We partner with leading financing providers to give you flexible payment options that fit your budget.</p>
+    <div class="financing-cards">
+      <div class="fin-card"><strong>0%</strong><span>Interest Options Available</span></div>
+      <div class="fin-card"><strong>$0</strong><span>Down on Approved Credit</span></div>
+      <div class="fin-card"><strong>24 hrs</strong><span>Fast Approval Process</span></div>
+      <div class="fin-card"><strong>Easy</strong><span>Monthly Payments</span></div>
+    </div>
+    <a href="#contact" class="btn-white">Check My Financing Options — It's Free</a>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="section-inner">
+    <div class="location-grid">
+      <div>
+        <div class="section-tag">Service Area</div>
+        <h2 class="section-title">Proudly Serving the Entire Tampa Bay Area</h2>
+        <p style="color:var(--gray);line-height:1.75;margin-bottom:20px;">If you live within 60 miles of Tampa, we've got you covered. Our crews are deployed daily across Hillsborough, Pinellas, Pasco, and Manatee counties.</p>
+        <div class="cities-grid">
+          <div class="city-tag">📍 Tampa</div><div class="city-tag">📍 St. Petersburg</div>
+          <div class="city-tag">📍 Clearwater</div><div class="city-tag">📍 Brandon</div>
+          <div class="city-tag">📍 Wesley Chapel</div><div class="city-tag">📍 Land O' Lakes</div>
+          <div class="city-tag">📍 Sarasota</div><div class="city-tag">📍 Bradenton</div>
+          <div class="city-tag">📍 New Port Richey</div><div class="city-tag">📍 Dunedin</div>
+          <div class="city-tag">📍 Tarpon Springs</div><div class="city-tag">📍 + More</div>
+        </div>
+      </div>
+      <div class="location-map">
+        <div class="location-map-overlay">
+          <div class="location-pin">📍</div>
+          <p>Tampa Bay Service Area</p>
+          <span>[Google Map Embed Goes Here]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="faq-grid">
+      <div>
+        <div class="section-tag">FAQ</div>
+        <h2 class="section-title">Questions Homeowners Ask Us Every Day</h2>
+        <p style="color:var(--gray);line-height:1.75;margin-bottom:28px;">Honest answers to the questions we hear most.</p>
+        <div style="background:var(--light);border-radius:12px;padding:28px;">
+          <div style="font-size:2rem;margin-bottom:12px;">💬</div>
+          <p style="color:var(--navy);font-weight:700;margin-bottom:8px;">Still have questions?</p>
+          <p style="color:var(--gray);font-size:0.88rem;margin-bottom:16px;">Our team is available 7 days a week — we actually answer.</p>
+          <a href="tel:5551234567" class="btn-primary" style="font-size:0.9rem;padding:12px 24px;">(555) 123-4567</a>
+        </div>
+      </div>
+      <div>
+        <div class="faq-items">
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I know if I need repair or full replacement? <span class="faq-icon">+</span></button><div class="faq-a">If your roof is under 15 years old and damage is isolated, a repair may be all you need. If it's 20+ years old or damage is widespread, replacement is usually more cost-effective. We'll give you an honest recommendation — we'll never push you toward a bigger job than you need.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Will my insurance cover my roof replacement? <span class="faq-icon">+</span></button><div class="faq-a">If damage was caused by a storm, hail, or wind, there's a strong chance your homeowner's insurance will cover it. We've helped hundreds of Tampa Bay homeowners get claims approved. We'll inspect your roof, document everything, and walk you through the insurance process step by step.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does a roof replacement take? <span class="faq-icon">+</span></button><div class="faq-a">Most residential roof replacements are completed in one day. Larger or more complex homes may take two. We'll give you an exact timeline before we start, and your project manager will keep you updated throughout.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What warranty do you offer? <span class="faq-icon">+</span></button><div class="faq-a">As a GAF Master Elite® contractor, we offer the GAF Golden Pledge® Lifetime Warranty — one of the strongest warranties in the industry. It covers both materials and workmanship for the lifetime of your home.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do you offer financing? <span class="faq-icon">+</span></button><div class="faq-a">Yes! We offer flexible financing through our lending partners, including 0% interest options for qualified customers. Apply in minutes and get a decision fast.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are you licensed and insured in Florida? <span class="faq-icon">+</span></button><div class="faq-a">Absolutely. We carry $2 million in general liability insurance and are fully licensed with the state of Florida (License #CCC000000). We'll provide proof of insurance before any work begins.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How soon can you start? <span class="faq-icon">+</span></button><div class="faq-a">We can typically schedule a free inspection within 24–48 hours. Once you approve your quote, most projects are scheduled within 1–2 weeks. Emergency repairs can often be handled same or next day.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What roofing brands do you use? <span class="faq-icon">+</span></button><div class="faq-a">We primarily install GAF roofing systems because we believe they're the best in the industry. We also work with Owens Corning, CertainTeed, and other premium brands depending on your needs and budget.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section id="cta-close">
+  <div class="section-inner">
+    <h2>Ready for a Roof You Can <span>Trust for Life?</span></h2>
+    <p>Join 2,400+ Tampa Bay homeowners who chose Example Roofing & Exteriors. Your free inspection takes less than an hour — zero pressure, zero obligation.</p>
+    <div class="cta-btns">
+      <a href="#contact" class="btn-primary" style="font-size:1.05rem;padding:18px 40px;">Schedule My Free Inspection</a>
+      <a href="tel:5551234567" class="btn-secondary" style="font-size:1.05rem;padding:18px 40px;">📞 Call (555) 123-4567</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-text">Example Roofing & Exteriors</div>
+        <div class="footer-logo-sub">Tampa Bay's Most Trusted Roofer</div>
+        <p>Serving Tampa Bay homeowners with honest, premium roofing services since 2010. GAF Master Elite® Certified. BBB A+ Rated.</p>
+        <div class="footer-contact">
+          <a href="tel:5551234567">📞 (555) 123-4567</a>
+          <a href="mailto:info@exampleroofing.com">✉️ info@exampleroofing.com</a>
+          <a href="#">📍 123 Main Street, Tampa, FL</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Roof Replacement</a></li><li><a href="#">Roof Repair</a></li><li><a href="#">Storm Damage</a></li><li><a href="#">Insurance Claims</a></li><li><a href="#">Commercial Roofing</a></li><li><a href="#">Gutters</a></li><li><a href="#">Free Inspection</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Reviews</a></li><li><a href="#">Project Gallery</a></li><li><a href="#">Financing</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Service Areas</h4><ul><li><a href="#">Tampa</a></li><li><a href="#">St. Petersburg</a></li><li><a href="#">Clearwater</a></li><li><a href="#">Brandon</a></li><li><a href="#">Wesley Chapel</a></li><li><a href="#">Sarasota</a></li><li><a href="#">View All Cities →</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Example Roofing & Exteriors. All Rights Reserved. | FL License #CCC000000 | Privacy Policy | Terms of Service</p>
+      <p>Site design & management by Albrecht Digital</p>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE BAR -->
+<div class="sticky-bar">
+  <div class="sticky-bar-inner">
+    <a href="tel:5551234567">📞 Call Now</a>
+    <a href="#contact">📋 Free Inspection</a>
+  </div>
+</div>
+
+<script>
+// FAQ
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// HERO FORM SUBMIT
+// NOTE FOR TYLER: To connect to a client's Formspree, replace 'YOUR_FORMSPREE_ENDPOINT' below
+// with their specific endpoint e.g. 'https://formspree.io/f/xxxxxxxx'
+const FORMSPREE_ENDPOINT = 'YOUR_FORMSPREE_ENDPOINT';
+
+async function submitHeroForm() {
+  const name = document.getElementById('hf_name');
+  const phone = document.getElementById('hf_phone');
+  const email = document.getElementById('hf_email');
+  const address = document.getElementById('hf_address');
+  const service = document.getElementById('hf_service');
+  const btn = document.getElementById('heroSubmitBtn');
+
+  // Clear errors
+  [name, phone, email, address].forEach(el => el.classList.remove('error'));
+
+  // Validate
+  const errors = [];
+  if (!name.value.trim()) { errors.push('Full Name'); name.classList.add('error'); }
+  if (!phone.value.trim()) { errors.push('Phone Number'); phone.classList.add('error'); }
+  if (!email.value.trim() || !email.value.includes('@')) { errors.push('Valid Email'); email.classList.add('error'); }
+  if (!address.value.trim()) { errors.push('Property Address'); address.classList.add('error'); }
+
+  if (errors.length > 0) {
+    alert('Please fill in: ' + errors.join(', '));
+    return;
+  }
+
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+
+  const data = {
+    _subject: 'New Inspection Request — ' + name.value,
+    name: name.value,
+    phone: phone.value,
+    email: email.value,
+    service: service.value || 'Not specified',
+    address: address.value,
+  };
+
+  // If no Formspree endpoint set yet, just show success (demo mode)
+  if (FORMSPREE_ENDPOINT === 'YOUR_FORMSPREE_ENDPOINT') {
+    showSuccess();
+    return;
+  }
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      showSuccess();
+    } else {
+      btn.textContent = 'Schedule My Free Inspection →';
+      btn.disabled = false;
+      alert('Something went wrong. Please call us directly at (555) 123-4567');
+    }
+  } catch(e) {
+    // Demo fallback
+    showSuccess();
+  }
+}
+
+function showSuccess() {
+  document.getElementById('heroFormFields').style.display = 'none';
+  document.getElementById('heroFormSuccess').style.display = 'block';
+}
+</script>
+</body>
+</html>
