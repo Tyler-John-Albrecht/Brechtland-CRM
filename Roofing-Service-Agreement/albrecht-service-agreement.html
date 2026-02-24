@@ -9,7 +9,7 @@
 body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1f2937;font-size:14px;}
 .toolbar{max-width:760px;margin:28px auto 0;padding:0 20px;}
 .plan-selector{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
-.plan-btn{flex:1;min-width:160px;padding:14px 16px;border-radius:10px;border:2px solid #d1d5db;background:#fff;cursor:pointer;text-align:center;transition:all 0.2s;}
+.plan-btn{flex:1;min-width:130px;padding:14px 16px;border-radius:10px;border:2px solid #d1d5db;background:#fff;cursor:pointer;text-align:center;transition:all 0.2s;}
 .plan-btn:hover{border-color:#1a2744;}
 .plan-btn.active{border-color:#1a2744;background:#1a2744;color:#fff;}
 .plan-btn .plan-name{font-size:0.95rem;font-weight:800;display:block;margin-bottom:3px;}
@@ -31,9 +31,10 @@ body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1f2937;font-siz
 .inline-input{border:none;border-bottom:1.5px solid #d1d5db;font-size:0.82rem;color:#1f2937;padding:2px 4px;width:130px;outline:none;background:transparent;font-family:inherit;}
 .inline-input:focus{border-bottom-color:#1a2744;}
 .plan-box{border-radius:10px;padding:22px 26px;margin:22px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.plan-box-left{flex:1;}
 .plan-box-left h2{font-size:1.1rem;font-weight:800;margin-bottom:4px;}
 .plan-box-left p{font-size:0.82rem;opacity:0.85;line-height:1.6;}
-.plan-box-right{text-align:right;}
+.plan-box-right{text-align:right;flex-shrink:0;}
 .big-price{font-size:2.2rem;font-weight:900;line-height:1;}
 .price-sub{font-size:0.78rem;opacity:0.75;margin-top:3px;}
 .total-val{font-size:0.84rem;font-weight:700;margin-top:5px;opacity:0.9;}
@@ -67,18 +68,17 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
 .name-date-row{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
 .pay-toggle{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
 .pay-toggle label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;font-weight:600;color:#1a2744;}
-/* SUBMIT */
 .submit-wrap{margin-top:28px;text-align:center;}
 .submit-btn{background:#1a2744;color:#fff;border:none;padding:16px 50px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;width:100%;}
 .submit-btn:hover{background:#243660;transform:translateY(-2px);}
 .submit-btn:disabled{background:#9ca3af;cursor:not-allowed;transform:none;}
 .error-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:0.85rem;color:#c0392b;display:none;}
-/* SUCCESS */
 .success-screen{display:none;text-align:center;padding:60px 20px;}
 .success-icon{width:72px;height:72px;border-radius:50%;background:rgba(21,128,61,0.1);border:2px solid #15803d;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;}
 .success-screen h3{font-size:1.5rem;color:#1a2744;margin-bottom:10px;}
 .success-screen p{color:#6b7280;line-height:1.7;max-width:420px;margin:0 auto;}
 .doc-footer{margin-top:22px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:0.7rem;color:#9ca3af;}
+.theme-mtm .agreement-label,.theme-mtm .plan-box{background:#4b5563;color:#fff;}
 .theme-12 .agreement-label,.theme-12 .plan-box{background:#1a2744;color:#fff;}
 .theme-24 .agreement-label,.theme-24 .plan-box{background:#92400e;color:#fff;}
 .theme-36 .agreement-label,.theme-36 .plan-box{background:#065f46;color:#fff;}
@@ -101,8 +101,9 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
 
 <div class="toolbar">
   <div class="plan-selector">
+    <div class="plan-btn" onclick="setPlan('mtm')"><span class="plan-name">Month-to-Month</span><span class="plan-price">$349/mo · No commitment</span></div>
     <div class="plan-btn active" onclick="setPlan('12')"><span class="plan-name">12-Month</span><span class="plan-price">$299/mo · $3,588 total</span></div>
-    <div class="plan-btn" onclick="setPlan('24')"><span class="plan-name">24-Month</span><span class="plan-price">$179/mo · $4,296 total</span></div>
+    <div class="plan-btn" onclick="setPlan('24')"><span class="plan-name">24-Month</span><span class="plan-price">$199/mo · $4,776 total</span></div>
     <div class="plan-btn" onclick="setPlan('36')"><span class="plan-name">36-Month</span><span class="plan-price">$149/mo · $5,364 total</span></div>
   </div>
   <div class="toolbar-actions">
@@ -114,7 +115,6 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
 
 <div class="doc theme-12" id="doc">
 
-  <!-- FORM CONTENT -->
   <div id="formContent">
     <div class="doc-header">
       <div>
@@ -163,23 +163,13 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
       <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Unlimited Content Edits</strong><span>Update photos, text, pricing, services, or anything else — just ask</span></div></div>
       <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Lead Capture Form & CRM Integration</strong><span>Contact forms connected directly to your email or CRM</span></div></div>
       <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Basic SEO Optimization</strong><span>Title tags, meta descriptions, local keywords, and Google Business setup</span></div></div>
-      <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Priority Support</strong><span>Direct access to Tyler — call or text anytime during business hours</span></div></div>
+      <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Priority Support</strong><span>Direct access to your marketing consultant — call or text anytime during business hours</span></div></div>
     </div>
 
     <hr>
 
     <div class="section-label">Terms & Conditions</div>
-    <ul class="terms-list" style="margin-bottom:20px;">
-      <li>This agreement begins on the start date above and runs for the full contracted term (<span id="termMonths">12</span> months).</li>
-      <li>Monthly payments of <strong><span id="termPrice">$299</span></strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.</li>
-      <li>A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.</li>
-      <li>Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.</li>
-      <li>Albrecht Digital retains the right to suspend services if payment is more than <strong>10 days past due</strong>.</li>
-      <li>Client owns all content, photos, and copy provided. Albrecht Digital owns the website design and code.</li>
-      <li>Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.</li>
-      <li>Albrecht Digital will not work with a direct competitor in the same city during the active contract period.</li>
-      <li>Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.</li>
-    </ul>
+    <ul class="terms-list" id="termsList" style="margin-bottom:20px;"></ul>
 
     <hr>
 
@@ -261,14 +251,12 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
       <span id="footerPlan">12-Month Agreement</span>
     </div>
 
-    <!-- SUBMIT -->
     <div class="submit-wrap">
       <div class="error-msg" id="errorMsg"></div>
       <button class="submit-btn" id="submitBtn" onclick="submitAgreement()">✉️ Submit Signed Agreement to Albrecht Digital</button>
     </div>
   </div>
 
-  <!-- SUCCESS -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✓</div>
     <h3>Agreement Submitted!</h3>
@@ -279,32 +267,101 @@ hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0;}
 </div>
 
 <script>
-const plans={
-  '12':{label:'12-Month Agreement',title:'12-Month Website Plan',price:'$299',term:'12 monthly payments',total:'Total Contract Value: $3,588',months:'12',theme:'theme-12'},
-  '24':{label:'24-Month Agreement',title:'24-Month Website Plan',price:'$179',term:'24 monthly payments',total:'Total Contract Value: $4,296',months:'24',theme:'theme-24'},
-  '36':{label:'36-Month Agreement',title:'36-Month Website Plan',price:'$149',term:'36 monthly payments',total:'Total Contract Value: $5,364',months:'36',theme:'theme-36'}
+const plans = {
+  'mtm': {
+    label: 'Month-to-Month Agreement',
+    title: 'Month-to-Month Website Plan',
+    price: '$349',
+    term: 'Billed monthly — cancel anytime',
+    total: 'No long-term commitment required',
+    theme: 'theme-mtm',
+    terms: [
+      'This is a month-to-month agreement with no fixed term. Services continue on a rolling monthly basis.',
+      'Monthly payments of <strong>$349</strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.',
+      'A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.',
+      'Either party may cancel this agreement with <strong>30 days written notice</strong>. No cancellation fee applies.',
+      'Albrecht Digital retains the right to suspend services if payment is more than <strong>10 days past due</strong>.',
+      'Client owns all content, photos, and copy provided. Albrecht Digital owns the website design and code.',
+      'Upon cancellation, client may purchase full website ownership for a one-time fee agreed upon in writing.',
+      'Either party may transition to a discounted long-term plan at any time with written agreement.'
+    ]
+  },
+  '12': {
+    label: '12-Month Agreement',
+    title: '12-Month Website Plan',
+    price: '$299',
+    term: '12 monthly payments',
+    total: 'Total Contract Value: $3,588',
+    theme: 'theme-12',
+    terms: [
+      'This agreement begins on the start date above and runs for the full contracted term (12 months).',
+      'Monthly payments of <strong>$299</strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.',
+      'A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.',
+      'Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.',
+      'Albrecht Digital retains the right to suspend services if payment is more than <strong>10 days past due</strong>.',
+      'Client owns all content, photos, and copy provided. Albrecht Digital owns the website design and code.',
+      'Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.',
+      'Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.'
+    ]
+  },
+  '24': {
+    label: '24-Month Agreement',
+    title: '24-Month Website Plan',
+    price: '$199',
+    term: '24 monthly payments',
+    total: 'Total Contract Value: $4,776',
+    theme: 'theme-24',
+    terms: [
+      'This agreement begins on the start date above and runs for the full contracted term (24 months).',
+      'Monthly payments of <strong>$199</strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.',
+      'A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.',
+      'Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.',
+      'Albrecht Digital retains the right to suspend services if payment is more than <strong>10 days past due</strong>.',
+      'Client owns all content, photos, and copy provided. Albrecht Digital owns the website design and code.',
+      'Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.',
+      'Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.'
+    ]
+  },
+  '36': {
+    label: '36-Month Agreement',
+    title: '36-Month Website Plan',
+    price: '$149',
+    term: '36 monthly payments',
+    total: 'Total Contract Value: $5,364',
+    theme: 'theme-36',
+    terms: [
+      'This agreement begins on the start date above and runs for the full contracted term (36 months).',
+      'Monthly payments of <strong>$149</strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.',
+      'A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.',
+      'Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.',
+      'Albrecht Digital retains the right to suspend services if payment is more than <strong>10 days past due</strong>.',
+      'Client owns all content, photos, and copy provided. Albrecht Digital owns the website design and code.',
+      'Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.',
+      'Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.'
+    ]
+  }
 };
+
 let currentPlan = '12';
+const planKeys = ['mtm','12','24','36'];
 
 function setPlan(p) {
   currentPlan = p;
   const pl = plans[p];
-  const doc = document.getElementById('doc');
-  doc.className = 'doc ' + pl.theme;
+  document.getElementById('doc').className = 'doc ' + pl.theme;
   document.getElementById('agreementLabel').textContent = pl.label;
   document.getElementById('planTitle').textContent = pl.title;
   document.getElementById('planPrice').innerHTML = pl.price + '<span style="font-size:1rem;font-weight:600">/mo</span>';
   document.getElementById('planTerm').textContent = pl.term;
   document.getElementById('planTotal').textContent = pl.total;
-  document.getElementById('termMonths').textContent = pl.months;
-  document.getElementById('termPrice').textContent = pl.price;
   document.getElementById('footerPlan').textContent = pl.label;
-  document.querySelectorAll('.plan-btn').forEach((b,i)=>b.classList.toggle('active',['12','24','36'][i]===p));
+  document.getElementById('termsList').innerHTML = pl.terms.map(t => `<li>${t}</li>`).join('');
+  document.querySelectorAll('.plan-btn').forEach((b, i) => b.classList.toggle('active', planKeys[i] === p));
 }
 
 function togglePay(type) {
-  document.getElementById('cardFields').style.display = type==='card'?'block':'none';
-  document.getElementById('bankFields').style.display = type==='bank'?'block':'none';
+  document.getElementById('cardFields').style.display = type === 'card' ? 'block' : 'none';
+  document.getElementById('bankFields').style.display = type === 'bank' ? 'block' : 'none';
 }
 
 function formatCard(el){let v=el.value.replace(/\D/g,'').substring(0,16);el.value=v.replace(/(.{4})/g,'$1  ').trim();}
@@ -312,12 +369,11 @@ function formatExp(el){let v=el.value.replace(/\D/g,'').substring(0,4);if(v.leng
 
 function resetForm() {
   if(!confirm('Reset all fields?')) return;
-  document.querySelectorAll('.field-input:not([readonly]),.inline-input').forEach(f=>{if(f.type==='date')f.value='';else f.value='';});
+  document.querySelectorAll('.field-input:not([readonly]),.inline-input').forEach(f=>{f.value='';});
   clearSig('clientSig','cStatus'); clearSig('tylerSig','tStatus');
   document.getElementById('errorMsg').style.display='none';
 }
 
-// CANVAS
 function initCanvas(id) {
   const c=document.getElementById(id);
   c.width=c.offsetWidth||300; c.height=80;
@@ -333,105 +389,50 @@ function initCanvas(id) {
   c.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();c.classList.add('signed');c._signed=true;},{passive:false});
   c.addEventListener('touchend',()=>drawing=false);
 }
+
 function clearSig(cid,sid){const c=document.getElementById(cid);c.getContext('2d').clearRect(0,0,c.width,c.height);c._signed=false;c._confirmed=false;c.classList.remove('signed','error');const s=document.getElementById(sid);s.textContent='';s.className='sig-status';}
 function confirmSig(cid,sid){const c=document.getElementById(cid);if(!c._signed){alert('Please draw your signature first.');return;}c._confirmed=true;c.classList.remove('error');const s=document.getElementById(sid);s.textContent='✓ Signature confirmed';s.className='sig-status ok';}
 
-// VALIDATE & SUBMIT
 async function submitAgreement() {
-  const errEl = document.getElementById('errorMsg');
+  const errEl=document.getElementById('errorMsg');
   errEl.style.display='none';
-  const errors = [];
-  const req = [
-    {id:'f_bizName',label:'Business Name'},
-    {id:'f_ownerName',label:'Owner Name'},
-    {id:'f_phone',label:'Phone Number'},
-    {id:'f_email',label:'Email Address'},
-    {id:'f_address',label:'Business Address'},
-    {id:'f_clientPrint',label:'Printed Name (Client)'},
-    {id:'f_clientDate',label:'Date Signed (Client)'},
-  ];
-  req.forEach(r=>{
-    const el=document.getElementById(r.id);
-    if(!el.value.trim()){errors.push(r.label);el.classList.add('error');}
-    else el.classList.remove('error');
-  });
-
-  // Payment validation
-  const isCard = document.querySelector('input[name="payMethod"]:checked').value === 'card';
-  if(isCard){
-    ['f_cardName','f_cardNum','f_cardExp','f_cardCvv'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(!el.value.trim()){errors.push('Card info ('+id+')');el.classList.add('error');}
-      else el.classList.remove('error');
-    });
-  } else {
-    ['f_bankName','f_bankBankName','f_bankRouting','f_bankAcct','f_bankType'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(!el.value.trim()){errors.push('Bank info ('+id+')');el.classList.add('error');}
-      else el.classList.remove('error');
-    });
-  }
-
-  // Signature check
-  const clientSig = document.getElementById('clientSig');
+  const errors=[];
+  [{id:'f_bizName',label:'Business Name'},{id:'f_ownerName',label:'Owner Name'},{id:'f_phone',label:'Phone Number'},{id:'f_email',label:'Email Address'},{id:'f_address',label:'Business Address'},{id:'f_clientPrint',label:'Printed Name (Client)'},{id:'f_clientDate',label:'Date Signed (Client)'}].forEach(r=>{const el=document.getElementById(r.id);if(!el.value.trim()){errors.push(r.label);el.classList.add('error');}else el.classList.remove('error');});
+  const isCard=document.querySelector('input[name="payMethod"]:checked').value==='card';
+  if(isCard){['f_cardName','f_cardNum','f_cardExp','f_cardCvv'].forEach(id=>{const el=document.getElementById(id);if(!el.value.trim()){errors.push('Card info');el.classList.add('error');}else el.classList.remove('error');});}
+  else{['f_bankName','f_bankBankName','f_bankRouting','f_bankAcct','f_bankType'].forEach(id=>{const el=document.getElementById(id);if(!el.value.trim()){errors.push('Bank info');el.classList.add('error');}else el.classList.remove('error');});}
+  const clientSig=document.getElementById('clientSig');
   if(!clientSig._confirmed){errors.push('Client Signature (must click Confirm)');clientSig.classList.add('error');}
-
-  if(errors.length>0){
-    errEl.innerHTML='<strong>Please complete the following before submitting:</strong><br>• '+errors.join('<br>• ');
-    errEl.style.display='block';
-    errEl.scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Submitting...'; btn.disabled = true;
-
-  const pl = plans[currentPlan];
-  const data = {
-    _subject: 'New Signed Agreement — ' + document.getElementById('f_bizName').value + ' (' + pl.label + ')',
-    plan: pl.label,
-    monthly_rate: pl.price + '/mo',
-    total_contract_value: pl.total,
-    agreement_number: document.getElementById('f_agreementNum').value,
-    start_date: document.getElementById('f_startDate').value,
-    business_name: document.getElementById('f_bizName').value,
-    owner_name: document.getElementById('f_ownerName').value,
-    phone: document.getElementById('f_phone').value,
-    email: document.getElementById('f_email').value,
-    address: document.getElementById('f_address').value,
-    payment_method: isCard ? 'Credit/Debit Card' : 'Bank Account (ACH)',
-    payment_name: isCard ? document.getElementById('f_cardName').value : document.getElementById('f_bankName').value,
-    payment_detail: isCard ? 'Card Number: ' + document.getElementById('f_cardNum').value + ' | Exp: ' + document.getElementById('f_cardExp').value : 'Bank: ' + document.getElementById('f_bankBankName').value + ' | Routing: ' + document.getElementById('f_bankRouting').value + ' | Account: ' + document.getElementById('f_bankAcct').value,
-    client_printed_name: document.getElementById('f_clientPrint').value,
-    client_signed_date: document.getElementById('f_clientDate').value,
-    client_signature: '✓ Electronically signed',
-    albrecht_signature: document.getElementById('tylerSig')._confirmed ? '✓ Signed by Tyler' : 'Pending Tyler signature',
+  if(errors.length>0){errEl.innerHTML='<strong>Please complete the following before submitting:</strong><br>• '+[...new Set(errors)].join('<br>• ');errEl.style.display='block';errEl.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  const btn=document.getElementById('submitBtn');
+  btn.textContent='Submitting...';btn.disabled=true;
+  const pl=plans[currentPlan];
+  const data={
+    _subject:'New Signed Agreement — '+document.getElementById('f_bizName').value+' ('+pl.label+')',
+    plan:pl.label,monthly_rate:pl.price+'/mo',total_value:pl.total,
+    agreement_number:document.getElementById('f_agreementNum').value,
+    start_date:document.getElementById('f_startDate').value,
+    business_name:document.getElementById('f_bizName').value,
+    owner_name:document.getElementById('f_ownerName').value,
+    phone:document.getElementById('f_phone').value,
+    email:document.getElementById('f_email').value,
+    address:document.getElementById('f_address').value,
+    payment_method:isCard?'Credit/Debit Card':'Bank Account (ACH)',
+    payment_name:isCard?document.getElementById('f_cardName').value:document.getElementById('f_bankName').value,
+    payment_detail:isCard?'Card: '+document.getElementById('f_cardNum').value+' Exp: '+document.getElementById('f_cardExp').value:'Bank: '+document.getElementById('f_bankBankName').value+' Routing: '+document.getElementById('f_bankRouting').value,
+    client_printed_name:document.getElementById('f_clientPrint').value,
+    client_signed_date:document.getElementById('f_clientDate').value,
+    client_signature:'✓ Electronically signed',
+    albrecht_signature:document.getElementById('tylerSig')._confirmed?'✓ Signed by Tyler':'Pending Tyler signature'
   };
-
-  try {
-    const res = await fetch('https://formspree.io/f/mwvnrnkg', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify(data)
-    });
-    if(res.ok){
-      document.getElementById('formContent').style.display='none';
-      document.getElementById('successScreen').style.display='block';
-      document.querySelector('.toolbar').style.display='none';
-      window.scrollTo({top:0,behavior:'smooth'});
-    } else {
-      btn.textContent='✉️ Submit Signed Agreement to Albrecht Digital';
-      btn.disabled=false;
-      alert('Something went wrong. Please try again or email Tyler directly at Tyler_albrecht@yahoo.com');
-    }
-  } catch(e) {
-    btn.textContent='✉️ Submit Signed Agreement to Albrecht Digital';
-    btn.disabled=false;
-    alert('Network error. Please check your connection and try again.');
-  }
+  try{
+    const res=await fetch('https://formspree.io/f/mwvnrnkg',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+    if(res.ok){document.getElementById('formContent').style.display='none';document.getElementById('successScreen').style.display='block';document.querySelector('.toolbar').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+    else{btn.textContent='✉️ Submit Signed Agreement to Albrecht Digital';btn.disabled=false;alert('Something went wrong. Please try again or email Tyler directly at Tyler_albrecht@yahoo.com');}
+  }catch(e){btn.textContent='✉️ Submit Signed Agreement to Albrecht Digital';btn.disabled=false;alert('Network error. Please check your connection and try again.');}
 }
 
-window.addEventListener('load',()=>{initCanvas('clientSig');initCanvas('tylerSig');});
+window.addEventListener('load',()=>{setPlan('12');initCanvas('clientSig');initCanvas('tylerSig');});
 window.addEventListener('resize',()=>{initCanvas('clientSig');initCanvas('tylerSig');});
 </script>
 </body>
