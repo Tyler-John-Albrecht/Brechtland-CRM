@@ -1323,6 +1323,61 @@ tbody tr:hover { background: rgba(217,119,86,0.04); }
 /* ================================================================
    SERVICE AGREEMENT OVERLAY — scoped styles
    ================================================================ */
+/* ==================== CLIENT DETAIL VIEW ==================== */
+.client-detail-overlay {
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  z-index:2000; background:var(--bg-primary); overflow-y:auto;
+}
+.client-detail-overlay.open { display:block; }
+.cd-topbar {
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px; background:var(--bg-secondary);
+  border-bottom:1px solid var(--border);
+}
+.cd-topbar h3 { font-size:16px; font-weight:600; }
+.cd-topbar-actions { display:flex; gap:10px; }
+.cd-topbar-btn {
+  padding:8px 16px; border-radius:var(--radius-sm); font-size:13px;
+  font-weight:600; cursor:pointer; border:none; font-family:inherit;
+}
+.cd-btn-back { background:var(--bg-card); color:var(--text-secondary); border:1px solid var(--border); }
+.cd-btn-back:hover { color:var(--text-primary); border-color:var(--border-light); }
+.cd-btn-save { background:var(--accent); color:#fff; }
+.cd-btn-save:hover { background:var(--accent-hover); }
+.cd-btn-delete { background:var(--danger-bg); color:var(--danger); }
+.cd-btn-delete:hover { background:var(--danger); color:#fff; }
+.cd-body { max-width:900px; margin:28px auto; padding:0 28px; }
+.cd-section {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px; margin-bottom:20px;
+}
+.cd-section h4 {
+  font-size:14px; font-weight:600; text-transform:uppercase;
+  letter-spacing:0.5px; color:var(--accent); margin-bottom:16px;
+  padding-bottom:10px; border-bottom:1px solid var(--border);
+}
+.cd-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.cd-field label {
+  display:block; font-size:11px; font-weight:600;
+  color:var(--text-muted); text-transform:uppercase;
+  letter-spacing:0.5px; margin-bottom:4px;
+}
+.cd-field input, .cd-field select, .cd-field textarea {
+  width:100%; padding:9px 12px; background:var(--bg-input);
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  color:var(--text-primary); font-size:13px; font-family:inherit;
+}
+.cd-field textarea { min-height:80px; resize:vertical; }
+.cd-field input:focus, .cd-field select:focus, .cd-field textarea:focus {
+  outline:none; border-color:var(--accent);
+}
+.cd-field.full { grid-column: 1 / -1; }
+.cd-readonly {
+  padding:9px 12px; background:var(--bg-primary); border:1px solid var(--border);
+  border-radius:var(--radius-sm); font-size:13px; color:var(--text-secondary);
+}
+
 .sa-overlay {
   display: none;
   position: fixed;
@@ -2202,7 +2257,11 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 <div class="sa-overlay" id="saOverlay">
   <div class="sa-topbar">
     <h3>📋 Service Agreement</h3>
-    <button class="sa-topbar-close" onclick="closeServiceAgreement()">✕ Back to CRM</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="cd-topbar-btn" style="background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);font-size:12px" onclick="saCopyShareLink()" id="saShareBtn">📋 Copy Shareable Link</button>
+      <button class="cd-topbar-btn" style="background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);font-size:12px" onclick="saOpenNewTab()">↗ Open in New Tab</button>
+      <button class="sa-topbar-close" onclick="closeServiceAgreement()">✕ Back to CRM</button>
+    </div>
   </div>
   <div class="sa-body">
 
@@ -3204,11 +3263,12 @@ async function renderClients() {
       </div>
       <div class="card-body" style="padding:0">
         ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">👥</div><p>No clients yet</p></div>' :
-          `<table><thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Plan</th><th>Monthly</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
+          `<table><thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Website</th><th>Plan</th><th>Monthly</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
             clients.map(c => `<tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(c.name)}</td>
+              <td><a href="#" onclick="event.preventDefault();openClientDetail('${c.id}')" style="color:var(--accent);font-weight:500;text-decoration:none;cursor:pointer">${esc(c.name)}</a></td>
               <td>${esc(c.businessName || '-')}</td>
               <td>${esc(c.email)}</td>
+              <td>${c.website ? '<a href="'+(c.website.startsWith('http')?c.website:'https://'+c.website)+'" target="_blank" style="color:var(--accent);text-decoration:none">'+esc(c.website)+'</a>' : '-'}</td>
               <td>${esc(c.plan || '-')}</td>
               <td>${c.monthly ? '$' + parseFloat(c.monthly).toLocaleString() : '-'}</td>
               <td><span class="status-badge status-${c.status || 'active'}">${esc(c.status || 'active')}</span></td>
@@ -3236,6 +3296,7 @@ function openClientModal(editId) {
       <div class="form-group"><label>Email</label><input type="email" id="clientEmail" value="${esc(c.email || '')}"></div>
       <div class="form-group"><label>Phone</label><input type="text" id="clientPhone" value="${esc(c.phone || '')}"></div>
       <div class="form-group"><label>Address</label><input type="text" id="clientAddress" value="${esc(c.address || '')}" placeholder="Street, City, State ZIP"></div>
+      <div class="form-group"><label>Website</label><input type="url" id="clientWebsite" value="${esc(c.website || '')}" placeholder="https://example.com"></div>
       <div class="form-group"><label>Industry</label>
         <select id="clientIndustry">
           <option value="">Select Industry</option>
@@ -3294,6 +3355,7 @@ async function saveClient(editId) {
     email: document.getElementById('clientEmail').value.trim(),
     phone: document.getElementById('clientPhone').value.trim(),
     address: document.getElementById('clientAddress').value.trim(),
+    website: document.getElementById('clientWebsite').value.trim(),
     industry: document.getElementById('clientIndustry').value,
     plan: document.getElementById('clientPlan').value,
     monthly: document.getElementById('clientMonthly').value,
@@ -3327,6 +3389,136 @@ async function deleteClient(id) {
   if (!confirm('Delete this client?')) return;
   await db.collection('clients').doc(id).delete();
   renderClients();
+}
+
+// ============================================================
+//  CLIENT DETAIL VIEW
+// ============================================================
+let cdCurrentId = null;
+
+async function openClientDetail(clientId) {
+  cdCurrentId = clientId;
+  const doc = await db.collection('clients').doc(clientId).get();
+  if (!doc.exists) { alert('Client not found.'); return; }
+  const c = doc.data();
+
+  document.getElementById('cdTitle').textContent = c.name || 'Client Profile';
+
+  let html = '';
+
+  // --- Contact Information ---
+  html += `<div class="cd-section"><h4>Contact Information</h4><div class="cd-grid">
+    <div class="cd-field"><label>Full Name</label><input type="text" id="cd_name" value="${esc(c.name || '')}"></div>
+    <div class="cd-field"><label>Business Name</label><input type="text" id="cd_businessName" value="${esc(c.businessName || '')}"></div>
+    <div class="cd-field"><label>Email</label><input type="email" id="cd_email" value="${esc(c.email || '')}"></div>
+    <div class="cd-field"><label>Phone</label><input type="text" id="cd_phone" value="${esc(c.phone || '')}"></div>
+    <div class="cd-field full"><label>Address</label><input type="text" id="cd_address" value="${esc(c.address || '')}"></div>
+    <div class="cd-field"><label>Website</label><input type="url" id="cd_website" value="${esc(c.website || '')}" placeholder="https://example.com"></div>
+    <div class="cd-field"><label>Industry</label>
+      <select id="cd_industry">
+        <option value="">Select Industry</option>
+        ${['Restaurant / Food Service','Retail / E-Commerce','Healthcare / Medical','Real Estate','Legal / Law Firm','Construction / Trades','Fitness / Wellness','Home Services','Professional Services','Automotive','Nonprofit','Other'].map(o => '<option value="'+o+'"'+(c.industry===o?' selected':'')+'>'+o+'</option>').join('')}
+      </select>
+    </div>
+  </div></div>`;
+
+  // --- Plan & Status ---
+  html += `<div class="cd-section"><h4>Plan & Status</h4><div class="cd-grid">
+    <div class="cd-field"><label>Plan</label>
+      <select id="cd_plan" onchange="cdAutofillRate()">
+        <option value="">Select Plan</option>
+        <option value="Month-to-Month" ${c.plan==='Month-to-Month'?'selected':''}>Month-to-Month — $349/mo</option>
+        <option value="12-Month" ${c.plan==='12-Month'?'selected':''}>12-Month — $299/mo</option>
+        <option value="24-Month" ${c.plan==='24-Month'?'selected':''}>24-Month — $199/mo</option>
+        <option value="36-Month" ${c.plan==='36-Month'?'selected':''}>36-Month — $149/mo</option>
+      </select>
+    </div>
+    <div class="cd-field"><label>Monthly Rate ($)</label><input type="number" id="cd_monthly" value="${c.monthly || ''}"></div>
+    <div class="cd-field"><label>Status</label>
+      <select id="cd_status">
+        <option value="active" ${c.status==='active'?'selected':''}>Active</option>
+        <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
+        <option value="lead" ${c.status==='lead'?'selected':''}>Lead</option>
+        <option value="inactive" ${c.status==='inactive'?'selected':''}>Inactive</option>
+      </select>
+    </div>
+    <div class="cd-field"><label>Added By</label><div class="cd-readonly">${esc(c.createdByName || c.employeeName || '-')}</div></div>
+    <div class="cd-field"><label>Source</label><div class="cd-readonly">${c.source === 'service_agreement' ? '📋 Service Agreement' : '✏️ Manual Entry'}</div></div>
+  </div></div>`;
+
+  // --- Service Agreement Details (if from SA) ---
+  if (c.agreementData || c.source === 'service_agreement') {
+    const a = c.agreementData || {};
+    html += `<div class="cd-section"><h4>Service Agreement Details</h4><div class="cd-grid">
+      <div class="cd-field"><label>Agreement #</label><div class="cd-readonly">${esc(a.agreementNumber || c.notes?.match(/No agreement #/) ? '-' : (a.agreementNumber || '-'))}</div></div>
+      <div class="cd-field"><label>Plan</label><div class="cd-readonly">${esc(a.plan || c.plan || '-')}</div></div>
+      <div class="cd-field"><label>Monthly Rate</label><div class="cd-readonly">${a.monthlyRate ? '$'+a.monthlyRate : '-'}</div></div>
+      <div class="cd-field"><label>Total Contract</label><div class="cd-readonly">${esc(a.totalContract || '-')}</div></div>
+      <div class="cd-field"><label>Start Date</label><div class="cd-readonly">${esc(a.startDate || '-')}</div></div>
+      <div class="cd-field"><label>Date Signed</label><div class="cd-readonly">${esc(a.dateSigned || '-')}</div></div>
+      <div class="cd-field"><label>Payment Method</label><div class="cd-readonly">${esc(a.paymentMethod || '-')}</div></div>
+      <div class="cd-field"><label>Submitted By</label><div class="cd-readonly">${esc(a.submittedBy || '-')}</div></div>
+    </div></div>`;
+  }
+
+  // --- Notes ---
+  html += `<div class="cd-section"><h4>Notes</h4>
+    <div class="cd-field full"><textarea id="cd_notes" rows="4">${esc(c.notes || '')}</textarea></div>
+  </div>`;
+
+  document.getElementById('cdBody').innerHTML = html;
+  document.getElementById('clientDetailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cdAutofillRate() {
+  const plan = document.getElementById('cd_plan').value;
+  const rateMap = { 'Month-to-Month': 349, '12-Month': 299, '24-Month': 199, '36-Month': 149 };
+  if (rateMap[plan] !== undefined) document.getElementById('cd_monthly').value = rateMap[plan];
+}
+
+async function cdSaveClient() {
+  if (!cdCurrentId) return;
+  const data = {
+    name: document.getElementById('cd_name').value.trim(),
+    businessName: document.getElementById('cd_businessName').value.trim(),
+    email: document.getElementById('cd_email').value.trim(),
+    phone: document.getElementById('cd_phone').value.trim(),
+    address: document.getElementById('cd_address').value.trim(),
+    website: document.getElementById('cd_website').value.trim(),
+    industry: document.getElementById('cd_industry').value,
+    plan: document.getElementById('cd_plan').value,
+    monthly: document.getElementById('cd_monthly').value,
+    status: document.getElementById('cd_status').value,
+    notes: document.getElementById('cd_notes').value.trim()
+  };
+  if (!data.name) return alert('Name is required.');
+  try {
+    await db.collection('clients').doc(cdCurrentId).update(data);
+    document.getElementById('cdTitle').textContent = data.name;
+    alert('Client saved successfully!');
+  } catch(e) {
+    alert('Error saving: ' + e.message);
+  }
+}
+
+async function cdDeleteClient() {
+  if (!cdCurrentId) return;
+  if (!confirm('Delete this client permanently?')) return;
+  try {
+    await db.collection('clients').doc(cdCurrentId).delete();
+    closeClientDetail();
+    renderClients();
+  } catch(e) {
+    alert('Error deleting: ' + e.message);
+  }
+}
+
+function closeClientDetail() {
+  document.getElementById('clientDetailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  cdCurrentId = null;
+  if (currentPage === 'clients') renderClients();
 }
 
 // ============================================================
@@ -3482,6 +3674,20 @@ function closeServiceAgreement() {
   if (currentPage === 'invoices') renderInvoices();
   else if (currentPage === 'clients') renderClients();
   else if (currentPage === 'dashboard') renderDashboard();
+}
+
+const SA_SHARE_URL = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Service-Agreement/albrecht-service-agreement.html';
+
+function saCopyShareLink() {
+  navigator.clipboard.writeText(SA_SHARE_URL).then(() => {
+    const btn = document.getElementById('saShareBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Shareable Link'; }, 2000);
+  });
+}
+
+function saOpenNewTab() {
+  window.open(SA_SHARE_URL, '_blank');
 }
 
 function saSetPlan(p) {
@@ -3669,12 +3875,25 @@ async function saSubmitAgreement() {
       email: email,
       phone: phone,
       address: address,
+      website: '',
       industry: '',
       plan: planMap[saCurrentPlan] || pl.label,
       monthly: pl.monthly,
       status: 'active',
       notes: `[Signed Agreement — ${pl.label}] ${document.getElementById('sa_agreementNum').value.trim() || 'No agreement #'}`,
       source: 'service_agreement',
+      agreementData: {
+        plan: agreementData.plan,
+        monthlyRate: agreementData.monthlyRate,
+        totalContract: agreementData.totalContract,
+        agreementNumber: agreementData.agreementNumber,
+        startDate: agreementData.startDate,
+        dateSigned: agreementData.dateSigned,
+        paymentMethod: agreementData.paymentMethod,
+        clientPrintedName: agreementData.clientPrintedName,
+        clientSignedDate: agreementData.clientSignedDate,
+        submittedBy: agreementData.submittedBy
+      },
       employeeId: currentUser.uid,
       employeeName: currentUserData.name,
       createdBy: currentUser.uid,
@@ -4674,6 +4893,24 @@ async function savePermissions(uid) {
 showScreen('loginScreen');
 
 </script>
+
+
+<!-- ============================================================
+     CLIENT DETAIL VIEW OVERLAY
+     ============================================================ -->
+<div class="client-detail-overlay" id="clientDetailOverlay">
+  <div class="cd-topbar">
+    <h3 id="cdTitle">Client Profile</h3>
+    <div class="cd-topbar-actions">
+      <button class="cd-topbar-btn cd-btn-delete" id="cdDeleteBtn" onclick="cdDeleteClient()">🗑 Delete</button>
+      <button class="cd-topbar-btn cd-btn-save" onclick="cdSaveClient()">💾 Save Changes</button>
+      <button class="cd-topbar-btn cd-btn-back" onclick="closeClientDetail()">✕ Back to Clients</button>
+    </div>
+  </div>
+  <div class="cd-body" id="cdBody">
+    <!-- Populated dynamically -->
+  </div>
+</div>
 
 
 <!-- ============================================================
