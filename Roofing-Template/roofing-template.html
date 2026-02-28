@@ -649,7 +649,7 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
     </div>
     <div class="footer-bottom">
       <p>© 2025 Example Roofing & Exteriors. All Rights Reserved. | FL License #CCC000000 | Privacy Policy | Terms of Service</p>
-      <p>Site design & management by Albrecht Digital</p>
+      <p>Site design & management by Brechtland</p>
     </div>
   </div>
 </footer>
@@ -730,9 +730,10 @@ async function submitHeroForm() {
       btn.disabled = false;
       alert('Something went wrong. Please call us directly at (555) 123-4567');
     }
-  } catch(e) {
-    // Demo fallback
-    showSuccess();
+    } catch (err) {
+    btn.textContent = 'Schedule My Free Inspection →';
+    btn.disabled = false;
+    alert('Something went wrong. Please call us directly at (555) 123-4567');
   }
 }
 
@@ -740,6 +741,22 @@ function showSuccess() {
   document.getElementById('heroFormFields').style.display = 'none';
   document.getElementById('heroFormSuccess').style.display = 'block';
 }
+
+// NAV SHRINK
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 80) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
 </script>
 </body>
 </html>
