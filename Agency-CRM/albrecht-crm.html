@@ -2730,7 +2730,10 @@ function openTQViewer(type, industry) {
   document.getElementById('tqViewerTitle').textContent = (ind ? ind.icon + ' ' : '') + (ind ? ind.name : industry) + ' — ' + label;
   const iframe = document.getElementById('tqViewerFrame');
   viewer._rawHTML = rawHTML;
+  viewer._storeKey = storeKey;
   iframe.srcdoc = rawHTML;
+  const shareBtn = document.getElementById('tqShareBtn');
+  shareBtn.style.display = TQ_SHARE_LINKS[storeKey] ? '' : 'none';
   viewer.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2747,6 +2750,25 @@ function tqOpenNewTab() {
   if (!viewer._rawHTML) return;
   const blob = new Blob([viewer._rawHTML], { type: 'text/html' });
   window.open(URL.createObjectURL(blob), '_blank');
+}
+
+const TQ_SHARE_LINKS = {
+  'template-roofing': '../Roofing-Template/roofing-template.html',
+  'questionnaire-roofing': '../Roofing-Questionnaire/roofing-questionnaire.html'
+};
+
+function tqCopyShareLink() {
+  const viewer = document.getElementById('tqViewer');
+  const key = viewer._storeKey;
+  const rel = TQ_SHARE_LINKS[key];
+  if (!rel) return;
+  const base = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+  const fullUrl = new URL(rel, base).href;
+  navigator.clipboard.writeText(fullUrl).then(() => {
+    const btn = document.getElementById('tqShareBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Shareable Link'; }, 2000);
+  });
 }
 
 // ============================================================
@@ -3188,13 +3210,14 @@ async function renderClients() {
       </div>
       <div class="card-body" style="padding:0">
         ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">👥</div><p>No clients yet</p></div>' :
-          `<table><thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Plan</th><th>Monthly</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
+          `<table><thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Plan</th><th>Monthly</th><th>Website</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
             clients.map(c => `<tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(c.name)}</td>
+              <td style="color:var(--accent);font-weight:500;cursor:pointer;text-decoration:underline" onclick="openClientDetail('${c.id}')">${esc(c.name)}</td>
               <td>${esc(c.businessName || '-')}</td>
               <td>${esc(c.email)}</td>
               <td>${esc(c.plan || '-')}</td>
               <td>${c.monthly ? '$' + parseFloat(c.monthly).toLocaleString() : '-'}</td>
+              <td>${c.website ? `<a href="${esc(c.website)}" target="_blank" style="color:var(--accent)">${esc(c.website)}</a>` : '-'}</td>
               <td><span class="status-badge status-${c.status || 'active'}">${esc(c.status || 'active')}</span></td>
               <td class="team-actions">
                 <button class="btn btn-secondary btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
@@ -3255,6 +3278,7 @@ function openClientModal(editId) {
           <option value="inactive" ${c.status==='inactive'?'selected':''}>Inactive</option>
         </select>
       </div>
+      <div class="form-group"><label>Website URL</label><input type="text" id="clientWebsite" value="${esc(c.website || '')}" placeholder="https://www.example.com"></div>
       <div class="form-group"><label>Notes</label><textarea id="clientNotes">${esc(c.notes || '')}</textarea></div>
     `, `
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -3283,6 +3307,7 @@ async function saveClient(editId) {
     monthly: document.getElementById('clientMonthly').value,
     status: document.getElementById('clientStatus').value,
     notes: document.getElementById('clientNotes').value.trim(),
+    website: document.getElementById('clientWebsite').value.trim(),
     employeeId: editId ? undefined : currentUser.uid,
     employeeName: editId ? undefined : currentUserData.name
   };
@@ -3313,6 +3338,73 @@ async function deleteClient(id) {
   renderClients();
 }
 
+async function openClientDetail(id) {
+  const doc = await db.collection('clients').doc(id).get();
+  if (!doc.exists) return alert('Client not found.');
+  const c = doc.data();
+  const ag = c.agreementData || {};
+  const content = document.getElementById('contentArea');
+  content.innerHTML = `
+    <div style="margin-bottom:16px">
+      <button class="btn btn-secondary btn-sm" onclick="navigate('clients')">← Back to Clients</button>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3>👤 ${esc(c.name)} ${c.businessName ? '— ' + esc(c.businessName) : ''}</h3>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" onclick="openClientModal('${id}')">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteClient('${id}');navigate('clients')">🗑 Delete</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <h4 style="color:var(--accent);margin-bottom:12px;font-size:14px;text-transform:uppercase;letter-spacing:1px">Contact Information</h4>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div><span style="color:var(--text-muted)">Name:</span> <span style="color:var(--text-primary)">${esc(c.name)}</span></div>
+              <div><span style="color:var(--text-muted)">Business:</span> <span style="color:var(--text-primary)">${esc(c.businessName || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Email:</span> <span style="color:var(--text-primary)">${esc(c.email || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Phone:</span> <span style="color:var(--text-primary)">${esc(c.phone || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Address:</span> <span style="color:var(--text-primary)">${esc(c.address || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Website:</span> ${c.website ? `<a href="${esc(c.website)}" target="_blank" style="color:var(--accent)">${esc(c.website)}</a>` : '<span style="color:var(--text-primary)">-</span>'}</div>
+              <div><span style="color:var(--text-muted)">Industry:</span> <span style="color:var(--text-primary)">${esc(c.industry || '-')}</span></div>
+            </div>
+          </div>
+          <div>
+            <h4 style="color:var(--accent);margin-bottom:12px;font-size:14px;text-transform:uppercase;letter-spacing:1px">Plan & Status</h4>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div><span style="color:var(--text-muted)">Plan:</span> <span style="color:var(--text-primary)">${esc(c.plan || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Monthly Rate:</span> <span style="color:var(--text-primary)">${c.monthly ? '$' + parseFloat(c.monthly).toLocaleString() + '/mo' : '-'}</span></div>
+              <div><span style="color:var(--text-muted)">Status:</span> <span class="status-badge status-${c.status || 'active'}">${esc(c.status || 'active')}</span></div>
+              <div><span style="color:var(--text-muted)">Added By:</span> <span style="color:var(--text-primary)">${esc(c.employeeName || c.createdByName || '-')}</span></div>
+              <div><span style="color:var(--text-muted)">Source:</span> <span style="color:var(--text-primary)">${c.source === 'service_agreement' ? '📄 Service Agreement' : '✍️ Manual Entry'}</span></div>
+            </div>
+          </div>
+        </div>
+        ${c.agreementData ? `
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border)">
+          <h4 style="color:var(--accent);margin-bottom:12px;font-size:14px;text-transform:uppercase;letter-spacing:1px">📋 Signed Agreement Details</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div><span style="color:var(--text-muted)">Agreement #:</span> <span style="color:var(--text-primary)">${esc(ag.agreementNumber || '-')}</span></div>
+            <div><span style="color:var(--text-muted)">Plan:</span> <span style="color:var(--text-primary)">${esc(ag.plan || '-')}</span></div>
+            <div><span style="color:var(--text-muted)">Monthly Rate:</span> <span style="color:var(--text-primary)">${ag.monthlyRate ? '$' + ag.monthlyRate + '/mo' : '-'}</span></div>
+            <div><span style="color:var(--text-muted)">Total Contract:</span> <span style="color:var(--text-primary)">${ag.totalContract || '-'}</span></div>
+            <div><span style="color:var(--text-muted)">Start Date:</span> <span style="color:var(--text-primary)">${esc(ag.startDate || '-')}</span></div>
+            <div><span style="color:var(--text-muted)">Date Signed:</span> <span style="color:var(--text-primary)">${esc(ag.dateSigned || ag.clientSignedDate || '-')}</span></div>
+            <div><span style="color:var(--text-muted)">Payment Method:</span> <span style="color:var(--text-primary)">${esc(ag.paymentMethod || '-')}</span></div>
+            <div><span style="color:var(--text-muted)">Submitted By:</span> <span style="color:var(--text-primary)">${esc(ag.submittedBy || '-')}</span></div>
+          </div>
+        </div>` : ''}
+        ${c.notes ? `
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border)">
+          <h4 style="color:var(--accent);margin-bottom:8px;font-size:14px;text-transform:uppercase;letter-spacing:1px">Notes</h4>
+          <p style="color:var(--text-secondary);line-height:1.6">${esc(c.notes)}</p>
+        </div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
 // ============================================================
 //  INVOICES
 // ============================================================
@@ -3331,6 +3423,7 @@ async function renderInvoices() {
       <div class="card-header">
         <h3>Invoices (${invoices.length})</h3>
         <button class="btn btn-primary btn-sm" onclick="openServiceAgreement()">+ New Invoice</button>
+        <button class="btn btn-secondary btn-sm" onclick="window.open('../Roofing-Service-Agreement/albrecht-service-agreement.html','_blank')" title="Open shareable link in new tab">↗ Shareable Link</button>
       </div>
       <div class="card-body" style="padding:0">
         ${invoices.length === 0 ? '<div class="empty-state"><div class="empty-icon">📄</div><p>No invoices yet</p></div>' :
@@ -3643,7 +3736,7 @@ async function saSubmitAgreement() {
 
   try {
     // 1. Save signed agreement to Firebase
-    await db.collection('signed_agreements').add(agreementData);
+    const agreementRef = await db.collection('signed_agreements').add(agreementData);
 
     // 2. Auto-create the client in the CRM
     const planMap = { 'mtm': 'Month-to-Month', '12': '12-Month', '24': '24-Month', '36': '36-Month' };
@@ -3657,6 +3750,20 @@ async function saSubmitAgreement() {
       plan: planMap[saCurrentPlan] || pl.label,
       monthly: pl.monthly,
       status: 'active',
+      website: '',
+      agreementId: agreementRef.id,
+      agreementData: {
+        plan: pl.label,
+        monthlyRate: pl.monthly,
+        totalContract: pl.total,
+        agreementNumber: document.getElementById('sa_agreementNum').value.trim(),
+        startDate: document.getElementById('sa_startDate').value,
+        dateSigned: document.getElementById('sa_date').value,
+        paymentMethod: isCard ? 'Credit/Debit Card' : 'Bank Account (ACH)',
+        clientPrintedName: document.getElementById('sa_clientPrint').value.trim(),
+        clientSignedDate: document.getElementById('sa_clientDate').value,
+        submittedBy: currentUserData.name
+      },
       notes: `[Signed Agreement — ${pl.label}] ${document.getElementById('sa_agreementNum').value.trim() || 'No agreement #'}`,
       source: 'service_agreement',
       employeeId: currentUser.uid,
@@ -4668,6 +4775,7 @@ showScreen('loginScreen');
     <div class="tq-viewer-title" id="tqViewerTitle">Viewer</div>
     <div class="tq-viewer-actions">
       <button class="tq-btn-newtab" onclick="tqOpenNewTab()">↗ Open in New Tab</button>
+      <button class="tq-btn-newtab" onclick="tqCopyShareLink()" id="tqShareBtn" style="display:none">📋 Copy Shareable Link</button>
       <button class="tq-btn-close" onclick="closeTQViewer()">✕ Close</button>
     </div>
   </div>
