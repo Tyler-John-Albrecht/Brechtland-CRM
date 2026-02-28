@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Example Roofing & Exteriors | Tampa Bay's Most Trusted Roofer</title>
+<title>Loading...</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -257,18 +257,77 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
 </head>
 <body>
 
+<!-- 
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   🔧  CLIENT CONFIG — EDIT THIS SECTION ONLY FOR EACH NEW CLIENT    ║
+║                                                                      ║
+║   When duplicating this template for a new customer:                 ║
+║   1. Copy this entire file                                           ║
+║   2. Update the values below                                        ║
+║   3. Everything else on the page auto-populates                     ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+<script>
+const CLIENT = {
+  // ── COMPANY INFO ──────────────────────────────────────────────
+  companyName:    "Example Roofing & Exteriors",
+  tagline:        "Tampa Bay's Most Trusted Roofer",
+  taglineShort:   "Tampa Bay's Trusted Roofer",       // used in nav
+  yearFounded:    "2010",
+  yearsInBusiness:"15+",
+  roofsCompleted: "2,400+",
+  reviewCount:    "500+",
+
+  // ── CONTACT INFO ──────────────────────────────────────────────
+  phone:          "(555) 123-4567",
+  phoneRaw:       "5551234567",                        // for tel: links
+  email:          "info@exampleroofing.com",
+  address:        "123 Main Street, Tampa, FL",
+
+  // ── LICENSING ─────────────────────────────────────────────────
+  licenseNumber:  "CCC000000",
+  licensePrefix:  "FL License",                        // e.g. "FL License", "ROC"
+
+  // ── SERVICE AREA ──────────────────────────────────────────────
+  serviceArea:    "Tampa Bay Area",
+  serviceRadius:  "60 miles of Tampa",
+  counties:       "Hillsborough, Pinellas, Pasco, and Manatee counties",
+  cities: [
+    "Tampa", "St. Petersburg", "Clearwater", "Brandon",
+    "Wesley Chapel", "Land O' Lakes", "Sarasota", "Bradenton",
+    "New Port Richey", "Dunedin", "Tarpon Springs", "+ More"
+  ],
+
+  // ── FORM / LEAD CAPTURE ───────────────────────────────────────
+  // Create a free Formspree form at https://formspree.io
+  // and paste the endpoint here. Leads go straight to client's email.
+  formspreeEndpoint: "YOUR_FORMSPREE_ENDPOINT",
+
+  // ── REVIEW STATS (displayed in trust bar) ─────────────────────
+  googleRating:   "4.9",
+  googleReviews:  "412",
+  facebookRating: "5.0",
+  facebookReviews:"98",
+
+  // ── BRECHTLAND BRANDING ───────────────────────────────────────
+  designCredit:   "Brechtland",
+};
+</script>
+
 <!-- NAV -->
 <nav>
   <div class="nav-top">
-    <span>📍 Serving the Tampa Bay Area | Licensed & Insured | ROC #000000</span>
-    <a href="tel:5551234567">📞 (555) 123-4567 — Call or Text Anytime</a>
+    <span id="nav-top-info"></span>
+    <a id="nav-top-phone" href="#"></a>
   </div>
   <div class="nav-main">
     <div class="logo">
       <div class="logo-icon">🏠</div>
       <div class="logo-text">
-        <strong>Example Roofing & Exteriors</strong>
-        <span>Tampa Bay's Trusted Roofer</span>
+        <strong id="nav-company-name"></strong>
+        <span id="nav-tagline"></span>
       </div>
     </div>
     <ul class="nav-links">
@@ -288,12 +347,12 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
   <div class="hero-pattern"></div>
   <div class="hero-inner">
     <div class="hero-left">
-      <div class="hero-badge">⭐ 500+ 5-Star Reviews in Tampa Bay</div>
+      <div class="hero-badge" id="hero-badge"></div>
       <h1>Leaking Roof? Storm Damage? <span>We'll Fix It Fast — and Get Your Insurance to Pay.</span></h1>
-      <p>Tampa Bay homeowners trust Example Roofing & Exteriors when it matters most. Free same-week inspections, full insurance claim support, and workmanship backed by a lifetime warranty.</p>
+      <p id="hero-description"></p>
       <div class="hero-btns">
         <a href="#contact" class="btn-primary">Get My Free Inspection</a>
-        <a href="tel:5551234567" class="btn-secondary">📞 (555) 123-4567</a>
+        <a id="hero-phone-btn" href="#" class="btn-secondary"></a>
       </div>
       <div class="hero-trust">
         <div class="trust-item"><div class="trust-dot"></div>Licensed & Fully Insured</div>
@@ -347,7 +406,7 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
       <div class="form-success" id="heroFormSuccess">
         <div class="form-success-icon">✅</div>
         <h4>You're All Set!</h4>
-        <p>Thanks for reaching out! Our team will call you within <strong>1 business hour</strong> to schedule your free roof inspection.<br><br>Questions in the meantime? Call us at <strong style="color:var(--navy)">(555) 123-4567</strong>.</p>
+        <p id="form-success-msg"></p>
       </div>
     </div>
   </div>
@@ -356,15 +415,13 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-bar-inner">
-    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>4.9</strong> <span>on Google (412 reviews)</span></div></div></div>
+    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong id="tb-google-rating"></strong> <span id="tb-google-reviews"></span></div></div></div>
     <div class="trust-divider"></div>
-    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>5.0</strong> <span>on Facebook (98 reviews)</span></div></div></div>
+    <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong id="tb-fb-rating"></strong> <span id="tb-fb-reviews"></span></div></div></div>
     <div class="trust-divider"></div>
     <div class="trust-bar-item"><div><div class="stars">★★★★★</div><div><strong>A+</strong> <span>BBB Accredited Business</span></div></div></div>
     <div class="trust-divider"></div>
-    <div class="trust-bar-item"><strong>15+ Years</strong>&nbsp;<span>Serving Tampa Bay</span></div>
-    <div class="trust-divider"></div>
-    <div class="trust-bar-item"><strong>2,400+</strong>&nbsp;<span>Roofs Completed</span></div>
+    <div class="trust-bar-item"><strong id="tb-years"></strong>&nbsp;<span id="tb-service-area"></span></div>
   </div>
 </div>
 
@@ -373,20 +430,20 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
   <div class="section-inner">
     <div class="services-header">
       <div class="section-tag">What We Do</div>
-      <h2 class="section-title">Every Roofing Service Your Home Could Ever Need</h2>
-      <p class="section-sub">From a simple repair to a full replacement — we handle it all with the same level of care and craftsmanship every time.</p>
+      <h2 class="section-title">Roofing Solutions for Every Situation</h2>
+      <p class="section-sub">Whether it's storm damage, an aging roof, or a brand-new build — we've got the expertise, materials, and warranties to protect your biggest investment.</p>
     </div>
     <div class="services-grid">
       <div class="service-card">
-        <div class="service-img"><div class="photo-placeholder"><div class="icon">🏠</div><span>Completed residential roof</span></div></div>
-        <div class="service-body"><h3>Residential Roof Replacement</h3><p>Your home deserves a roof that lasts. We install premium GAF shingles backed by a Lifetime warranty — and clean up completely when done.</p><a href="#contact" class="service-link">Get a Free Quote →</a></div>
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🏗️</div><span>New roof installation</span></div></div>
+        <div class="service-body"><h3>Roof Replacement</h3><p>Full tear-off and replacement using premium GAF shingles. Every project includes a dedicated project manager, permitting, and a lifetime warranty.</p><a href="#contact" class="service-link">Get a Free Quote →</a></div>
       </div>
       <div class="service-card">
-        <div class="service-img"><div class="photo-placeholder"><div class="icon">⚡</div><span>Storm damage roof</span></div></div>
-        <div class="service-body"><h3>Storm Damage & Insurance Claims</h3><p>Florida storms are no joke. We inspect your roof, document the damage, and work directly with your insurance company so you get every dollar you deserve.</p><a href="#contact" class="service-link">Get a Free Inspection →</a></div>
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">⛈️</div><span>Storm damage assessment</span></div></div>
+        <div class="service-body"><h3>Storm & Insurance Claims</h3><p>We handle your insurance claim from start to finish — documentation, adjuster meetings, and approval. Most homeowners pay $0 out of pocket.</p><a href="#contact" class="service-link">Start My Claim →</a></div>
       </div>
       <div class="service-card">
-        <div class="service-img"><div class="photo-placeholder"><div class="icon">🔧</div><span>Crew doing roof repair</span></div></div>
+        <div class="service-img"><div class="photo-placeholder"><div class="icon">🔨</div><span>Roof repair work</span></div></div>
         <div class="service-body"><h3>Roof Repair</h3><p>Leaking roof? Missing shingles? Don't wait until a small problem becomes a costly one. Our repair team can often respond same or next day.</p><a href="#contact" class="service-link">Schedule a Repair →</a></div>
       </div>
       <div class="service-card">
@@ -412,16 +469,16 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
       <div>
         <div class="why-photo-stack">
           <div class="why-photo-main"><div class="photo-placeholder"><div class="icon">👷</div><span>Team in branded apparel on job site</span></div></div>
-          <div class="why-photo-accent"><div class="big-num">15+</div><div class="big-label">Years Serving<br>Tampa Bay</div></div>
+          <div class="why-photo-accent"><div class="big-num" id="why-years"></div><div class="big-label" id="why-years-label"></div></div>
         </div>
       </div>
       <div>
         <div class="section-tag">Why Choose Us</div>
         <h2 class="section-title">We Earn Your Trust Before We Ever Touch Your Roof</h2>
-        <p style="color:var(--gray);line-height:1.75;margin-bottom:8px;">We know you have options. Here's why homeowners across Tampa Bay choose us — and why they refer us to their neighbors.</p>
+        <p style="color:var(--gray);line-height:1.75;margin-bottom:8px;" id="why-description"></p>
         <div class="why-items">
           <div class="why-item"><div class="why-icon">🏆</div><div><h4>GAF Master Elite® Certified</h4><p>Less than 2% of roofing contractors earn this certification. It means you get access to the best warranties GAF offers — including their coveted Golden Pledge® Lifetime Warranty.</p></div></div>
-          <div class="why-item"><div class="why-icon">📋</div><div><h4>Insurance Claim Experts</h4><p>We've helped hundreds of Tampa Bay homeowners navigate the insurance process and get their full claim approved. We handle the paperwork — you handle nothing.</p></div></div>
+          <div class="why-item"><div class="why-icon">📋</div><div><h4>Insurance Claim Experts</h4><p id="why-insurance"></p></div></div>
           <div class="why-item"><div class="why-icon">💬</div><div><h4>Transparent Communication, Always</h4><p>You'll have a dedicated project manager from day one. You'll always know what's happening, what it costs, and when it'll be done — no surprises, ever.</p></div></div>
           <div class="why-item"><div class="why-icon">🧹</div><div><h4>We Leave Your Property Cleaner Than We Found It</h4><p>Our crews use magnetic nail sweepers and do a full cleanup every day. Your yard, driveway, and landscaping will be spotless when we're done.</p></div></div>
         </div>
@@ -460,17 +517,17 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
     <div class="testimonials-header">
       <div class="section-tag">Real Homeowners, Real Results</div>
       <h2 class="section-title">Don't Take Our Word For It</h2>
-      <p class="section-sub">Over 500 five-star reviews from your neighbors across the Tampa Bay Area.</p>
+      <p class="section-sub" id="testimonials-sub"></p>
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <div class="t-stars">★★★★★</div>
-        <p class="t-text">"After the hurricane, I thought I was going to be dealing with insurance headaches for months. Example Roofing handled every single thing. My roof was done in two days and looked better than the original. I cannot recommend them enough."</p>
+        <p class="t-text">"After the hurricane, I thought I was going to be dealing with insurance headaches for months. They handled every single thing. My roof was done in two days and looked better than the original. I cannot recommend them enough."</p>
         <div class="t-author"><div class="t-avatar">MR</div><div><div class="t-name">Mike R.</div><div class="t-meta">Tampa, FL</div><div style="margin-top:4px;font-size:0.75rem;color:var(--gray)"><span class="google-dot"></span>Google Review</div></div></div>
       </div>
       <div class="testimonial-card">
         <div class="t-stars">★★★★★</div>
-        <p class="t-text">"Three other companies gave me quotes and none of them could explain what I was actually paying for. Example Roofing sat down with me for an hour, answered every question, and came in competitive. They've earned a customer for life."</p>
+        <p class="t-text">"Three other companies gave me quotes and none of them could explain what I was actually paying for. They sat down with me for an hour, answered every question, and came in competitive. They've earned a customer for life."</p>
         <div class="t-author"><div class="t-avatar">SL</div><div><div class="t-name">Sandra L.</div><div class="t-meta">St. Petersburg, FL</div><div style="margin-top:4px;font-size:0.75rem;color:var(--gray)"><span class="google-dot"></span>Google Review</div></div></div>
       </div>
       <div class="testimonial-card">
@@ -488,7 +545,7 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
     <div class="gallery-header">
       <div class="section-tag">Our Work</div>
       <h2 class="section-title">Before & After — See the Difference We Make</h2>
-      <p class="section-sub" style="margin:0 auto;">Real projects from real Tampa Bay homeowners.</p>
+      <p class="section-sub" style="margin:0 auto;" id="gallery-sub"></p>
     </div>
     <div class="gallery-grid">
       <div class="gallery-item">
@@ -523,19 +580,19 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
     <div class="about-grid">
       <div class="about-img">
         <div class="photo-placeholder"><div class="icon">👨‍💼</div><span>Owner / leadership headshot</span></div>
-        <div class="about-badge"><strong>2,400+</strong><span>Roofs Completed</span></div>
+        <div class="about-badge"><strong id="about-roofs"></strong><span>Roofs Completed</span></div>
       </div>
       <div class="about-right">
         <div class="section-tag">Our Story</div>
         <h2 class="section-title">We Started This Company Because Homeowners Deserved Better</h2>
         <p>After years of watching homeowners get overcharged, misled, and left with subpar work, our founder decided to do things differently.</p>
-        <p>Example Roofing & Exteriors was built on one principle: treat every homeowner the way we'd want our own family treated. That means honest inspections, transparent pricing, premium materials, and showing up when we say we will.</p>
-        <p>Today, we're proud to be one of the most reviewed and trusted roofing companies in the Tampa Bay Area — not because of fancy marketing, but because our customers tell their neighbors about us.</p>
+        <p id="about-description"></p>
+        <p id="about-reputation"></p>
         <div class="cert-row">
           <div class="cert-badge">🏅 GAF Master Elite</div>
-          <div class="cert-badge">✅ FL License #CCC000000</div>
+          <div class="cert-badge" id="about-license"></div>
           <div class="cert-badge">🛡️ $2M Liability Insurance</div>
-          <div class="cert-badge">🌟 BBB A+ Since 2010</div>
+          <div class="cert-badge" id="about-bbb"></div>
         </div>
       </div>
     </div>
@@ -564,21 +621,14 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
     <div class="location-grid">
       <div>
         <div class="section-tag">Service Area</div>
-        <h2 class="section-title">Proudly Serving the Entire Tampa Bay Area</h2>
-        <p style="color:var(--gray);line-height:1.75;margin-bottom:20px;">If you live within 60 miles of Tampa, we've got you covered. Our crews are deployed daily across Hillsborough, Pinellas, Pasco, and Manatee counties.</p>
-        <div class="cities-grid">
-          <div class="city-tag">📍 Tampa</div><div class="city-tag">📍 St. Petersburg</div>
-          <div class="city-tag">📍 Clearwater</div><div class="city-tag">📍 Brandon</div>
-          <div class="city-tag">📍 Wesley Chapel</div><div class="city-tag">📍 Land O' Lakes</div>
-          <div class="city-tag">📍 Sarasota</div><div class="city-tag">📍 Bradenton</div>
-          <div class="city-tag">📍 New Port Richey</div><div class="city-tag">📍 Dunedin</div>
-          <div class="city-tag">📍 Tarpon Springs</div><div class="city-tag">📍 + More</div>
-        </div>
+        <h2 class="section-title" id="location-title"></h2>
+        <p style="color:var(--gray);line-height:1.75;margin-bottom:20px;" id="location-description"></p>
+        <div class="cities-grid" id="cities-grid"></div>
       </div>
       <div class="location-map">
         <div class="location-map-overlay">
           <div class="location-pin">📍</div>
-          <p>Tampa Bay Service Area</p>
+          <p id="location-map-label"></p>
           <span>[Google Map Embed Goes Here]</span>
         </div>
       </div>
@@ -598,17 +648,17 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
           <div style="font-size:2rem;margin-bottom:12px;">💬</div>
           <p style="color:var(--navy);font-weight:700;margin-bottom:8px;">Still have questions?</p>
           <p style="color:var(--gray);font-size:0.88rem;margin-bottom:16px;">Our team is available 7 days a week — we actually answer.</p>
-          <a href="tel:5551234567" class="btn-primary" style="font-size:0.9rem;padding:12px 24px;">(555) 123-4567</a>
+          <a id="faq-phone-btn" href="#" class="btn-primary" style="font-size:0.9rem;padding:12px 24px;"></a>
         </div>
       </div>
       <div>
         <div class="faq-items">
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I know if I need repair or full replacement? <span class="faq-icon">+</span></button><div class="faq-a">If your roof is under 15 years old and damage is isolated, a repair may be all you need. If it's 20+ years old or damage is widespread, replacement is usually more cost-effective. We'll give you an honest recommendation — we'll never push you toward a bigger job than you need.</div></div>
-          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Will my insurance cover my roof replacement? <span class="faq-icon">+</span></button><div class="faq-a">If damage was caused by a storm, hail, or wind, there's a strong chance your homeowner's insurance will cover it. We've helped hundreds of Tampa Bay homeowners get claims approved. We'll inspect your roof, document everything, and walk you through the insurance process step by step.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Will my insurance cover my roof replacement? <span class="faq-icon">+</span></button><div class="faq-a">If damage was caused by a storm, hail, or wind, there's a strong chance your homeowner's insurance will cover it. We've helped hundreds of homeowners get claims approved. We'll inspect your roof, document everything, and walk you through the insurance process step by step.</div></div>
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does a roof replacement take? <span class="faq-icon">+</span></button><div class="faq-a">Most residential roof replacements are completed in one day. Larger or more complex homes may take two. We'll give you an exact timeline before we start, and your project manager will keep you updated throughout.</div></div>
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What warranty do you offer? <span class="faq-icon">+</span></button><div class="faq-a">As a GAF Master Elite® contractor, we offer the GAF Golden Pledge® Lifetime Warranty — one of the strongest warranties in the industry. It covers both materials and workmanship for the lifetime of your home.</div></div>
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do you offer financing? <span class="faq-icon">+</span></button><div class="faq-a">Yes! We offer flexible financing through our lending partners, including 0% interest options for qualified customers. Apply in minutes and get a decision fast.</div></div>
-          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are you licensed and insured in Florida? <span class="faq-icon">+</span></button><div class="faq-a">Absolutely. We carry $2 million in general liability insurance and are fully licensed with the state of Florida (License #CCC000000). We'll provide proof of insurance before any work begins.</div></div>
+          <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are you licensed and insured? <span class="faq-icon">+</span></button><div class="faq-a" id="faq-license-answer"></div></div>
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How soon can you start? <span class="faq-icon">+</span></button><div class="faq-a">We can typically schedule a free inspection within 24–48 hours. Once you approve your quote, most projects are scheduled within 1–2 weeks. Emergency repairs can often be handled same or next day.</div></div>
           <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What roofing brands do you use? <span class="faq-icon">+</span></button><div class="faq-a">We primarily install GAF roofing systems because we believe they're the best in the industry. We also work with Owens Corning, CertainTeed, and other premium brands depending on your needs and budget.</div></div>
         </div>
@@ -621,10 +671,10 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
 <section id="cta-close">
   <div class="section-inner">
     <h2>Ready for a Roof You Can <span>Trust for Life?</span></h2>
-    <p>Join 2,400+ Tampa Bay homeowners who chose Example Roofing & Exteriors. Your free inspection takes less than an hour — zero pressure, zero obligation.</p>
+    <p id="cta-close-description"></p>
     <div class="cta-btns">
       <a href="#contact" class="btn-primary" style="font-size:1.05rem;padding:18px 40px;">Schedule My Free Inspection</a>
-      <a href="tel:5551234567" class="btn-secondary" style="font-size:1.05rem;padding:18px 40px;">📞 Call (555) 123-4567</a>
+      <a id="cta-phone-btn" href="#" class="btn-secondary" style="font-size:1.05rem;padding:18px 40px;"></a>
     </div>
   </div>
 </section>
@@ -634,22 +684,22 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="footer-logo-text">Example Roofing & Exteriors</div>
-        <div class="footer-logo-sub">Tampa Bay's Most Trusted Roofer</div>
-        <p>Serving Tampa Bay homeowners with honest, premium roofing services since 2010. GAF Master Elite® Certified. BBB A+ Rated.</p>
+        <div class="footer-logo-text" id="footer-company-name"></div>
+        <div class="footer-logo-sub" id="footer-tagline"></div>
+        <p id="footer-description"></p>
         <div class="footer-contact">
-          <a href="tel:5551234567">📞 (555) 123-4567</a>
-          <a href="mailto:info@exampleroofing.com">✉️ info@exampleroofing.com</a>
-          <a href="#">📍 123 Main Street, Tampa, FL</a>
+          <a id="footer-phone" href="#">📞 </a>
+          <a id="footer-email" href="#">✉️ </a>
+          <a id="footer-address" href="#">📍 </a>
         </div>
       </div>
       <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Roof Replacement</a></li><li><a href="#">Roof Repair</a></li><li><a href="#">Storm Damage</a></li><li><a href="#">Insurance Claims</a></li><li><a href="#">Commercial Roofing</a></li><li><a href="#">Gutters</a></li><li><a href="#">Free Inspection</a></li></ul></div>
       <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Our Team</a></li><li><a href="#">Reviews</a></li><li><a href="#">Project Gallery</a></li><li><a href="#">Financing</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Service Areas</h4><ul><li><a href="#">Tampa</a></li><li><a href="#">St. Petersburg</a></li><li><a href="#">Clearwater</a></li><li><a href="#">Brandon</a></li><li><a href="#">Wesley Chapel</a></li><li><a href="#">Sarasota</a></li><li><a href="#">View All Cities →</a></li></ul></div>
+      <div class="footer-col"><h4>Service Areas</h4><ul id="footer-cities"></ul></div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Example Roofing & Exteriors. All Rights Reserved. | FL License #CCC000000 | Privacy Policy | Terms of Service</p>
-      <p>Site design & management by Brechtland</p>
+      <p id="footer-legal"></p>
+      <p id="footer-credit"></p>
     </div>
   </div>
 </footer>
@@ -657,13 +707,140 @@ footer{background:var(--navy2);padding:60px 40px 30px;}
 <!-- STICKY MOBILE BAR -->
 <div class="sticky-bar">
   <div class="sticky-bar-inner">
-    <a href="tel:5551234567">📞 Call Now</a>
+    <a id="sticky-phone" href="#">📞 Call Now</a>
     <a href="#contact">📋 Free Inspection</a>
   </div>
 </div>
 
 <script>
-// FAQ
+// ══════════════════════════════════════════════════════════════════
+// AUTO-POPULATE — Reads from CLIENT config and fills everything in
+// ══════════════════════════════════════════════════════════════════
+
+(function() {
+  const C = CLIENT;
+  const tel = 'tel:' + C.phoneRaw;
+  const mailto = 'mailto:' + C.email;
+
+  // Page title
+  document.title = C.companyName + ' | ' + C.tagline;
+
+  // ── NAV ──
+  document.getElementById('nav-top-info').textContent = '📍 Serving the ' + C.serviceArea + ' | Licensed & Insured | ' + C.licensePrefix + ' #' + C.licenseNumber;
+  const navPhone = document.getElementById('nav-top-phone');
+  navPhone.href = tel;
+  navPhone.textContent = '📞 ' + C.phone + ' — Call or Text Anytime';
+  document.getElementById('nav-company-name').textContent = C.companyName;
+  document.getElementById('nav-tagline').textContent = C.taglineShort;
+
+  // ── HERO ──
+  document.getElementById('hero-badge').textContent = '⭐ ' + C.reviewCount + ' 5-Star Reviews in ' + C.serviceArea;
+  document.getElementById('hero-description').textContent = C.serviceArea + ' homeowners trust ' + C.companyName + ' when it matters most. Free same-week inspections, full insurance claim support, and workmanship backed by a lifetime warranty.';
+  const heroPhone = document.getElementById('hero-phone-btn');
+  heroPhone.href = tel;
+  heroPhone.textContent = '📞 ' + C.phone;
+
+  // ── FORM SUCCESS ──
+  document.getElementById('form-success-msg').innerHTML = 'Thanks for reaching out! Our team will call you within <strong>1 business hour</strong> to schedule your free roof inspection.<br><br>Questions in the meantime? Call us at <strong style="color:var(--navy)">' + C.phone + '</strong>.';
+
+  // ── TRUST BAR ──
+  document.getElementById('tb-google-rating').textContent = C.googleRating;
+  document.getElementById('tb-google-reviews').textContent = 'on Google (' + C.googleReviews + ' reviews)';
+  document.getElementById('tb-fb-rating').textContent = C.facebookRating;
+  document.getElementById('tb-fb-reviews').textContent = 'on Facebook (' + C.facebookReviews + ' reviews)';
+  document.getElementById('tb-years').textContent = C.yearsInBusiness + ' Years';
+  document.getElementById('tb-service-area').textContent = 'Serving ' + C.serviceArea;
+
+  // ── WHY US ──
+  document.getElementById('why-years').textContent = C.yearsInBusiness;
+  document.getElementById('why-years-label').innerHTML = 'Years Serving<br>' + C.serviceArea;
+  document.getElementById('why-description').textContent = 'We know you have options. Here\'s why homeowners across ' + C.serviceArea + ' choose us — and why they refer us to their neighbors.';
+  document.getElementById('why-insurance').textContent = 'We\'ve helped hundreds of ' + C.serviceArea + ' homeowners navigate the insurance process and get their full claim approved. We handle the paperwork — you handle nothing.';
+
+  // ── TESTIMONIALS ──
+  document.getElementById('testimonials-sub').textContent = 'Over ' + C.reviewCount + ' five-star reviews from your neighbors across the ' + C.serviceArea + '.';
+
+  // ── GALLERY ──
+  document.getElementById('gallery-sub').textContent = 'Real projects from real ' + C.serviceArea + ' homeowners.';
+
+  // ── ABOUT ──
+  document.getElementById('about-roofs').textContent = C.roofsCompleted;
+  document.getElementById('about-description').textContent = C.companyName + ' was built on one principle: treat every homeowner the way we\'d want our own family treated. That means honest inspections, transparent pricing, premium materials, and showing up when we say we will.';
+  document.getElementById('about-reputation').textContent = 'Today, we\'re proud to be one of the most reviewed and trusted roofing companies in the ' + C.serviceArea + ' — not because of fancy marketing, but because our customers tell their neighbors about us.';
+  document.getElementById('about-license').textContent = '✅ ' + C.licensePrefix + ' #' + C.licenseNumber;
+  document.getElementById('about-bbb').textContent = '🌟 BBB A+ Since ' + C.yearFounded;
+
+  // ── FAQ ──
+  const faqPhone = document.getElementById('faq-phone-btn');
+  faqPhone.href = tel;
+  faqPhone.textContent = C.phone;
+  document.getElementById('faq-license-answer').textContent = 'Absolutely. We carry $2 million in general liability insurance and are fully licensed (' + C.licensePrefix + ' #' + C.licenseNumber + '). We\'ll provide proof of insurance before any work begins.';
+
+  // ── LOCATION ──
+  document.getElementById('location-title').textContent = 'Proudly Serving the Entire ' + C.serviceArea;
+  document.getElementById('location-description').textContent = 'If you live within ' + C.serviceRadius + ', we\'ve got you covered. Our crews are deployed daily across ' + C.counties + '.';
+  document.getElementById('location-map-label').textContent = C.serviceArea + ' Service Area';
+
+  // Build city tags
+  const citiesGrid = document.getElementById('cities-grid');
+  C.cities.forEach(city => {
+    const div = document.createElement('div');
+    div.className = 'city-tag';
+    div.textContent = '📍 ' + city;
+    citiesGrid.appendChild(div);
+  });
+
+  // ── CLOSING CTA ──
+  document.getElementById('cta-close-description').textContent = 'Join ' + C.roofsCompleted + ' ' + C.serviceArea + ' homeowners who chose ' + C.companyName + '. Your free inspection takes less than an hour — zero pressure, zero obligation.';
+  const ctaPhone = document.getElementById('cta-phone-btn');
+  ctaPhone.href = tel;
+  ctaPhone.textContent = '📞 Call ' + C.phone;
+
+  // ── FOOTER ──
+  document.getElementById('footer-company-name').textContent = C.companyName;
+  document.getElementById('footer-tagline').textContent = C.tagline;
+  document.getElementById('footer-description').textContent = 'Serving ' + C.serviceArea + ' homeowners with honest, premium roofing services since ' + C.yearFounded + '. GAF Master Elite® Certified. BBB A+ Rated.';
+
+  const footerPhone = document.getElementById('footer-phone');
+  footerPhone.href = tel;
+  footerPhone.textContent = '📞 ' + C.phone;
+
+  const footerEmail = document.getElementById('footer-email');
+  footerEmail.href = mailto;
+  footerEmail.textContent = '✉️ ' + C.email;
+
+  const footerAddress = document.getElementById('footer-address');
+  footerAddress.textContent = '📍 ' + C.address;
+
+  // Footer cities
+  const footerCities = document.getElementById('footer-cities');
+  const displayCities = C.cities.slice(0, 6); // first 6 cities
+  displayCities.forEach(city => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = city;
+    li.appendChild(a);
+    footerCities.appendChild(li);
+  });
+  const viewAll = document.createElement('li');
+  const viewAllLink = document.createElement('a');
+  viewAllLink.href = '#';
+  viewAllLink.textContent = 'View All Cities →';
+  viewAll.appendChild(viewAllLink);
+  footerCities.appendChild(viewAll);
+
+  document.getElementById('footer-legal').textContent = '© ' + new Date().getFullYear() + ' ' + C.companyName + '. All Rights Reserved. | ' + C.licensePrefix + ' #' + C.licenseNumber + ' | Privacy Policy | Terms of Service';
+  document.getElementById('footer-credit').textContent = 'Site design & management by ' + C.designCredit;
+
+  // ── STICKY BAR ──
+  document.getElementById('sticky-phone').href = tel;
+
+})();
+
+// ══════════════════════════════════════════════════════════════════
+// FAQ TOGGLE
+// ══════════════════════════════════════════════════════════════════
 function toggleFaq(btn) {
   const item = btn.parentElement;
   const isOpen = item.classList.contains('open');
@@ -671,11 +848,9 @@ function toggleFaq(btn) {
   if (!isOpen) item.classList.add('open');
 }
 
-// HERO FORM SUBMIT
-// NOTE FOR TYLER: To connect to a client's Formspree, replace 'YOUR_FORMSPREE_ENDPOINT' below
-// with their specific endpoint e.g. 'https://formspree.io/f/xxxxxxxx'
-const FORMSPREE_ENDPOINT = 'YOUR_FORMSPREE_ENDPOINT';
-
+// ══════════════════════════════════════════════════════════════════
+// HERO FORM SUBMIT — Routes to client's Formspree endpoint
+// ══════════════════════════════════════════════════════════════════
 async function submitHeroForm() {
   const name = document.getElementById('hf_name');
   const phone = document.getElementById('hf_phone');
@@ -712,13 +887,13 @@ async function submitHeroForm() {
   };
 
   // If no Formspree endpoint set yet, just show success (demo mode)
-  if (FORMSPREE_ENDPOINT === 'YOUR_FORMSPREE_ENDPOINT') {
+  if (CLIENT.formspreeEndpoint === 'YOUR_FORMSPREE_ENDPOINT') {
     showSuccess();
     return;
   }
 
   try {
-    const res = await fetch(FORMSPREE_ENDPOINT, {
+    const res = await fetch(CLIENT.formspreeEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
@@ -728,12 +903,12 @@ async function submitHeroForm() {
     } else {
       btn.textContent = 'Schedule My Free Inspection →';
       btn.disabled = false;
-      alert('Something went wrong. Please call us directly at (555) 123-4567');
+      alert('Something went wrong. Please call us directly at ' + CLIENT.phone);
     }
-    } catch (err) {
+  } catch (err) {
     btn.textContent = 'Schedule My Free Inspection →';
     btn.disabled = false;
-    alert('Something went wrong. Please call us directly at (555) 123-4567');
+    alert('Something went wrong. Please call us directly at ' + CLIENT.phone);
   }
 }
 
@@ -742,7 +917,7 @@ function showSuccess() {
   document.getElementById('heroFormSuccess').style.display = 'block';
 }
 
-// NAV SHRINK
+// NAV SHRINK ON SCROLL
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
   if (window.scrollY > 80) nav.classList.add('scrolled');
@@ -750,13 +925,16 @@ window.addEventListener('scroll', () => {
 });
 
 // SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
 </script>
+
 </body>
 </html>
