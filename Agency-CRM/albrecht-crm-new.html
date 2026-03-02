@@ -2793,7 +2793,7 @@ function openTQViewer(type, industry) {
   viewer._tqUrl = url;
   viewer._storeKey = storeKey;
   iframe.removeAttribute('srcdoc');
-  iframe.src = url;
+  iframe.src = url + '?v=' + Date.now();
   const shareBtn = document.getElementById('tqShareBtn');
   if (shareBtn) shareBtn.style.display = '';
   viewer.classList.add('open');
@@ -4938,8 +4938,8 @@ showScreen('loginScreen');
 const TQ_URL_STORE = {
   'template-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Template/roofing-template.html',
   'questionnaire-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Questionnaire/roofing-questionnaire.html',
-  'template-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/realtor-template.html',
-  'questionnaire-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/realtor-onboarding-survey.html'
+  'template-realestate': 'https://crm.brechtland.com/realtor-template.html',
+  'questionnaire-realestate': 'https://crm.brechtland.com/realtor-onboarding-survey.html'
 };
 </script>
 
