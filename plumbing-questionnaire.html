@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plumbing Website Setup — Client Questionnaire</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        action: '#0066FF',
+        'action-dark': '#0050CC',
+        'action-light': '#E8F1FF',
+        surface: '#FAFBFC',
+        ink: '#111318',
+        'ink-muted': '#5A5F6B',
+        'ink-faint': '#9CA3AF',
+        border: '#E5E7EB',
+        'border-dark': '#D1D5DB',
+        emergency: '#DC2626',
+        success: '#059669',
+      },
+      fontFamily: {
+        display: ['"Instrument Serif"', 'Georgia', 'serif'],
+        body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', system-ui, sans-serif; color: #111318; background: #FAFBFC; -webkit-font-smoothing: antialiased; }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,102,255,.12);
+    border-color: #0066FF;
+  }
+
+  .section-card {
+    background: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: box-shadow .2s ease;
+  }
+  .section-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.04); }
+
+  .step-badge {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .progress-fill { transition: width .4s ease; }
+
+  .field-label {
+    display: block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: #5A5F6B; margin-bottom: 6px;
+  }
+
+  .field-hint {
+    font-size: 11px; color: #9CA3AF; margin-top: 4px; line-height: 1.4;
+  }
+
+  .field-input {
+    width: 100%; background: #FAFBFC; border: 1px solid #E5E7EB;
+    border-radius: 10px; padding: 10px 14px; font-size: 14px;
+    transition: all .2s ease; font-family: inherit;
+  }
+
+  .team-member-group { border: 1px dashed #E5E7EB; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+  .review-group { border: 1px dashed #E5E7EB; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .section-card { break-inside: avoid; border: 1px solid #ddd; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="bg-ink text-white no-print">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-action rounded-lg flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="none"/><path d="M8 12l2-6 2 6M14 8l2 4-2 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="font-bold text-sm tracking-tight">Brechtland</span>
+    </div>
+    <span class="text-xs text-white/50">Client Onboarding Form</span>
+  </div>
+</div>
+
+<!-- ═══════ PROGRESS BAR ═══════ -->
+<div class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border no-print">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-3">
+    <div class="flex items-center justify-between mb-1.5">
+      <span class="text-xs font-semibold text-ink">Progress</span>
+      <span class="text-xs font-bold text-action" id="progress-text">0%</span>
+    </div>
+    <div class="w-full h-1.5 bg-surface rounded-full overflow-hidden border border-border">
+      <div class="progress-fill h-full bg-action rounded-full" id="progress-bar" style="width: 0%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ MAIN CONTENT ═══════ -->
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  <!-- Intro -->
+  <div class="text-center mb-10">
+    <h1 class="font-display text-4xl sm:text-5xl text-ink mb-3">Website Setup Questionnaire</h1>
+    <p class="text-ink-muted text-base max-w-lg mx-auto">Fill this out as completely as you can. Every answer here gets built directly into your custom plumbing website.</p>
+  </div>
+
+  <form id="questionnaire" action="https://formspree.io/f/meelwrne" method="POST">
+    <input type="hidden" name="_subject" value="New Plumbing Website Questionnaire Submission">
+
+    <!-- ═══════ SECTION 1: BUSINESS BASICS ═══════ -->
+    <div class="section-card" data-section="1">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">1</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Business Information</h2>
+          <p class="text-sm text-ink-muted">The basics — your name, number, and identity.</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Business Name *</label>
+          <input type="text" class="field-input" name="business_name" placeholder="e.g. ProFlow Plumbing Co." required>
+          <p class="field-hint">Exactly as you want it displayed on the website.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Tagline / Slogan (optional)</label>
+          <input type="text" class="field-input" name="tagline" placeholder="e.g. Licensed. Punctual. Guaranteed.">
+          <p class="field-hint">A short phrase that appears under your logo or in the hero section.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">Primary Phone Number *</label>
+            <input type="tel" class="field-input" name="phone" placeholder="(800) 555-1234" required>
+          </div>
+          <div>
+            <label class="field-label">Secondary Phone (optional)</label>
+            <input type="tel" class="field-input" name="phone_secondary" placeholder="(813) 555-5678">
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">Email Address *</label>
+            <input type="email" class="field-input" name="email" placeholder="hello@yourcompany.com" required>
+          </div>
+          <div>
+            <label class="field-label">Website (if existing)</label>
+            <input type="url" class="field-input" name="website_existing" placeholder="https://yourcompany.com">
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Business Address</label>
+          <input type="text" class="field-input" name="address" placeholder="123 Service Blvd, Suite 100, Tampa, FL 33601">
+          <p class="field-hint">Displayed in the footer. Leave blank if you don't want to show a physical address.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">License Number</label>
+            <input type="text" class="field-input" name="license_number" placeholder="e.g. CFC-1234567">
+          </div>
+          <div>
+            <label class="field-label">Years in Business</label>
+            <input type="text" class="field-input" name="years_in_business" placeholder="e.g. 15">
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Hours of Operation</label>
+          <input type="text" class="field-input" name="hours" placeholder="e.g. Mon-Fri 7AM-6PM, Sat 8AM-2PM, 24/7 Emergency">
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 2: HERO & MESSAGING ═══════ -->
+    <div class="section-card" data-section="2">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">2</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Hero Section &amp; Messaging</h2>
+          <p class="text-sm text-ink-muted">The first thing visitors see — make it count.</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Main Headline *</label>
+          <input type="text" class="field-input" name="headline" placeholder='e.g. "Plumbing that shows up on time."' required>
+          <p class="field-hint">Your big, bold value proposition. What makes you different? Keep it under 10 words.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Supporting Subheadline *</label>
+          <textarea class="field-input" name="subheadline" placeholder='e.g. "Licensed technicians. Upfront pricing before we start. And if we&#39;re late, the service call is free."' required></textarea>
+          <p class="field-hint">1-2 sentences expanding on the headline. Mention your key differentiators.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Trust Badge Text</label>
+          <input type="text" class="field-input" name="trust_badge" placeholder='e.g. "Trusted by 10,000+ Tampa Bay Homeowners"'>
+          <p class="field-hint">The small pill/badge above the headline. A quick credibility signal.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">Google Rating</label>
+            <input type="text" class="field-input" name="google_rating" placeholder="e.g. 4.9">
+          </div>
+          <div>
+            <label class="field-label">Total Google Reviews</label>
+            <input type="text" class="field-input" name="google_reviews_count" placeholder="e.g. 247">
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Form CTA Button Text</label>
+          <input type="text" class="field-input" name="form_cta" placeholder='e.g. "Check Availability — It&#39;s Free"'>
+          <p class="field-hint">The main call-to-action button on the booking form.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 3: SERVICES ═══════ -->
+    <div class="section-card" data-section="3">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">3</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Services &amp; Pricing</h2>
+          <p class="text-sm text-ink-muted">What you offer and starting rates for the diagnostic wizard.</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Services Offered (check all that apply)</label>
+          <div class="grid sm:grid-cols-2 gap-2 mt-2">
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="drain_cleaning" class="accent-action w-4 h-4"> <span class="text-sm">Drain Cleaning</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="water_heaters" class="accent-action w-4 h-4"> <span class="text-sm">Water Heaters</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="emergency" class="accent-action w-4 h-4"> <span class="text-sm">24/7 Emergency</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="sewer_line" class="accent-action w-4 h-4"> <span class="text-sm">Sewer Line Repair</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="leak_detection" class="accent-action w-4 h-4"> <span class="text-sm">Leak Detection</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="repiping" class="accent-action w-4 h-4"> <span class="text-sm">Repiping</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="fixtures" class="accent-action w-4 h-4"> <span class="text-sm">Fixture Installation</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="gas_lines" class="accent-action w-4 h-4"> <span class="text-sm">Gas Line Services</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="toilet_repair" class="accent-action w-4 h-4"> <span class="text-sm">Toilet Repair</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="services" value="garbage_disposal" class="accent-action w-4 h-4"> <span class="text-sm">Garbage Disposal</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Other Services Not Listed</label>
+          <textarea class="field-input" name="services_other" placeholder="List any additional services you offer..."></textarea>
+        </div>
+
+        <div class="bg-action-light/50 border border-blue-200 rounded-xl p-5">
+          <h3 class="font-bold text-sm text-ink mb-3">Diagnostic Wizard — Starting Prices</h3>
+          <p class="text-xs text-ink-muted mb-4">These show in the interactive pricing tool. Enter your "starting at" price for each. Leave blank to hide.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🚿</span>
+              <div class="flex-1">
+                <label class="text-xs font-semibold text-ink">Clogged Drain</label>
+                <input type="text" class="field-input mt-1 !py-2 !text-sm" name="price_drain" placeholder="$99">
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🔥</span>
+              <div class="flex-1">
+                <label class="text-xs font-semibold text-ink">Water Heater</label>
+                <input type="text" class="field-input mt-1 !py-2 !text-sm" name="price_heater" placeholder="$149">
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">💧</span>
+              <div class="flex-1">
+                <label class="text-xs font-semibold text-ink">Leaking Pipe</label>
+                <input type="text" class="field-input mt-1 !py-2 !text-sm" name="price_leak" placeholder="$129">
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🚽</span>
+              <div class="flex-1">
+                <label class="text-xs font-semibold text-ink">Toilet Issue</label>
+                <input type="text" class="field-input mt-1 !py-2 !text-sm" name="price_toilet" placeholder="$89">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Service Call Fee</label>
+          <input type="text" class="field-input" name="service_call_fee" placeholder="e.g. $89 (or 'Free')">
+          <p class="field-hint">The dispatch/diagnostic fee you charge before work begins.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 4: GUARANTEES ═══════ -->
+    <div class="section-card" data-section="4">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">4</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Guarantees &amp; Differentiators</h2>
+          <p class="text-sm text-ink-muted">What promises do you make that competitors don't?</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Select your guarantees</label>
+          <div class="space-y-2 mt-2">
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="on_time" class="accent-action w-4 h-4"> <span class="text-sm">On-Time Guarantee (late = free service call)</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="upfront_pricing" class="accent-action w-4 h-4"> <span class="text-sm">Upfront Pricing (price approved before work starts)</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="licensed" class="accent-action w-4 h-4"> <span class="text-sm">Licensed, Bonded &amp; Insured</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="satisfaction" class="accent-action w-4 h-4"> <span class="text-sm">100% Satisfaction Guarantee</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="background_checked" class="accent-action w-4 h-4"> <span class="text-sm">Background-Checked Technicians</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="clean_work" class="accent-action w-4 h-4"> <span class="text-sm">Clean Work Area (shoe covers, cleanup)</span>
+            </label>
+            <label class="flex items-center gap-2.5 bg-surface border border-border rounded-lg px-4 py-3 cursor-pointer hover:border-action transition-colors">
+              <input type="checkbox" name="guarantees" value="warranty" class="accent-action w-4 h-4"> <span class="text-sm">Workmanship Warranty</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Warranty Details (if applicable)</label>
+          <input type="text" class="field-input" name="warranty_details" placeholder="e.g. 1-year warranty on all labor, manufacturer warranty on parts">
+        </div>
+
+        <div>
+          <label class="field-label">Any Other Unique Selling Points?</label>
+          <textarea class="field-input" name="other_usp" placeholder="e.g. We offer free video estimates via FaceTime, senior/military discounts, financing available, etc."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 5: SERVICE AREAS ═══════ -->
+    <div class="section-card" data-section="5">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">5</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Service Areas</h2>
+          <p class="text-sm text-ink-muted">Where you operate — critical for local SEO.</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Primary City / Metro Area *</label>
+          <input type="text" class="field-input" name="primary_city" placeholder="e.g. Tampa Bay" required>
+        </div>
+
+        <div>
+          <label class="field-label">All Cities &amp; Neighborhoods You Serve *</label>
+          <textarea class="field-input" name="service_areas" placeholder="List all cities/towns separated by commas. e.g. Tampa, Clearwater, New Port Richey, Palm Harbor, Spring Hill, St. Petersburg, Wesley Chapel, Largo, Dunedin..." required style="min-height: 100px;"></textarea>
+          <p class="field-hint">These become clickable location tags and SEO-optimized footer links (e.g. "Plumber in Tampa").</p>
+        </div>
+
+        <div>
+          <label class="field-label">Counties Served</label>
+          <input type="text" class="field-input" name="counties" placeholder="e.g. Hillsborough, Pinellas, Pasco, Hernando">
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label">Number of Trucks / Vehicles</label>
+            <input type="text" class="field-input" name="truck_count" placeholder="e.g. 25">
+          </div>
+          <div>
+            <label class="field-label">Average Response Time</label>
+            <input type="text" class="field-input" name="response_time" placeholder="e.g. 47 minutes">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 6: TEAM ═══════ -->
+    <div class="section-card" data-section="6">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">6</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Team Members</h2>
+          <p class="text-sm text-ink-muted">Up to 4 featured technicians on the website. Photos can be sent separately.</p>
+        </div>
+      </div>
+
+      <div id="team-members">
+        <!-- Team Member 1 -->
+        <div class="team-member-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Team Member 1</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Full Name</label>
+              <input type="text" class="field-input" name="team1_name" placeholder="e.g. Matt Henderson">
+            </div>
+            <div>
+              <label class="field-label">Title / Role</label>
+              <input type="text" class="field-input" name="team1_role" placeholder="e.g. Master Plumber">
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div>
+              <label class="field-label">Years Experience</label>
+              <input type="text" class="field-input" name="team1_years" placeholder="e.g. 18">
+            </div>
+            <div>
+              <label class="field-label">Specialty</label>
+              <input type="text" class="field-input" name="team1_specialty" placeholder="e.g. Water heater installs, repiping">
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-member-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Team Member 2</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Full Name</label>
+              <input type="text" class="field-input" name="team2_name" placeholder="e.g. Brian Sullivan">
+            </div>
+            <div>
+              <label class="field-label">Title / Role</label>
+              <input type="text" class="field-input" name="team2_role" placeholder="e.g. Journeyman Plumber">
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div>
+              <label class="field-label">Years Experience</label>
+              <input type="text" class="field-input" name="team2_years" placeholder="e.g. 14">
+            </div>
+            <div>
+              <label class="field-label">Specialty</label>
+              <input type="text" class="field-input" name="team2_specialty" placeholder="e.g. Drain clearing, sewer lines">
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-member-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Team Member 3</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Full Name</label>
+              <input type="text" class="field-input" name="team3_name" placeholder="e.g. Kevin Walsh">
+            </div>
+            <div>
+              <label class="field-label">Title / Role</label>
+              <input type="text" class="field-input" name="team3_role" placeholder="e.g. Lead Technician">
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div>
+              <label class="field-label">Years Experience</label>
+              <input type="text" class="field-input" name="team3_years" placeholder="e.g. 10">
+            </div>
+            <div>
+              <label class="field-label">Specialty</label>
+              <input type="text" class="field-input" name="team3_specialty" placeholder="e.g. Emergency response, burst pipes">
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-member-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Team Member 4</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Full Name</label>
+              <input type="text" class="field-input" name="team4_name" placeholder="e.g. Ryan Cooper">
+            </div>
+            <div>
+              <label class="field-label">Title / Role</label>
+              <input type="text" class="field-input" name="team4_role" placeholder="e.g. Field Supervisor">
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div>
+              <label class="field-label">Years Experience</label>
+              <input type="text" class="field-input" name="team4_years" placeholder="e.g. 12">
+            </div>
+            <div>
+              <label class="field-label">Specialty</label>
+              <input type="text" class="field-input" name="team4_specialty" placeholder="e.g. Quality assurance, crew coordination">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 7: REVIEWS ═══════ -->
+    <div class="section-card" data-section="7">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">7</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Customer Reviews</h2>
+          <p class="text-sm text-ink-muted">Provide 3-5 of your best real customer reviews. These build massive trust.</p>
+        </div>
+      </div>
+
+      <div id="reviews-container">
+        <!-- Review 1 -->
+        <div class="review-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Review 1</p>
+          <div class="grid sm:grid-cols-3 gap-3 mb-3">
+            <div>
+              <label class="field-label">Customer Name</label>
+              <input type="text" class="field-input" name="review1_name" placeholder="e.g. Sarah J.">
+            </div>
+            <div>
+              <label class="field-label">City</label>
+              <input type="text" class="field-input" name="review1_city" placeholder="e.g. Tampa, FL">
+            </div>
+            <div>
+              <label class="field-label">Star Rating</label>
+              <select class="field-input" name="review1_stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Review Text</label>
+            <textarea class="field-input" name="review1_text" placeholder="Paste or type the review here..." style="min-height: 70px;"></textarea>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Review 2</p>
+          <div class="grid sm:grid-cols-3 gap-3 mb-3">
+            <div>
+              <label class="field-label">Customer Name</label>
+              <input type="text" class="field-input" name="review2_name" placeholder="e.g. Mark T.">
+            </div>
+            <div>
+              <label class="field-label">City</label>
+              <input type="text" class="field-input" name="review2_city" placeholder="e.g. Clearwater, FL">
+            </div>
+            <div>
+              <label class="field-label">Star Rating</label>
+              <select class="field-input" name="review2_stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Review Text</label>
+            <textarea class="field-input" name="review2_text" placeholder="Paste or type the review here..." style="min-height: 70px;"></textarea>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="review-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Review 3</p>
+          <div class="grid sm:grid-cols-3 gap-3 mb-3">
+            <div>
+              <label class="field-label">Customer Name</label>
+              <input type="text" class="field-input" name="review3_name" placeholder="e.g. David R.">
+            </div>
+            <div>
+              <label class="field-label">City</label>
+              <input type="text" class="field-input" name="review3_city" placeholder="e.g. New Port Richey, FL">
+            </div>
+            <div>
+              <label class="field-label">Star Rating</label>
+              <select class="field-input" name="review3_stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Review Text</label>
+            <textarea class="field-input" name="review3_text" placeholder="Paste or type the review here..." style="min-height: 70px;"></textarea>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="review-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Review 4 (optional)</p>
+          <div class="grid sm:grid-cols-3 gap-3 mb-3">
+            <div>
+              <label class="field-label">Customer Name</label>
+              <input type="text" class="field-input" name="review4_name">
+            </div>
+            <div>
+              <label class="field-label">City</label>
+              <input type="text" class="field-input" name="review4_city">
+            </div>
+            <div>
+              <label class="field-label">Star Rating</label>
+              <select class="field-input" name="review4_stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Review Text</label>
+            <textarea class="field-input" name="review4_text" style="min-height: 70px;"></textarea>
+          </div>
+        </div>
+
+        <!-- Review 5 -->
+        <div class="review-group">
+          <p class="text-xs font-bold text-action uppercase tracking-wider mb-3">Review 5 (optional)</p>
+          <div class="grid sm:grid-cols-3 gap-3 mb-3">
+            <div>
+              <label class="field-label">Customer Name</label>
+              <input type="text" class="field-input" name="review5_name">
+            </div>
+            <div>
+              <label class="field-label">City</label>
+              <input type="text" class="field-input" name="review5_city">
+            </div>
+            <div>
+              <label class="field-label">Star Rating</label>
+              <select class="field-input" name="review5_stars">
+                <option value="5">★★★★★ (5 stars)</option>
+                <option value="4">★★★★☆ (4 stars)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Review Text</label>
+            <textarea class="field-input" name="review5_text" style="min-height: 70px;"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SECTION 8: BRANDING & TECHNICAL ═══════ -->
+    <div class="section-card" data-section="8">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="step-badge bg-action text-white">8</div>
+        <div>
+          <h2 class="font-bold text-lg text-ink">Branding &amp; Technical</h2>
+          <p class="text-sm text-ink-muted">Colors, domain, form handling, and anything else.</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="field-label">Brand Color Preference</label>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-2">
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="#0066FF" class="sr-only peer" checked>
+              <div class="w-full h-12 rounded-xl bg-[#0066FF] border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all"></div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Blue</span>
+            </label>
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="#DC2626" class="sr-only peer">
+              <div class="w-full h-12 rounded-xl bg-[#DC2626] border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all"></div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Red</span>
+            </label>
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="#059669" class="sr-only peer">
+              <div class="w-full h-12 rounded-xl bg-[#059669] border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all"></div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Green</span>
+            </label>
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="#D97706" class="sr-only peer">
+              <div class="w-full h-12 rounded-xl bg-[#D97706] border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all"></div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Orange</span>
+            </label>
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="#7C3AED" class="sr-only peer">
+              <div class="w-full h-12 rounded-xl bg-[#7C3AED] border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all"></div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Purple</span>
+            </label>
+            <label class="cursor-pointer text-center">
+              <input type="radio" name="brand_color" value="custom" class="sr-only peer">
+              <div class="w-full h-12 rounded-xl bg-gradient-to-br from-gray-300 to-gray-400 border-2 border-transparent peer-checked:border-ink peer-checked:ring-2 peer-checked:ring-ink/20 transition-all flex items-center justify-center text-white text-xs font-bold">?</div>
+              <span class="text-[10px] text-ink-muted mt-1 block">Custom</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Custom Brand Color (hex code)</label>
+          <input type="text" class="field-input" name="custom_color" placeholder="e.g. #1A5BC4">
+          <p class="field-hint">Only needed if you selected "Custom" above. Provide a hex color code.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Domain Name (if already purchased)</label>
+          <input type="text" class="field-input" name="domain" placeholder="e.g. proflowplumbing.com">
+        </div>
+
+        <div>
+          <label class="field-label">Google Business Profile URL (optional)</label>
+          <input type="url" class="field-input" name="google_business_url" placeholder="https://g.page/your-business">
+          <p class="field-hint">If you have a Google Business Profile, paste the link. We'll link your reviews to it.</p>
+        </div>
+
+        <div>
+          <label class="field-label">Do you have a logo?</label>
+          <select class="field-input" name="has_logo">
+            <option value="yes">Yes — I'll send the file separately</option>
+            <option value="text_only">No — just use text/icon for now</option>
+            <option value="need_one">No — I need one designed</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label">Photos</label>
+          <select class="field-input" name="has_photos">
+            <option value="will_send">I have professional photos — I'll send them</option>
+            <option value="use_stock">Use professional stock photos for now</option>
+            <option value="need_shoot">I need a photo shoot scheduled</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label">Anything else we should know?</label>
+          <textarea class="field-input" name="additional_notes" placeholder="Special promotions, financing options, competitor websites you like, seasonal offers, anything at all..." style="min-height: 100px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SUBMIT ═══════ -->
+    <div class="text-center py-8">
+      <button type="submit" class="inline-flex items-center gap-2 bg-action hover:bg-action-dark text-white font-bold px-10 py-4 rounded-xl text-base shadow-lg shadow-action/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-action/30 active:translate-y-0">
+        Submit Questionnaire
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </button>
+      <p class="text-xs text-ink-faint mt-4">Your answers are compiled into a summary you can copy/paste or print.</p>
+    </div>
+
+  </form>
+
+  <!-- ═══════ OUTPUT MODAL ═══════ -->
+  <div id="output-modal" class="hidden fixed inset-0 z-[100] bg-ink/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-auto shadow-2xl">
+      <div class="sticky top-0 bg-white border-b border-border px-6 py-4 flex items-center justify-between rounded-t-2xl">
+        <h3 class="font-bold text-lg text-ink">Questionnaire Summary</h3>
+        <div class="flex items-center gap-2">
+          <button onclick="copyOutput()" class="text-xs font-semibold bg-action text-white px-4 py-2 rounded-lg hover:bg-action-dark transition-colors">Copy All</button>
+          <button onclick="printOutput()" class="text-xs font-semibold bg-surface border border-border text-ink px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">Print</button>
+          <button onclick="closeModal()" class="text-xs font-semibold text-ink-muted px-3 py-2 hover:text-ink transition-colors">Close</button>
+        </div>
+      </div>
+      <div class="p-6">
+        <pre id="output-text" class="whitespace-pre-wrap text-sm text-ink font-body leading-relaxed"></pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('questionnaire');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
+
+  // Track form completion for progress bar
+  function updateProgress() {
+    const allInputs = form.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"], input[type="url"], textarea, select');
+    const requiredInputs = form.querySelectorAll('[required]');
+    let filled = 0;
+    let total = 0;
+
+    allInputs.forEach(input => {
+      if (input.type === 'checkbox' || input.type === 'radio') return;
+      total++;
+      if (input.value.trim()) filled++;
+    });
+
+    const pct = Math.round((filled / total) * 100);
+    progressBar.style.width = pct + '%';
+    progressText.textContent = pct + '%';
+  }
+
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+
+  // Submit handler — generate clean text output
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fd = new FormData(form);
+    let output = '';
+
+    output += '═══════════════════════════════════════\n';
+    output += '  PLUMBING WEBSITE — CLIENT ANSWERS\n';
+    output += '═══════════════════════════════════════\n\n';
+
+    // Section 1
+    output += '── 1. BUSINESS INFORMATION ──\n';
+    output += `Business Name: ${fd.get('business_name') || '(not provided)'}\n`;
+    output += `Tagline: ${fd.get('tagline') || '(not provided)'}\n`;
+    output += `Primary Phone: ${fd.get('phone') || '(not provided)'}\n`;
+    output += `Secondary Phone: ${fd.get('phone_secondary') || '(not provided)'}\n`;
+    output += `Email: ${fd.get('email') || '(not provided)'}\n`;
+    output += `Existing Website: ${fd.get('website_existing') || '(none)'}\n`;
+    output += `Address: ${fd.get('address') || '(not provided)'}\n`;
+    output += `License #: ${fd.get('license_number') || '(not provided)'}\n`;
+    output += `Years in Business: ${fd.get('years_in_business') || '(not provided)'}\n`;
+    output += `Hours: ${fd.get('hours') || '(not provided)'}\n\n`;
+
+    // Section 2
+    output += '── 2. HERO SECTION & MESSAGING ──\n';
+    output += `Headline: ${fd.get('headline') || '(not provided)'}\n`;
+    output += `Subheadline: ${fd.get('subheadline') || '(not provided)'}\n`;
+    output += `Trust Badge: ${fd.get('trust_badge') || '(not provided)'}\n`;
+    output += `Google Rating: ${fd.get('google_rating') || '(not provided)'}\n`;
+    output += `Google Reviews Count: ${fd.get('google_reviews_count') || '(not provided)'}\n`;
+    output += `Form CTA Text: ${fd.get('form_cta') || '(not provided)'}\n\n`;
+
+    // Section 3
+    output += '── 3. SERVICES & PRICING ──\n';
+    const services = fd.getAll('services');
+    output += `Services: ${services.length ? services.join(', ') : '(none selected)'}\n`;
+    output += `Other Services: ${fd.get('services_other') || '(none)'}\n`;
+    output += `Price — Drain: ${fd.get('price_drain') || '(not set)'}\n`;
+    output += `Price — Water Heater: ${fd.get('price_heater') || '(not set)'}\n`;
+    output += `Price — Leak: ${fd.get('price_leak') || '(not set)'}\n`;
+    output += `Price — Toilet: ${fd.get('price_toilet') || '(not set)'}\n`;
+    output += `Service Call Fee: ${fd.get('service_call_fee') || '(not provided)'}\n\n`;
+
+    // Section 4
+    output += '── 4. GUARANTEES ──\n';
+    const guarantees = fd.getAll('guarantees');
+    output += `Guarantees: ${guarantees.length ? guarantees.join(', ') : '(none selected)'}\n`;
+    output += `Warranty Details: ${fd.get('warranty_details') || '(not provided)'}\n`;
+    output += `Other USPs: ${fd.get('other_usp') || '(not provided)'}\n\n`;
+
+    // Section 5
+    output += '── 5. SERVICE AREAS ──\n';
+    output += `Primary City: ${fd.get('primary_city') || '(not provided)'}\n`;
+    output += `All Areas: ${fd.get('service_areas') || '(not provided)'}\n`;
+    output += `Counties: ${fd.get('counties') || '(not provided)'}\n`;
+    output += `Trucks: ${fd.get('truck_count') || '(not provided)'}\n`;
+    output += `Avg Response Time: ${fd.get('response_time') || '(not provided)'}\n\n`;
+
+    // Section 6
+    output += '── 6. TEAM MEMBERS ──\n';
+    for (let i = 1; i <= 4; i++) {
+      const name = fd.get(`team${i}_name`);
+      if (name) {
+        output += `\nTeam Member ${i}:\n`;
+        output += `  Name: ${name}\n`;
+        output += `  Role: ${fd.get(`team${i}_role`) || ''}\n`;
+        output += `  Years: ${fd.get(`team${i}_years`) || ''}\n`;
+        output += `  Specialty: ${fd.get(`team${i}_specialty`) || ''}\n`;
+      }
+    }
+    output += '\n';
+
+    // Section 7
+    output += '── 7. CUSTOMER REVIEWS ──\n';
+    for (let i = 1; i <= 5; i++) {
+      const name = fd.get(`review${i}_name`);
+      const text = fd.get(`review${i}_text`);
+      if (name && text) {
+        output += `\nReview ${i}:\n`;
+        output += `  Name: ${name}\n`;
+        output += `  City: ${fd.get(`review${i}_city`) || ''}\n`;
+        output += `  Stars: ${fd.get(`review${i}_stars`)}\n`;
+        output += `  Text: "${text}"\n`;
+      }
+    }
+    output += '\n';
+
+    // Section 8
+    output += '── 8. BRANDING & TECHNICAL ──\n';
+    output += `Brand Color: ${fd.get('brand_color') || '(default blue)'}\n`;
+    output += `Custom Color: ${fd.get('custom_color') || '(n/a)'}\n`;
+    output += `Domain: ${fd.get('domain') || '(not provided)'}\n`;
+    output += `Google Business URL: ${fd.get('google_business_url') || '(not provided)'}\n`;
+    output += `Logo: ${fd.get('has_logo') || ''}\n`;
+    output += `Photos: ${fd.get('has_photos') || ''}\n`;
+    output += `Additional Notes: ${fd.get('additional_notes') || '(none)'}\n`;
+
+    output += '\n═══════════════════════════════════════\n';
+    output += '  END OF QUESTIONNAIRE\n';
+    output += '═══════════════════════════════════════\n';
+
+    // Inject compiled summary into a hidden field so Formspree email is readable
+    let hiddenSummary = form.querySelector('input[name="_summary"]');
+    if (!hiddenSummary) {
+      hiddenSummary = document.createElement('input');
+      hiddenSummary.type = 'hidden';
+      hiddenSummary.name = '_summary';
+      form.appendChild(hiddenSummary);
+    }
+    hiddenSummary.value = output;
+
+    // Send to Formspree
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtn = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'Sending...';
+    submitBtn.disabled = true;
+
+    fetch('https://formspree.io/f/meelwrne', {
+      method: 'POST',
+      body: fd,
+      headers: { 'Accept': 'application/json' }
+    }).then(res => {
+      if (res.ok) {
+        submitBtn.innerHTML = '✓ Sent Successfully!';
+        submitBtn.classList.remove('bg-action');
+        submitBtn.classList.add('bg-success');
+      } else {
+        submitBtn.innerHTML = 'Send failed — try again';
+        submitBtn.disabled = false;
+      }
+    }).catch(() => {
+      submitBtn.innerHTML = 'Send failed — try again';
+      submitBtn.disabled = false;
+    });
+
+    document.getElementById('output-text').textContent = output;
+    document.getElementById('output-modal').classList.remove('hidden');
+  });
+});
+
+function copyOutput() {
+  const text = document.getElementById('output-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = 'Copy All'; }, 2000);
+  });
+}
+
+function printOutput() {
+  const content = document.getElementById('output-text').textContent;
+  const w = window.open('', '_blank');
+  w.document.write(`<pre style="font-family: monospace; font-size: 13px; line-height: 1.6; padding: 40px;">${content}</pre>`);
+  w.document.close();
+  w.print();
+}
+
+function closeModal() {
+  document.getElementById('output-modal').classList.add('hidden');
+}
+</script>
+
+</body>
+</html>
