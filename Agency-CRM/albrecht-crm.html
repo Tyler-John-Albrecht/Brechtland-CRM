@@ -1478,6 +1478,48 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
 /* Team action buttons */
 .team-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
+/* Team management tabs */
+.team-tabs {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.team-tab {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  background: none;
+  transition: all 0.15s;
+}
+.team-tab:hover {
+  color: var(--text-primary);
+  background: rgba(43,92,230,0.08);
+  border-color: rgba(43,92,230,0.2);
+}
+.team-tab.active {
+  background: rgba(43,92,230,0.15);
+  color: #A78BFA;
+  border-color: rgba(43,92,230,0.3);
+}
+.team-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239,68,68,0.2);
+  color: #F87171;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  padding: 0 5px;
+  margin-left: 6px;
+}
+
 /* ── DASHBOARD CALENDAR ── */
 .cal-nav-btn{background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px;transition:all .15s}
 .cal-nav-btn:hover{border-color:var(--accent);color:var(--text-primary)}
@@ -5244,6 +5286,15 @@ async function renderTeam() {
   const isOwner = role === 'owner';
   const content = document.getElementById('contentArea');
 
+  const snap = await db.collection('users').orderBy('createdAt', 'asc').get();
+  const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  const pending  = users.filter(u => u.status === 'pending');
+  const approved = users.filter(u => u.status === 'approved');
+  const denied   = users.filter(u => u.status === 'denied');
+
+  const deniedCount = denied.length;
+
   content.innerHTML = `
     <div class="card" style="margin-bottom:20px">
       <div class="card-header"><h3>⏳ Pending Approval</h3></div>
@@ -5251,20 +5302,23 @@ async function renderTeam() {
     </div>
     <div class="card">
       <div class="card-header">
-        <h3>👥 All Team Members</h3>
+        <div class="team-tabs">
+          <button class="team-tab active" id="tabActive" onclick="switchTeamTab('active')">👥 All Team Members</button>
+          <button class="team-tab" id="tabDenied" onclick="switchTeamTab('denied')">
+            🚫 Revoked / Denied
+            ${deniedCount > 0 ? `<span class="team-tab-count">${deniedCount}</span>` : ''}
+          </button>
+        </div>
         ${isOwner ? '<span style="font-size:12px;color:var(--text-muted)">As Owner, you have full control over all members and permissions.</span>' : ''}
       </div>
       <div class="card-body" id="teamBody"></div>
     </div>
   `;
 
-  const snap = await db.collection('users').orderBy('createdAt', 'asc').get();
-  const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  // Stash data on window so tab switcher can access it
+  window._teamData = { approved, denied, isOwner, role };
 
-  const pending = users.filter(u => u.status === 'pending');
-  const rest = users.filter(u => u.status !== 'pending');
-
-  // Pending
+  // Render pending
   if (pending.length === 0) {
     document.getElementById('pendingBody').innerHTML = '<div class="empty-state" style="padding:24px"><p>No pending requests</p></div>';
   } else {
@@ -5281,34 +5335,49 @@ async function renderTeam() {
     }</tbody></table>`;
   }
 
-  // All members
-  if (rest.length === 0) {
-    document.getElementById('teamBody').innerHTML = '<div class="empty-state" style="padding:24px"><p>No team members yet</p></div>';
-  } else {
-    document.getElementById('teamBody').innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
-      rest.map(u => `<tr>
-        <td style="color:var(--text-primary);font-weight:500">${esc(u.name)}</td>
-        <td>${esc(u.email)}</td>
-        <td>${getRoleLabel(u.role)}</td>
-        <td><span class="status-badge status-${u.status === 'approved' ? 'active' : 'overdue'}">${esc(u.status)}</span></td>
-        <td class="team-actions">
-          ${u.id === currentUser.uid
-            ? '<span style="color:var(--text-muted);font-size:12px">You</span>'
-            : u.role === 'owner'
-              ? '<span style="color:var(--text-muted);font-size:12px">Owner</span>'
-              : `
-                ${u.status === 'denied' ? `<button class="btn btn-success btn-sm" onclick="approveUser('${u.id}')">Approve</button>` : ''}
-                ${u.status === 'approved' ? `<button class="btn btn-danger btn-sm" onclick="revokeUser('${u.id}')">Revoke</button>` : ''}
-                ${(isOwner || role === 'admin') ? `
-                  <button class="btn btn-warning btn-sm" onclick="openChangeRoleModal('${u.id}', '${esc(u.name)}', '${u.role}')">🔄 Role</button>
-                  <button class="btn btn-secondary btn-sm" onclick="openPermissionsModal('${u.id}', '${esc(u.name)}', '${u.role}')">⚙️ Perms</button>
-                ` : ''}
-              `
-          }
-        </td>
-      </tr>`).join('')
-    }</tbody></table>`;
+  // Render active tab by default
+  renderTeamTab('active');
+}
+
+function switchTeamTab(tab) {
+  document.getElementById('tabActive').classList.toggle('active', tab === 'active');
+  document.getElementById('tabDenied').classList.toggle('active', tab === 'denied');
+  renderTeamTab(tab);
+}
+
+function renderTeamTab(tab) {
+  const { approved, denied, isOwner, role } = window._teamData;
+  const users = tab === 'active' ? approved : denied;
+  const body = document.getElementById('teamBody');
+
+  if (users.length === 0) {
+    body.innerHTML = `<div class="empty-state" style="padding:24px"><p>${tab === 'active' ? 'No active team members yet.' : 'No revoked or denied users.'}</p></div>`;
+    return;
   }
+
+  body.innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
+    users.map(u => `<tr>
+      <td style="color:var(--text-primary);font-weight:500">${esc(u.name)}</td>
+      <td>${esc(u.email)}</td>
+      <td>${getRoleLabel(u.role)}</td>
+      <td><span class="status-badge status-${u.status === 'approved' ? 'active' : 'overdue'}">${esc(u.status)}</span></td>
+      <td class="team-actions">
+        ${u.id === currentUser.uid
+          ? '<span style="color:var(--text-muted);font-size:12px">You</span>'
+          : u.role === 'owner'
+            ? '<span style="color:var(--text-muted);font-size:12px">Owner</span>'
+            : `
+              ${u.status === 'denied' ? `<button class="btn btn-success btn-sm" onclick="approveUser('${u.id}')">Approve</button>` : ''}
+              ${u.status === 'approved' ? `<button class="btn btn-danger btn-sm" onclick="revokeUser('${u.id}')">Revoke</button>` : ''}
+              ${(isOwner || role === 'admin') ? `
+                <button class="btn btn-warning btn-sm" onclick="openChangeRoleModal('${u.id}', '${esc(u.name)}', '${u.role}')">🔄 Role</button>
+                <button class="btn btn-secondary btn-sm" onclick="openPermissionsModal('${u.id}', '${esc(u.name)}', '${u.role}')">⚙️ Perms</button>
+              ` : ''}
+            `
+        }
+      </td>
+    </tr>`).join('')
+  }</tbody></table>`;
 }
 
 async function approveUser(uid) {
