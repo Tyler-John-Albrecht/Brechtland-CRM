@@ -878,6 +878,245 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
   display: inline-block;
 }
 
+/* ==================== FULL-PAGE CHAT ==================== */
+.fc-layout {
+  display: flex;
+  height: 100%;
+  gap: 0;
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Members sidebar */
+.fc-members {
+  width: 220px;
+  flex-shrink: 0;
+  background: #080D18;
+  border-right: 1px solid rgba(43,92,230,0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.fc-members-header {
+  padding: 14px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(43,92,230,0.1);
+  background: rgba(43,92,230,0.04);
+}
+
+.fc-members-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 8px;
+}
+
+.fc-member-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  transition: background 0.15s;
+}
+
+.fc-member-item:hover {
+  background: rgba(43,92,230,0.08);
+}
+
+.fc-member-item.active {
+  background: rgba(43,92,230,0.15);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.fc-member-item.clickable {
+  cursor: pointer;
+}
+
+.fc-back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-right: 6px;
+}
+.fc-back-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: rgba(43,92,230,0.08);
+}
+
+.fc-member-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.fc-member-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.fc-online-dot {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+  border: 2px solid #080D18;
+}
+
+.fc-member-info { flex: 1; min-width: 0; }
+
+.fc-member-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fc-member-role {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Main chat area */
+.fc-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.fc-channel-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(43,92,230,0.03);
+  flex-shrink: 0;
+}
+
+.fc-channel-header .fc-channel-icon {
+  font-size: 18px;
+}
+
+.fc-channel-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.fc-channel-header p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.fc-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fc-input-area {
+  padding: 12px 20px 16px;
+  background: var(--bg-primary);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.fc-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0F1629;
+  border: 1px solid rgba(43,92,230,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.fc-input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43,92,230,0.12);
+}
+
+.fc-input-wrapper input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.fc-input-wrapper input::placeholder { color: var(--text-muted); }
+
+.fc-send-btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 7px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.fc-send-btn:hover {
+  background: #3B6FF0;
+  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(43,92,230,0.5);
+}
+
+.fc-mention-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 20px; right: 20px;
+  background: #0F1629;
+  border: 1px solid rgba(43,92,230,0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.4);
+  margin-bottom: 4px;
+}
+
+.fc-mention-dropdown.show { display: block; }
+
 /* @mention autocomplete */
 .mention-dropdown {
   position: absolute;
@@ -2173,6 +2412,10 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         <div class="nav-item" onclick="navigate('questionnaires')" id="navQuestionnaires">
           <span class="icon">📋</span> Questionnaires
         </div>
+        <div class="nav-item" onclick="navigate('chat')" id="navChat" style="position:relative">
+          <span class="icon">💬</span> Team Chat
+          <span class="nav-badge" id="chatBadge"></span>
+        </div>
       </div>
       <div class="nav-section" id="adminNavSection" style="display:none">
         <div class="nav-section-label">Admin</div>
@@ -2196,13 +2439,9 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
       <h2 id="pageTitle">Dashboard</h2>
       <div class="topbar-actions">
         <div id="pageActions" style="display:flex;gap:8px;align-items:center"></div>
-        <button class="chat-icon-btn" onclick="toggleChatPanel()" title="Team Chat">
-          💬
-          <span class="notif-badge" id="chatBadge"></span>
-        </button>
         <div style="position:relative">
-          <button class="notif-btn" id="notifBtn" onclick="toggleNotifDropdown()">
-            🔔
+          <button class="notif-btn" id="notifBtn" onclick="toggleNotifDropdown()" title="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <span class="notif-badge" id="notifBadge"></span>
           </button>
           <div class="notif-dropdown" id="notifDropdown">
@@ -2844,11 +3083,11 @@ function navigate(page) {
   if (navEl) navEl.classList.add('active');
 
   // Update page title
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   // Render page
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat };
   if (renderers[page]) renderers[page]();
 }
 
@@ -4182,6 +4421,323 @@ async function sendMessage() {
   }
 }
 
+// ============================================================
+//  FULL-PAGE TEAM CHAT
+// ============================================================
+function renderChat() {
+  const content = document.getElementById('contentArea');
+  const pageActions = document.getElementById('pageActions');
+  if (pageActions) pageActions.innerHTML = '';
+
+  // Reset DM state on fresh page load
+  fcActiveDM = null;
+  if (fcCurrentUnsub) { try { fcCurrentUnsub(); } catch(e){} fcCurrentUnsub = null; }
+
+  // Clear unread badge immediately
+  chatUnread = 0;
+  const chatBadge = document.getElementById('chatBadge');
+  if (chatBadge) { chatBadge.textContent = ''; chatBadge.classList.remove('show'); }
+
+  // Build member list HTML — clickable for others, non-clickable for self
+  const memberListHtml = allTeamUsers.length === 0
+    ? '<div style="font-size:12px;color:var(--text-muted);padding:8px 10px">Loading…</div>'
+    : allTeamUsers.map(u => {
+        const color = u.avatarColor || getAvatarColor(u.name);
+        const isSelf = u.id === currentUser.uid;
+        return `<div class="fc-member-item${isSelf ? '' : ' clickable'}" id="fcMember_${u.id}" ${isSelf ? '' : `onclick="fcOpenDM('${u.id}','${esc(u.name).replace(/'/g,"\\'")}','${color}')"`}>
+          <div class="fc-member-avatar-wrap">
+            <div class="fc-member-avatar" style="background:${color}">${getInitials(u.name)}</div>
+            <div class="fc-online-dot"></div>
+          </div>
+          <div class="fc-member-info">
+            <div class="fc-member-name">${esc(u.name)}${isSelf ? ' <span style="font-size:10px;color:var(--accent)">(you)</span>' : ''}</div>
+            <div class="fc-member-role">${getRoleName(u.role)}</div>
+          </div>
+        </div>`;
+      }).join('');
+
+  content.innerHTML = `
+    <div class="fc-layout">
+      <div class="fc-members">
+        <div class="fc-members-header">Members — ${allTeamUsers.length}</div>
+        <div class="fc-members-list" id="fcMemberList">${memberListHtml}</div>
+      </div>
+      <div class="fc-main">
+        <div class="fc-channel-header" id="fcChannelHeader">
+          <span class="fc-channel-icon">💬</span>
+          <h3>#general</h3>
+          <p>Team-wide chat — everyone with CRM access</p>
+        </div>
+        <div class="fc-messages" id="fcMessages">
+          <div style="color:var(--text-muted);font-size:13px">Loading messages…</div>
+        </div>
+        <div class="fc-input-area">
+          <div class="fc-mention-dropdown" id="fcMentionDropdown"></div>
+          <div class="fc-input-wrapper">
+            <input type="text" id="fcChatInput" placeholder="Message #general — use @ to mention someone" oninput="fcHandleInput(event)" onkeydown="fcHandleKeydown(event)">
+            <button class="fc-send-btn" onclick="fcSendMessage()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Start general listener
+  fcStartGeneralListener();
+
+  // Register cleanup via _pageListener pattern
+  const cleanup = () => { if (fcCurrentUnsub) { try { fcCurrentUnsub(); } catch(e){} fcCurrentUnsub = null; } };
+  cleanup._pageListener = true;
+  unsubscribeListeners.push(cleanup);
+}
+
+let fcMentionIndex = -1;
+let fcActiveDM = null;      // null = #general, { uid, name, color, convId } = DM
+let fcCurrentUnsub = null;  // active Firestore listener for full-page chat
+
+// ---- General listener ----
+function fcStartGeneralListener() {
+  if (fcCurrentUnsub) { try { fcCurrentUnsub(); } catch(e){} fcCurrentUnsub = null; }
+  fcCurrentUnsub = db.collection('messages').orderBy('timestamp', 'asc').limitToLast(300)
+    .onSnapshot(snap => {
+      if (currentPage !== 'chat') return;
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderChatMessages(msgs, 'fcMessages');
+      if (msgs.length > 0) {
+        const latestTs = msgs[msgs.length - 1].timestamp;
+        if (latestTs) {
+          lastChatSeen = latestTs.seconds || 0;
+          db.collection('users').doc(currentUser.uid).update({ lastReadTimestamp: latestTs })
+            .catch(e => console.warn('Could not update lastReadTimestamp:', e));
+        }
+      }
+    });
+}
+
+// ---- Open a DM thread with another user ----
+function fcOpenDM(uid, name, color) {
+  if (currentPage !== 'chat') return;
+
+  fcActiveDM = { uid, name, color, convId: [currentUser.uid, uid].sort().join('_') };
+
+  // Highlight active member, clear others
+  document.querySelectorAll('.fc-member-item').forEach(el => el.classList.remove('active'));
+  const memberEl = document.getElementById('fcMember_' + uid);
+  if (memberEl) memberEl.classList.add('active');
+
+  // Update channel header
+  const header = document.getElementById('fcChannelHeader');
+  if (header) {
+    header.innerHTML = `
+      <button class="fc-back-btn" onclick="fcOpenGeneral()">← #general</button>
+      <div class="fc-member-avatar" style="background:${color};width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${getInitials(name)}</div>
+      <h3 style="margin-left:8px">${esc(name)}</h3>
+      <p>Private conversation</p>
+    `;
+  }
+
+  // Update input placeholder
+  const input = document.getElementById('fcChatInput');
+  if (input) input.placeholder = `Message ${esc(name)}…`;
+
+  // Swap listener to DM collection
+  if (fcCurrentUnsub) { try { fcCurrentUnsub(); } catch(e){} fcCurrentUnsub = null; }
+  const messagesEl = document.getElementById('fcMessages');
+  if (messagesEl) messagesEl.innerHTML = '<div style="color:var(--text-muted);font-size:13px">Loading…</div>';
+
+  fcCurrentUnsub = db.collection('direct_messages')
+    .where('conversationId', '==', fcActiveDM.convId)
+    .orderBy('timestamp', 'asc').limitToLast(300)
+    .onSnapshot(snap => {
+      if (currentPage !== 'chat' || !fcActiveDM) return;
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      fcRenderDMMessages(msgs);
+    });
+}
+
+// ---- Back to #general ----
+function fcOpenGeneral() {
+  fcActiveDM = null;
+
+  // Clear active highlight
+  document.querySelectorAll('.fc-member-item').forEach(el => el.classList.remove('active'));
+
+  // Restore header
+  const header = document.getElementById('fcChannelHeader');
+  if (header) {
+    header.innerHTML = `
+      <span class="fc-channel-icon">💬</span>
+      <h3>#general</h3>
+      <p>Team-wide chat — everyone with CRM access</p>
+    `;
+  }
+
+  // Restore placeholder
+  const input = document.getElementById('fcChatInput');
+  if (input) input.placeholder = 'Message #general — use @ to mention someone';
+
+  // Restart general listener
+  const messagesEl = document.getElementById('fcMessages');
+  if (messagesEl) messagesEl.innerHTML = '<div style="color:var(--text-muted);font-size:13px">Loading…</div>';
+  fcStartGeneralListener();
+}
+
+// ---- Render DM messages (no @mention highlights, no mentions notifications needed) ----
+function fcRenderDMMessages(msgs) {
+  const container = document.getElementById('fcMessages');
+  if (!container) return;
+
+  if (msgs.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">💬</div><p>No messages yet — say something!</p></div>`;
+    return;
+  }
+
+  let html = '';
+  let lastDate = '';
+  msgs.forEach(msg => {
+    const ts = msg.timestamp?.toDate?.() || new Date();
+    const dateStr = ts.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    const timeStr = ts.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (dateStr !== lastDate) {
+      html += `<div class="chat-date-divider">${dateStr}</div>`;
+      lastDate = dateStr;
+    }
+    const isOwn = msg.userId === currentUser.uid;
+    const color = msg.avatarColor || getAvatarColor(msg.userName);
+    html += `
+      <div class="chat-msg ${isOwn ? 'own' : ''}">
+        <div class="chat-msg-avatar" style="background:${color}">${getInitials(msg.userName)}</div>
+        <div class="chat-msg-content">
+          <div class="chat-msg-name">${esc(msg.userName)} ${msg.userRole === 'owner' ? '👑' : msg.userRole === 'admin' ? '🛡️' : ''}</div>
+          <div class="chat-msg-bubble">${esc(msg.text)}</div>
+          <div class="chat-msg-time">${timeStr}</div>
+        </div>
+      </div>`;
+  });
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+function fcHandleInput(e) {
+  const input = document.getElementById('fcChatInput');
+  const val = input.value;
+  const cursorPos = input.selectionStart;
+  const textBeforeCursor = val.substring(0, cursorPos);
+  const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
+  const dropdown = document.getElementById('fcMentionDropdown');
+
+  if (mentionMatch) {
+    const query = mentionMatch[1].toLowerCase();
+    const matches = allTeamUsers.filter(u =>
+      u.id !== currentUser.uid && u.status === 'approved' && u.name &&
+      (query === '' || u.name.toLowerCase().split(/\s+/).some(p => p.startsWith(query)))
+    ).slice(0, 6);
+
+    if (matches.length > 0) {
+      fcMentionIndex = 0;
+      dropdown.innerHTML = matches.map((u, i) => {
+        const color = u.avatarColor || getAvatarColor(u.name);
+        return `<div class="mention-option ${i === 0 ? 'selected' : ''}" data-name="${esc(u.name)}" onclick="fcSelectMention(this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer">
+          <div class="mention-avatar" style="background:${color}">${getInitials(u.name)}</div>
+          <div>
+            <div style="font-weight:600;font-size:13px">${esc(u.name)}</div>
+            <div style="font-size:11px;color:var(--text-muted)">${getRoleName(u.role)}</div>
+          </div>
+        </div>`;
+      }).join('');
+      dropdown.classList.add('show');
+    } else {
+      dropdown.classList.remove('show');
+    }
+  } else {
+    dropdown.classList.remove('show');
+  }
+}
+
+function fcHandleKeydown(e) {
+  const dropdown = document.getElementById('fcMentionDropdown');
+  if (!dropdown.classList.contains('show')) {
+    if (e.key === 'Enter') fcSendMessage();
+    return;
+  }
+  const options = dropdown.querySelectorAll('.mention-option');
+  if (e.key === 'ArrowDown') { e.preventDefault(); fcMentionIndex = Math.min(fcMentionIndex+1, options.length-1); options.forEach((o,i) => o.classList.toggle('selected', i===fcMentionIndex)); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); fcMentionIndex = Math.max(fcMentionIndex-1, 0); options.forEach((o,i) => o.classList.toggle('selected', i===fcMentionIndex)); }
+  else if (e.key === 'Enter' || e.key === 'Tab') { e.preventDefault(); if (options[fcMentionIndex]) fcSelectMention(options[fcMentionIndex]); }
+  else if (e.key === 'Escape') { dropdown.classList.remove('show'); }
+}
+
+function fcSelectMention(el) {
+  const name = el.getAttribute('data-name');
+  const input = document.getElementById('fcChatInput');
+  const val = input.value;
+  const cursorPos = input.selectionStart;
+  const before = val.substring(0, cursorPos).replace(/@\w*$/, '@' + name + ' ');
+  const after = val.substring(cursorPos);
+  input.value = before + after;
+  input.focus();
+  input.selectionStart = input.selectionEnd = before.length;
+  document.getElementById('fcMentionDropdown').classList.remove('show');
+}
+
+async function fcSendMessage() {
+  const input = document.getElementById('fcChatInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  const dropdown = document.getElementById('fcMentionDropdown');
+  if (dropdown) dropdown.classList.remove('show');
+
+  try {
+    if (fcActiveDM) {
+      // DM mode — write to direct_messages collection
+      await db.collection('direct_messages').add({
+        text,
+        conversationId: fcActiveDM.convId,
+        participants: [currentUser.uid, fcActiveDM.uid],
+        userId: currentUser.uid,
+        userName: currentUserData.name,
+        userRole: currentUserData.role,
+        avatarColor: currentUserData.avatarColor || getAvatarColor(currentUserData.name),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      // General chat — existing logic unchanged
+      const mentions = [];
+      allTeamUsers.forEach(u => {
+        if (u.id === currentUser.uid || !u.name) return;
+        const re = new RegExp('@' + u.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?=[\\s.,;:!?\\)\\]\\}]|$)', 'gi');
+        if (re.test(text)) mentions.push({ uid: u.id, name: u.name });
+      });
+
+      await db.collection('messages').add({
+        text,
+        userId: currentUser.uid,
+        userName: currentUserData.name,
+        userRole: currentUserData.role,
+        avatarColor: currentUserData.avatarColor || getAvatarColor(currentUserData.name),
+        mentions: mentions.map(m => m.uid),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      for (const m of mentions) {
+        await db.collection('notifications').add({
+          userId: m.uid, type: 'mention',
+          message: `<strong>${esc(currentUserData.name)}</strong> mentioned you in Team Chat`,
+          read: false,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
+  } catch(e) {
+    alert('Error sending message: ' + e.message);
+    input.value = text;
+  }
+}
+
 // Global chat listener for badge (when not on chat page)
 // Uses Firebase-persisted lastReadTimestamp for cross-session sync
 async function initChatBadgeListener() {
@@ -4196,7 +4752,7 @@ async function initChatBadgeListener() {
 
   const unsub = db.collection('messages').orderBy('timestamp', 'asc')
     .onSnapshot(snap => {
-      if (chatPanelOpen) return; // badge only when panel is closed
+      if (chatPanelOpen || currentPage === 'chat') return; // badge only when not viewing chat
       let count = 0;
       snap.docs.forEach(d => {
         const msg = d.data();
