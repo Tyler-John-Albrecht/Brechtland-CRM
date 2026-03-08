@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║      AEROTHERM HVAC — CLIENT ONBOARDING QUESTIONNAIRE        ║
+  ║  Submits via Formspree · Matches landing page brand tokens   ║
+  ╚══════════════════════════════════════════════════════════════╝
+  Formspree endpoint: https://formspree.io/f/meelwrne
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AeroTherm HVAC — Client Onboarding Questionnaire</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts — same as landing page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════
+       BRAND TOKENS — mirrors landing page exactly
+       ═══════════════════════════════════════════ */
+    :root {
+      --blue:        #2563eb;
+      --blue-dark:   #1d4ed8;
+      --blue-light:  #eff6ff;
+      --blue-mid:    #dbeafe;
+      --orange:      #f97316;
+      --orange-light:#fff7ed;
+      --slate-bg:    #f8fafc;
+      --navy:        #0f172a;
+      --text:        #1e293b;
+      --muted:       #64748b;
+      --border:      #e2e8f0;
+      --font-display:'Plus Jakarta Sans', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+      --radius:      14px;
+      --shadow:      0 4px 24px rgba(15,23,42,.08);
+      --shadow-lg:   0 12px 40px rgba(15,23,42,.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--slate-bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Progress bar ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue) 0%, var(--orange) 100%);
+      z-index: 100;
+      transition: width .4s ease;
+      width: 0%;
+    }
+
+    /* ── Sticky top nav ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+      padding: 14px 0;
+    }
+
+    /* ── Section card ── */
+    .section-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 28px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .section-card:focus-within {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ── Section header ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1.5px solid var(--border);
+      background: linear-gradient(to right, var(--blue-light), white);
+    }
+    .section-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-icon.orange { background: var(--orange); }
+    .section-icon.navy   { background: var(--navy);   }
+    .section-icon.green  { background: #16a34a;       }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── Section body ── */
+    .section-body { padding: 24px; }
+    .field-grid    { display: grid; gap: 18px; }
+    .field-grid-2  { grid-template-columns: 1fr 1fr; }
+    .field-grid-3  { grid-template-columns: 1fr 1fr 1fr; }
+
+    @media (max-width: 640px) {
+      .field-grid-2,
+      .field-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ── Labels & inputs ── */
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .field-label .req {
+      color: var(--orange);
+      margin-left: 3px;
+    }
+    .field-hint {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 7px;
+      line-height: 1.4;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: #94a3b8; }
+
+    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    /* ── Checkbox & radio rows ── */
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .2s;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text);
+      user-select: none;
+    }
+    .check-item:hover { border-color: var(--blue); background: var(--blue-light); }
+    .check-item input[type=checkbox],
+    .check-item input[type=radio] { display: none; }
+    .check-item.checked {
+      border-color: var(--blue);
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    /* Custom checkbox visual */
+    .cb-box {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 2px solid var(--border);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+    .check-item.checked .cb-box {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+    .cb-check {
+      width: 10px;
+      height: 10px;
+      display: none;
+    }
+    .check-item.checked .cb-check { display: block; }
+
+    /* ── Testimonial block ── */
+    .testimonial-block {
+      background: var(--blue-light);
+      border: 1.5px solid var(--blue-mid);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .testi-num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Divider ── */
+    .field-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* ── Character counter ── */
+    .char-counter {
+      text-align: right;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── Submit button ── */
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 17px 32px;
+      background: var(--blue);
+      color: white;
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all .25s;
+      box-shadow: 0 6px 24px rgba(37,99,235,.35);
+      letter-spacing: -.01em;
+    }
+    .submit-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37,99,235,.4);
+    }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+    /* ── Success screen ── */
+    #success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+      background: white;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    /* ── Badge pill ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .badge-blue   { background: var(--blue-light); color: var(--blue); }
+    .badge-orange { background: var(--orange-light); color: var(--orange); }
+
+    /* ── Stars input ── */
+    .star-select { display: flex; gap: 6px; }
+    .star-select label {
+      cursor: pointer;
+      font-size: 28px;
+      color: #e2e8f0;
+      transition: color .15s;
+      line-height: 1;
+    }
+    .star-select input[type=radio] { display: none; }
+    .star-select label:hover,
+    .star-select label.lit { color: #fbbf24; }
+
+    /* ── Floating label helper ── */
+    .input-group { position: relative; }
+
+    /* ── Required note ── */
+    .required-note {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .section-card { animation: fadeUp .4s ease both; }
+    .section-card:nth-child(2)  { animation-delay: .05s; }
+    .section-card:nth-child(3)  { animation-delay: .10s; }
+    .section-card:nth-child(4)  { animation-delay: .15s; }
+    .section-card:nth-child(5)  { animation-delay: .20s; }
+    .section-card:nth-child(6)  { animation-delay: .25s; }
+    .section-card:nth-child(7)  { animation-delay: .30s; }
+    .section-card:nth-child(8)  { animation-delay: .35s; }
+    .section-card:nth-child(9)  { animation-delay: .40s; }
+    .section-card:nth-child(10) { animation-delay: .45s; }
+  </style>
+</head>
+
+<body class="antialiased">
+
+<!-- Reading progress bar -->
+<div id="progress-bar"></div>
+
+<!-- ══ STICKY TOP NAV ══ -->
+<div class="top-nav">
+  <div style="max-width:860px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <rect width="36" height="36" rx="10" fill="#2563eb"/>
+        <path d="M18 10a5 5 0 110 10A5 5 0 0118 10zm0 2a3 3 0 100 6 3 3 0 000-6z" fill="white"/>
+        <path d="M18 14a1 1 0 100 2 1 1 0 000-2z" fill="#f97316"/>
+        <rect x="16.5" y="22" width="3" height="5" rx="1.5" fill="white"/>
+      </svg>
+      <span style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--navy);line-height:1;letter-spacing:-.02em">
+        Aero<span style="color:var(--blue)">Therm</span>
+      </span>
+    </div>
+    <!-- Center label -->
+    <span style="font-size:13px;font-weight:600;color:var(--muted);text-align:center">Client Onboarding Questionnaire</span>
+    <!-- Badge -->
+    <span class="badge badge-orange" style="flex-shrink:0">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Secure Form
+    </span>
+  </div>
+</div>
+
+
+<!-- ══ PAGE HEADER ══ -->
+<div style="max-width:860px;margin:0 auto;padding:40px 20px 28px">
+
+  <div style="margin-bottom:6px">
+    <span class="badge badge-blue">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      New Client Setup
+    </span>
+  </div>
+
+  <h1 style="font-family:var(--font-display);font-size:clamp(26px,5vw,36px);font-weight:800;color:var(--navy);line-height:1.2;letter-spacing:-.02em;margin:10px 0 10px">
+    HVAC Business Onboarding<br/>
+    <span style="color:var(--blue)">Questionnaire</span>
+  </h1>
+
+  <p style="font-size:15px;color:var(--muted);max-width:560px;line-height:1.65;margin-bottom:20px">
+    Complete every section below so we have everything needed to build and personalize your AeroTherm HVAC landing page. The more detail you provide, the better your final result. Takes about <strong style="color:var(--text)">10–15 minutes</strong>.
+  </p>
+
+  <!-- What happens next strip -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:7px;background:white;border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:500;color:var(--text)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      Submit questionnaire
+    </div>
+    <div style="color:var(--muted);display:flex;align-items:center;font-size:18px">→</div>
+    <div style="display:flex;align-items:center;gap:7px;background:white;border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:500;color:var(--text)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      We review your answers
+    </div>
+    <div style="color:var(--muted);display:flex;align-items:center;font-size:18px">→</div>
+    <div style="display:flex;align-items:center;gap:7px;background:white;border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:500;color:var(--text)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Custom page delivered
+    </div>
+  </div>
+
+  <p class="required-note" style="margin-top:14px">
+    <span style="color:var(--orange);font-weight:700">*</span>
+    Fields marked with an asterisk are required.
+  </p>
+
+</div><!-- /page header -->
+
+
+<!-- ══ FORM ══ -->
+<div style="max-width:860px;margin:0 auto;padding:0 20px 60px">
+<form id="main-form"
+      action="https://formspree.io/f/meelwrne"
+      method="POST"
+      novalidate>
+
+  <!-- Hidden field so Formspree email subject is useful -->
+  <input type="hidden" name="_subject" value="AeroTherm HVAC — New Client Questionnaire Submission" />
+  <input type="hidden" name="_next" value="" />
+
+
+  <!-- ══════════════════════════════════
+       SECTION 1 — BUSINESS IDENTITY
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <div>
+        <p class="section-title">1 · Business Identity</p>
+        <p class="section-sub">Core branding info that appears throughout your website</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <!-- Business name -->
+        <div>
+          <label class="field-label" for="biz-name">Business Name <span class="req">*</span></label>
+          <span class="field-hint">The exact name as you want it displayed on your website</span>
+          <input class="form-input" type="text" id="biz-name" name="business_name" placeholder="e.g. AeroTherm HVAC" required />
+        </div>
+
+        <!-- Tagline -->
+        <div>
+          <label class="field-label" for="tagline">Tagline / Slogan</label>
+          <span class="field-hint">A short phrase that captures your brand (optional)</span>
+          <input class="form-input" type="text" id="tagline" name="tagline" placeholder='e.g. "Comfort You Can Count On"' />
+        </div>
+
+        <div class="field-grid field-grid-2">
+          <!-- Phone -->
+          <div>
+            <label class="field-label" for="phone-main">Main Phone Number <span class="req">*</span></label>
+            <span class="field-hint">Primary number shown in all CTAs</span>
+            <input class="form-input" type="tel" id="phone-main" name="phone_main" placeholder="(813) 555-0100" required />
+          </div>
+          <!-- Emergency phone -->
+          <div>
+            <label class="field-label" for="phone-emergency">Emergency / After-Hours Line</label>
+            <span class="field-hint">If different from main. Leave blank if same.</span>
+            <input class="form-input" type="tel" id="phone-emergency" name="phone_emergency" placeholder="Same as main" />
+          </div>
+        </div>
+
+        <div class="field-grid field-grid-2">
+          <!-- Email -->
+          <div>
+            <label class="field-label" for="biz-email">Business Email <span class="req">*</span></label>
+            <input class="form-input" type="email" id="biz-email" name="business_email" placeholder="info@yourcompany.com" required />
+          </div>
+          <!-- Website -->
+          <div>
+            <label class="field-label" for="website">Current Website URL</label>
+            <span class="field-hint">If you have one already</span>
+            <input class="form-input" type="url" id="website" name="website_url" placeholder="https://www.yoursite.com" />
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label class="field-label" for="address">Business Address <span class="req">*</span></label>
+          <span class="field-hint">Full street address (used in footer &amp; SEO schema)</span>
+          <input class="form-input" type="text" id="address" name="business_address" placeholder="4821 W Kennedy Blvd, Suite 200, Tampa, FL 33609" required />
+        </div>
+
+        <div class="field-grid field-grid-3">
+          <!-- Years in business -->
+          <div>
+            <label class="field-label" for="years-biz">Years in Business <span class="req">*</span></label>
+            <input class="form-input" type="number" id="years-biz" name="years_in_business" min="1" max="100" placeholder="15" required />
+          </div>
+          <!-- License number -->
+          <div>
+            <label class="field-label" for="license">License Number <span class="req">*</span></label>
+            <input class="form-input" type="text" id="license" name="license_number" placeholder="FL CAC1817426" required />
+          </div>
+          <!-- State -->
+          <div>
+            <label class="field-label" for="state">State <span class="req">*</span></label>
+            <select class="form-select" id="state" name="state" required>
+              <option value="">Select state</option>
+              <option value="FL" selected>Florida (FL)</option>
+              <option value="TX">Texas (TX)</option>
+              <option value="GA">Georgia (GA)</option>
+              <option value="CA">California (CA)</option>
+              <option value="AZ">Arizona (AZ)</option>
+              <option value="NC">North Carolina (NC)</option>
+              <option value="SC">South Carolina (SC)</option>
+              <option value="VA">Virginia (VA)</option>
+              <option value="OH">Ohio (OH)</option>
+              <option value="MI">Michigan (MI)</option>
+              <option value="IL">Illinois (IL)</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Hero headline -->
+        <div>
+          <label class="field-label" for="hero-headline">Hero Headline <span class="req">*</span></label>
+          <span class="field-hint">The bold promise on your homepage hero. Keep it benefit-driven and punchy. Example: "Cooler Air in 2 Hours or It's Free"</span>
+          <input class="form-input" type="text" id="hero-headline" name="hero_headline" placeholder='e.g. "Cool Air in 2 Hours or It&#39;s Free"' required />
+        </div>
+
+        <!-- Hero sub-copy -->
+        <div>
+          <label class="field-label" for="hero-sub">Hero Supporting Copy</label>
+          <span class="field-hint">1–2 sentences under the headline that reinforce your value</span>
+          <textarea class="form-textarea" id="hero-sub" name="hero_sub_copy" placeholder="e.g. NATE-certified technicians at your door fast — backed by our 100% Satisfaction Guarantee." style="min-height:70px" maxlength="250"></textarea>
+          <p class="char-counter"><span id="hero-sub-count">0</span>/250</p>
+        </div>
+
+      </div><!-- /field-grid -->
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 2 — CONTACT & SOCIAL
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon orange">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      </div>
+      <div>
+        <p class="section-title">2 · Contact &amp; Social Media</p>
+        <p class="section-sub">Links and profiles we'll embed or link on your site</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <div class="field-grid field-grid-2">
+          <div>
+            <label class="field-label" for="google-profile">Google Business Profile URL</label>
+            <span class="field-hint">Link to your Google Maps listing</span>
+            <input class="form-input" type="url" id="google-profile" name="google_profile_url" placeholder="https://g.page/your-business" />
+          </div>
+          <div>
+            <label class="field-label" for="facebook">Facebook Page URL</label>
+            <input class="form-input" type="url" id="facebook" name="facebook_url" placeholder="https://facebook.com/yourbiz" />
+          </div>
+          <div>
+            <label class="field-label" for="instagram">Instagram Handle or URL</label>
+            <input class="form-input" type="text" id="instagram" name="instagram" placeholder="@yourbiz or full URL" />
+          </div>
+          <div>
+            <label class="field-label" for="yelp">Yelp Page URL</label>
+            <input class="form-input" type="url" id="yelp" name="yelp_url" placeholder="https://yelp.com/biz/your-biz" />
+          </div>
+        </div>
+
+        <!-- Review form link -->
+        <div>
+          <label class="field-label" for="review-link">Google Review Link</label>
+          <span class="field-hint">Direct link customers can click to leave you a review</span>
+          <input class="form-input" type="url" id="review-link" name="google_review_link" placeholder="https://g.page/r/your-review-link" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 3 — TRUST & CREDENTIALS
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon navy">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <p class="section-title">3 · Credentials &amp; Trust Badges</p>
+        <p class="section-sub">Certifications and brand partnerships shown in your Trust Bar</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <!-- Certifications -->
+        <div>
+          <label class="field-label">Certifications Held <span class="req">*</span></label>
+          <span class="field-hint">Select all that apply — these appear as badges on your site</span>
+          <div class="check-grid" id="certs-grid">
+            <label class="check-item" data-name="cert_nate">
+              <input type="checkbox" name="cert_nate" value="NATE Certified" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              NATE Certified
+            </label>
+            <label class="check-item" data-name="cert_epa">
+              <input type="checkbox" name="cert_epa" value="EPA 608 Certified" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              EPA 608 Certified
+            </label>
+            <label class="check-item" data-name="cert_bbb">
+              <input type="checkbox" name="cert_bbb" value="BBB Accredited" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              BBB Accredited (A+)
+            </label>
+            <label class="check-item" data-name="cert_licensed">
+              <input type="checkbox" name="cert_licensed" value="Licensed &amp; Insured" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Licensed &amp; Insured
+            </label>
+            <label class="check-item" data-name="cert_bonded">
+              <input type="checkbox" name="cert_bonded" value="Bonded" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Bonded
+            </label>
+            <label class="check-item" data-name="cert_energystar">
+              <input type="checkbox" name="cert_energystar" value="Energy Star Partner" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Energy Star Partner
+            </label>
+          </div>
+        </div>
+
+        <!-- Brand partnerships -->
+        <div>
+          <label class="field-label">Authorized Dealer / Brand Partnerships <span class="req">*</span></label>
+          <span class="field-hint">Select all brands you are an authorized dealer for</span>
+          <div class="check-grid" id="brands-grid">
+            <label class="check-item" data-name="brand_carrier">
+              <input type="checkbox" name="brand_carrier" value="Carrier" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Carrier
+            </label>
+            <label class="check-item" data-name="brand_trane">
+              <input type="checkbox" name="brand_trane" value="Trane" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Trane
+            </label>
+            <label class="check-item" data-name="brand_lennox">
+              <input type="checkbox" name="brand_lennox" value="Lennox" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Lennox
+            </label>
+            <label class="check-item" data-name="brand_rheem">
+              <input type="checkbox" name="brand_rheem" value="Rheem" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Rheem
+            </label>
+            <label class="check-item" data-name="brand_york">
+              <input type="checkbox" name="brand_york" value="York" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              York
+            </label>
+            <label class="check-item" data-name="brand_goodman">
+              <input type="checkbox" name="brand_goodman" value="Goodman" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Goodman
+            </label>
+            <label class="check-item" data-name="brand_daikin">
+              <input type="checkbox" name="brand_daikin" value="Daikin" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Daikin
+            </label>
+            <label class="check-item" data-name="brand_bosch">
+              <input type="checkbox" name="brand_bosch" value="Bosch" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Bosch
+            </label>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="brands-other">Other brand(s) not listed above</label>
+            <input class="form-input" type="text" id="brands-other" name="brands_other" placeholder="e.g. American Standard, Mitsubishi" />
+          </div>
+        </div>
+
+        <!-- Background check policy -->
+        <div>
+          <label class="field-label">Technician Vetting Practices <span class="req">*</span></label>
+          <span class="field-hint">Select all that apply — shown in the Technician Trust section</span>
+          <div class="check-grid" id="vetting-grid">
+            <label class="check-item" data-name="vet_bg">
+              <input type="checkbox" name="vet_background_check" value="Criminal background check" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Background checked
+            </label>
+            <label class="check-item" data-name="vet_drug">
+              <input type="checkbox" name="vet_drug_tested" value="Drug tested" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Drug tested
+            </label>
+            <label class="check-item" data-name="vet_uniform">
+              <input type="checkbox" name="vet_uniformed" value="Uniformed &amp; ID-badged" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Uniformed &amp; ID-badged
+            </label>
+            <label class="check-item" data-name="vet_insured">
+              <input type="checkbox" name="vet_insured" value="Fully insured" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Fully insured
+            </label>
+            <label class="check-item" data-name="vet_ongoing">
+              <input type="checkbox" name="vet_ongoing_training" value="Ongoing manufacturer training" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Ongoing training
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 4 — SERVICES & PRICING
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 003.05 15.1M4.93 19.07A10 10 0 0020.95 8.9"/></svg>
+      </div>
+      <div>
+        <p class="section-title">4 · Services &amp; Pricing</p>
+        <p class="section-sub">What you offer and your "starting at" price anchors</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <!-- Services offered -->
+        <div>
+          <label class="field-label">Services You Offer <span class="req">*</span></label>
+          <span class="field-hint">Check every service you provide</span>
+          <div class="check-grid" id="services-grid">
+            <label class="check-item" data-name="svc_ac_repair">
+              <input type="checkbox" name="svc_ac_repair" value="AC Repair" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              AC Repair
+            </label>
+            <label class="check-item" data-name="svc_ac_install">
+              <input type="checkbox" name="svc_ac_install" value="AC Installation" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              AC Installation
+            </label>
+            <label class="check-item" data-name="svc_furnace">
+              <input type="checkbox" name="svc_furnace" value="Furnace Service" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Furnace Service
+            </label>
+            <label class="check-item" data-name="svc_iaq">
+              <input type="checkbox" name="svc_iaq" value="Indoor Air Quality" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Indoor Air Quality
+            </label>
+            <label class="check-item" data-name="svc_tuneup">
+              <input type="checkbox" name="svc_tuneup" value="AC Tune-Up" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              AC Tune-Up
+            </label>
+            <label class="check-item" data-name="svc_duct">
+              <input type="checkbox" name="svc_duct_cleaning" value="Duct Cleaning" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Duct Cleaning
+            </label>
+            <label class="check-item" data-name="svc_thermostat">
+              <input type="checkbox" name="svc_thermostat" value="Smart Thermostat Install" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Thermostat Install
+            </label>
+            <label class="check-item" data-name="svc_maintenance">
+              <input type="checkbox" name="svc_maintenance_plan" value="Maintenance Plans" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Maintenance Plans
+            </label>
+            <label class="check-item" data-name="svc_heatpump">
+              <input type="checkbox" name="svc_heat_pump" value="Heat Pump Service" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Heat Pump Service
+            </label>
+            <label class="check-item" data-name="svc_commercial">
+              <input type="checkbox" name="svc_commercial" value="Commercial HVAC" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Commercial HVAC
+            </label>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="services-other">Other services not listed</label>
+            <input class="form-input" type="text" id="services-other" name="services_other" placeholder="e.g. Mini-split installation, attic insulation" />
+          </div>
+        </div>
+
+        <div class="field-divider"></div>
+
+        <!-- Service pricing anchors -->
+        <p style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">Service Pricing — "Starting At" Anchors</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">These are the price anchor points shown on your service cards. Leave blank if you prefer not to show pricing.</p>
+
+        <div class="field-grid field-grid-3">
+          <div>
+            <label class="field-label" for="price-ac-repair">AC Repair starting at</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-ac-repair" name="price_ac_repair" placeholder="89" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="price-furnace">Furnace Service starting at</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-furnace" name="price_furnace" placeholder="119" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="price-iaq">Indoor Air Quality starting at</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-iaq" name="price_iaq" placeholder="149" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="price-tuneup">AC Tune-Up price</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-tuneup" name="price_tuneup" placeholder="49" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="price-service-call">Service Call / Diagnostic fee</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-service-call" name="price_service_call" placeholder="89" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="price-new-system">New system install from</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="price-new-system" name="price_new_system" placeholder="2499" min="0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Same-day / availability -->
+        <div>
+          <label class="field-label">Service Availability <span class="req">*</span></label>
+          <div class="check-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+            <label class="check-item" data-name="avail_same_day">
+              <input type="checkbox" name="avail_same_day" value="Same-Day Available" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Same-Day Available
+            </label>
+            <label class="check-item" data-name="avail_247">
+              <input type="checkbox" name="avail_247" value="24/7 Emergency" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              24/7 Emergency
+            </label>
+            <label class="check-item" data-name="avail_weekend">
+              <input type="checkbox" name="avail_weekends" value="Weekend Availability" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Weekends Available
+            </label>
+            <label class="check-item" data-name="avail_holiday">
+              <input type="checkbox" name="avail_holidays" value="Holiday Service" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Holiday Service
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 5 — CURRENT SPECIALS
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon orange">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      </div>
+      <div>
+        <p class="section-title">5 · Current Specials &amp; Coupons</p>
+        <p class="section-sub">Up to 3 promotional offers shown in the Specials section</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <!-- Coupon 1 -->
+        <div class="testimonial-block" style="background:var(--orange-light);border-color:#fed7aa">
+          <p class="testi-num" style="color:var(--orange)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg>
+            Special Offer #1
+          </p>
+          <div class="field-grid field-grid-3" style="gap:12px">
+            <div>
+              <label class="field-label" for="c1-title">Offer Title <span class="req">*</span></label>
+              <input class="form-input" type="text" id="c1-title" name="coupon1_title" placeholder="AC Tune-Up Special" required />
+            </div>
+            <div>
+              <label class="field-label" for="c1-price">Sale Price</label>
+              <div style="position:relative">
+                <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+                <input class="form-input" style="padding-left:26px" type="text" id="c1-price" name="coupon1_price" placeholder='49 or "FREE"' />
+              </div>
+            </div>
+            <div>
+              <label class="field-label" for="c1-reg">Regular Price</label>
+              <div style="position:relative">
+                <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+                <input class="form-input" style="padding-left:26px" type="number" id="c1-reg" name="coupon1_regular_price" placeholder="119" min="0" />
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c1-desc">Offer Description</label>
+            <input class="form-input" type="text" id="c1-desc" name="coupon1_description" placeholder="Full 21-point AC inspection &amp; clean. Includes refrigerant check." />
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c1-fine">Fine Print / Expiry</label>
+            <input class="form-input" type="text" id="c1-fine" name="coupon1_fine_print" placeholder="Expires end of month · 1 per household" />
+          </div>
+        </div>
+
+        <!-- Coupon 2 -->
+        <div class="testimonial-block" style="background:var(--orange-light);border-color:#fed7aa">
+          <p class="testi-num" style="color:var(--orange)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg>
+            Special Offer #2
+          </p>
+          <div class="field-grid field-grid-3" style="gap:12px">
+            <div>
+              <label class="field-label" for="c2-title">Offer Title</label>
+              <input class="form-input" type="text" id="c2-title" name="coupon2_title" placeholder="New System Install" />
+            </div>
+            <div>
+              <label class="field-label" for="c2-price">Sale Value</label>
+              <input class="form-input" type="text" id="c2-price" name="coupon2_price" placeholder='$500 OFF or "FREE Haul-Away"' />
+            </div>
+            <div>
+              <label class="field-label" for="c2-reg">Regular Price (if applicable)</label>
+              <div style="position:relative">
+                <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+                <input class="form-input" style="padding-left:26px" type="number" id="c2-reg" name="coupon2_regular_price" placeholder="Leave blank if N/A" min="0" />
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c2-desc">Offer Description</label>
+            <input class="form-input" type="text" id="c2-desc" name="coupon2_description" placeholder="Any new AC or heat pump system. Free estimate included." />
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c2-fine">Fine Print / Expiry</label>
+            <input class="form-input" type="text" id="c2-fine" name="coupon2_fine_print" placeholder="Must present at time of service" />
+          </div>
+        </div>
+
+        <!-- Coupon 3 -->
+        <div class="testimonial-block" style="background:var(--orange-light);border-color:#fed7aa">
+          <p class="testi-num" style="color:var(--orange)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg>
+            Special Offer #3
+          </p>
+          <div class="field-grid field-grid-3" style="gap:12px">
+            <div>
+              <label class="field-label" for="c3-title">Offer Title</label>
+              <input class="form-input" type="text" id="c3-title" name="coupon3_title" placeholder="Service Call Discount" />
+            </div>
+            <div>
+              <label class="field-label" for="c3-price">Sale Value</label>
+              <input class="form-input" type="text" id="c3-price" name="coupon3_price" placeholder='FREE or "$X OFF"' />
+            </div>
+            <div>
+              <label class="field-label" for="c3-reg">Regular Price (if applicable)</label>
+              <div style="position:relative">
+                <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+                <input class="form-input" style="padding-left:26px" type="number" id="c3-reg" name="coupon3_regular_price" placeholder="Leave blank if N/A" min="0" />
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c3-desc">Offer Description</label>
+            <input class="form-input" type="text" id="c3-desc" name="coupon3_description" placeholder="Diagnostic fee waived with any approved repair." />
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="c3-fine">Fine Print / Expiry</label>
+            <input class="form-input" type="text" id="c3-fine" name="coupon3_fine_print" placeholder="New customers only · Cannot combine offers" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 6 — FINANCING
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon green">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <div>
+        <p class="section-title">6 · Financing Options</p>
+        <p class="section-sub">Details shown in the Financing section to reduce price friction</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <div>
+          <label class="field-label">Do you offer financing? <span class="req">*</span></label>
+          <div class="check-grid" style="grid-template-columns:1fr 1fr;max-width:320px">
+            <label class="check-item" data-name="fin_yes" data-radio="financing_offered">
+              <input type="radio" name="financing_offered" value="Yes" />
+              <span class="cb-box" style="border-radius:50%"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="white"/></svg></span>
+              Yes
+            </label>
+            <label class="check-item" data-name="fin_no" data-radio="financing_offered">
+              <input type="radio" name="financing_offered" value="No" />
+              <span class="cb-box" style="border-radius:50%"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="white"/></svg></span>
+              No
+            </label>
+          </div>
+        </div>
+
+        <div class="field-grid field-grid-3">
+          <div>
+            <label class="field-label" for="fin-monthly">Monthly payment from</label>
+            <span class="field-hint">e.g. "$89/mo" shown as the headline</span>
+            <div style="position:relative">
+              <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--muted);font-size:15px">$</span>
+              <input class="form-input" style="padding-left:26px" type="number" id="fin-monthly" name="financing_monthly_from" placeholder="89" min="0" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="fin-apr">APR offered</label>
+            <span class="field-hint">e.g. 0%, 5.99%</span>
+            <input class="form-input" type="text" id="fin-apr" name="financing_apr" placeholder="0% for 12 months" />
+          </div>
+          <div>
+            <label class="field-label" for="fin-provider">Financing provider</label>
+            <span class="field-hint">e.g. GreenSky, Synchrony, Wells Fargo</span>
+            <input class="form-input" type="text" id="fin-provider" name="financing_provider" placeholder="GreenSky" />
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label" for="fin-details">Any additional financing details or terms</label>
+          <textarea class="form-textarea" id="fin-details" name="financing_details" placeholder="e.g. Instant approval online. No prepayment penalties. Subject to credit approval." style="min-height:70px"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 7 — STATS & SOCIAL PROOF
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon navy">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div>
+        <p class="section-title">7 · Stats &amp; Social Proof Numbers</p>
+        <p class="section-sub">Numbers shown in the Technician Trust section and hero badge</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <div class="field-grid field-grid-3">
+          <div>
+            <label class="field-label" for="stat-reviews">Total Google Reviews <span class="req">*</span></label>
+            <input class="form-input" type="number" id="stat-reviews" name="stat_google_reviews" placeholder="847" min="0" required />
+          </div>
+          <div>
+            <label class="field-label" for="stat-rating">Google Rating <span class="req">*</span></label>
+            <select class="form-select" id="stat-rating" name="stat_google_rating" required>
+              <option value="">Select rating</option>
+              <option value="5.0">5.0 ★★★★★</option>
+              <option value="4.9">4.9 ★★★★★</option>
+              <option value="4.8">4.8 ★★★★★</option>
+              <option value="4.7">4.7 ★★★★★</option>
+              <option value="4.6">4.6 ★★★★★</option>
+              <option value="4.5">4.5 ★★★★½</option>
+              <option value="4.0">4.0 ★★★★</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="stat-jobs">Total Jobs Completed</label>
+            <input class="form-input" type="text" id="stat-jobs" name="stat_jobs_completed" placeholder="9,200+" />
+          </div>
+          <div>
+            <label class="field-label" for="stat-tech-exp">Average Tech Experience</label>
+            <span class="field-hint">In years, shown as "12yr Avg. Experience"</span>
+            <input class="form-input" type="number" id="stat-tech-exp" name="stat_avg_tech_experience_years" placeholder="12" min="1" />
+          </div>
+          <div>
+            <label class="field-label" for="stat-years-fl">Years Serving Your Area</label>
+            <input class="form-input" type="number" id="stat-years-fl" name="stat_years_serving_area" placeholder="15" min="1" />
+          </div>
+          <div>
+            <label class="field-label" for="stat-response">Response Time Guarantee</label>
+            <span class="field-hint">e.g. "2 hours", "Same day", "15 minutes"</span>
+            <input class="form-input" type="text" id="stat-response" name="stat_response_time" placeholder="2 hours" />
+          </div>
+        </div>
+
+        <!-- Guarantees -->
+        <div>
+          <label class="field-label">Guarantees You Stand Behind <span class="req">*</span></label>
+          <div class="check-grid">
+            <label class="check-item" data-name="guar_sat">
+              <input type="checkbox" name="guar_satisfaction" value="100% Satisfaction Guarantee" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              100% Satisfaction
+            </label>
+            <label class="check-item" data-name="guar_noshow">
+              <input type="checkbox" name="guar_no_surprise_pricing" value="No Surprise Pricing" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              No Surprise Pricing
+            </label>
+            <label class="check-item" data-name="guar_flatrate">
+              <input type="checkbox" name="guar_flat_rate" value="Upfront Flat-Rate Quotes" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Flat-Rate Quotes
+            </label>
+            <label class="check-item" data-name="guar_parts">
+              <input type="checkbox" name="guar_parts_warranty" value="Parts &amp; Labor Warranty" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Parts &amp; Labor Warranty
+            </label>
+            <label class="check-item" data-name="guar_moneyback">
+              <input type="checkbox" name="guar_money_back" value="Money-Back Guarantee" />
+              <span class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Money-Back Guarantee
+            </label>
+          </div>
+        </div>
+
+        <!-- Warranty length -->
+        <div class="field-grid field-grid-2">
+          <div>
+            <label class="field-label" for="warranty-repair">Repair Warranty Length</label>
+            <input class="form-input" type="text" id="warranty-repair" name="warranty_repair" placeholder="1 year parts &amp; labor" />
+          </div>
+          <div>
+            <label class="field-label" for="warranty-system">New System Warranty</label>
+            <input class="form-input" type="text" id="warranty-system" name="warranty_new_system" placeholder="10-year manufacturer warranty" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 8 — SERVICE AREAS
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <p class="section-title">8 · Service Areas</p>
+        <p class="section-sub">Cities and counties that appear on your site and in your SEO schema</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <div>
+          <label class="field-label" for="primary-city">Primary City / Metro <span class="req">*</span></label>
+          <span class="field-hint">Your main service hub — used in H1/title tags</span>
+          <input class="form-input" type="text" id="primary-city" name="primary_city" placeholder="Tampa" required />
+        </div>
+
+        <div>
+          <label class="field-label" for="service-cities">All Service Cities / Towns <span class="req">*</span></label>
+          <span class="field-hint">Comma-separated list of every city or zip code you serve. These populate the city grid and SEO copy blocks.</span>
+          <textarea class="form-textarea" id="service-cities" name="service_cities"
+            placeholder="Tampa, Clearwater, St. Petersburg, Brandon, Wesley Chapel, Largo, Dunedin, Safety Harbor, New Port Richey, Land O' Lakes, Zephyrhills, Plant City"
+            style="min-height:90px" required></textarea>
+        </div>
+
+        <div class="field-grid field-grid-2">
+          <div>
+            <label class="field-label" for="county">County/Counties Served</label>
+            <input class="form-input" type="text" id="county" name="counties_served" placeholder="Hillsborough, Pinellas, Pasco" />
+          </div>
+          <div>
+            <label class="field-label" for="service-radius">Approximate Service Radius</label>
+            <input class="form-input" type="text" id="service-radius" name="service_radius" placeholder="e.g. 50 miles from Tampa" />
+          </div>
+        </div>
+
+        <!-- Custom local SEO copy -->
+        <div>
+          <label class="field-label" for="seo-copy-city1">Local SEO Paragraph — Primary City</label>
+          <span class="field-hint">2–3 sentences describing your service in your main city. Used in the Service Areas section. Leave blank and we'll write it for you.</span>
+          <textarea class="form-textarea" id="seo-copy-city1" name="seo_copy_primary_city" placeholder="AeroTherm HVAC serves Tampa homeowners with fast, affordable AC repair, installation, and maintenance. Whether you're in South Tampa, New Tampa, or Ybor City, our technicians are minutes away." style="min-height:80px" maxlength="400"></textarea>
+          <p class="char-counter"><span id="seo-city1-count">0</span>/400</p>
+        </div>
+
+        <div>
+          <label class="field-label" for="seo-copy-city2">Local SEO Paragraph — Secondary City</label>
+          <span class="field-hint">Same as above for your second-biggest service area</span>
+          <textarea class="form-textarea" id="seo-copy-city2" name="seo_copy_secondary_city" placeholder="Serving Clearwater Beach to downtown St. Petersburg. Same-day appointments available for all Pinellas County homeowners." style="min-height:80px" maxlength="400"></textarea>
+          <p class="char-counter"><span id="seo-city2-count">0</span>/400</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 9 — TESTIMONIALS
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon orange">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div>
+        <p class="section-title">9 · Customer Testimonials</p>
+        <p class="section-sub">Up to 5 reviews shown in the auto-sliding testimonial section</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">
+        Provide real reviews from Google, Yelp, or any platform. Include the customer's first name + last initial, city, and review text. <strong style="color:var(--text)">Tip:</strong> copy/paste directly from Google Reviews.
+      </p>
+
+      <!-- Testimonial 1 -->
+      <div class="testimonial-block">
+        <p class="testi-num">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Review 1 <span class="badge badge-blue" style="margin-left:6px">Required</span>
+        </p>
+        <div class="field-grid field-grid-3" style="gap:12px;margin-bottom:12px">
+          <div>
+            <label class="field-label" for="t1-name">Customer Name <span class="req">*</span></label>
+            <input class="form-input" type="text" id="t1-name" name="testi1_name" placeholder="Marcus R." required />
+          </div>
+          <div>
+            <label class="field-label" for="t1-city">City <span class="req">*</span></label>
+            <input class="form-input" type="text" id="t1-city" name="testi1_city" placeholder="Tampa, FL" required />
+          </div>
+          <div>
+            <label class="field-label" for="t1-source">Review Source</label>
+            <select class="form-select" id="t1-source" name="testi1_source">
+              <option value="Google">Google</option>
+              <option value="Yelp">Yelp</option>
+              <option value="Facebook">Facebook</option>
+              <option value="HomeAdvisor">HomeAdvisor</option>
+              <option value="Angi">Angi</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="t1-text">Review Text <span class="req">*</span></label>
+          <textarea class="form-textarea" id="t1-text" name="testi1_text" placeholder="My AC died at 8pm on a Friday in July. AeroTherm had a tech at my door within 90 minutes. Fixed within the hour. Absolute lifesavers in the heat." required maxlength="400"></textarea>
+          <p class="char-counter"><span id="t1-count">0</span>/400</p>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-block">
+        <p class="testi-num">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Review 2
+        </p>
+        <div class="field-grid field-grid-3" style="gap:12px;margin-bottom:12px">
+          <div>
+            <label class="field-label" for="t2-name">Customer Name</label>
+            <input class="form-input" type="text" id="t2-name" name="testi2_name" placeholder="Sarah L." />
+          </div>
+          <div>
+            <label class="field-label" for="t2-city">City</label>
+            <input class="form-input" type="text" id="t2-city" name="testi2_city" placeholder="Clearwater, FL" />
+          </div>
+          <div>
+            <label class="field-label" for="t2-source">Review Source</label>
+            <select class="form-select" id="t2-source" name="testi2_source">
+              <option value="Google">Google</option><option value="Yelp">Yelp</option>
+              <option value="Facebook">Facebook</option><option value="HomeAdvisor">HomeAdvisor</option>
+              <option value="Angi">Angi</option><option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="t2-text">Review Text</label>
+          <textarea class="form-textarea" id="t2-text" name="testi2_text" placeholder="Transparent pricing, professional technician, showed up on time. Got three quotes — they were the fairest by far." maxlength="400"></textarea>
+          <p class="char-counter"><span id="t2-count">0</span>/400</p>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-block">
+        <p class="testi-num">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Review 3
+        </p>
+        <div class="field-grid field-grid-3" style="gap:12px;margin-bottom:12px">
+          <div><label class="field-label" for="t3-name">Customer Name</label><input class="form-input" type="text" id="t3-name" name="testi3_name" placeholder="James K." /></div>
+          <div><label class="field-label" for="t3-city">City</label><input class="form-input" type="text" id="t3-city" name="testi3_city" placeholder="St. Petersburg, FL" /></div>
+          <div>
+            <label class="field-label" for="t3-source">Source</label>
+            <select class="form-select" id="t3-source" name="testi3_source">
+              <option value="Google">Google</option><option value="Yelp">Yelp</option>
+              <option value="Facebook">Facebook</option><option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="t3-text">Review Text</label>
+          <textarea class="form-textarea" id="t3-text" name="testi3_text" placeholder="New system installed in one day, clean work, old unit hauled away. 0% financing made it painless. Electric bill dropped $80/month." maxlength="400"></textarea>
+          <p class="char-counter"><span id="t3-count">0</span>/400</p>
+        </div>
+      </div>
+
+      <!-- Testimonial 4 -->
+      <div class="testimonial-block">
+        <p class="testi-num">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Review 4
+        </p>
+        <div class="field-grid field-grid-3" style="gap:12px;margin-bottom:12px">
+          <div><label class="field-label" for="t4-name">Customer Name</label><input class="form-input" type="text" id="t4-name" name="testi4_name" placeholder="Diana W." /></div>
+          <div><label class="field-label" for="t4-city">City</label><input class="form-input" type="text" id="t4-city" name="testi4_city" placeholder="Brandon, FL" /></div>
+          <div>
+            <label class="field-label" for="t4-source">Source</label>
+            <select class="form-select" id="t4-source" name="testi4_source">
+              <option value="Google">Google</option><option value="Yelp">Yelp</option>
+              <option value="Facebook">Facebook</option><option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="t4-text">Review Text</label>
+          <textarea class="form-textarea" id="t4-text" name="testi4_text" placeholder="Tech wore booties in my house without being asked, explained everything clearly, didn't upsell me. Rare find these days." maxlength="400"></textarea>
+          <p class="char-counter"><span id="t4-count">0</span>/400</p>
+        </div>
+      </div>
+
+      <!-- Testimonial 5 -->
+      <div class="testimonial-block">
+        <p class="testi-num">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Review 5
+        </p>
+        <div class="field-grid field-grid-3" style="gap:12px;margin-bottom:12px">
+          <div><label class="field-label" for="t5-name">Customer Name</label><input class="form-input" type="text" id="t5-name" name="testi5_name" placeholder="Tom &amp; Carol M." /></div>
+          <div><label class="field-label" for="t5-city">City</label><input class="form-input" type="text" id="t5-city" name="testi5_city" placeholder="Wesley Chapel, FL" /></div>
+          <div>
+            <label class="field-label" for="t5-source">Source</label>
+            <select class="form-select" id="t5-source" name="testi5_source">
+              <option value="Google">Google</option><option value="Yelp">Yelp</option>
+              <option value="Facebook">Facebook</option><option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="t5-text">Review Text</label>
+          <textarea class="form-textarea" id="t5-text" name="testi5_text" placeholder="Used them for years now. Maintenance plan keeps our system running like new. Response time is always incredible." maxlength="400"></textarea>
+          <p class="char-counter"><span id="t5-count">0</span>/400</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SECTION 10 — BRAND PREFERENCES
+       ══════════════════════════════════ -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon navy">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-linecap="round" stroke-width="3"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-linecap="round" stroke-width="3"/></svg>
+      </div>
+      <div>
+        <p class="section-title">10 · Branding Preferences &amp; Notes</p>
+        <p class="section-sub">Logo, colors, and anything else we should know</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+
+        <!-- Logo -->
+        <div>
+          <label class="field-label" for="logo-url">Logo URL or Dropbox/Google Drive Link</label>
+          <span class="field-hint">Share a link to your logo file (PNG or SVG preferred, transparent background ideal)</span>
+          <input class="form-input" type="url" id="logo-url" name="logo_url" placeholder="https://drive.google.com/file/..." />
+        </div>
+
+        <!-- Color preference -->
+        <div>
+          <label class="field-label">Color Scheme Preference</label>
+          <span class="field-hint">The template uses Service Blue + Urgency Orange. Would you like any changes?</span>
+          <div class="check-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+            <label class="check-item" data-radio="color_scheme" data-name="color_keep">
+              <input type="radio" name="color_scheme" value="Keep Blue + Orange (default)" />
+              <span class="cb-box" style="border-radius:50%"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="white"/></svg></span>
+              Keep Blue + Orange ✓
+            </label>
+            <label class="check-item" data-radio="color_scheme" data-name="color_custom">
+              <input type="radio" name="color_scheme" value="Custom colors (specify below)" />
+              <span class="cb-box" style="border-radius:50%"><svg class="cb-check" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="white"/></svg></span>
+              Custom colors
+            </label>
+          </div>
+          <div style="margin-top:12px">
+            <label class="field-label" for="custom-colors">Custom brand colors (hex codes or descriptions)</label>
+            <input class="form-input" type="text" id="custom-colors" name="custom_colors" placeholder='e.g. Primary: #1a3c5e (dark navy), Accent: #e8a020 (gold)' />
+          </div>
+        </div>
+
+        <!-- Anything else -->
+        <div>
+          <label class="field-label" for="special-requests">Special Requests or Additional Context</label>
+          <span class="field-hint">Anything else we should know about your business, market, competitors, or website goals?</span>
+          <textarea class="form-textarea" id="special-requests" name="special_requests" placeholder="e.g. We focus mainly on residential in South Tampa. Our biggest competitor is CoolAir Tampa so we want to position ourselves as more premium. We're thinking of adding a chat widget later." style="min-height:110px" maxlength="1000"></textarea>
+          <p class="char-counter"><span id="special-count">0</span>/1000</p>
+        </div>
+
+        <!-- Urgency -->
+        <div>
+          <label class="field-label" for="urgency">Timeline / Urgency <span class="req">*</span></label>
+          <select class="form-select" id="urgency" name="timeline" required>
+            <option value="">How soon do you need the page?</option>
+            <option value="ASAP (1-2 days)">ASAP — 1 to 2 days</option>
+            <option value="This week (3-5 days)">This week — 3 to 5 days</option>
+            <option value="Within 2 weeks">Within 2 weeks</option>
+            <option value="No rush (1 month+)">No rush — within a month</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       SUBMIT AREA
+       ══════════════════════════════════ -->
+  <div style="background:white;border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow-lg);padding:32px;text-align:center;margin-bottom:28px">
+
+    <!-- Confirmation checklist -->
+    <p style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--navy);margin-bottom:16px">Before you submit, confirm:</p>
+    <div style="display:inline-flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:28px">
+      <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);font-weight:500;cursor:pointer">
+        <input type="checkbox" id="confirm-accurate" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer" required />
+        All information provided is accurate and up to date
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);font-weight:500;cursor:pointer">
+        <input type="checkbox" id="confirm-reviews" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer" required />
+        Testimonials provided are real, verifiable customer reviews
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);font-weight:500;cursor:pointer">
+        <input type="checkbox" id="confirm-pricing" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer" required />
+        Pricing shown reflects current advertised rates
+      </label>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Submit Questionnaire
+    </button>
+
+    <p style="font-size:12px;color:var(--muted);margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Submitted securely via Formspree · Responses emailed directly to tyler@brechtland.com
+    </p>
+
+  </div>
+
+</form>
+
+
+<!-- ══════════════════════════════════
+     SUCCESS SCREEN
+     ══════════════════════════════════ -->
+<div id="success-screen">
+  <div class="success-icon">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2 style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--navy);margin-bottom:10px;line-height:1.2;letter-spacing:-.02em">
+    Questionnaire Submitted! 🎉
+  </h2>
+  <p style="font-size:15px;color:var(--muted);max-width:440px;margin:0 auto 24px;line-height:1.65">
+    We've received your answers. We'll review everything and begin building your personalized landing page. Expect a message within <strong style="color:var(--text)">1–2 business days</strong>.
+  </p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+    <span class="badge badge-blue" style="padding:8px 16px;font-size:13px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      Form received
+    </span>
+    <span class="badge badge-orange" style="padding:8px 16px;font-size:13px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Building your page
+    </span>
+  </div>
+</div>
+
+</div><!-- /max-width wrapper -->
+
+
+<script>
+/* ══════════════════════════════════════════════════════
+   1. SCROLL PROGRESS BAR
+   ══════════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop || document.body.scrollTop;
+  const total = doc.scrollHeight - doc.clientHeight;
+  const pct = total > 0 ? (scrolled / total) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}, { passive: true });
+
+
+/* ══════════════════════════════════════════════════════
+   2. CUSTOM CHECKBOX / RADIO TOGGLE
+   ══════════════════════════════════════════════════════ */
+document.querySelectorAll('.check-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const input = item.querySelector('input');
+    if (!input) return;
+
+    if (input.type === 'radio') {
+      // Deselect siblings in same group
+      const name = input.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        r.closest('.check-item').classList.remove('checked');
+      });
+      input.checked = true;
+      item.classList.add('checked');
+    } else {
+      // Toggle checkbox
+      input.checked = !input.checked;
+      item.classList.toggle('checked', input.checked);
+    }
+  });
+});
+
+
+/* ══════════════════════════════════════════════════════
+   3. CHARACTER COUNTERS
+   ══════════════════════════════════════════════════════ */
+const counters = [
+  { ta: 'hero-sub',         counter: 'hero-sub-count' },
+  { ta: 'seo-copy-city1',   counter: 'seo-city1-count' },
+  { ta: 'seo-copy-city2',   counter: 'seo-city2-count' },
+  { ta: 't1-text',          counter: 't1-count' },
+  { ta: 't2-text',          counter: 't2-count' },
+  { ta: 't3-text',          counter: 't3-count' },
+  { ta: 't4-text',          counter: 't4-count' },
+  { ta: 't5-text',          counter: 't5-count' },
+  { ta: 'special-requests', counter: 'special-count' },
+];
+counters.forEach(({ ta, counter }) => {
+  const el = document.getElementById(ta);
+  const cnt = document.getElementById(counter);
+  if (el && cnt) {
+    el.addEventListener('input', () => { cnt.textContent = el.value.length; });
+  }
+});
+
+
+/* ══════════════════════════════════════════════════════
+   4. FORM SUBMISSION — Formspree AJAX
+   ══════════════════════════════════════════════════════ */
+document.getElementById('main-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // Validate confirmations
+  const confirms = ['confirm-accurate','confirm-reviews','confirm-pricing'];
+  for (const id of confirms) {
+    if (!document.getElementById(id).checked) {
+      const label = document.querySelector(`label[for="${id}"]`) ||
+                    document.getElementById(id).parentElement;
+      alert('Please check all confirmation boxes before submitting.');
+      document.getElementById(id).focus();
+      return;
+    }
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+      style="animation:spin 1s linear infinite">
+      <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".3"/>
+      <path d="M21 12a9 9 0 00-9-9"/>
+    </svg>
+    Submitting…`;
+
+  // Add spin animation
+  const styleEl = document.createElement('style');
+  styleEl.textContent = '@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}';
+  document.head.appendChild(styleEl);
+
+  try {
+    const data = new FormData(this);
+    const res = await fetch('https://formspree.io/f/meelwrne', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      // Show success
+      document.getElementById('main-form').style.display = 'none';
+      const successEl = document.getElementById('success-screen');
+      successEl.style.display = 'block';
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('progress-bar').style.width = '100%';
+    } else {
+      const json = await res.json();
+      const errMsg = json.errors ? json.errors.map(e => e.message).join(', ') : 'Submission failed. Please try again.';
+      alert('Error: ' + errMsg);
+      btn.disabled = false;
+      btn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Submit Questionnaire`;
+    }
+  } catch (err) {
+    alert('Network error. Please check your connection and try again.');
+    btn.disabled = false;
+    btn.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Submit Questionnaire`;
+  }
+});
+
+</script>
+</body>
+</html>
