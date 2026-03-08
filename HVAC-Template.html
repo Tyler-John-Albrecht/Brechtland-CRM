@@ -240,6 +240,8 @@
 
     /* ── Scroll-reveal base ── */
     .reveal { opacity: 0; transform: translateY(32px); }
+    /* Fallback: if GSAP hasn't loaded after 3s, show all reveals */
+    .no-gsap .reveal { opacity: 1 !important; transform: none !important; transition: opacity .5s, transform .5s; }
 
     /* ── Section divider wave ── */
     .wave-divider { line-height: 0; }
@@ -284,156 +286,28 @@
       background: white;
     }
     .form-input:focus { border-color: var(--blue); }
-    /* ═══════════════════════════════════════════════════
-       MOBILE RESPONSIVE — max-width: 768px
-       ═══════════════════════════════════════════════════ */
-
+    /* ── Mobile Responsive ── */
     @media (max-width: 768px) {
-
-      /* ── Hero section ── */
-      .hero-bg {
-        padding-top: 4.5rem;
-        padding-bottom: 1rem;
-      }
-      .hero-bg > .max-w-7xl {
-        padding-top: 1.5rem;
-        padding-bottom: 1rem;
-      }
-      .hero-bg .grid {
-        gap: 1.5rem;
-      }
-      .hero-bg h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-        margin-bottom: 0.75rem;
-      }
-      .hero-bg p {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-      }
-      .hero-bg ul {
-        margin-bottom: 1.5rem;
-      }
-      .hero-bg ul li {
-        font-size: 0.875rem;
-      }
-
-      /* ── Quote form card ── */
-      #quote-form {
-        margin-top: 1rem;
-      }
-      #quote-form .service-pill label {
-        font-size: 12px;
-        padding: 6px 10px;
-      }
-
-      /* ── Coupon cards ── */
-      .coupon {
-        padding: 1rem 1.25rem;
-      }
-      .coupon::before,
-      .coupon::after {
-        width: 22px;
-        height: 22px;
-      }
-
-      /* ── Financing cards ── */
-      .financing-card {
-        border-radius: 16px;
-        padding: 1.5rem;
-      }
-
-      /* ── Testimonial slider ── */
-      #testi-track {
-        gap: 12px;
-      }
-      .testi-card {
-        min-width: 280px;
-        max-width: 90vw;
-      }
-
-      /* ── Header ── */
-      #site-header .font-display {
-        font-size: 1rem;
-      }
-
-      /* ── Global section spacing ── */
-      section {
-        padding-top: 2.5rem;
-        padding-bottom: 2.5rem;
-      }
-
-      /* ── Footer ── */
-      footer .grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      /* ── Step buttons ── */
-      .step-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 11px;
-      }
-
-      /* ── Sticky mobile CTA bar spacing ── */
-      body {
-        padding-bottom: 60px;
-      }
-
-      /* ── Prevent overflow ── */
-      img, svg {
-        max-width: 100%;
-        height: auto;
-      }
-
-      /* ── About stat grid ── */
-      #about .grid-cols-3 {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-      }
-
-      /* ── Trust logos ── */
-      .trust-logo {
-        transform: scale(0.85);
-      }
-
-      /* ── Wave dividers ── */
-      .wave-divider svg {
-        height: auto;
-        width: 100%;
-      }
-
-      /* ── Mobile nav panel ── */
-      #mobile-nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 99;
-      }
+      #hero { padding-top: 5rem; padding-bottom: 2rem; }
+      #hero h1 { font-size: 2rem; line-height: 1.2; }
+      #hero .grid { gap: 1.5rem; }
+      .service-pill label { font-size: 0.8rem; padding: 0.5rem 0.6rem; }
+      .financing-card { padding: 1.5rem; }
+      .testi-card { min-width: 280px; }
+      section { padding-top: 3rem; padding-bottom: 3rem; }
+      footer .grid { grid-template-columns: 1fr; }
+      body { padding-bottom: 60px; }
+      img, svg { max-width: 100%; height: auto; }
+      #site-header { font-size: 0.9rem; }
+      .step-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+      #mobile-nav { position: absolute; }
     }
-
-    /* ═══════════════════════════════════════════════════
-       SMALL MOBILE — max-width: 480px
-       ═══════════════════════════════════════════════════ */
-
     @media (max-width: 480px) {
-      .hero-bg h1 {
-        font-size: 1.75rem;
-      }
-      #quote-form .service-pill label {
-        font-size: 11px;
-        padding: 5px 8px;
-      }
-      .financing-card {
-        padding: 1.25rem;
-      }
-      .testi-card {
-        min-width: 260px;
-      }
+      #hero h1 { font-size: 1.75rem; }
+      .service-pill label { font-size: 0.75rem; padding: 0.4rem 0.5rem; }
+      .financing-card { padding: 1rem; }
+      .testi-card { min-width: 260px; }
     }
-
   </style>
 
   <script>
@@ -517,21 +391,22 @@
           <span class="phone-display-text"></span>
         </a>
         <!-- Mobile hamburger -->
-        <button id="mobile-menu-btn" class="md:hidden text-slate-600 p-1" aria-label="Menu" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+        <button id="mobile-menu-btn" class="md:hidden text-slate-600 p-1" aria-label="Menu"
+                onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
 
     </div>
   </div>
-  <!-- Mobile nav dropdown -->
-  <div id="mobile-nav" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg">
-    <nav class="flex flex-col px-6 py-4 gap-1">
-      <a href="#services" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Services</a>
-      <a href="#about" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">About</a>
-      <a href="#specials" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Specials</a>
-      <a href="#areas" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Service Areas</a>
-      <a href="#reviews" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue">Reviews</a>
+  <!-- Mobile Nav Dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden absolute left-0 w-full bg-white shadow-lg" style="top:100%;z-index:99">
+    <nav class="flex flex-col px-6 py-4 gap-3 text-sm font-semibold text-slate-700">
+      <a href="#services" onclick="document.getElementById('mobile-nav').classList.add('hidden')">Services</a>
+      <a href="#about" onclick="document.getElementById('mobile-nav').classList.add('hidden')">About</a>
+      <a href="#specials" onclick="document.getElementById('mobile-nav').classList.add('hidden')">Specials</a>
+      <a href="#service-areas" onclick="document.getElementById('mobile-nav').classList.add('hidden')">Service Areas</a>
+      <a href="#reviews" onclick="document.getElementById('mobile-nav').classList.add('hidden')">Reviews</a>
     </nav>
   </div>
 </header>
@@ -546,7 +421,7 @@
     <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
 
       <!-- ── LEFT: Benefit copy ── -->
-      <div class="reveal" id="hero-copy">
+      <div id="hero-copy">
 
         <!-- Trust pill -->
         <div class="inline-flex items-center gap-2 bg-white/15 border border-white/30 text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
@@ -612,7 +487,7 @@
       </div>
 
       <!-- ── RIGHT: Multi-step Quote Form ── -->
-      <div class="reveal" id="hero-form" style="transition-delay:.15s">
+      <div id="hero-form">
         <div id="quote-form"
           class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
 
@@ -1637,6 +1512,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── GSAP Scroll Reveal ──
   initAnimations();
+  // Retry on window.load in case deferred GSAP wasn't ready at DOMContentLoaded
+  if (typeof gsap === 'undefined') {
+    window.addEventListener('load', function() { initAnimations(); });
+  }
 
   // ── Auto-advance testimonial slider ──
   setInterval(testitNext, 5000);
@@ -1647,7 +1526,10 @@ document.addEventListener('DOMContentLoaded', function () {
    2. GSAP ANIMATIONS
    ════════════════════════════════════════════════════════ */
 function initAnimations() {
-  if (typeof gsap === 'undefined') return; // graceful degradation
+  if (typeof gsap === 'undefined') {
+    document.documentElement.classList.add('no-gsap');
+    return;
+  }
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -1666,10 +1548,7 @@ function initAnimations() {
     });
   });
 
-  // Hero elements stagger on load
-  gsap.timeline()
-    .from('#hero-copy', { opacity: 0, x: -40, duration: .9, ease: 'power3.out' })
-    .from('#hero-form', { opacity: 0, x: 40, duration: .9, ease: 'power3.out' }, '-=0.6');
+  // Hero elements — no animation, always visible immediately
 
   // Nav shadow on scroll
   ScrollTrigger.create({
