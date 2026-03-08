@@ -284,6 +284,132 @@
       background: white;
     }
     .form-input:focus { border-color: var(--blue); }
+
+    /* ═══════════════════════════════════════════
+       MOBILE RESPONSIVE — max-width: 768px
+       Only additive rules; no desktop changes.
+       ═══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* ── Hero section ── */
+      .hero-bg {
+        min-height: auto;
+        padding-top: 5rem;
+        padding-bottom: 0;
+      }
+      .hero-bg h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+      .hero-bg p {
+        font-size: 1rem;
+      }
+
+      /* ── Quote form card ── */
+      #quote-form {
+        margin-top: 1rem;
+      }
+      #quote-form .service-pill label {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+
+      /* ── Coupon cards ── */
+      .coupon {
+        padding: 1rem 1.25rem;
+      }
+      .coupon::before,
+      .coupon::after {
+        width: 22px;
+        height: 22px;
+      }
+      .coupon::before { left: -11px; }
+      .coupon::after  { right: -11px; }
+
+      /* ── Financing card ── */
+      .financing-card {
+        border-radius: 16px;
+        padding: 1.5rem;
+      }
+
+      /* ── Testimonial slider ── */
+      #testi-track {
+        gap: 12px;
+      }
+      .testi-card {
+        min-width: 280px;
+        max-width: 90vw;
+      }
+
+      /* ── Nav header ── */
+      #site-header .font-display {
+        font-size: 1rem;
+      }
+
+      /* ── Section padding reduction ── */
+      section {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+      }
+
+      /* ── Footer grid single-column ── */
+      footer .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      /* ── Form step buttons ── */
+      .step-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+      }
+
+      /* ── Body padding for mobile CTA bar ── */
+      body {
+        padding-bottom: 60px;
+      }
+
+      /* ── Ensure images scale ── */
+      img, svg {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* ── About section stat counters ── */
+      #about .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+      }
+
+      /* ── Trust bar logos ── */
+      .trust-logo {
+        transform: scale(0.85);
+      }
+
+      /* ── Wave divider ── */
+      .wave-divider svg {
+        height: auto;
+        width: 100%;
+      }
+    }
+
+    /* ── Extra-small screens (phones ≤ 480px) ── */
+    @media (max-width: 480px) {
+      .hero-bg h1 {
+        font-size: 1.75rem;
+      }
+      #quote-form .service-pill label {
+        font-size: 11px;
+        padding: 5px 8px;
+      }
+      .financing-card {
+        padding: 1.25rem;
+      }
+      .testi-card {
+        min-width: 260px;
+      }
+    }
   </style>
 
   <script>
