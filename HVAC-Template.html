@@ -292,17 +292,33 @@
     @media (max-width: 768px) {
 
       /* ── Hero section ── */
-      .hero-bg {
-        min-height: auto;
-        padding-top: 5rem;
-        padding-bottom: 0;
+      .hero-bg,
+      .hero-bg.min-h-screen {
+        min-height: auto !important;
+        padding-top: 4.5rem;
+        padding-bottom: 1rem;
+      }
+      .hero-bg > .max-w-7xl {
+        padding-top: 1.5rem;
+        padding-bottom: 1rem;
+      }
+      .hero-bg .grid {
+        gap: 1.5rem;
       }
       .hero-bg h1 {
         font-size: 2rem;
         line-height: 1.2;
+        margin-bottom: 0.75rem;
       }
       .hero-bg p {
         font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      .hero-bg ul {
+        margin-bottom: 1.5rem;
+      }
+      .hero-bg ul li {
+        font-size: 0.875rem;
       }
 
       /* ── Quote form card ── */
