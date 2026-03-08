@@ -284,17 +284,14 @@
       background: white;
     }
     .form-input:focus { border-color: var(--blue); }
-
-    /* ═══════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════
        MOBILE RESPONSIVE — max-width: 768px
-       Only additive rules; no desktop changes.
-       ═══════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════ */
+
     @media (max-width: 768px) {
 
       /* ── Hero section ── */
-      .hero-bg,
-      .hero-bg.min-h-screen {
-        min-height: auto !important;
+      .hero-bg {
         padding-top: 4.5rem;
         padding-bottom: 1rem;
       }
@@ -339,10 +336,8 @@
         width: 22px;
         height: 22px;
       }
-      .coupon::before { left: -11px; }
-      .coupon::after  { right: -11px; }
 
-      /* ── Financing card ── */
+      /* ── Financing cards ── */
       .financing-card {
         border-radius: 16px;
         padding: 1.5rem;
@@ -357,60 +352,72 @@
         max-width: 90vw;
       }
 
-      /* ── Nav header ── */
+      /* ── Header ── */
       #site-header .font-display {
         font-size: 1rem;
       }
 
-      /* ── Section padding reduction ── */
+      /* ── Global section spacing ── */
       section {
         padding-top: 2.5rem;
         padding-bottom: 2.5rem;
       }
 
-      /* ── Footer grid single-column ── */
+      /* ── Footer ── */
       footer .grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
 
-      /* ── Form step buttons ── */
+      /* ── Step buttons ── */
       .step-btn {
         width: 28px;
         height: 28px;
         font-size: 11px;
       }
 
-      /* ── Body padding for mobile CTA bar ── */
+      /* ── Sticky mobile CTA bar spacing ── */
       body {
         padding-bottom: 60px;
       }
 
-      /* ── Ensure images scale ── */
+      /* ── Prevent overflow ── */
       img, svg {
         max-width: 100%;
         height: auto;
       }
 
-      /* ── About section stat counters ── */
+      /* ── About stat grid ── */
       #about .grid-cols-3 {
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
       }
 
-      /* ── Trust bar logos ── */
+      /* ── Trust logos ── */
       .trust-logo {
         transform: scale(0.85);
       }
 
-      /* ── Wave divider ── */
+      /* ── Wave dividers ── */
       .wave-divider svg {
         height: auto;
         width: 100%;
       }
+
+      /* ── Mobile nav panel ── */
+      #mobile-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+      }
     }
 
-    /* ── Extra-small screens (phones ≤ 480px) ── */
+    /* ═══════════════════════════════════════════════════
+       SMALL MOBILE — max-width: 480px
+       ═══════════════════════════════════════════════════ */
+
     @media (max-width: 480px) {
       .hero-bg h1 {
         font-size: 1.75rem;
@@ -426,6 +433,7 @@
         min-width: 260px;
       }
     }
+
   </style>
 
   <script>
@@ -508,13 +516,23 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
           <span class="phone-display-text"></span>
         </a>
-        <!-- Mobile hamburger (purely decorative — full content visible) -->
-        <button class="md:hidden text-slate-600 p-1" aria-label="Menu">
+        <!-- Mobile hamburger -->
+        <button id="mobile-menu-btn" class="md:hidden text-slate-600 p-1" aria-label="Menu" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
 
     </div>
+  </div>
+  <!-- Mobile nav dropdown -->
+  <div id="mobile-nav" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg">
+    <nav class="flex flex-col px-6 py-4 gap-1">
+      <a href="#services" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Services</a>
+      <a href="#about" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">About</a>
+      <a href="#specials" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Specials</a>
+      <a href="#areas" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue border-b border-slate-100">Service Areas</a>
+      <a href="#reviews" onclick="document.getElementById('mobile-nav').classList.add('hidden')" class="py-3 text-sm font-medium text-slate-700 hover:text-brand-blue">Reviews</a>
+    </nav>
   </div>
 </header>
 
@@ -522,7 +540,7 @@
 <!-- ═══════════════════════════════════════════════════════
      🦸 HERO SECTION — Split Layout + Multi-Step Form
      ═══════════════════════════════════════════════════════ -->
-<section class="hero-bg pt-24 pb-0 md:pt-28 md:pb-0 min-h-screen flex flex-col justify-center" id="hero" aria-label="Hero">
+<section class="hero-bg pt-24 pb-0 md:pt-28 md:pb-0 md:min-h-screen flex flex-col justify-center" id="hero" aria-label="Hero">
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-20">
     <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
