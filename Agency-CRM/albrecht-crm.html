@@ -941,10 +941,10 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
 }
 
 .fc-back-btn {
-  background: rgba(43,92,230,0.12);
-  border: 1px solid rgba(43,92,230,0.3);
-  border-radius: 8px;
-  padding: 6px 14px;
+  background: rgba(43,92,230,0.1);
+  border: 1px solid rgba(43,92,230,0.25);
+  border-radius: 20px;
+  padding: 5px 14px 5px 10px;
   font-size: 12px;
   font-weight: 600;
   color: #A78BFA;
@@ -952,14 +952,15 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
   transition: all 0.15s;
   display: flex;
   align-items: center;
-  gap: 6px;
-  letter-spacing: 0.2px;
+  gap: 5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 .fc-back-btn:hover {
-  background: rgba(43,92,230,0.22);
-  border-color: rgba(43,92,230,0.6);
+  background: rgba(43,92,230,0.2);
+  border-color: rgba(43,92,230,0.5);
   color: #fff;
-  box-shadow: 0 0 14px rgba(43,92,230,0.25);
+  box-shadow: 0 0 12px rgba(43,92,230,0.2);
 }
 
 .fc-member-avatar-wrap {
@@ -4470,7 +4471,7 @@ function renderChat() {
       <div class="fc-main">
         <div class="fc-channel-header" id="fcChannelHeader">
           <span class="fc-channel-icon">💬</span>
-          <h3>#general</h3>
+          <h3>General</h3>
           <p>Team-wide chat — everyone with CRM access</p>
         </div>
         <div class="fc-messages" id="fcMessages">
@@ -4538,7 +4539,7 @@ function fcOpenDM(uid, name, color) {
     header.innerHTML = `
       <button class="fc-back-btn" onclick="fcOpenGeneral()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        #general
+        General
       </button>
       <div class="fc-member-avatar" style="background:${color};width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${getInitials(name)}</div>
       <h3 style="margin-left:8px">${esc(name)}</h3>
@@ -4581,7 +4582,7 @@ function fcOpenGeneral() {
   if (header) {
     header.innerHTML = `
       <span class="fc-channel-icon">💬</span>
-      <h3>#general</h3>
+      <h3>General</h3>
       <p>Team-wide chat — everyone with CRM access</p>
     `;
   }
