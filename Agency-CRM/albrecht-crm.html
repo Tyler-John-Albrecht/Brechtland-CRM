@@ -275,23 +275,54 @@ body {
 }
 
 .sidebar-brand {
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(43,92,230,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+  text-decoration: none;
 }
 
-.sidebar-brand h2 {
-  font-size: 17px;
+.sidebar-brand:hover {
+  background: rgba(43,92,230,0.06);
+}
+
+.sidebar-brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2B5CE6, #7C3AED);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+  box-shadow: 0 0 14px rgba(43,92,230,0.4);
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+.sidebar-brand-text h2 {
+  font-size: 15px;
   font-weight: 700;
   background: var(--accent-gradient-h);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  line-height: 1.2;
 }
 
-.sidebar-brand p {
-  font-size: 11px;
+.sidebar-brand-text p {
+  font-size: 10px;
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 1px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .sidebar-user {
@@ -1825,12 +1856,8 @@ body {
   border-right-color: var(--border);
 }
 
-.sidebar-brand {
-  padding: 22px 20px 18px;
-}
-
-.sidebar-brand h2 {
-  font-size: 18px;
+.sidebar-brand-text h2 {
+  font-size: 15px;
   letter-spacing: -0.3px;
 }
 
@@ -2424,9 +2451,12 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-brand">
-      <h2>Brechtland</h2>
-      <p>Team CRM</p>
+    <div class="sidebar-brand" onclick="navigate('dashboard')">
+      <div class="sidebar-brand-icon">b.</div>
+      <div class="sidebar-brand-text">
+        <h2>Brechtland</h2>
+        <p>Team CRM</p>
+      </div>
     </div>
     <div class="sidebar-user">
       <div class="sidebar-avatar" id="sidebarAvatar"></div>
