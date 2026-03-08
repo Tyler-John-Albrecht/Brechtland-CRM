@@ -2376,6 +2376,183 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 .tq-btn-close{background:rgba(255,255,255,0.08);color:var(--text-secondary);}
 .tq-btn-close:hover{background:rgba(255,255,255,0.14);color:var(--text-primary);}
 .tq-viewer iframe{flex:1;border:none;width:100%;background:#fff;}
+/* ==================== MOBILE OPTIMIZATION ==================== */
+@media (max-width: 768px) {
+  /* Topbar — compact */
+  .topbar {
+    padding: 0 16px;
+    height: 50px;
+  }
+  .topbar h2 {
+    font-size: 15px;
+  }
+
+  /* Content area — tighter padding */
+  .content-area {
+    padding: 16px !important;
+  }
+
+  /* Metric cards — 2 columns, compact */
+  .whop-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+  .whop-metric-card {
+    padding: 14px 14px 12px !important;
+  }
+  .wm-label {
+    font-size: 11px !important;
+  }
+  .wm-value {
+    font-size: 20px !important;
+  }
+  .wm-info-icon {
+    font-size: 11px !important;
+  }
+  .wm-tooltip {
+    min-width: 160px;
+    max-width: 200px;
+    font-size: 11px;
+  }
+
+  /* Dashboard lower / schedule panel */
+  .dash-lower {
+    flex-direction: column;
+  }
+  .dsp-header {
+    padding: 10px 14px;
+  }
+  .dsp-date {
+    font-size: 13px !important;
+  }
+  .dsp-events {
+    padding: 10px 12px;
+  }
+
+  /* Tables — horizontal scroll */
+  .card-body, .card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    min-width: 600px;
+  }
+  thead th, tbody td {
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* Buttons — compact on mobile */
+  .btn-sm {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+  }
+  .topbar-actions .btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  /* Stat cards (if visible) */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .stat-card {
+    padding: 14px !important;
+  }
+  .stat-card .stat-value {
+    font-size: 20px !important;
+  }
+
+  /* Client detail overlay */
+  .cd-topbar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cd-topbar h3 {
+    font-size: 14px;
+  }
+  .cd-topbar-actions {
+    gap: 6px;
+  }
+  .cd-topbar-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .cd-body {
+    margin: 16px auto;
+    padding: 0 16px;
+  }
+  .cd-section {
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .cd-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* Modals — full width */
+  .modal {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    max-height: 90vh;
+    margin: 5vh auto;
+  }
+  .modal-body {
+    padding: 16px !important;
+  }
+  .modal-header {
+    padding: 14px 16px;
+  }
+
+  /* Calendar views */
+  .calendar-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Notification dropdown */
+  .notif-dropdown {
+    right: -60px;
+    width: 280px;
+  }
+
+  /* SA overlay on mobile */
+  .sa-overlay .sa-topbar {
+    padding: 10px 16px;
+  }
+  .sa-overlay .toolbar {
+    padding: 8px 16px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Template/Questionnaire viewer */
+  .tq-viewer-bar {
+    padding: 8px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tq-viewer-actions button {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  /* Chat panel — full width on mobile */
+  .chat-panel {
+    width: 100vw !important;
+    right: -100vw;
+  }
+
+  /* Auth screens */
+  .auth-card {
+    margin: 16px;
+    padding: 24px 20px;
+  }
+}
 
 </style>
 </head>
