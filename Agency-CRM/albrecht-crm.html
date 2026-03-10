@@ -2606,7 +2606,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         <button class="toolbar-btn btn-print" onclick="saPrint()">🖨️ Print / Save as PDF</button>
         <button class="toolbar-btn btn-reset" onclick="saResetForm()">↺ Reset</button>
       </div>
-      <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <a href="/cdn-cgi/l/email-protection#e89c91848d9aa88a9a8d8b809c8489868cc68b8785"><span class="__cf_email__" data-cfemail="9de9e4f1f8efddffeff8fef5e9f1fcf3f9b3fef2f0">[email&#160;protected]</span></a></div>
+      <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <a href="mailto:support@brechtland.com">support@brechtland.com</a></div>
     </div>
 
     <div class="doc theme-mtm" id="saDoc">
@@ -2628,7 +2628,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
             </div>
             <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
               <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
-              <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb989e9b9b84999fab89998e88839f878a858fc5888486">[email&#160;protected]</a> &middot; 989-501-1397</div>
+              <div><a href="mailto:support@brechtland.com">support@brechtland.com</a> &middot; 989-501-1397</div>
             </div>
           </div>
           <div class="doc-right">
@@ -2766,7 +2766,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         </div>
 
         <div class="doc-footer">
-          <span>Brechtland · Brechtland Client Services · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3d4e484d4d524f497d5f4f585e5549515c5359135e5250">[email&#160;protected]</a> · 989-501-1397</span>
+          <span>Brechtland · Brechtland Client Services · <a href="mailto:support@brechtland.com">support@brechtland.com</a> · 989-501-1397</span>
           <span id="saFooterPlan">Month-to-Month Agreement</span>
         </div>
 
@@ -3971,7 +3971,42 @@ let saCurrentPlan = 'mtm';
 let saCanvasesInitialized = false;
 
 function openServiceAgreement() {
-  window.location.href = 'Roofing-Service-Agreement/albrecht-service-agreement.html';
+  const overlay = document.getElementById('saOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Reset to clean state
+  document.getElementById('saFormContent').style.display = 'block';
+  document.getElementById('saSuccessScreen').style.display = 'none';
+  document.getElementById('saToolbar').style.display = 'block';
+  document.getElementById('saErrorMsg').style.display = 'none';
+  const btn = document.getElementById('saSubmitBtn');
+  btn.textContent = '✉️ Submit Signed Agreement';
+  btn.disabled = false;
+
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sa_date').value = today;
+
+  // Reset plan to Month-to-Month
+  saSetPlan('mtm');
+
+  // Init signature canvases (only once after DOM is visible)
+  if (!saCanvasesInitialized) {
+    setTimeout(() => {
+      saInitCanvas('saClientSig');
+      saInitCanvas('saTylerSig');
+      saCanvasesInitialized = true;
+    }, 100);
+  } else {
+    // Re-init because overlay re-display may change canvas size
+    setTimeout(() => {
+      saInitCanvas('saClientSig');
+      saInitCanvas('saTylerSig');
+    }, 100);
+  }
+
+  overlay.scrollTop = 0;
 }
 
 function closeServiceAgreement() {
