@@ -167,7 +167,7 @@ body {
   <div class="toolbar-actions">
     <button class="toolbar-btn btn-reset" onclick="saResetForm()">↺ Reset</button>
   </div>
-  <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a3d7dacfc6d1e3c1d1c6c0cbd7cfc2cdc78dc0ccce">[email&#160;protected]</a></strong></div>
+  <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <strong><a href="mailto:support@brechtland.com">support@brechtland.com</a></strong></div>
 </div>
 
 <div class="doc theme-mtm" id="saDoc">
@@ -188,7 +188,7 @@ body {
         </div>
         <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
           <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
-          <div>support@brechtland.com &middot; 989-501-1397</div>
+          <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8af9fffafae5f8fecae8f8efe9e2fee6ebe4eea4e9e5e7">[email&#160;protected]</a> &middot; 989-501-1397</div>
         </div>
       </div>
       <div class="doc-right">
@@ -326,7 +326,7 @@ body {
     </div>
 
     <div class="doc-footer">
-      <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="592d20353c2b193b2b3c3a312d3538373d773a3634">[email&#160;protected]</a></span>
+      <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="mailto:support@brechtland.com">support@brechtland.com</a></span>
       <span id="saFooterPlan">Month-to-Month Agreement</span>
     </div>
 
@@ -346,7 +346,7 @@ body {
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const saPlans = {
   'mtm': { label:'Month-to-Month Agreement', title:'Month-to-Month Website Plan', price:'$349', term:'Billed monthly — cancel anytime', total:'No long-term commitment required', months:'1', monthly:349, theme:'theme-mtm' },
   '12':  { label:'12-Month Agreement',        title:'12-Month Website Plan',        price:'$299', term:'12 monthly payments',           total:'Total Contract Value: $3,588',    months:'12', monthly:299, theme:'theme-12' },
@@ -497,7 +497,7 @@ async function saSubmitAgreement() {
   const address    = document.getElementById('sa_address').value.trim();
 
   try {
-    const res = await fetch('https://formspree.io/f/mwvnrnkg', {
+    const res = await fetch('https://formspree.io/f/xojkeadq', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -528,7 +528,7 @@ async function saSubmitAgreement() {
       btn.textContent = '✉️ Submit Signed Agreement'; btn.disabled = false;
     }
   } catch(e) {
-    errEl.innerHTML = 'Network error. Please check your connection and try again.';
+    errEl.innerHTML = 'Submission failed. Please try again or contact support.';
     errEl.style.display = 'block';
     btn.textContent = '✉️ Submit Signed Agreement'; btn.disabled = false;
   }
