@@ -2628,7 +2628,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
             </div>
             <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
               <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
-              <div>support@brechtland.com &middot; 989-501-1397</div>
+              <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb989e9b9b84999fab89998e88839f878a858fc5888486">[email&#160;protected]</a> &middot; 989-501-1397</div>
             </div>
           </div>
           <div class="doc-right">
@@ -2766,7 +2766,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         </div>
 
         <div class="doc-footer">
-          <span>Brechtland · Brechtland Client Services · support@brechtland.com · 989-501-1397</span>
+          <span>Brechtland · Brechtland Client Services · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3d4e484d4d524f497d5f4f585e5549515c5359135e5250">[email&#160;protected]</a> · 989-501-1397</span>
           <span id="saFooterPlan">Month-to-Month Agreement</span>
         </div>
 
@@ -2792,7 +2792,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 </div>
 
 <!-- ==================== FIREBASE ==================== -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -3971,42 +3971,7 @@ let saCurrentPlan = 'mtm';
 let saCanvasesInitialized = false;
 
 function openServiceAgreement() {
-  const overlay = document.getElementById('saOverlay');
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  // Reset to clean state
-  document.getElementById('saFormContent').style.display = 'block';
-  document.getElementById('saSuccessScreen').style.display = 'none';
-  document.getElementById('saToolbar').style.display = 'block';
-  document.getElementById('saErrorMsg').style.display = 'none';
-  const btn = document.getElementById('saSubmitBtn');
-  btn.textContent = '✉️ Submit Signed Agreement';
-  btn.disabled = false;
-
-  // Set today's date
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('sa_date').value = today;
-
-  // Reset plan to Month-to-Month
-  saSetPlan('mtm');
-
-  // Init signature canvases (only once after DOM is visible)
-  if (!saCanvasesInitialized) {
-    setTimeout(() => {
-      saInitCanvas('saClientSig');
-      saInitCanvas('saTylerSig');
-      saCanvasesInitialized = true;
-    }, 100);
-  } else {
-    // Re-init because overlay re-display may change canvas size
-    setTimeout(() => {
-      saInitCanvas('saClientSig');
-      saInitCanvas('saTylerSig');
-    }, 100);
-  }
-
-  overlay.scrollTop = 0;
+  window.location.href = 'Roofing-Service-Agreement/albrecht-service-agreement.html';
 }
 
 function closeServiceAgreement() {
@@ -5633,12 +5598,4 @@ const TQ_URL_STORE = {
   'questionnaire-realestate': 'https://crm.brechtland.com/realtor-onboarding-survey.html',
   'template-dental': 'https://crm.brechtland.com/dentistry-landing-page.html',
   'questionnaire-dental': 'https://crm.brechtland.com/dentistry-template.html',
-  'template-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Plumbing-template.html',
-  'questionnaire-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/plumbing-questionnaire.html',
-  'template-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Template.html',
-  'questionnaire-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Questionnaire.html'
-};
-</script>
-
-</body>
-</html>
+  'template-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Plumbi
