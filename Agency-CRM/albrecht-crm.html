@@ -2607,6 +2607,9 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
           <span class="icon">💬</span> Team Chat
           <span class="nav-badge" id="chatBadge"></span>
         </div>
+        <div class="nav-item" onclick="openSalesPlaybook()" id="navPlaybook">
+          <span class="icon">📞</span> Sales Playbook
+        </div>
       </div>
       <div class="nav-section" id="adminNavSection" style="display:none">
         <div class="nav-section-label">Admin</div>
@@ -3269,6 +3272,16 @@ function closeTQViewer() {
   const iframe = document.getElementById('tqViewerFrame');
   iframe.src = 'about:blank';
   iframe.removeAttribute('srcdoc');
+}
+
+function openSalesPlaybook() {
+  const url = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Agency-CRM/Agency%20CRM/Brechtland_Cold_Call_Script.pdf';
+  const viewer = document.getElementById('tqViewer');
+  document.getElementById('tqViewerTitle').textContent = '📞 Sales Playbook — Cold Call Script';
+  document.getElementById('tqViewerFrame').src = url;
+  viewer._tqUrl = url;
+  viewer.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function tqOpenNewTab() {
