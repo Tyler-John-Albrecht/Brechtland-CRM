@@ -4607,7 +4607,7 @@ function handleCSVFile(file) {
   const reader = new FileReader();
   reader.onload = function(e) {
     const text = e.target.result;
-    const lines = text.split(/\\r?\\n/).filter(l => l.trim());
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
     if (lines.length < 2) return alert('CSV appears empty.');
 
     // Parse CSV (handle quoted fields)
