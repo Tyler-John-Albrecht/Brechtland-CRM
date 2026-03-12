@@ -3275,11 +3275,12 @@ function closeTQViewer() {
 }
 
 function openSalesPlaybook() {
-  const url = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Agency-CRM/Agency%20CRM/Brechtland_Cold_Call_Script.pdf';
+  const pdfUrl = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Agency-CRM/Agency%20CRM/Brechtland_Cold_Call_Script.pdf';
+  const viewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(pdfUrl) + '&embedded=true';
   const viewer = document.getElementById('tqViewer');
   document.getElementById('tqViewerTitle').textContent = '📞 Sales Playbook — Cold Call Script';
-  document.getElementById('tqViewerFrame').src = url;
-  viewer._tqUrl = url;
+  document.getElementById('tqViewerFrame').src = viewerUrl;
+  viewer._tqUrl = pdfUrl;
   viewer.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
