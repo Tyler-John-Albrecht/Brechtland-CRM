@@ -1614,6 +1614,9 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
 .d-slot-row.d-slot-busy .d-slot-status{color:var(--danger)}
 /* Lead status badge */
 .status-lead{background:rgba(249,115,22,.15);color:var(--orange)}
+.status-working{background:rgba(43,92,230,.15);color:var(--accent)}
+.status-not_interested{background:rgba(239,68,68,.15);color:var(--danger)}
+.status-recycled{background:rgba(148,163,184,.15);color:var(--text-muted)}
 
 
 /* ── WHOP-STYLE METRICS GRID ── */
@@ -2377,6 +2380,105 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 .tq-btn-close:hover{background:rgba(255,255,255,0.14);color:var(--text-primary);}
 .tq-viewer iframe{flex:1;border:none;width:100%;background:#fff;}
 
+/* ================================================================
+   LEAD POOL & ENHANCED CLIENTS
+   ================================================================ */
+.lp-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:16px;border-bottom:1px solid var(--border)}
+.lp-filter{padding:7px 10px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:12px;font-family:inherit;min-width:120px}
+.lp-filter:focus{outline:none;border-color:var(--accent)}
+.lp-search{padding:7px 10px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:12px;font-family:inherit;width:200px}
+.lp-search:focus{outline:none;border-color:var(--accent)}
+.lp-batch-bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--accent-glow);border-top:1px solid var(--accent);position:sticky;bottom:0;z-index:5}
+.lp-batch-bar .count{font-size:13px;font-weight:600;color:var(--accent)}
+.lp-pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px}
+.lp-pagination button{padding:6px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:12px;cursor:pointer;font-family:inherit}
+.lp-pagination button:hover{border-color:var(--accent);color:var(--accent)}
+.lp-pagination button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lp-pagination button:disabled{opacity:.4;cursor:default}
+.lp-pagination .page-info{font-size:12px;color:var(--text-muted)}
+.lp-cb{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+
+/* Traffic Light Indicators */
+.tl-dot{width:10px;height:10px;border-radius:50%;display:inline-block;cursor:help;flex-shrink:0;position:relative}
+.tl-dot.green{background:#22C55E;box-shadow:0 0 6px rgba(34,197,94,0.5)}
+.tl-dot.yellow{background:#FACC15;box-shadow:0 0 6px rgba(250,204,21,0.5)}
+.tl-dot.red{background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.5)}
+.tl-dot.grey{background:#64748B}
+.tl-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--text-primary);white-space:nowrap;z-index:20;pointer-events:none;opacity:0;transition:opacity .15s}
+.tl-dot:hover .tl-tooltip{opacity:1}
+
+/* Source Badge */
+.source-badge{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.source-badge.assigned{background:rgba(43,92,230,0.15);color:var(--accent)}
+.source-badge.self{background:rgba(34,197,94,0.15);color:var(--success)}
+
+/* Speed to Lead */
+.stl-timer{font-size:11px;color:var(--text-muted)}
+.stl-timer.urgent{color:var(--danger);font-weight:600}
+.stl-timer.warning{color:var(--warning);font-weight:500}
+
+/* Last Activity Inline */
+.last-activity{font-size:11px;color:var(--text-muted);line-height:1.3}
+.last-activity .disp{font-weight:600;color:var(--text-secondary)}
+
+/* ================================================================
+   ACTIVITY LOGGING
+   ================================================================ */
+.activity-timeline{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;padding-right:4px}
+.activity-card{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.activity-card:hover{border-color:var(--accent)}
+.activity-card-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.activity-disp{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.3px}
+.activity-disp.contacted{background:rgba(34,197,94,0.15);color:#22C55E}
+.activity-disp.voicemail{background:rgba(250,204,21,0.15);color:#FACC15}
+.activity-disp.vmbnsu{background:rgba(249,115,22,0.15);color:#f97316}
+.activity-disp.no-answer{background:rgba(148,163,184,0.15);color:#94A3B8}
+.activity-disp.callback{background:rgba(43,92,230,0.15);color:#2B5CE6}
+.activity-disp.follow-up{background:rgba(124,58,237,0.15);color:#7C3AED}
+.activity-disp.not-interested{background:rgba(239,68,68,0.15);color:#ef4444}
+.activity-disp.signed{background:rgba(34,197,94,0.15);color:#22C55E}
+.activity-time{font-size:11px;color:var(--text-muted)}
+.activity-preview{font-size:12px;color:var(--text-secondary);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.activity-full{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:none}
+.activity-card.expanded .activity-full{display:block}
+.activity-card.expanded .activity-preview{display:none}
+.activity-log-form{display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px}
+.activity-log-form select,.activity-log-form textarea,.activity-log-form input{width:100%;padding:9px 12px;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:inherit}
+.activity-log-form textarea{min-height:80px;resize:vertical}
+.activity-log-form select:focus,.activity-log-form textarea:focus,.activity-log-form input:focus{outline:none;border-color:var(--accent)}
+
+/* Client Detail Nav Arrows */
+.cd-nav-arrows{display:flex;gap:6px;align-items:center;margin-right:12px}
+.cd-nav-arrow{width:34px;height:34px;border-radius:var(--radius-sm);background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cd-nav-arrow:hover{border-color:var(--accent);color:var(--accent)}
+.cd-nav-arrow:disabled{opacity:.3;cursor:default;border-color:var(--border);color:var(--text-muted)}
+.cd-nav-info{font-size:11px;color:var(--text-muted);white-space:nowrap}
+
+/* ================================================================
+   PERSONAL DASHBOARD STATS
+   ================================================================ */
+.rep-stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.rep-stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.rep-stat-value{font-size:24px;font-weight:800;color:var(--text-primary);line-height:1.2}
+.rep-stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.activity-feed{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto}
+.activity-feed-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;color:var(--text-secondary)}
+.activity-feed-item .rep-name{font-weight:600;color:var(--text-primary);white-space:nowrap}
+.activity-feed-item .feed-time{font-size:11px;color:var(--text-muted);white-space:nowrap;margin-left:auto}
+.pipeline-bar{display:flex;height:28px;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:8px}
+.pipeline-segment{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:30px;transition:width .3s}
+
+/* ================================================================
+   CSV IMPORT
+   ================================================================ */
+.csv-import-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;transition:border-color .2s}
+.csv-import-zone:hover{border-color:var(--accent)}
+.csv-import-zone.dragover{border-color:var(--accent);background:var(--accent-glow)}
+.csv-preview-table{max-height:300px;overflow:auto}
+.csv-preview-table table{font-size:11px}
+.csv-progress{width:100%;height:6px;background:var(--bg-input);border-radius:3px;overflow:hidden;margin:12px 0}
+.csv-progress-bar{height:100%;background:var(--accent-gradient-h);border-radius:3px;transition:width .3s}
+
 </style>
 </head>
 <body>
@@ -2514,6 +2616,12 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         </div>
         <div class="nav-item" onclick="navigate('overview')" id="navOverview" style="display:none">
           <span class="icon">🔭</span> Team Overview
+        </div>
+        <div class="nav-item" onclick="navigate('leadpool')" id="navLeadpool" style="display:none">
+          <span class="icon">📦</span> Lead Pool
+        </div>
+        <div class="nav-item" onclick="navigate('recycled')" id="navRecycled" style="display:none">
+          <span class="icon">♻️</span> Recycled Leads
         </div>
       </div>
     </nav>
@@ -2829,6 +2937,13 @@ let chatPanelOpen = false;
 let chatPanelUnsub = null;
 let calendarDate = new Date();
 let calendarEvents = [];
+// Lead Pool & Client Navigation
+let lpPage = 1;
+let lpFilters = {};
+let lpSelected = new Set();
+let clientListCache = [];
+let cdNavIndex = -1;
+let clientsPage = 1;
 // Dashboard embedded calendar
 let dashCalView = 'month';
 let dashCalDate = new Date();
@@ -3044,6 +3159,13 @@ function initApp() {
   const overviewEl = document.getElementById('navOverview');
   if (overviewEl) overviewEl.style.display = showOverview ? 'flex' : 'none';
 
+  // Show Lead Pool & Recycled Leads for owner only
+  const isOwner = currentUserData.role === 'owner';
+  const lpEl = document.getElementById('navLeadpool');
+  if (lpEl) lpEl.style.display = isOwner ? 'flex' : 'none';
+  const rcEl = document.getElementById('navRecycled');
+  if (rcEl) rcEl.style.display = isOwner ? 'flex' : 'none';
+
   // Load team users for @mentions
   loadTeamUsers();
 
@@ -3184,11 +3306,11 @@ function navigate(page) {
   if (navEl) navEl.classList.add('active');
 
   // Update page title
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', leadpool: 'Lead Pool', recycled: 'Recycled Leads' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   // Render page
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, leadpool: renderLeadPool, recycled: renderRecycledLeads };
   if (renderers[page]) renderers[page]();
 }
 
@@ -3366,6 +3488,93 @@ async function renderDashboard() {
 
   // Render today events panel
   renderDspEvents(calEvs);
+
+  // Render personal stats for everyone + owner activity feed
+  renderDashboardStats(clients, calEvs);
+}
+
+async function renderDashboardStats(clients, calEvs) {
+  const isOwner = currentUserData.role === 'owner';
+  const isAdmin = isAdminRole(currentUserData.role);
+  const dashLower = document.querySelector('.dash-lower');
+  if (!dashLower) return;
+
+  // Count activities for current user (this week)
+  const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+  let myActivities = 0, myCallsToday = 0;
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+
+  // Query activities logged by current user
+  try {
+    const myClients = await db.collection('clients').where('employeeId', '==', currentUser.uid).get();
+    const myClientIds = myClients.docs.map(d => d.id);
+
+    let totalActivitiesWeek = 0, totalActivitiesToday = 0, followUpsScheduled = 0;
+    let statusCounts = { lead: 0, working: 0, active: 0, not_interested: 0, pending: 0 };
+
+    for (const cDoc of myClients.docs) {
+      const cData = cDoc.data();
+      statusCounts[cData.status] = (statusCounts[cData.status] || 0) + 1;
+      if (cData.nextFollowUp) followUpsScheduled++;
+    }
+
+    // Get activity counts (sample from first 50 clients to avoid too many reads)
+    const sampleIds = myClientIds.slice(0, 50);
+    for (const cid of sampleIds) {
+      const actSnap = await db.collection('clients').doc(cid).collection('activities')
+        .where('loggedBy', '==', currentUser.uid).orderBy('loggedAt', 'desc').limit(20).get();
+      actSnap.docs.forEach(a => {
+        const ts = a.data().loggedAt?.seconds ? a.data().loggedAt.seconds * 1000 : 0;
+        if (ts > weekAgo.getTime()) totalActivitiesWeek++;
+        if (ts > todayStart.getTime()) totalActivitiesToday++;
+      });
+    }
+
+    // Personal stats panel
+    let statsHtml = `
+      <div style="margin-top:24px">
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-primary)">📈 My Performance</h3>
+        <div class="rep-stats-grid">
+          <div class="rep-stat-card"><div class="rep-stat-value">${totalActivitiesToday}</div><div class="rep-stat-label">Activities Today</div></div>
+          <div class="rep-stat-card"><div class="rep-stat-value">${totalActivitiesWeek}</div><div class="rep-stat-label">This Week</div></div>
+          <div class="rep-stat-card"><div class="rep-stat-value">${myClientIds.length}</div><div class="rep-stat-label">My Clients</div></div>
+          <div class="rep-stat-card"><div class="rep-stat-value">${statusCounts.working || 0}</div><div class="rep-stat-label">Working</div></div>
+          <div class="rep-stat-card"><div class="rep-stat-value">${followUpsScheduled}</div><div class="rep-stat-label">Follow-Ups Set</div></div>
+          <div class="rep-stat-card"><div class="rep-stat-value">${statusCounts.active || 0}</div><div class="rep-stat-label">Signed / Active</div></div>
+        </div>
+      </div>`;
+
+    // Owner-only: team activity feed + pipeline
+    if (isOwner) {
+      // Get all clients for pipeline
+      const allSnap = await db.collection('clients').get();
+      const allClients = allSnap.docs.map(d => d.data());
+      const pipeline = { lead: 0, working: 0, active: 0, not_interested: 0, pending: 0 };
+      allClients.forEach(c => { pipeline[c.status] = (pipeline[c.status] || 0) + 1; });
+      const pipeTotal = Object.values(pipeline).reduce((s,v) => s+v, 0) || 1;
+
+      statsHtml += `
+        <div style="margin-top:24px">
+          <h3 style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text-primary)">📊 Team Pipeline</h3>
+          <div class="pipeline-bar">
+            <div class="pipeline-segment" style="width:${(pipeline.lead/pipeTotal*100)}%;background:#94A3B8" title="Fresh Leads: ${pipeline.lead}">Lead</div>
+            <div class="pipeline-segment" style="width:${(pipeline.working/pipeTotal*100)}%;background:#2B5CE6" title="Working: ${pipeline.working}">Working</div>
+            <div class="pipeline-segment" style="width:${(pipeline.active/pipeTotal*100)}%;background:#22C55E" title="Active/Signed: ${pipeline.active}">Won</div>
+            <div class="pipeline-segment" style="width:${(pipeline.not_interested/pipeTotal*100)}%;background:#ef4444" title="Not Interested: ${pipeline.not_interested}">Lost</div>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--text-muted)">
+            <span>🔘 Lead: ${pipeline.lead}</span>
+            <span>🔵 Working: ${pipeline.working}</span>
+            <span>🟢 Won: ${pipeline.active}</span>
+            <span>🔴 Lost: ${pipeline.not_interested}</span>
+          </div>
+        </div>`;
+    }
+
+    dashLower.insertAdjacentHTML('beforeend', statsHtml);
+  } catch(e) {
+    console.log('Dashboard stats error:', e);
+  }
 }
 
 function renderDspEvents(allEvs) {
@@ -3590,38 +3799,112 @@ function getDashWeek(ref) {
 async function renderClients() {
   const content = document.getElementById('contentArea');
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canViewTeamData');
+  const isOwner = currentUserData.role === 'owner';
+  const PAGE_SIZE = 100;
 
-  let query = db.collection('clients').orderBy('createdAt', 'desc');
+  let query = db.collection('clients');
   if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
 
   const snap = await query.get();
-  const clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  let clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  // Exclude recycled leads from normal clients view (only owner sees those in Recycled tab)
+  // A recycled lead: status='recycled' or (no activity in 30+ days and not owned by the rep)
+  clients = clients.filter(c => c.status !== 'recycled');
+
+  // For reps, also apply client list search/filter
+  const searchTerm = (lpFilters.clientSearch || '').toLowerCase();
+  if (searchTerm) {
+    clients = clients.filter(c =>
+      (c.name || c.businessName || '').toLowerCase().includes(searchTerm) ||
+      (c.businessName || '').toLowerCase().includes(searchTerm) ||
+      (c.email || '').toLowerCase().includes(searchTerm) ||
+      (c.city || '').toLowerCase().includes(searchTerm) ||
+      (c.industry || '').toLowerCase().includes(searchTerm)
+    );
+  }
+
+  const statusFilter = lpFilters.clientStatus || '';
+  if (statusFilter) clients = clients.filter(c => c.status === statusFilter);
+
+  const sortBy = lpFilters.clientSort || 'newest';
+  if (sortBy === 'newest') clients.sort((a,b) => ((b.createdAt?.seconds||0) - (a.createdAt?.seconds||0)));
+  else if (sortBy === 'oldest') clients.sort((a,b) => ((a.createdAt?.seconds||0) - (b.createdAt?.seconds||0)));
+  else if (sortBy === 'lastContacted') clients.sort((a,b) => ((a.lastActivityAt?.seconds||Infinity) - (b.lastActivityAt?.seconds||Infinity)));
+  else if (sortBy === 'name') clients.sort((a,b) => ((a.name||a.businessName||'').localeCompare(b.name||b.businessName||'')));
+
+  // Cache for prev/next navigation in detail view
+  clientListCache = clients.map(c => c.id);
+
+  const totalPages = Math.max(1, Math.ceil(clients.length / PAGE_SIZE));
+  if (clientsPage > totalPages) clientsPage = totalPages;
+  const startIdx = (clientsPage - 1) * PAGE_SIZE;
+  const pageClients = clients.slice(startIdx, startIdx + PAGE_SIZE);
 
   content.innerHTML = `
     <div class="card">
       <div class="card-header">
-        <h3>All Clients (${clients.length})</h3>
+        <h3>My Clients (${clients.length})</h3>
         <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ Add Client</button>
       </div>
+      <div class="lp-toolbar">
+        <input type="text" class="lp-search" placeholder="Search clients..." value="${esc(searchTerm)}" onkeyup="lpFilters.clientSearch=this.value;clientsPage=1;renderClients()">
+        <select class="lp-filter" onchange="lpFilters.clientStatus=this.value;clientsPage=1;renderClients()">
+          <option value="">All Statuses</option>
+          <option value="active" ${statusFilter==='active'?'selected':''}>Active</option>
+          <option value="lead" ${statusFilter==='lead'?'selected':''}>Lead</option>
+          <option value="pending" ${statusFilter==='pending'?'selected':''}>Pending</option>
+          <option value="inactive" ${statusFilter==='inactive'?'selected':''}>Inactive</option>
+          <option value="not_interested" ${statusFilter==='not_interested'?'selected':''}>Not Interested</option>
+        </select>
+        <select class="lp-filter" onchange="lpFilters.clientSort=this.value;clientsPage=1;renderClients()">
+          <option value="newest" ${sortBy==='newest'?'selected':''}>Newest First</option>
+          <option value="oldest" ${sortBy==='oldest'?'selected':''}>Oldest First</option>
+          <option value="lastContacted" ${sortBy==='lastContacted'?'selected':''}>Needs Contact (oldest first)</option>
+          <option value="name" ${sortBy==='name'?'selected':''}>Name A-Z</option>
+        </select>
+        <button class="btn btn-secondary btn-sm" onclick="lpFilters={};clientsPage=1;renderClients()">Clear Filters</button>
+      </div>
       <div class="card-body" style="padding:0">
-        ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">👥</div><p>No clients yet</p></div>' :
-          `<table><thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Website</th><th>Plan</th><th>Monthly</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
-            clients.map(c => `<tr>
-              <td><a href="#" onclick="event.preventDefault();openClientDetail('${c.id}')" style="color:var(--accent);font-weight:500;text-decoration:none;cursor:pointer">${esc(c.name)}</a></td>
-              <td>${esc(c.businessName || '-')}</td>
-              <td>${esc(c.email)}</td>
-              <td>${c.website ? '<a href="'+(c.website.startsWith('http')?c.website:'https://'+c.website)+'" target="_blank" style="color:var(--accent);text-decoration:none">'+esc(c.website)+'</a>' : '-'}</td>
-              <td>${esc(c.plan || '-')}</td>
-              <td>${c.monthly ? '$' + parseFloat(c.monthly).toLocaleString() : '-'}</td>
-              <td><span class="status-badge status-${c.status || 'active'}">${esc(c.status || 'active')}</span></td>
-              <td class="team-actions">
-                <button class="btn btn-secondary btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>
-              </td>
-            </tr>`).join('')
+        ${pageClients.length === 0 ? '<div class="empty-state"><div class="empty-icon">👥</div><p>No clients match your filters</p></div>' :
+          `<table><thead><tr>
+            <th style="width:30px"></th>
+            <th>Company / Name</th>
+            <th>City</th>
+            <th>Industry</th>
+            <th>Last Activity</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>Actions</th>
+          </tr></thead><tbody>${
+            pageClients.map(c => {
+              const tl = getTrafficLight(c);
+              const la = formatLastActivity(c);
+              const src = c.leadSource === 'assigned' ? '<span class="source-badge assigned">Assigned</span>' : '<span class="source-badge self">Self</span>';
+              return `<tr>
+                <td style="text-align:center"><span class="tl-dot ${tl.color}"><span class="tl-tooltip">${tl.tip}</span></span></td>
+                <td><a href="#" onclick="event.preventDefault();openClientDetail('${c.id}')" style="color:var(--accent);font-weight:500;text-decoration:none;cursor:pointer">${esc(c.businessName || c.name)}</a></td>
+                <td>${esc(c.city || c.address || '-')}</td>
+                <td>${esc(c.industry || '-')}</td>
+                <td>${la}</td>
+                <td><span class="status-badge status-${c.status || 'active'}">${esc(c.status || 'active')}</span></td>
+                <td>${src}</td>
+                <td class="team-actions">
+                  <button class="btn btn-secondary btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
+                  ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>` : ''}
+                </td>
+              </tr>`;
+            }).join('')
           }</tbody></table>`
         }
       </div>
+      ${totalPages > 1 ? `<div class="lp-pagination">
+        <button ${clientsPage<=1?'disabled':''} onclick="clientsPage=1;renderClients()">First</button>
+        <button ${clientsPage<=1?'disabled':''} onclick="clientsPage--;renderClients()">◀ Prev</button>
+        <span class="page-info">Page ${clientsPage} of ${totalPages} (${clients.length} clients)</span>
+        <button ${clientsPage>=totalPages?'disabled':''} onclick="clientsPage++;renderClients()">Next ▶</button>
+        <button ${clientsPage>=totalPages?'disabled':''} onclick="clientsPage=${totalPages};renderClients()">Last</button>
+      </div>` : ''}
     </div>
   `;
 }
@@ -3637,8 +3920,20 @@ function openClientModal(editId) {
       <div class="form-group"><label>Business Name</label><input type="text" id="clientBusiness" value="${esc(c.businessName || '')}" placeholder="e.g. Acme Corp"></div>
       <div class="form-group"><label>Email</label><input type="email" id="clientEmail" value="${esc(c.email || '')}"></div>
       <div class="form-group"><label>Phone</label><input type="text" id="clientPhone" value="${esc(c.phone || '')}"></div>
+      <div class="form-group"><label>City</label><input type="text" id="clientCity" value="${esc(c.city || '')}"></div>
       <div class="form-group"><label>Address</label><input type="text" id="clientAddress" value="${esc(c.address || '')}" placeholder="Street, City, State ZIP"></div>
       <div class="form-group"><label>Website</label><input type="url" id="clientWebsite" value="${esc(c.website || '')}" placeholder="https://example.com"></div>
+      <div class="form-group"><label>Timezone</label>
+        <select id="clientTimezone">
+          <option value="">Select Timezone</option>
+          <option value="Eastern" ${c.timezone==='Eastern'?'selected':''}>Eastern</option>
+          <option value="Central" ${c.timezone==='Central'?'selected':''}>Central</option>
+          <option value="Mountain" ${c.timezone==='Mountain'?'selected':''}>Mountain</option>
+          <option value="Pacific" ${c.timezone==='Pacific'?'selected':''}>Pacific</option>
+          <option value="Alaska" ${c.timezone==='Alaska'?'selected':''}>Alaska</option>
+          <option value="Hawaii" ${c.timezone==='Hawaii'?'selected':''}>Hawaii</option>
+        </select>
+      </div>
       <div class="form-group"><label>Industry</label>
         <select id="clientIndustry">
           <option value="">Select Industry</option>
@@ -3652,6 +3947,11 @@ function openClientModal(editId) {
           <option value="Home Services" ${c.industry==='Home Services'?'selected':''}>Home Services</option>
           <option value="Professional Services" ${c.industry==='Professional Services'?'selected':''}>Professional Services</option>
           <option value="Automotive" ${c.industry==='Automotive'?'selected':''}>Automotive</option>
+          <option value="Roofing" ${c.industry==='Roofing'?'selected':''}>Roofing</option>
+          <option value="Plumbing" ${c.industry==='Plumbing'?'selected':''}>Plumbing</option>
+          <option value="HVAC" ${c.industry==='HVAC'?'selected':''}>HVAC</option>
+          <option value="Electrical" ${c.industry==='Electrical'?'selected':''}>Electrical</option>
+          <option value="Staffing" ${c.industry==='Staffing'?'selected':''}>Staffing</option>
           <option value="Nonprofit" ${c.industry==='Nonprofit'?'selected':''}>Nonprofit</option>
           <option value="Other" ${c.industry==='Other'?'selected':''}>Other</option>
         </select>
@@ -3671,6 +3971,8 @@ function openClientModal(editId) {
           <option value="active" ${c.status==='active'?'selected':''}>Active</option>
           <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
           <option value="lead" ${c.status==='lead'?'selected':''}>Lead</option>
+          <option value="working" ${c.status==='working'?'selected':''}>Working</option>
+          <option value="not_interested" ${c.status==='not_interested'?'selected':''}>Not Interested</option>
           <option value="inactive" ${c.status==='inactive'?'selected':''}>Inactive</option>
         </select>
       </div>
@@ -3696,8 +3998,10 @@ async function saveClient(editId) {
     businessName: document.getElementById('clientBusiness').value.trim(),
     email: document.getElementById('clientEmail').value.trim(),
     phone: document.getElementById('clientPhone').value.trim(),
+    city: document.getElementById('clientCity') ? document.getElementById('clientCity').value.trim() : '',
     address: document.getElementById('clientAddress').value.trim(),
     website: document.getElementById('clientWebsite').value.trim(),
+    timezone: document.getElementById('clientTimezone') ? document.getElementById('clientTimezone').value : '',
     industry: document.getElementById('clientIndustry').value,
     plan: document.getElementById('clientPlan').value,
     monthly: document.getElementById('clientMonthly').value,
@@ -3740,11 +4044,23 @@ let cdCurrentId = null;
 
 async function openClientDetail(clientId) {
   cdCurrentId = clientId;
+  cdNavIndex = clientListCache.indexOf(clientId);
   const doc = await db.collection('clients').doc(clientId).get();
   if (!doc.exists) { alert('Client not found.'); return; }
   const c = doc.data();
 
-  document.getElementById('cdTitle').textContent = c.name || 'Client Profile';
+  document.getElementById('cdTitle').textContent = c.businessName || c.name || 'Client Profile';
+
+  // Show/hide nav arrows
+  const navArrows = document.getElementById('cdNavArrows');
+  if (clientListCache.length > 1 && cdNavIndex >= 0) {
+    navArrows.style.display = 'flex';
+    document.getElementById('cdPrevBtn').disabled = cdNavIndex <= 0;
+    document.getElementById('cdNextBtn').disabled = cdNavIndex >= clientListCache.length - 1;
+    document.getElementById('cdNavInfo').textContent = `${cdNavIndex + 1} of ${clientListCache.length}`;
+  } else {
+    navArrows.style.display = 'none';
+  }
 
   let html = '';
 
@@ -3754,12 +4070,19 @@ async function openClientDetail(clientId) {
     <div class="cd-field"><label>Business Name</label><input type="text" id="cd_businessName" value="${esc(c.businessName || '')}"></div>
     <div class="cd-field"><label>Email</label><input type="email" id="cd_email" value="${esc(c.email || '')}"></div>
     <div class="cd-field"><label>Phone</label><input type="text" id="cd_phone" value="${esc(c.phone || '')}"></div>
+    <div class="cd-field"><label>City</label><input type="text" id="cd_city" value="${esc(c.city || '')}"></div>
     <div class="cd-field full"><label>Address</label><input type="text" id="cd_address" value="${esc(c.address || '')}"></div>
     <div class="cd-field"><label>Website</label><input type="url" id="cd_website" value="${esc(c.website || '')}" placeholder="https://example.com"></div>
+    <div class="cd-field"><label>Timezone</label>
+      <select id="cd_timezone">
+        <option value="">Select</option>
+        ${['Eastern','Central','Mountain','Pacific','Alaska','Hawaii'].map(tz => '<option value="'+tz+'"'+(c.timezone===tz?' selected':'')+'>'+tz+'</option>').join('')}
+      </select>
+    </div>
     <div class="cd-field"><label>Industry</label>
       <select id="cd_industry">
         <option value="">Select Industry</option>
-        ${['Restaurant / Food Service','Retail / E-Commerce','Healthcare / Medical','Real Estate','Legal / Law Firm','Construction / Trades','Fitness / Wellness','Home Services','Professional Services','Automotive','Nonprofit','Other'].map(o => '<option value="'+o+'"'+(c.industry===o?' selected':'')+'>'+o+'</option>').join('')}
+        ${['Restaurant / Food Service','Retail / E-Commerce','Healthcare / Medical','Real Estate','Legal / Law Firm','Construction / Trades','Fitness / Wellness','Home Services','Professional Services','Automotive','Nonprofit','Roofing','Plumbing','HVAC','Electrical','Staffing','Water/Air Purifying','Other'].map(o => '<option value="'+o+'"'+(c.industry===o?' selected':'')+'>'+o+'</option>').join('')}
       </select>
     </div>
   </div></div>`;
@@ -3781,11 +4104,14 @@ async function openClientDetail(clientId) {
         <option value="active" ${c.status==='active'?'selected':''}>Active</option>
         <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
         <option value="lead" ${c.status==='lead'?'selected':''}>Lead</option>
+        <option value="working" ${c.status==='working'?'selected':''}>Working</option>
+        <option value="not_interested" ${c.status==='not_interested'?'selected':''}>Not Interested</option>
         <option value="inactive" ${c.status==='inactive'?'selected':''}>Inactive</option>
       </select>
     </div>
     <div class="cd-field"><label>Added By</label><div class="cd-readonly">${esc(c.createdByName || c.employeeName || '-')}</div></div>
-    <div class="cd-field"><label>Source</label><div class="cd-readonly">${c.source === 'service_agreement' ? '📋 Service Agreement' : '✏️ Manual Entry'}</div></div>
+    <div class="cd-field"><label>Source</label><div class="cd-readonly">${c.leadSource === 'assigned' ? '📦 Assigned Lead' : c.source === 'service_agreement' ? '📋 Service Agreement' : '✏️ Manual / Self-Prospected'}</div></div>
+    ${c.assignedAt ? `<div class="cd-field"><label>Assigned On</label><div class="cd-readonly">${new Date(c.assignedAt.seconds*1000).toLocaleDateString()}</div></div>` : ''}
   </div></div>`;
 
   // --- Service Agreement Details (if from SA) ---
@@ -3803,6 +4129,50 @@ async function openClientDetail(clientId) {
     </div></div>`;
   }
 
+  // --- Activity Log ---
+  html += `<div class="cd-section"><h4>Log Activity</h4>
+    <div class="activity-log-form">
+      <select id="actDisposition">
+        <option value="">Select disposition...</option>
+        <option value="Contacted">Contacted</option>
+        <option value="Left Voicemail">Left Voicemail</option>
+        <option value="VMBNSU">VMBNSU (Voicemail Box Not Set Up)</option>
+        <option value="No Answer">No Answer</option>
+        <option value="Callback Scheduled">Callback Scheduled</option>
+        <option value="Follow-Up Needed">Follow-Up Needed</option>
+        <option value="Not Interested">Not Interested</option>
+        <option value="Signed">Signed / Won</option>
+      </select>
+      <div id="actFollowUpDateWrap" style="display:none">
+        <label style="font-size:11px;color:var(--text-muted);margin-bottom:4px;display:block">Follow-up Date & Time (adds to your calendar)</label>
+        <div style="display:flex;gap:8px">
+          <input type="date" id="actFollowUpDate" style="flex:1">
+          <input type="time" id="actFollowUpTime" value="09:00" style="width:120px">
+        </div>
+      </div>
+      <textarea id="actComment" placeholder="Notes about this interaction..."></textarea>
+      <button class="btn btn-primary btn-sm" onclick="logActivity('${clientId}')" style="align-self:flex-start">📝 Log Activity</button>
+    </div>
+  </div>`;
+
+  // Show/hide follow-up date picker based on disposition
+  setTimeout(() => {
+    const dispEl = document.getElementById('actDisposition');
+    if (dispEl) {
+      dispEl.addEventListener('change', function() {
+        const wrap = document.getElementById('actFollowUpDateWrap');
+        if (wrap) wrap.style.display = (this.value === 'Callback Scheduled' || this.value === 'Follow-Up Needed') ? 'block' : 'none';
+      });
+    }
+  }, 100);
+
+  // --- Activity History ---
+  html += `<div class="cd-section"><h4>Activity History</h4>
+    <div class="activity-timeline" id="actTimeline">
+      <div style="color:var(--text-muted);font-size:12px">Loading activities...</div>
+    </div>
+  </div>`;
+
   // --- Notes ---
   html += `<div class="cd-section"><h4>Notes</h4>
     <div class="cd-field full"><textarea id="cd_notes" rows="4">${esc(c.notes || '')}</textarea></div>
@@ -3811,6 +4181,9 @@ async function openClientDetail(clientId) {
   document.getElementById('cdBody').innerHTML = html;
   document.getElementById('clientDetailOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Load activity history
+  loadActivityTimeline(clientId);
 }
 
 function cdAutofillRate() {
@@ -3826,8 +4199,10 @@ async function cdSaveClient() {
     businessName: document.getElementById('cd_businessName').value.trim(),
     email: document.getElementById('cd_email').value.trim(),
     phone: document.getElementById('cd_phone').value.trim(),
+    city: document.getElementById('cd_city') ? document.getElementById('cd_city').value.trim() : '',
     address: document.getElementById('cd_address').value.trim(),
     website: document.getElementById('cd_website').value.trim(),
+    timezone: document.getElementById('cd_timezone') ? document.getElementById('cd_timezone').value : '',
     industry: document.getElementById('cd_industry').value,
     plan: document.getElementById('cd_plan').value,
     monthly: document.getElementById('cd_monthly').value,
@@ -3861,7 +4236,532 @@ function closeClientDetail() {
   document.body.style.overflow = '';
   cdCurrentId = null;
   if (currentPage === 'clients') renderClients();
+  else if (currentPage === 'leadpool') renderLeadPool();
 }
+
+// ============================================================
+//  CLIENT DETAIL — Prev/Next Navigation
+// ============================================================
+function cdNavigate(dir) {
+  const newIndex = cdNavIndex + dir;
+  if (newIndex < 0 || newIndex >= clientListCache.length) return;
+  openClientDetail(clientListCache[newIndex]);
+}
+
+// ============================================================
+//  TRAFFIC LIGHT SYSTEM
+// ============================================================
+function getTrafficLight(client) {
+  if (!client.lastActivityAt && !client.nextFollowUp) {
+    if (client.assignedAt) {
+      const daysSinceAssign = (Date.now() - client.assignedAt.seconds * 1000) / 86400000;
+      if (daysSinceAssign > 1) return { color: 'green', tip: '⚡ No contact yet — reach out today!' };
+    }
+    return { color: 'grey', tip: 'No activity logged yet' };
+  }
+
+  if (client.nextFollowUp) {
+    const fuDate = client.nextFollowUp.seconds ? new Date(client.nextFollowUp.seconds * 1000) : new Date(client.nextFollowUp);
+    const now = new Date();
+    const daysUntil = (fuDate - now) / 86400000;
+    if (daysUntil <= 0) return { color: 'green', tip: '🟢 Follow-up due today or overdue — call now!' };
+    if (daysUntil <= 3) return { color: 'yellow', tip: '🟡 Follow-up due within 3 days' };
+    if (daysUntil <= 7) return { color: 'red', tip: '🔴 Follow-up due within 7 days' };
+    return { color: 'grey', tip: 'Follow-up scheduled for ' + fuDate.toLocaleDateString() };
+  }
+
+  const lastAct = new Date(client.lastActivityAt.seconds * 1000);
+  const daysSince = (Date.now() - lastAct) / 86400000;
+  if (daysSince >= 7) return { color: 'green', tip: '🟢 7+ days since last contact — follow up today!' };
+  if (daysSince >= 4) return { color: 'yellow', tip: '🟡 4-6 days since last contact' };
+  if (daysSince >= 2) return { color: 'red', tip: '🔴 2-3 days since last contact — upcoming follow-up' };
+  return { color: 'grey', tip: 'Recently contacted ' + Math.floor(daysSince) + ' day(s) ago' };
+}
+
+function formatLastActivity(client) {
+  if (!client.lastActivityAt) return '<span class="last-activity">No activity</span>';
+  const d = new Date(client.lastActivityAt.seconds * 1000);
+  const disp = client.lastDisposition || '';
+  const timeStr = d.toLocaleDateString('en-US', {month:'short', day:'numeric'}) + ', ' + d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+  return `<div class="last-activity"><span class="disp">${esc(disp)}</span><br>${timeStr}</div>`;
+}
+
+// ============================================================
+//  ACTIVITY LOGGING
+// ============================================================
+async function logActivity(clientId) {
+  const disposition = document.getElementById('actDisposition').value;
+  const comment = document.getElementById('actComment').value.trim();
+  if (!disposition) return alert('Please select a disposition.');
+
+  const now = new Date();
+  const activity = {
+    disposition,
+    comment,
+    loggedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    loggedBy: currentUser.uid,
+    loggedByName: currentUserData.name,
+    clientId
+  };
+
+  try {
+    // Save activity to subcollection
+    await db.collection('clients').doc(clientId).collection('activities').add(activity);
+
+    // Update client with last activity info
+    const updateData = {
+      lastActivityAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastDisposition: disposition
+    };
+
+    // Auto-update client status based on disposition
+    if (disposition === 'Not Interested') updateData.status = 'not_interested';
+    else if (disposition === 'Signed') updateData.status = 'active';
+    else if (disposition === 'Contacted' || disposition === 'Left Voicemail' || disposition === 'Callback Scheduled' || disposition === 'Follow-Up Needed') {
+      updateData.status = 'working';
+    }
+
+    // Handle callback/follow-up scheduling
+    if (disposition === 'Callback Scheduled' || disposition === 'Follow-Up Needed') {
+      const fuDate = document.getElementById('actFollowUpDate').value;
+      const fuTime = document.getElementById('actFollowUpTime').value;
+      if (fuDate) {
+        updateData.nextFollowUp = new Date(fuDate + 'T' + (fuTime || '09:00'));
+
+        // Create calendar event
+        const clientDoc = await db.collection('clients').doc(clientId).get();
+        const clientData = clientDoc.data();
+        await db.collection('calendar_events').add({
+          title: disposition + ' — ' + (clientData.businessName || clientData.name),
+          date: fuDate,
+          time: fuTime || '09:00',
+          color: disposition === 'Callback Scheduled' ? 'blue' : 'purple',
+          clientName: clientData.businessName || clientData.name,
+          notes: comment || disposition,
+          participants: [currentUser.uid],
+          createdBy: currentUser.uid,
+          createdByName: currentUserData.name,
+          isFollowUp: true,
+          linkedClientId: clientId,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
+
+    await db.collection('clients').doc(clientId).update(updateData);
+
+    // Clear form
+    document.getElementById('actDisposition').value = '';
+    document.getElementById('actComment').value = '';
+    if (document.getElementById('actFollowUpDate')) document.getElementById('actFollowUpDate').value = '';
+    document.getElementById('actFollowUpDateWrap').style.display = 'none';
+
+    // Reload activity timeline
+    loadActivityTimeline(clientId);
+  } catch(e) {
+    alert('Error logging activity: ' + e.message);
+  }
+}
+
+async function loadActivityTimeline(clientId) {
+  const container = document.getElementById('actTimeline');
+  if (!container) return;
+
+  try {
+    const snap = await db.collection('clients').doc(clientId).collection('activities').orderBy('loggedAt', 'desc').get();
+    const activities = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    if (activities.length === 0) {
+      container.innerHTML = '<div style="color:var(--text-muted);font-size:12px;padding:8px">No activities logged yet. Use the form above to log your first call.</div>';
+      return;
+    }
+
+    container.innerHTML = activities.map(a => {
+      const d = a.loggedAt ? new Date(a.loggedAt.seconds * 1000) : new Date();
+      const timeStr = d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) + ' at ' + d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+      const dispClass = a.disposition.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[()]/g, '');
+      return `<div class="activity-card" onclick="this.classList.toggle('expanded')">
+        <div class="activity-card-header">
+          <span class="activity-disp ${dispClass}">${esc(a.disposition)}</span>
+          <span class="activity-time">${timeStr}</span>
+        </div>
+        <div class="activity-preview">${esc(a.comment || 'No notes')}</div>
+        <div class="activity-full">${esc(a.comment || 'No notes')}<br><br><span style="font-size:11px;color:var(--text-muted)">Logged by ${esc(a.loggedByName)}</span></div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    container.innerHTML = '<div style="color:var(--danger);font-size:12px">Error loading activities.</div>';
+  }
+}
+
+// ============================================================
+//  LEAD POOL (Owner Only)
+// ============================================================
+async function renderLeadPool() {
+  if (currentUserData.role !== 'owner') return navigate('dashboard');
+  const content = document.getElementById('contentArea');
+  const PAGE_SIZE = 100;
+
+  const snap = await db.collection('clients').get();
+  let allClients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  allClients = allClients.filter(c => c.status !== 'recycled');
+
+  // Apply filters
+  const searchTerm = (lpFilters.lpSearch || '').toLowerCase();
+  if (searchTerm) {
+    allClients = allClients.filter(c =>
+      (c.businessName || c.name || '').toLowerCase().includes(searchTerm) ||
+      (c.city || '').toLowerCase().includes(searchTerm) ||
+      (c.email || '').toLowerCase().includes(searchTerm) ||
+      (c.industry || '').toLowerCase().includes(searchTerm) ||
+      (c.phone || '').toLowerCase().includes(searchTerm)
+    );
+  }
+  const indFilter = lpFilters.lpIndustry || '';
+  if (indFilter) allClients = allClients.filter(c => (c.industry || '').toLowerCase().includes(indFilter.toLowerCase()));
+  const cityFilter = lpFilters.lpCity || '';
+  if (cityFilter) allClients = allClients.filter(c => (c.city || '').toLowerCase().includes(cityFilter.toLowerCase()));
+  const assignFilter = lpFilters.lpAssign || '';
+  if (assignFilter === 'unassigned') allClients = allClients.filter(c => !c.employeeId);
+  else if (assignFilter === 'assigned') allClients = allClients.filter(c => !!c.employeeId);
+  else if (assignFilter) allClients = allClients.filter(c => c.employeeId === assignFilter);
+  const statusFilter = lpFilters.lpStatus || '';
+  if (statusFilter) allClients = allClients.filter(c => c.status === statusFilter);
+
+  // Cache for nav
+  clientListCache = allClients.map(c => c.id);
+
+  const totalPages = Math.max(1, Math.ceil(allClients.length / PAGE_SIZE));
+  if (lpPage > totalPages) lpPage = totalPages;
+  const startIdx = (lpPage - 1) * PAGE_SIZE;
+  const pageClients = allClients.slice(startIdx, startIdx + PAGE_SIZE);
+
+  // Build unique industry and city lists for filter dropdowns
+  const industries = [...new Set(allClients.map(c => c.industry).filter(Boolean))].sort();
+  const cities = [...new Set(allClients.map(c => c.city).filter(Boolean))].sort();
+  const reps = allTeamUsers.filter(u => u.status === 'approved');
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3>Lead Pool — All Leads (${allClients.length})</h3>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" onclick="openCSVImport()">📥 Import CSV</button>
+          <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ Add Lead</button>
+        </div>
+      </div>
+      <div class="lp-toolbar">
+        <input type="text" class="lp-search" placeholder="Search all leads..." value="${esc(lpFilters.lpSearch||'')}" onkeyup="lpFilters.lpSearch=this.value;lpPage=1;renderLeadPool()">
+        <select class="lp-filter" onchange="lpFilters.lpIndustry=this.value;lpPage=1;renderLeadPool()">
+          <option value="">All Industries</option>
+          ${industries.map(i => `<option value="${esc(i)}" ${indFilter===i?'selected':''}>${esc(i)}</option>`).join('')}
+        </select>
+        <select class="lp-filter" onchange="lpFilters.lpCity=this.value;lpPage=1;renderLeadPool()">
+          <option value="">All Cities</option>
+          ${cities.map(c => `<option value="${esc(c)}" ${cityFilter===c?'selected':''}>${esc(c)}</option>`).join('')}
+        </select>
+        <select class="lp-filter" onchange="lpFilters.lpAssign=this.value;lpPage=1;renderLeadPool()">
+          <option value="">All Assignments</option>
+          <option value="unassigned" ${assignFilter==='unassigned'?'selected':''}>Unassigned</option>
+          <option value="assigned" ${assignFilter==='assigned'?'selected':''}>Assigned (any)</option>
+          ${reps.map(r => `<option value="${r.id}" ${assignFilter===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}
+        </select>
+        <select class="lp-filter" onchange="lpFilters.lpStatus=this.value;lpPage=1;renderLeadPool()">
+          <option value="">All Statuses</option>
+          <option value="lead" ${statusFilter==='lead'?'selected':''}>Lead (Fresh)</option>
+          <option value="working" ${statusFilter==='working'?'selected':''}>Working</option>
+          <option value="active" ${statusFilter==='active'?'selected':''}>Active</option>
+          <option value="not_interested" ${statusFilter==='not_interested'?'selected':''}>Not Interested</option>
+          <option value="pending" ${statusFilter==='pending'?'selected':''}>Pending</option>
+        </select>
+        <button class="btn btn-secondary btn-sm" onclick="lpFilters={};lpPage=1;renderLeadPool()">Clear</button>
+      </div>
+      <div class="card-body" style="padding:0">
+        <table><thead><tr>
+          <th style="width:30px"><input type="checkbox" class="lp-cb" onchange="lpToggleAll(this.checked, 'lp')"></th>
+          <th style="width:30px"></th>
+          <th>Company</th>
+          <th>City</th>
+          <th>Phone</th>
+          <th>Industry</th>
+          <th>Assigned To</th>
+          <th>Status</th>
+          <th>Last Activity</th>
+        </tr></thead><tbody>${
+          pageClients.map(c => {
+            const tl = getTrafficLight(c);
+            const la = formatLastActivity(c);
+            const assignedName = c.employeeName || (c.employeeId ? 'Assigned' : '<span style="color:var(--text-muted)">Unassigned</span>');
+            return `<tr>
+              <td><input type="checkbox" class="lp-cb" value="${c.id}" ${lpSelected.has(c.id)?'checked':''} onchange="lpToggleOne('${c.id}',this.checked)"></td>
+              <td style="text-align:center"><span class="tl-dot ${tl.color}"><span class="tl-tooltip">${tl.tip}</span></span></td>
+              <td><a href="#" onclick="event.preventDefault();openClientDetail('${c.id}')" style="color:var(--accent);font-weight:500;text-decoration:none">${esc(c.businessName || c.name)}</a></td>
+              <td>${esc(c.city || '-')}</td>
+              <td>${c.phone ? '<a href="tel:'+esc(c.phone)+'" style="color:var(--accent);text-decoration:none">'+esc(c.phone)+'</a>' : '-'}</td>
+              <td>${esc(c.industry || '-')}</td>
+              <td>${assignedName}</td>
+              <td><span class="status-badge status-${c.status || 'lead'}">${esc(c.status || 'lead')}</span></td>
+              <td>${la}</td>
+            </tr>`;
+          }).join('')
+        }</tbody></table>
+      </div>
+      ${lpSelected.size > 0 ? `<div class="lp-batch-bar" id="lpBatchBar">
+        <span class="count">${lpSelected.size} selected</span>
+        <select id="lpBatchRep" class="lp-filter" style="min-width:160px">
+          <option value="">Assign to rep...</option>
+          ${reps.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="lpBatchAssign()">Assign Selected</button>
+        <button class="btn btn-secondary btn-sm" onclick="lpSelected.clear();renderLeadPool()">Clear Selection</button>
+      </div>` : ''}
+      ${totalPages > 1 ? `<div class="lp-pagination">
+        <button ${lpPage<=1?'disabled':''} onclick="lpPage=1;renderLeadPool()">First</button>
+        <button ${lpPage<=1?'disabled':''} onclick="lpPage--;renderLeadPool()">◀ Prev</button>
+        <span class="page-info">Page ${lpPage} of ${totalPages} (${allClients.length} leads)</span>
+        <button ${lpPage>=totalPages?'disabled':''} onclick="lpPage++;renderLeadPool()">Next ▶</button>
+        <button ${lpPage>=totalPages?'disabled':''} onclick="lpPage=${totalPages};renderLeadPool()">Last</button>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// Lead Pool Selection
+function lpToggleAll(checked, prefix) {
+  const checkboxes = document.querySelectorAll('tbody .lp-cb');
+  checkboxes.forEach(cb => {
+    if (checked) lpSelected.add(cb.value);
+    else lpSelected.delete(cb.value);
+    cb.checked = checked;
+  });
+  renderLeadPool();
+}
+function lpToggleOne(id, checked) {
+  if (checked) lpSelected.add(id); else lpSelected.delete(id);
+  // Re-render just the batch bar area
+  const existing = document.getElementById('lpBatchBar');
+  if (lpSelected.size > 0 && !existing) renderLeadPool();
+  else if (lpSelected.size === 0 && existing) renderLeadPool();
+  else if (existing) existing.querySelector('.count').textContent = lpSelected.size + ' selected';
+}
+
+// Batch Assign
+async function lpBatchAssign() {
+  const repId = document.getElementById('lpBatchRep').value;
+  if (!repId) return alert('Please select a rep to assign to.');
+  const rep = allTeamUsers.find(u => u.id === repId);
+  if (!rep) return alert('Rep not found.');
+  if (!confirm(`Assign ${lpSelected.size} leads to ${rep.name}?`)) return;
+
+  const batch = db.batch();
+  const ids = [...lpSelected];
+  // Firestore batches max 500
+  for (let i = 0; i < ids.length; i += 500) {
+    const chunk = ids.slice(i, i + 500);
+    const b = db.batch();
+    chunk.forEach(id => {
+      b.update(db.collection('clients').doc(id), {
+        employeeId: repId,
+        employeeName: rep.name,
+        leadSource: 'assigned',
+        assignedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        assignedBy: currentUser.uid,
+        assignedByName: currentUserData.name
+      });
+    });
+    await b.commit();
+  }
+
+  alert(`✅ ${ids.length} leads assigned to ${rep.name}`);
+  lpSelected.clear();
+  renderLeadPool();
+}
+
+// ============================================================
+//  CSV IMPORT (Owner Only)
+// ============================================================
+function openCSVImport() {
+  openModal('📥 Import Leads from CSV', `
+    <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">Upload a CSV file with columns: Company name, City, Email, Phone, Web, Qualified Date, Industry Category, Industry, Timezone</p>
+    <div class="csv-import-zone" id="csvZone" onclick="document.getElementById('csvFileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleCSVFile(event.dataTransfer.files[0])">
+      <div style="font-size:32px;margin-bottom:8px">📄</div>
+      <div style="color:var(--text-primary);font-weight:600;margin-bottom:4px">Drop your CSV file here</div>
+      <div style="color:var(--text-muted);font-size:12px">or click to browse</div>
+      <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCSVFile(this.files[0])">
+    </div>
+    <div id="csvPreview" style="margin-top:16px"></div>
+    <div id="csvProgress" style="display:none">
+      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px" id="csvProgressLabel">Importing...</div>
+      <div class="csv-progress"><div class="csv-progress-bar" id="csvProgressBar" style="width:0%"></div></div>
+    </div>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" id="csvImportBtn" onclick="runCSVImport()" style="display:none">Import All Leads</button>
+  `);
+}
+
+let csvParsedRows = [];
+
+function handleCSVFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split(/\\r?\\n/).filter(l => l.trim());
+    if (lines.length < 2) return alert('CSV appears empty.');
+
+    // Parse CSV (handle quoted fields)
+    function parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { inQuotes = !inQuotes; }
+        else if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+        else { current += ch; }
+      }
+      result.push(current.trim());
+      return result;
+    }
+
+    const headers = parseCSVLine(lines[0]);
+    csvParsedRows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const vals = parseCSVLine(lines[i]);
+      if (vals.length < 2 || !vals[0]) continue;
+      const row = {};
+      headers.forEach((h, idx) => { row[h.trim()] = (vals[idx] || '').trim(); });
+      csvParsedRows.push(row);
+    }
+
+    // Show preview
+    const preview = document.getElementById('csvPreview');
+    preview.innerHTML = `
+      <div style="font-size:13px;color:var(--text-primary);font-weight:600;margin-bottom:8px">${csvParsedRows.length} leads found. Preview:</div>
+      <div class="csv-preview-table">
+        <table><thead><tr>${headers.map(h => '<th>'+esc(h)+'</th>').join('')}</tr></thead>
+        <tbody>${csvParsedRows.slice(0,5).map(r => '<tr>'+headers.map(h => '<td>'+esc(r[h]||'-')+'</td>').join('')+'</tr>').join('')}
+        ${csvParsedRows.length > 5 ? '<tr><td colspan="'+headers.length+'" style="text-align:center;color:var(--text-muted)">...and '+(csvParsedRows.length-5)+' more</td></tr>' : ''}
+        </tbody></table>
+      </div>
+    `;
+    document.getElementById('csvImportBtn').style.display = 'inline-block';
+  };
+  reader.readAsText(file);
+}
+
+async function runCSVImport() {
+  if (csvParsedRows.length === 0) return alert('No data to import.');
+  if (!confirm(`Import ${csvParsedRows.length} leads into your Lead Pool?`)) return;
+
+  document.getElementById('csvImportBtn').style.display = 'none';
+  document.getElementById('csvProgress').style.display = 'block';
+  const progressBar = document.getElementById('csvProgressBar');
+  const progressLabel = document.getElementById('csvProgressLabel');
+
+  let imported = 0;
+  const batchSize = 500;
+
+  for (let i = 0; i < csvParsedRows.length; i += batchSize) {
+    const chunk = csvParsedRows.slice(i, i + batchSize);
+    const batch = db.batch();
+
+    chunk.forEach(row => {
+      const ref = db.collection('clients').doc();
+      batch.set(ref, {
+        businessName: row['Company name'] || row['Company Name'] || '',
+        name: row['Company name'] || row['Company Name'] || '',
+        city: row['City'] || '',
+        email: row['Email'] || '',
+        phone: row['Phone 1'] || row['Phone'] || row['Phone Number'] || '',
+        website: row['Web'] || row['Website'] || '',
+        qualifiedDate: row['Qualified Date'] || '',
+        industryCategory: row['Industry Category'] || '',
+        industry: row['Industry'] || row['Industry Category'] || '',
+        timezone: row['Timezone'] || '',
+        status: 'lead',
+        leadSource: 'imported',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: currentUser.uid,
+        createdByName: currentUserData.name
+      });
+    });
+
+    await batch.commit();
+    imported += chunk.length;
+    const pct = Math.round((imported / csvParsedRows.length) * 100);
+    progressBar.style.width = pct + '%';
+    progressLabel.textContent = `Imported ${imported} of ${csvParsedRows.length} leads (${pct}%)`;
+  }
+
+  progressLabel.textContent = `✅ Successfully imported ${imported} leads!`;
+  csvParsedRows = [];
+  setTimeout(() => { closeModal(); renderLeadPool(); }, 1500);
+}
+
+// ============================================================
+//  RECYCLED LEADS (Owner Only)
+// ============================================================
+async function renderRecycledLeads() {
+  if (currentUserData.role !== 'owner') return navigate('dashboard');
+  const content = document.getElementById('contentArea');
+
+  const snap = await db.collection('clients').where('status', '==', 'recycled').get();
+  const clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const reps = allTeamUsers.filter(u => u.status === 'approved');
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3>Recycled Leads (${clients.length})</h3>
+        <p style="color:var(--text-muted);font-size:12px;margin:0">Leads with 30+ days of no activity. Reassign to give them a fresh start.</p>
+      </div>
+      <div class="card-body" style="padding:0">
+        ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">♻️</div><p>No recycled leads — your team is staying on top of things!</p></div>' :
+          `<table><thead><tr>
+            <th><input type="checkbox" class="lp-cb" onchange="lpToggleAll(this.checked, 'rc')"></th>
+            <th>Company</th>
+            <th>City</th>
+            <th>Industry</th>
+            <th>Last Assigned To</th>
+            <th>Last Activity</th>
+            <th>Actions</th>
+          </tr></thead><tbody>${
+            clients.map(c => `<tr>
+              <td><input type="checkbox" class="lp-cb" value="${c.id}" ${lpSelected.has(c.id)?'checked':''} onchange="lpToggleOne('${c.id}',this.checked)"></td>
+              <td>${esc(c.businessName || c.name)}</td>
+              <td>${esc(c.city || '-')}</td>
+              <td>${esc(c.industry || '-')}</td>
+              <td>${esc(c.employeeName || 'Unassigned')}</td>
+              <td>${formatLastActivity(c)}</td>
+              <td><button class="btn btn-secondary btn-sm" onclick="recycleRestore('${c.id}')">♻️ Restore to Pool</button></td>
+            </tr>`).join('')
+          }</tbody></table>`
+        }
+      </div>
+      ${lpSelected.size > 0 ? `<div class="lp-batch-bar">
+        <span class="count">${lpSelected.size} selected</span>
+        <select id="lpBatchRep" class="lp-filter"><option value="">Assign to rep...</option>${reps.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('')}</select>
+        <button class="btn btn-primary btn-sm" onclick="lpBatchAssign()">Reassign Selected</button>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+async function recycleRestore(id) {
+  await db.collection('clients').doc(id).update({
+    status: 'lead',
+    employeeId: '',
+    employeeName: '',
+    leadSource: 'recycled_restored'
+  });
+  renderRecycledLeads();
+}
+
+// ============================================================
+//  ENHANCED DASHBOARD — Personal Rep Stats + Owner Activity Feed
+// ============================================================
 
 // ============================================================
 //  INVOICES
@@ -5593,7 +6493,14 @@ showScreen('loginScreen');
      ============================================================ -->
 <div class="client-detail-overlay" id="clientDetailOverlay">
   <div class="cd-topbar">
-    <h3 id="cdTitle">Client Profile</h3>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="cd-nav-arrows" id="cdNavArrows" style="display:none">
+        <button class="cd-nav-arrow" id="cdPrevBtn" onclick="cdNavigate(-1)" title="Previous client">◀</button>
+        <span class="cd-nav-info" id="cdNavInfo"></span>
+        <button class="cd-nav-arrow" id="cdNextBtn" onclick="cdNavigate(1)" title="Next client">▶</button>
+      </div>
+      <h3 id="cdTitle">Client Profile</h3>
+    </div>
     <div class="cd-topbar-actions">
       <button class="cd-topbar-btn cd-btn-delete" id="cdDeleteBtn" onclick="cdDeleteClient()">🗑 Delete</button>
       <button class="cd-topbar-btn cd-btn-save" onclick="cdSaveClient()">💾 Save Changes</button>
