@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brechtland CRM</title>
+<link rel="icon" type="image/png" href="images/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -88,23 +89,30 @@ body {
 }
 
 .auth-logo {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   margin-bottom: 32px;
 }
 
+.auth-logo-text {
+  text-align: left;
+}
+
 .auth-logo h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  background: var(--accent-gradient-h);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
 }
 
 .auth-logo p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 2px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .form-group {
@@ -275,23 +283,51 @@ body {
 }
 
 .sidebar-brand {
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(43,92,230,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+  text-decoration: none;
 }
 
-.sidebar-brand h2 {
-  font-size: 17px;
+.sidebar-brand:hover {
+  background: rgba(43,92,230,0.06);
+}
+
+.sidebar-brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2B5CE6, #7C3AED);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+  box-shadow: 0 0 14px rgba(43,92,230,0.4);
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+.sidebar-brand-text h2 {
+  font-size: 15px;
   font-weight: 700;
-  background: var(--accent-gradient-h);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
+  line-height: 1.2;
 }
 
-.sidebar-brand p {
-  font-size: 11px;
+.sidebar-brand-text p {
+  font-size: 10px;
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 1px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .sidebar-user {
@@ -941,10 +977,10 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
 }
 
 .fc-back-btn {
-  background: rgba(43,92,230,0.12);
-  border: 1px solid rgba(43,92,230,0.3);
-  border-radius: 8px;
-  padding: 6px 14px;
+  background: rgba(43,92,230,0.1);
+  border: 1px solid rgba(43,92,230,0.25);
+  border-radius: 20px;
+  padding: 5px 14px 5px 10px;
   font-size: 12px;
   font-weight: 600;
   color: #A78BFA;
@@ -952,14 +988,15 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
   transition: all 0.15s;
   display: flex;
   align-items: center;
-  gap: 6px;
-  letter-spacing: 0.2px;
+  gap: 5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 .fc-back-btn:hover {
-  background: rgba(43,92,230,0.22);
-  border-color: rgba(43,92,230,0.6);
+  background: rgba(43,92,230,0.2);
+  border-color: rgba(43,92,230,0.5);
   color: #fff;
-  box-shadow: 0 0 14px rgba(43,92,230,0.25);
+  box-shadow: 0 0 12px rgba(43,92,230,0.2);
 }
 
 .fc-member-avatar-wrap {
@@ -1477,6 +1514,48 @@ tbody tr:hover { background: rgba(43,92,230,0.04); }
 /* Team action buttons */
 .team-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
+/* Team management tabs */
+.team-tabs {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.team-tab {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  background: none;
+  transition: all 0.15s;
+}
+.team-tab:hover {
+  color: var(--text-primary);
+  background: rgba(43,92,230,0.08);
+  border-color: rgba(43,92,230,0.2);
+}
+.team-tab.active {
+  background: rgba(43,92,230,0.15);
+  color: #A78BFA;
+  border-color: rgba(43,92,230,0.3);
+}
+.team-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239,68,68,0.2);
+  color: #F87171;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  padding: 0 5px;
+  margin-left: 6px;
+}
+
 /* ── DASHBOARD CALENDAR ── */
 .cal-nav-btn{background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px;transition:all .15s}
 .cal-nav-btn:hover{border-color:var(--accent);color:var(--text-primary)}
@@ -1782,12 +1861,8 @@ body {
   border-right-color: var(--border);
 }
 
-.sidebar-brand {
-  padding: 22px 20px 18px;
-}
-
-.sidebar-brand h2 {
-  font-size: 18px;
+.sidebar-brand-text h2 {
+  font-size: 15px;
   letter-spacing: -0.3px;
 }
 
@@ -2108,8 +2183,8 @@ tbody tr:hover td {
   border-radius: 20px 20px 0 0;
 }
 
-.auth-logo h1 {
-  font-size: 26px;
+.auth-logo-text h1 {
+  font-size: 22px;
   letter-spacing: -0.5px;
 }
 
@@ -2310,8 +2385,11 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 <div id="loginScreen" class="auth-container" style="display:none">
   <div class="auth-box">
     <div class="auth-logo">
-      <h1>Brechtland</h1>
-      <p>Team CRM</p>
+      <img src="images/brechtland-logo.png" width="48" height="48" alt="Brechtland" style="flex-shrink:0;" />
+      <div class="auth-logo-text">
+        <h1>Brechtland</h1>
+        <p>Team CRM</p>
+      </div>
     </div>
     <div class="form-group">
       <label>Email</label>
@@ -2333,8 +2411,11 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 <div id="signupScreen" class="auth-container" style="display:none">
   <div class="auth-box">
     <div class="auth-logo">
-      <h1>Brechtland</h1>
-      <p>Create your account</p>
+      <img src="images/brechtland-logo.png" width="48" height="48" alt="Brechtland" style="flex-shrink:0;" />
+      <div class="auth-logo-text">
+        <h1>Brechtland</h1>
+        <p>Create your account</p>
+      </div>
     </div>
     <div class="form-group">
       <label>Full Name</label>
@@ -2381,9 +2462,12 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-brand">
-      <h2>Brechtland</h2>
-      <p>Team CRM</p>
+    <div class="sidebar-brand" onclick="navigate('dashboard')">
+      <img src="images/brechtland-logo.png" width="34" height="34" alt="Brechtland" style="flex-shrink:0;" />
+      <div class="sidebar-brand-text">
+        <h2>Brechtland</h2>
+        <p>Team CRM</p>
+      </div>
     </div>
     <div class="sidebar-user">
       <div class="sidebar-avatar" id="sidebarAvatar"></div>
@@ -2522,7 +2606,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         <button class="toolbar-btn btn-print" onclick="saPrint()">🖨️ Print / Save as PDF</button>
         <button class="toolbar-btn btn-reset" onclick="saResetForm()">↺ Reset</button>
       </div>
-      <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <a href="/cdn-cgi/l/email-protection#e89c91848d9aa88a9a8d8b809c8489868cc68b8785"><span class="__cf_email__" data-cfemail="9de9e4f1f8efddffeff8fef5e9f1fcf3f9b3fef2f0">[email&#160;protected]</span></a></div>
+      <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <a href="/cdn-cgi/l/email-protection#582b2d2828372a2c183a2a3d3b302c3439363c763b3735"><span class="__cf_email__" data-cfemail="99eaece9e9f6ebedd9fbebfcfaf1edf5f8f7fdb7faf6f4">[email&#160;protected]</span></a></div>
     </div>
 
     <div class="doc theme-mtm" id="saDoc">
@@ -2531,9 +2615,21 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
       <div id="saFormContent">
         <div class="doc-header">
           <div>
-            <div class="brand-name">Brechtland</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <img src="images/brechtland-brand.png" width="28" height="28" alt="Brechtland logo" style="flex-shrink:0;" />
+              <div class="brand-name">Brechtland</div>
+            </div>
             <div class="brand-sub">Website &amp; Digital Services</div>
-            <div class="brand-contact"><p>Tyler Albrecht · Owner<br>989-501-1397 · <a href="/cdn-cgi/l/email-protection#88fcf1e4edfac8eafaedebe0fce4e9e6eca6ebe7e5"><span class="__cf_email__" data-cfemail="add9d4c1c8dfedcfdfc8cec5d9c1ccc3c983cec2c0">[email&#160;protected]</span></a></p></div>
+            <div class="brand-contact" style="margin-top:6px;display:grid;grid-template-columns:80px 1fr;row-gap:4px;align-items:center;">
+              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">Contact Name:</span>
+              <input type="text" name="rep_name" style="border:none;border-bottom:1px solid #1a2744;outline:none;font-size:12px;color:#1a2744;background:transparent;padding:1px 2px;" />
+              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">Email:</span>
+              <input type="email" name="rep_email" style="border:none;border-bottom:1px solid #1a2744;outline:none;font-size:12px;color:#1a2744;background:transparent;padding:1px 2px;" />
+            </div>
+            <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
+              <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
+              <div><a href="/cdn-cgi/l/email-protection#3c4f494c4c534e487c5e4e595f5448505d5258125f5351"><span class="__cf_email__" data-cfemail="e695939696899492a6849483858e928a878882c885898b">[email&#160;protected]</span></a> &middot; 989-501-1397</div>
+            </div>
           </div>
           <div class="doc-right">
             <div class="agreement-label" id="saAgreementLabel">Month-to-Month Agreement</div>
@@ -2670,7 +2766,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         </div>
 
         <div class="doc-footer">
-          <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="/cdn-cgi/l/email-protection#4c383520293e0c2e3e292f2438202d2228622f2321"><span class="__cf_email__" data-cfemail="6115180d0413210313040209150d000f054f020e0c">[email&#160;protected]</span></a></span>
+          <span>Brechtland · Brechtland Client Services · <a href="/cdn-cgi/l/email-protection#f3808683839c8187b3918196909b879f929d97dd909c9e"><span class="__cf_email__" data-cfemail="1a696f6a6a75686e5a78687f79726e767b747e34797577">[email&#160;protected]</span></a> · 989-501-1397</span>
           <span id="saFooterPlan">Month-to-Month Agreement</span>
         </div>
 
@@ -2696,7 +2792,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
 </div>
 
 <!-- ==================== FIREBASE ==================== -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -4160,7 +4256,7 @@ async function saSubmitAgreement() {
 
     // 4. Also submit to Formspree for email notification
     try {
-      await fetch('https://formspree.io/f/mwvnrnkg', {
+      await fetch('https://formspree.io/f/xojkeadq', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
@@ -4470,7 +4566,7 @@ function renderChat() {
       <div class="fc-main">
         <div class="fc-channel-header" id="fcChannelHeader">
           <span class="fc-channel-icon">💬</span>
-          <h3>#general</h3>
+          <h3>General</h3>
           <p>Team-wide chat — everyone with CRM access</p>
         </div>
         <div class="fc-messages" id="fcMessages">
@@ -4538,7 +4634,7 @@ function fcOpenDM(uid, name, color) {
     header.innerHTML = `
       <button class="fc-back-btn" onclick="fcOpenGeneral()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        #general
+        General
       </button>
       <div class="fc-member-avatar" style="background:${color};width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${getInitials(name)}</div>
       <h3 style="margin-left:8px">${esc(name)}</h3>
@@ -4581,7 +4677,7 @@ function fcOpenGeneral() {
   if (header) {
     header.innerHTML = `
       <span class="fc-channel-icon">💬</span>
-      <h3>#general</h3>
+      <h3>General</h3>
       <p>Team-wide chat — everyone with CRM access</p>
     `;
   }
@@ -5243,6 +5339,15 @@ async function renderTeam() {
   const isOwner = role === 'owner';
   const content = document.getElementById('contentArea');
 
+  const snap = await db.collection('users').orderBy('createdAt', 'asc').get();
+  const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  const pending  = users.filter(u => u.status === 'pending');
+  const approved = users.filter(u => u.status === 'approved');
+  const denied   = users.filter(u => u.status === 'denied');
+
+  const deniedCount = denied.length;
+
   content.innerHTML = `
     <div class="card" style="margin-bottom:20px">
       <div class="card-header"><h3>⏳ Pending Approval</h3></div>
@@ -5250,20 +5355,23 @@ async function renderTeam() {
     </div>
     <div class="card">
       <div class="card-header">
-        <h3>👥 All Team Members</h3>
+        <div class="team-tabs">
+          <button class="team-tab active" id="tabActive" onclick="switchTeamTab('active')">👥 All Team Members</button>
+          <button class="team-tab" id="tabDenied" onclick="switchTeamTab('denied')">
+            🚫 Revoked / Denied
+            ${deniedCount > 0 ? `<span class="team-tab-count">${deniedCount}</span>` : ''}
+          </button>
+        </div>
         ${isOwner ? '<span style="font-size:12px;color:var(--text-muted)">As Owner, you have full control over all members and permissions.</span>' : ''}
       </div>
       <div class="card-body" id="teamBody"></div>
     </div>
   `;
 
-  const snap = await db.collection('users').orderBy('createdAt', 'asc').get();
-  const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  // Stash data on window so tab switcher can access it
+  window._teamData = { approved, denied, isOwner, role };
 
-  const pending = users.filter(u => u.status === 'pending');
-  const rest = users.filter(u => u.status !== 'pending');
-
-  // Pending
+  // Render pending
   if (pending.length === 0) {
     document.getElementById('pendingBody').innerHTML = '<div class="empty-state" style="padding:24px"><p>No pending requests</p></div>';
   } else {
@@ -5280,34 +5388,49 @@ async function renderTeam() {
     }</tbody></table>`;
   }
 
-  // All members
-  if (rest.length === 0) {
-    document.getElementById('teamBody').innerHTML = '<div class="empty-state" style="padding:24px"><p>No team members yet</p></div>';
-  } else {
-    document.getElementById('teamBody').innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
-      rest.map(u => `<tr>
-        <td style="color:var(--text-primary);font-weight:500">${esc(u.name)}</td>
-        <td>${esc(u.email)}</td>
-        <td>${getRoleLabel(u.role)}</td>
-        <td><span class="status-badge status-${u.status === 'approved' ? 'active' : 'overdue'}">${esc(u.status)}</span></td>
-        <td class="team-actions">
-          ${u.id === currentUser.uid
-            ? '<span style="color:var(--text-muted);font-size:12px">You</span>'
-            : u.role === 'owner'
-              ? '<span style="color:var(--text-muted);font-size:12px">Owner</span>'
-              : `
-                ${u.status === 'denied' ? `<button class="btn btn-success btn-sm" onclick="approveUser('${u.id}')">Approve</button>` : ''}
-                ${u.status === 'approved' ? `<button class="btn btn-danger btn-sm" onclick="revokeUser('${u.id}')">Revoke</button>` : ''}
-                ${(isOwner || role === 'admin') ? `
-                  <button class="btn btn-warning btn-sm" onclick="openChangeRoleModal('${u.id}', '${esc(u.name)}', '${u.role}')">🔄 Role</button>
-                  <button class="btn btn-secondary btn-sm" onclick="openPermissionsModal('${u.id}', '${esc(u.name)}', '${u.role}')">⚙️ Perms</button>
-                ` : ''}
-              `
-          }
-        </td>
-      </tr>`).join('')
-    }</tbody></table>`;
+  // Render active tab by default
+  renderTeamTab('active');
+}
+
+function switchTeamTab(tab) {
+  document.getElementById('tabActive').classList.toggle('active', tab === 'active');
+  document.getElementById('tabDenied').classList.toggle('active', tab === 'denied');
+  renderTeamTab(tab);
+}
+
+function renderTeamTab(tab) {
+  const { approved, denied, isOwner, role } = window._teamData;
+  const users = tab === 'active' ? approved : denied;
+  const body = document.getElementById('teamBody');
+
+  if (users.length === 0) {
+    body.innerHTML = `<div class="empty-state" style="padding:24px"><p>${tab === 'active' ? 'No active team members yet.' : 'No revoked or denied users.'}</p></div>`;
+    return;
   }
+
+  body.innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>${
+    users.map(u => `<tr>
+      <td style="color:var(--text-primary);font-weight:500">${esc(u.name)}</td>
+      <td>${esc(u.email)}</td>
+      <td>${getRoleLabel(u.role)}</td>
+      <td><span class="status-badge status-${u.status === 'approved' ? 'active' : 'overdue'}">${esc(u.status)}</span></td>
+      <td class="team-actions">
+        ${u.id === currentUser.uid
+          ? '<span style="color:var(--text-muted);font-size:12px">You</span>'
+          : u.role === 'owner'
+            ? '<span style="color:var(--text-muted);font-size:12px">Owner</span>'
+            : `
+              ${u.status === 'denied' ? `<button class="btn btn-success btn-sm" onclick="approveUser('${u.id}')">Approve</button>` : ''}
+              ${u.status === 'approved' ? `<button class="btn btn-danger btn-sm" onclick="revokeUser('${u.id}')">Revoke</button>` : ''}
+              ${(isOwner || role === 'admin') ? `
+                <button class="btn btn-warning btn-sm" onclick="openChangeRoleModal('${u.id}', '${esc(u.name)}', '${u.role}')">🔄 Role</button>
+                <button class="btn btn-secondary btn-sm" onclick="openPermissionsModal('${u.id}', '${esc(u.name)}', '${u.role}')">⚙️ Perms</button>
+              ` : ''}
+            `
+        }
+      </td>
+    </tr>`).join('')
+  }</tbody></table>`;
 }
 
 async function approveUser(uid) {
@@ -5506,14 +5629,14 @@ showScreen('loginScreen');
 const TQ_URL_STORE = {
   'template-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Template/roofing-template.html',
   'questionnaire-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Questionnaire/roofing-questionnaire.html',
-  'template-realestate': 'https://crm.brechtland.com/realtor-template.html',
-  'questionnaire-realestate': 'https://crm.brechtland.com/realtor-onboarding-survey.html',
+  'template-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/realtor-template.html',
+  'questionnaire-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/realtor-onboarding-survey.html',
   'template-dental': 'https://crm.brechtland.com/dentistry-landing-page.html',
   'questionnaire-dental': 'https://crm.brechtland.com/dentistry-template.html',
-  'template-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Plumbing-template.html',
-  'questionnaire-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/plumbing-questionnaire.html',
   'template-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Template.html',
-  'questionnaire-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Questionnaire.html'
+  'questionnaire-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Questionnaire.html',
+  'template-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Plumbing-template.html',
+  'questionnaire-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/plumbing-questionnaire.html'
 };
 </script>
 
