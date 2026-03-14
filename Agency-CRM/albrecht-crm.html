@@ -2620,12 +2620,7 @@ button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visi
         <div class="nav-item" onclick="navigate('overview')" id="navOverview" style="display:none">
           <span class="icon">🔭</span> Team Overview
         </div>
-        <div class="nav-item" onclick="navigate('leadpool')" id="navLeadpool" style="display:none">
-          <span class="icon">📦</span> Lead Pool
-        </div>
-        <div class="nav-item" onclick="navigate('recycled')" id="navRecycled" style="display:none">
-          <span class="icon">♻️</span> Recycled Leads
-        </div>
+
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -2941,9 +2936,7 @@ let chatPanelUnsub = null;
 let calendarDate = new Date();
 let calendarEvents = [];
 // Lead Pool & Client Navigation
-let lpPage = 1;
 let lpFilters = {};
-let lpSelected = new Set();
 let clientListCache = [];
 let cdNavIndex = -1;
 let clientsPage = 1;
@@ -3162,13 +3155,6 @@ function initApp() {
   const overviewEl = document.getElementById('navOverview');
   if (overviewEl) overviewEl.style.display = showOverview ? 'flex' : 'none';
 
-  // Show Lead Pool & Recycled Leads for owner only
-  const isOwner = currentUserData.role === 'owner';
-  const lpEl = document.getElementById('navLeadpool');
-  if (lpEl) lpEl.style.display = isOwner ? 'flex' : 'none';
-  const rcEl = document.getElementById('navRecycled');
-  if (rcEl) rcEl.style.display = isOwner ? 'flex' : 'none';
-
   // Load team users for @mentions
   loadTeamUsers();
 
@@ -3320,11 +3306,11 @@ function navigate(page) {
   if (navEl) navEl.classList.add('active');
 
   // Update page title
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', leadpool: 'Lead Pool', recycled: 'Recycled Leads' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat',  };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   // Render page
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, leadpool: renderLeadPool, recycled: renderRecycledLeads };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat,  };
   if (renderers[page]) renderers[page]();
 }
 
@@ -4250,7 +4236,6 @@ function closeClientDetail() {
   document.body.style.overflow = '';
   cdCurrentId = null;
   if (currentPage === 'clients') renderClients();
-  else if (currentPage === 'leadpool') renderLeadPool();
 }
 
 // ============================================================
@@ -4406,371 +4391,6 @@ async function loadActivityTimeline(clientId) {
   } catch(e) {
     container.innerHTML = '<div style="color:var(--danger);font-size:12px">Error loading activities.</div>';
   }
-}
-
-// ============================================================
-//  LEAD POOL (Owner Only)
-// ============================================================
-async function renderLeadPool() {
-  if (currentUserData.role !== 'owner') return navigate('dashboard');
-  const content = document.getElementById('contentArea');
-  const PAGE_SIZE = 100;
-
-  const snap = await db.collection('clients').get();
-  let allClients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  allClients = allClients.filter(c => c.status !== 'recycled');
-
-  // Apply filters
-  const searchTerm = (lpFilters.lpSearch || '').toLowerCase();
-  if (searchTerm) {
-    allClients = allClients.filter(c =>
-      (c.businessName || c.name || '').toLowerCase().includes(searchTerm) ||
-      (c.city || '').toLowerCase().includes(searchTerm) ||
-      (c.email || '').toLowerCase().includes(searchTerm) ||
-      (c.industry || '').toLowerCase().includes(searchTerm) ||
-      (c.phone || '').toLowerCase().includes(searchTerm)
-    );
-  }
-  const indFilter = lpFilters.lpIndustry || '';
-  if (indFilter) allClients = allClients.filter(c => (c.industry || '').toLowerCase().includes(indFilter.toLowerCase()));
-  const cityFilter = lpFilters.lpCity || '';
-  if (cityFilter) allClients = allClients.filter(c => (c.city || '').toLowerCase().includes(cityFilter.toLowerCase()));
-  const assignFilter = lpFilters.lpAssign || '';
-  if (assignFilter === 'unassigned') allClients = allClients.filter(c => !c.employeeId);
-  else if (assignFilter === 'assigned') allClients = allClients.filter(c => !!c.employeeId);
-  else if (assignFilter) allClients = allClients.filter(c => c.employeeId === assignFilter);
-  const statusFilter = lpFilters.lpStatus || '';
-  if (statusFilter) allClients = allClients.filter(c => c.status === statusFilter);
-
-  // Cache for nav
-  clientListCache = allClients.map(c => c.id);
-
-  const totalPages = Math.max(1, Math.ceil(allClients.length / PAGE_SIZE));
-  if (lpPage > totalPages) lpPage = totalPages;
-  const startIdx = (lpPage - 1) * PAGE_SIZE;
-  const pageClients = allClients.slice(startIdx, startIdx + PAGE_SIZE);
-
-  // Build unique industry and city lists for filter dropdowns
-  const industries = [...new Set(allClients.map(c => c.industry).filter(Boolean))].sort();
-  const cities = [...new Set(allClients.map(c => c.city).filter(Boolean))].sort();
-  const reps = allTeamUsers.filter(u => u.status === 'approved');
-
-  content.innerHTML = `
-    <div class="card">
-      <div class="card-header">
-        <h3>Lead Pool — All Leads (${allClients.length})</h3>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-primary btn-sm" onclick="openCSVImport()">📥 Import CSV</button>
-          <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ Add Lead</button>
-        </div>
-      </div>
-      <div class="lp-toolbar">
-        <input type="text" class="lp-search" placeholder="Search all leads..." value="${esc(lpFilters.lpSearch||'')}" onkeyup="lpFilters.lpSearch=this.value;lpPage=1;renderLeadPool()">
-        <select class="lp-filter" onchange="lpFilters.lpIndustry=this.value;lpPage=1;renderLeadPool()">
-          <option value="">All Industries</option>
-          ${industries.map(i => `<option value="${esc(i)}" ${indFilter===i?'selected':''}>${esc(i)}</option>`).join('')}
-        </select>
-        <select class="lp-filter" onchange="lpFilters.lpCity=this.value;lpPage=1;renderLeadPool()">
-          <option value="">All Cities</option>
-          ${cities.map(c => `<option value="${esc(c)}" ${cityFilter===c?'selected':''}>${esc(c)}</option>`).join('')}
-        </select>
-        <select class="lp-filter" onchange="lpFilters.lpAssign=this.value;lpPage=1;renderLeadPool()">
-          <option value="">All Assignments</option>
-          <option value="unassigned" ${assignFilter==='unassigned'?'selected':''}>Unassigned</option>
-          <option value="assigned" ${assignFilter==='assigned'?'selected':''}>Assigned (any)</option>
-          ${reps.map(r => `<option value="${r.id}" ${assignFilter===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}
-        </select>
-        <select class="lp-filter" onchange="lpFilters.lpStatus=this.value;lpPage=1;renderLeadPool()">
-          <option value="">All Statuses</option>
-          <option value="lead" ${statusFilter==='lead'?'selected':''}>Lead (Fresh)</option>
-          <option value="working" ${statusFilter==='working'?'selected':''}>Working</option>
-          <option value="active" ${statusFilter==='active'?'selected':''}>Active</option>
-          <option value="not_interested" ${statusFilter==='not_interested'?'selected':''}>Not Interested</option>
-          <option value="pending" ${statusFilter==='pending'?'selected':''}>Pending</option>
-        </select>
-        <button class="btn btn-secondary btn-sm" onclick="lpFilters={};lpPage=1;renderLeadPool()">Clear</button>
-      </div>
-      <div class="card-body" style="padding:0">
-        <table><thead><tr>
-          <th style="width:30px"><input type="checkbox" class="lp-cb" onchange="lpToggleAll(this.checked, 'lp')"></th>
-          <th style="width:30px"></th>
-          <th>Company</th>
-          <th>City</th>
-          <th>Phone</th>
-          <th>Industry</th>
-          <th>Assigned To</th>
-          <th>Status</th>
-          <th>Last Activity</th>
-        </tr></thead><tbody>${
-          pageClients.map(c => {
-            const tl = getTrafficLight(c);
-            const la = formatLastActivity(c);
-            const assignedName = c.employeeName || (c.employeeId ? 'Assigned' : '<span style="color:var(--text-muted)">Unassigned</span>');
-            return `<tr>
-              <td><input type="checkbox" class="lp-cb" value="${c.id}" ${lpSelected.has(c.id)?'checked':''} onchange="lpToggleOne('${c.id}',this.checked)"></td>
-              <td style="text-align:center"><span class="tl-dot ${tl.color}"><span class="tl-tooltip">${tl.tip}</span></span></td>
-              <td><a href="#" onclick="event.preventDefault();openClientDetail('${c.id}')" style="color:var(--accent);font-weight:500;text-decoration:none">${esc(c.businessName || c.name)}</a></td>
-              <td>${esc(c.city || '-')}</td>
-              <td>${c.phone ? '<a href="tel:'+esc(c.phone)+'" style="color:var(--accent);text-decoration:none">'+esc(c.phone)+'</a>' : '-'}</td>
-              <td>${esc(c.industry || '-')}</td>
-              <td>${assignedName}</td>
-              <td><span class="status-badge status-${c.status || 'lead'}">${esc(c.status || 'lead')}</span></td>
-              <td>${la}</td>
-            </tr>`;
-          }).join('')
-        }</tbody></table>
-      </div>
-      ${lpSelected.size > 0 ? `<div class="lp-batch-bar" id="lpBatchBar">
-        <span class="count">${lpSelected.size} selected</span>
-        <select id="lpBatchRep" class="lp-filter" style="min-width:160px">
-          <option value="">Assign to rep...</option>
-          ${reps.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('')}
-        </select>
-        <button class="btn btn-primary btn-sm" onclick="lpBatchAssign()">Assign Selected</button>
-        <button class="btn btn-secondary btn-sm" onclick="lpSelected.clear();renderLeadPool()">Clear Selection</button>
-      </div>` : ''}
-      ${totalPages > 1 ? `<div class="lp-pagination">
-        <button ${lpPage<=1?'disabled':''} onclick="lpPage=1;renderLeadPool()">First</button>
-        <button ${lpPage<=1?'disabled':''} onclick="lpPage--;renderLeadPool()">◀ Prev</button>
-        <span class="page-info">Page ${lpPage} of ${totalPages} (${allClients.length} leads)</span>
-        <button ${lpPage>=totalPages?'disabled':''} onclick="lpPage++;renderLeadPool()">Next ▶</button>
-        <button ${lpPage>=totalPages?'disabled':''} onclick="lpPage=${totalPages};renderLeadPool()">Last</button>
-      </div>` : ''}
-    </div>
-  `;
-}
-
-// Lead Pool Selection
-function lpToggleAll(checked, prefix) {
-  const checkboxes = document.querySelectorAll('tbody .lp-cb');
-  checkboxes.forEach(cb => {
-    if (checked) lpSelected.add(cb.value);
-    else lpSelected.delete(cb.value);
-    cb.checked = checked;
-  });
-  renderLeadPool();
-}
-function lpToggleOne(id, checked) {
-  if (checked) lpSelected.add(id); else lpSelected.delete(id);
-  // Re-render just the batch bar area
-  const existing = document.getElementById('lpBatchBar');
-  if (lpSelected.size > 0 && !existing) renderLeadPool();
-  else if (lpSelected.size === 0 && existing) renderLeadPool();
-  else if (existing) existing.querySelector('.count').textContent = lpSelected.size + ' selected';
-}
-
-// Batch Assign
-async function lpBatchAssign() {
-  const repId = document.getElementById('lpBatchRep').value;
-  if (!repId) return alert('Please select a rep to assign to.');
-  const rep = allTeamUsers.find(u => u.id === repId);
-  if (!rep) return alert('Rep not found.');
-  if (!confirm(`Assign ${lpSelected.size} leads to ${rep.name}?`)) return;
-
-  const batch = db.batch();
-  const ids = [...lpSelected];
-  // Firestore batches max 500
-  for (let i = 0; i < ids.length; i += 500) {
-    const chunk = ids.slice(i, i + 500);
-    const b = db.batch();
-    chunk.forEach(id => {
-      b.update(db.collection('clients').doc(id), {
-        employeeId: repId,
-        employeeName: rep.name,
-        leadSource: 'assigned',
-        assignedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        assignedBy: currentUser.uid,
-        assignedByName: currentUserData.name
-      });
-    });
-    await b.commit();
-  }
-
-  alert(`✅ ${ids.length} leads assigned to ${rep.name}`);
-  lpSelected.clear();
-  renderLeadPool();
-}
-
-// ============================================================
-//  CSV IMPORT (Owner Only)
-// ============================================================
-function openCSVImport() {
-  openModal('📥 Import Leads from CSV', `
-    <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px">Upload a CSV file with columns: Company name, City, Email, Phone, Web, Qualified Date, Industry Category, Industry, Timezone</p>
-    <div class="csv-import-zone" id="csvZone" onclick="document.getElementById('csvFileInput').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="event.preventDefault();this.classList.remove('dragover');handleCSVFile(event.dataTransfer.files[0])">
-      <div style="font-size:32px;margin-bottom:8px">📄</div>
-      <div style="color:var(--text-primary);font-weight:600;margin-bottom:4px">Drop your CSV file here</div>
-      <div style="color:var(--text-muted);font-size:12px">or click to browse</div>
-      <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCSVFile(this.files[0])">
-    </div>
-    <div id="csvPreview" style="margin-top:16px"></div>
-    <div id="csvProgress" style="display:none">
-      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px" id="csvProgressLabel">Importing...</div>
-      <div class="csv-progress"><div class="csv-progress-bar" id="csvProgressBar" style="width:0%"></div></div>
-    </div>
-  `, `
-    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="csvImportBtn" onclick="runCSVImport()" style="display:none">Import All Leads</button>
-  `);
-}
-
-let csvParsedRows = [];
-
-function handleCSVFile(file) {
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const text = e.target.result;
-    const lines = text.split(/\r?\n/).filter(l => l.trim());
-    if (lines.length < 2) return alert('CSV appears empty.');
-
-    // Parse CSV (handle quoted fields)
-    function parseCSVLine(line) {
-      const result = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') { inQuotes = !inQuotes; }
-        else if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
-        else { current += ch; }
-      }
-      result.push(current.trim());
-      return result;
-    }
-
-    const headers = parseCSVLine(lines[0]);
-    csvParsedRows = [];
-    for (let i = 1; i < lines.length; i++) {
-      const vals = parseCSVLine(lines[i]);
-      if (vals.length < 2 || !vals[0]) continue;
-      const row = {};
-      headers.forEach((h, idx) => { row[h.trim()] = (vals[idx] || '').trim(); });
-      csvParsedRows.push(row);
-    }
-
-    // Show preview
-    const preview = document.getElementById('csvPreview');
-    preview.innerHTML = `
-      <div style="font-size:13px;color:var(--text-primary);font-weight:600;margin-bottom:8px">${csvParsedRows.length} leads found. Preview:</div>
-      <div class="csv-preview-table">
-        <table><thead><tr>${headers.map(h => '<th>'+esc(h)+'</th>').join('')}</tr></thead>
-        <tbody>${csvParsedRows.slice(0,5).map(r => '<tr>'+headers.map(h => '<td>'+esc(r[h]||'-')+'</td>').join('')+'</tr>').join('')}
-        ${csvParsedRows.length > 5 ? '<tr><td colspan="'+headers.length+'" style="text-align:center;color:var(--text-muted)">...and '+(csvParsedRows.length-5)+' more</td></tr>' : ''}
-        </tbody></table>
-      </div>
-    `;
-    document.getElementById('csvImportBtn').style.display = 'inline-block';
-  };
-  reader.readAsText(file);
-}
-
-async function runCSVImport() {
-  if (csvParsedRows.length === 0) return alert('No data to import.');
-  if (!confirm(`Import ${csvParsedRows.length} leads into your Lead Pool?`)) return;
-
-  document.getElementById('csvImportBtn').style.display = 'none';
-  document.getElementById('csvProgress').style.display = 'block';
-  const progressBar = document.getElementById('csvProgressBar');
-  const progressLabel = document.getElementById('csvProgressLabel');
-
-  let imported = 0;
-  const batchSize = 500;
-
-  for (let i = 0; i < csvParsedRows.length; i += batchSize) {
-    const chunk = csvParsedRows.slice(i, i + batchSize);
-    const batch = db.batch();
-
-    chunk.forEach(row => {
-      const ref = db.collection('clients').doc();
-      batch.set(ref, {
-        businessName: row['Company name'] || row['Company Name'] || '',
-        name: row['Company name'] || row['Company Name'] || '',
-        city: row['City'] || '',
-        email: row['Email'] || '',
-        phone: row['Phone 1'] || row['Phone'] || row['Phone Number'] || '',
-        website: row['Web'] || row['Website'] || '',
-        qualifiedDate: row['Qualified Date'] || '',
-        industryCategory: row['Industry Category'] || '',
-        industry: row['Industry'] || row['Industry Category'] || '',
-        timezone: row['Timezone'] || '',
-        status: 'lead',
-        leadSource: 'imported',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        createdBy: currentUser.uid,
-        createdByName: currentUserData.name
-      });
-    });
-
-    await batch.commit();
-    imported += chunk.length;
-    const pct = Math.round((imported / csvParsedRows.length) * 100);
-    progressBar.style.width = pct + '%';
-    progressLabel.textContent = `Imported ${imported} of ${csvParsedRows.length} leads (${pct}%)`;
-  }
-
-  progressLabel.textContent = `✅ Successfully imported ${imported} leads!`;
-  csvParsedRows = [];
-  setTimeout(() => { closeModal(); renderLeadPool(); }, 1500);
-}
-
-// ============================================================
-//  RECYCLED LEADS (Owner Only)
-// ============================================================
-async function renderRecycledLeads() {
-  if (currentUserData.role !== 'owner') return navigate('dashboard');
-  const content = document.getElementById('contentArea');
-
-  const snap = await db.collection('clients').where('status', '==', 'recycled').get();
-  const clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  const reps = allTeamUsers.filter(u => u.status === 'approved');
-
-  content.innerHTML = `
-    <div class="card">
-      <div class="card-header">
-        <h3>Recycled Leads (${clients.length})</h3>
-        <p style="color:var(--text-muted);font-size:12px;margin:0">Leads with 30+ days of no activity. Reassign to give them a fresh start.</p>
-      </div>
-      <div class="card-body" style="padding:0">
-        ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">♻️</div><p>No recycled leads — your team is staying on top of things!</p></div>' :
-          `<table><thead><tr>
-            <th><input type="checkbox" class="lp-cb" onchange="lpToggleAll(this.checked, 'rc')"></th>
-            <th>Company</th>
-            <th>City</th>
-            <th>Industry</th>
-            <th>Last Assigned To</th>
-            <th>Last Activity</th>
-            <th>Actions</th>
-          </tr></thead><tbody>${
-            clients.map(c => `<tr>
-              <td><input type="checkbox" class="lp-cb" value="${c.id}" ${lpSelected.has(c.id)?'checked':''} onchange="lpToggleOne('${c.id}',this.checked)"></td>
-              <td>${esc(c.businessName || c.name)}</td>
-              <td>${esc(c.city || '-')}</td>
-              <td>${esc(c.industry || '-')}</td>
-              <td>${esc(c.employeeName || 'Unassigned')}</td>
-              <td>${formatLastActivity(c)}</td>
-              <td><button class="btn btn-secondary btn-sm" onclick="recycleRestore('${c.id}')">♻️ Restore to Pool</button></td>
-            </tr>`).join('')
-          }</tbody></table>`
-        }
-      </div>
-      ${lpSelected.size > 0 ? `<div class="lp-batch-bar">
-        <span class="count">${lpSelected.size} selected</span>
-        <select id="lpBatchRep" class="lp-filter"><option value="">Assign to rep...</option>${reps.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('')}</select>
-        <button class="btn btn-primary btn-sm" onclick="lpBatchAssign()">Reassign Selected</button>
-      </div>` : ''}
-    </div>
-  `;
-}
-
-async function recycleRestore(id) {
-  await db.collection('clients').doc(id).update({
-    status: 'lead',
-    employeeId: '',
-    employeeName: '',
-    leadSource: 'recycled_restored'
-  });
-  renderRecycledLeads();
 }
 
 // ============================================================
