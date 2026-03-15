@@ -323,6 +323,13 @@ const saPlans = {
 };
 let saCurrentPlan = 'mtm';
 
+const STRIPE_LINKS = {
+  'mtm': 'https://buy.stripe.com/6oU3cx3WId3g4cH6lj3Ru03',
+  '12':  'https://buy.stripe.com/aFaeVf3WI3sG38D5hf3Ru01',
+  '24':  'https://buy.stripe.com/5kQ3cxcte2oCfVp9xv3Ru02',
+  '36':  'https://buy.stripe.com/bJe3cxfFqe7kgZt10Z3Ru00'
+};
+
 // Set today's date on load
 window.addEventListener('load', () => {
   const today = new Date().toISOString().split('T')[0];
@@ -463,8 +470,16 @@ async function saSubmitAgreement() {
       })
     });
     if (res.ok) {
-      document.getElementById('saDoc').style.display = 'none';
-      document.getElementById('saSuccessScreen').style.display = 'flex';
+      btn.textContent = 'Redirecting to Secure Payment...';
+      const encodedName  = encodeURIComponent(ownerName);
+      const encodedEmail = encodeURIComponent(email);
+      const baseLink     = STRIPE_LINKS[saCurrentPlan];
+      const stripeURL    = baseLink + '?prefilled_email=' + encodedEmail + '&client_reference_id=' + encodedName;
+      const redirectMsg  = document.getElementById('saErrorMsg');
+      redirectMsg.style.cssText = 'display:block;background:#d1fae5;border-color:#34d399;color:#065f46;';
+      redirectMsg.innerHTML = '&#10003; Agreement submitted. Redirecting to secure payment&hellip;';
+      redirectMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() { window.location.href = stripeURL; }, 800);
     } else {
       throw new Error('Submission failed');
     }
