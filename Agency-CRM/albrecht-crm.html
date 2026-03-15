@@ -6025,17 +6025,19 @@ async function savePermissions(uid) {
 
 /* ── Copy My Agreement Link ── */
 function copyAgreementLink() {
-  const repName = (currentUser && currentUser.displayName) ? currentUser.displayName : 'Sales Rep';
-  const agreementLink = 'https://crm.brechtland.com/albrecht-service-agreement.html?rep=' + encodeURIComponent(repName);
-  navigator.clipboard.writeText(agreementLink).then(function() {
-    var msg = document.createElement('div');
-    msg.textContent = '\u2713 Agreement link copied.';
-    msg.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:10px 22px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;z-index:9999;box-shadow:var(--shadow);';
-    document.body.appendChild(msg);
-    setTimeout(function() { msg.remove(); }, 2200);
-  }).catch(function() {
-    prompt('Copy this agreement link:', agreementLink);
-  });
+  const repName = currentUser.displayName || "rep";
+  const cleanName = encodeURIComponent(repName);
+  const link = `${window.location.origin}/Roofing-Service-Agreement/albrecht-service-agreement.html?rep=${cleanName}`;
+  navigator.clipboard.writeText(link);
+  showToast("Agreement link copied!");
+}
+
+function showToast(msg) {
+  var el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:10px 22px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;z-index:9999;box-shadow:var(--shadow);';
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 2200);
 }
 
 showScreen('loginScreen');
