@@ -305,10 +305,14 @@ body {
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
-<!-- Firebase SDK for CRM client creation -->
+<!-- Firebase SDK for CRM client creation + rep verification -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script data-cfasync="false">
+/* Task 5: Firebase safety check */
+if (typeof firebase === 'undefined') {
+  console.error('Firebase not loaded.');
+}
 (function() {
   var firebaseConfig = {
     apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
@@ -323,8 +327,27 @@ body {
   }
 })();
 var saDb = (typeof firebase !== 'undefined') ? firebase.firestore() : null;
-var saRepParams = new URLSearchParams(window.location.search);
-var saRepName = saRepParams.get('rep') || 'Unknown Rep';
+
+/* Task 2: Rep identity verification via UID lookup */
+var saRepId = null;
+var saRepName = 'Unknown';
+(async function() {
+  var params = new URLSearchParams(window.location.search);
+  var repIdParam = params.get('repId');
+  if (repIdParam && saDb) {
+    try {
+      var repDoc = await saDb.collection('users').doc(repIdParam).get();
+      if (repDoc.exists) {
+        saRepId = repIdParam;
+        saRepName = repDoc.data().name || 'Sales Rep';
+      } else {
+        console.warn('Rep UID not found in users collection:', repIdParam);
+      }
+    } catch (e) {
+      console.error('Rep lookup failed:', e);
+    }
+  }
+})();
 </script>
 
 <script>
@@ -452,13 +475,6 @@ async function saSubmitAgreement() {
     return;
   }
 
-  /* ── TASK 2: Validate Stripe plan before proceeding ── */
-  if (!STRIPE_LINKS[saCurrentPlan]) {
-    console.error('Invalid plan selected:', saCurrentPlan);
-    alert('Plan selection error. Please reload and try again.');
-    return;
-  }
-
   const btn = document.getElementById('saSubmitBtn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
 
@@ -468,15 +484,6 @@ async function saSubmitAgreement() {
   const email      = document.getElementById('sa_email').value.trim();
   const phone      = document.getElementById('sa_phone').value.trim();
   const address    = document.getElementById('sa_address').value.trim();
-
-  /* ── TASK 2: Prevent empty email/name reaching Stripe ── */
-  if (!email || !ownerName) {
-    btn.textContent = '\u2709\uFE0F Submit Agreement & Continue to Secure Payment';
-    btn.disabled = false;
-    errEl.innerHTML = '<strong>Email and Owner Name are required.</strong>';
-    errEl.style.display = 'block';
-    return;
-  }
 
   try {
     const res = await fetch('https://formspree.io/f/xojkeadq', {
@@ -499,16 +506,22 @@ async function saSubmitAgreement() {
       })
     });
     if (res.ok) {
-      /* ── TASK 3 + 4: Create CRM client (with Firebase check + duplicate prevention) ── */
+      /* Task 5: Firebase safety check before Firestore operations */
       if (typeof firebase === 'undefined' || !saDb) {
-        console.error('Firebase SDK not loaded — skipping CRM client creation');
+        console.error('Firebase not loaded.');
       } else {
+        /* Task 4: Warn if repId is not verified */
+        if (!saRepId) {
+          console.warn('Invalid repId detected. Client will be created but not credited.');
+        }
         try {
+          /* Task 6: Duplicate email check before client creation */
           var existing = await saDb.collection('clients')
             .where('email', '==', email)
             .limit(1)
             .get();
           if (existing.empty) {
+            /* Task 3: Store both repId and employeeName securely */
             await saDb.collection('clients').add({
               businessName: bizName,
               ownerName: ownerName,
@@ -517,19 +530,20 @@ async function saSubmitAgreement() {
               address: address,
               plan: pl.label,
               monthly: pl.monthly,
-              status: 'lead',
+              status: 'pending',
+              employeeId: saRepId,
               employeeName: saRepName,
+              repId: saRepId,
               source: 'service_agreement',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              createdAt: new Date().toISOString()
             });
           } else {
-            console.log('Client with email ' + email + ' already exists — skipping creation');
+            console.log('Client with email ' + email + ' already exists \u2014 skipping creation');
           }
         } catch (fbErr) {
           console.error('CRM client creation failed:', fbErr);
         }
       }
-      /* ── End CRM client creation ── */
 
       btn.textContent = 'Redirecting to Secure Payment...';
       const encodedName  = encodeURIComponent(ownerName);
