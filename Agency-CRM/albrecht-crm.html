@@ -1980,17 +1980,36 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
 .ai-cap-chip:hover,
 .ai-cap-chip.active { background: rgba(106,0,255,0.22); border-color: rgba(106,0,255,0.55); color: #FFFFFF; box-shadow: 0 0 10px rgba(106,0,255,0.20) }
 
-.ai-objection-picker { padding: 10px 0 6px; display: flex; flex-direction: column; gap: 6px }
-.ai-objection-picker p { margin: 0 0 4px; font-size: 11.5px; color: rgba(255,255,255,0.55); font-weight: 600; font-family: 'Exo 2', sans-serif }
-.ai-objection-opt { display: block; width: 100%; text-align: left; font-family: 'Exo 2', sans-serif; font-size: 11.5px; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(106,0,255,0.18); background: rgba(106,0,255,0.06); color: rgba(255,255,255,0.78); cursor: pointer; transition: all 0.18s ease; line-height: 1.35 }
-.ai-objection-opt:hover { background: rgba(106,0,255,0.18); border-color: rgba(106,0,255,0.45); color: #fff; box-shadow: 0 0 8px rgba(106,0,255,0.15) }
-.ai-objection-response { padding: 10px 0 2px }
-.ai-objection-response h4 { margin: 0 0 8px; font-size: 12px; color: #a78bfa; font-family: 'Exo 2', sans-serif; font-weight: 700 }
-.ai-objection-response .obj-section { margin-bottom: 10px }
-.ai-objection-response .obj-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.40); font-weight: 700; margin-bottom: 3px; font-family: 'Exo 2', sans-serif }
-.ai-objection-response .obj-text { font-size: 12px; color: rgba(255,255,255,0.82); line-height: 1.5 }
-.ai-obj-copy-btn { font-family: 'Exo 2', sans-serif; font-size: 10.5px; font-weight: 600; padding: 5px 12px; border-radius: 16px; border: 1px solid rgba(106,0,255,0.30); background: rgba(106,0,255,0.12); color: rgba(255,255,255,0.72); cursor: pointer; transition: all 0.18s ease; margin-top: 4px }
-.ai-obj-copy-btn:hover { background: rgba(106,0,255,0.25); color: #fff }
+/* ── Sales Leaderboard ──────────────────────────────────── */
+.lb-section { margin-top: 20px }
+.lb-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-sm) }
+.lb-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-subtle) }
+.lb-header h3 { font-family: 'Exo 2', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px }
+.lb-header .lb-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--accent-glow); color: var(--accent); font-weight: 600; border: 1px solid var(--border) }
+.lb-table { width: 100%; border-collapse: collapse }
+.lb-table thead th { font-family: 'Exo 2', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border-subtle) }
+.lb-table tbody td { padding: 12px 16px; font-size: 13px; color: var(--text-secondary); border-bottom: 1px solid rgba(106,0,255,0.06) }
+.lb-table tbody tr:hover { background: var(--bg-hover) }
+.lb-table tbody tr:last-child td { border-bottom: none }
+.lb-rank { font-family: 'Orbitron', monospace; font-weight: 800; font-size: 14px; min-width: 32px; display: inline-flex; align-items: center; justify-content: center }
+.lb-rank-1 { color: #FFD700 }
+.lb-rank-2 { color: #C0C0C0 }
+.lb-rank-3 { color: #CD7F32 }
+.lb-name { font-weight: 600; color: var(--text-primary) !important }
+.lb-money { font-family: 'Exo 2', monospace; font-weight: 600; color: var(--success) !important }
+.lb-empty { padding: 32px 20px; text-align: center; color: var(--text-muted); font-size: 13px }
+@media (max-width: 768px) {
+  .lb-table thead th, .lb-table tbody td { padding: 8px 10px; font-size: 11.5px }
+}
+
+/* ── Commission Dashboard ────────────────────────────────── */
+.comm-filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+.comm-filter-btn { font-family: 'Exo 2', sans-serif; font-size: 11.5px; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-secondary); cursor: pointer; transition: all 0.18s ease }
+.comm-filter-btn:hover { border-color: var(--border-light); color: var(--text-primary) }
+.comm-filter-btn.active { background: rgba(106,0,255,0.18); border-color: rgba(106,0,255,0.50); color: #fff }
+.comm-export-btn { font-family: 'Exo 2', sans-serif; font-size: 11.5px; font-weight: 600; padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(34,197,94,0.30); background: rgba(34,197,94,0.08); color: var(--success); cursor: pointer; transition: all 0.18s ease }
+.comm-export-btn:hover { background: rgba(34,197,94,0.18); border-color: rgba(34,197,94,0.55) }
+.comm-totals-row td { font-weight: 700 !important; color: var(--text-primary) !important; border-top: 2px solid var(--border-light) !important; background: rgba(106,0,255,0.04) }
 
 .ai-messages { flex: 1; overflow-y: auto; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth }
 .ai-messages::-webkit-scrollbar { width: 4px }
@@ -2266,7 +2285,6 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
     <button class="ai-cap-chip" onclick="aiQuickPrompt('followup')">📞 Suggest Follow-ups</button>
     <button class="ai-cap-chip" onclick="aiQuickPrompt('reply')">✉️ Draft Reply</button>
     <button class="ai-cap-chip" onclick="aiQuickPrompt('upsell')">💡 Upsell Ideas</button>
-    <button class="ai-cap-chip" onclick="aiShowObjections(event)">🛡️ Objections</button>
   </div>
 
   <!-- Message thread -->
@@ -2709,14 +2727,14 @@ async function navigate(page) {
   const navEl = document.getElementById('nav' + page.charAt(0).toUpperCase() + page.slice(1));
   if (navEl) navEl.classList.add('active');
 
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', commissions: 'Commission Dashboard' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   const contentArea = document.getElementById('contentArea');
   contentArea.style.opacity = '0';
   await new Promise(r => setTimeout(r, 180));
 
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
   if (renderers[page]) await Promise.resolve(renderers[page]());
 
   contentArea.style.opacity = '1';
@@ -2882,6 +2900,7 @@ async function renderRecentActivity(clients, calEvs) {
     { label: 'Admin', id: 'adminNavSection', style: 'display:none', items: [
       { icon:'🛡️', label:'Team Management', id:'navTeam',     action:"navigate('team')",     badge:'pendingBadge', extra:'' },
       { icon:'🔭', label:'Team Overview',   id:'navOverview', action:"navigate('overview')", badge:'', extra:' style="display:none"' },
+      { icon:'💰', label:'Commissions',     id:'navCommissions', action:"navigate('commissions')", badge:'', extra:'' },
     ]},
   ];
   nav.innerHTML = sections.map(sec => {
@@ -3048,114 +3067,6 @@ const AI_RESPONSES = {
     "Great question. Here's what I'd suggest based on typical patterns in your pipeline:"
   ]
 };
-
-/* ── Objections Feature ──────────────────────────────────── */
-const OBJECTION_DATA = {
-  'not_interested': {
-    label: '"Not interested"',
-    response: "\"Of course you're not interested. That's impossible without me first asking a few questions to see if you're even a good fit for us. Let me ask you something — how often do you miss calls from potential clients?\"",
-    psychology: "Reframes the rejection as premature — they can't reject what they haven't evaluated. Shifts power by implying YOU are qualifying THEM. The follow-up question pivots to a real pain point.",
-    tone: "Casual and calm. Do not sound defensive."
-  },
-  'enough_business': {
-    label: '"We already have enough business"',
-    response: "\"Completely understand. Then you don't need more leads. You need to charge more for the ones you're already getting. A professional site acts as a price anchor. When customers compare you to other contractors, the business that looks more professional wins the job.\"",
-    psychology: "Agreement disarms the objection. Then reframes the value proposition from 'more leads' to 'higher revenue per job' — something every business owner cares about.",
-    tone: "Agree first, then reframe."
-  },
-  'expensive': {
-    label: '"Seems expensive"',
-    response: "\"100%. Let me ask you something — do you want a cheaper price or a cheaper cost?\"\n\nThen explain:\n\"Price is what you pay today. Cost is what it costs you when someone Googles you, finds nothing, and hires your competitor.\"",
-    psychology: "Separates price from cost. Makes them think about lost revenue rather than the monthly fee. The rhetorical question creates a 'gotcha' moment that reframes value.",
-    tone: "Logical and math-based."
-  },
-  'burned_before': {
-    label: '"We\'ve been burned by developers before"',
-    response: "\"Completely understand. I hear that a lot. Other than the past developer letting you down and making you hesitant… what else is holding you back?\"",
-    psychology: "Validates their experience, normalizes it ('I hear that a lot'), then isolates the objection. By asking 'what else,' you move past the emotional blocker and find the real objection underneath.",
-    tone: "Lower voice, slow pace, curious."
-  },
-  'think_about_it': {
-    label: '"I need to think about it"',
-    response: "\"No problem. How long do you need?\"\n\nThen schedule the follow-up call immediately.",
-    psychology: "Doesn't fight it. The short response disarms them. Asking 'how long' forces a concrete commitment instead of a vague brush-off. You walk away with a scheduled callback.",
-    tone: "Relaxed, not pushy."
-  }
-};
-
-function aiShowObjections(e) {
-  document.querySelectorAll('.ai-cap-chip').forEach(c => c.classList.remove('active'));
-  e.currentTarget.classList.add('active');
-  setTimeout(() => e.currentTarget.classList.remove('active'), 1200);
-
-  aiAddMessage('user', '🛡️ Objections');
-
-  const typingEl = aiAddTyping();
-  setTimeout(() => {
-    if (typingEl) typingEl.remove();
-
-    const keys = Object.keys(OBJECTION_DATA);
-    const optionsHtml = keys.map(k =>
-      `<button class="ai-objection-opt" onclick="aiHandleObjection('${k}')">${OBJECTION_DATA[k].label}</button>`
-    ).join('');
-
-    const pickerHtml = `<div class="ai-objection-picker"><p>Which objection did the prospect give you?</p>${optionsHtml}</div>`;
-
-    const msgs = document.getElementById('aiMessages');
-    if (!msgs) return;
-    const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    const div = document.createElement('div');
-    div.className = 'ai-msg assist';
-    div.innerHTML = `<div class="ai-msg-bubble">${pickerHtml}</div><span class="ai-msg-time">${now}</span>`;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 500 + Math.random() * 400);
-}
-
-function aiHandleObjection(key) {
-  const obj = OBJECTION_DATA[key];
-  if (!obj) return;
-
-  aiAddMessage('user', obj.label);
-
-  const typingEl = aiAddTyping();
-  setTimeout(() => {
-    if (typingEl) typingEl.remove();
-
-    const responseText = obj.response.replace(/\n/g, '<br>');
-    const html = `<div class="ai-objection-response">
-      <h4>🛡️ Objection: ${obj.label}</h4>
-      <div class="obj-section"><div class="obj-label">Recommended Response</div><div class="obj-text">${responseText}</div></div>
-      <div class="obj-section"><div class="obj-label">Psychology Behind It</div><div class="obj-text">${obj.psychology}</div></div>
-      <div class="obj-section"><div class="obj-label">Suggested Tone</div><div class="obj-text">${obj.tone}</div></div>
-      <button class="ai-obj-copy-btn" onclick="aiCopyObjection(this, '${key}')">📋 Copy Response</button>
-    </div>`;
-
-    const msgs = document.getElementById('aiMessages');
-    if (!msgs) return;
-    const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    const div = document.createElement('div');
-    div.className = 'ai-msg assist';
-    div.innerHTML = `<div class="ai-msg-bubble">${html}</div><span class="ai-msg-time">${now}</span>`;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 600 + Math.random() * 600);
-}
-
-function aiCopyObjection(btn, key) {
-  const obj = OBJECTION_DATA[key];
-  if (!obj) return;
-  const plain = obj.response.replace(/\\n/g, '\n').replace(/"/g, '');
-  navigator.clipboard.writeText(plain).then(() => {
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => { btn.textContent = '📋 Copy Response'; }, 2000);
-  }).catch(() => {
-    btn.textContent = '⚠️ Copy failed';
-    setTimeout(() => { btn.textContent = '📋 Copy Response'; }, 2000);
-  });
-}
-/* ── End Objections Feature ──────────────────────────────── */
-
 function toggleAiPanel(forceState) {
   aiPanelOpen = typeof forceState === 'boolean' ? forceState : !aiPanelOpen;
   const panel = document.getElementById('aiPanel');
@@ -3591,6 +3502,9 @@ async function renderDashboard() {
   requestAnimationFrame(() => animateDashStats());
 
   renderRecentActivity(clients, calEvs);
+
+  /* ── Sales Leaderboard (all reps) ── */
+  renderSalesLeaderboard();
 }
 
 async function renderDashboardStats(clients, calEvs) {
@@ -5852,6 +5766,225 @@ async function saveAppointment() {
   } catch(e) {
     alert('Error booking appointment: ' + e.message);
   }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SALES LEADERBOARD  (Dashboard — all users)
+   ══════════════════════════════════════════════════════════════ */
+async function renderSalesLeaderboard() {
+  const dashLower = document.querySelector('.dash-lower');
+  if (!dashLower) return;
+
+  /* Remove any previous leaderboard so we don't duplicate */
+  const prev = document.getElementById('salesLeaderboardSection');
+  if (prev) prev.remove();
+
+  const section = document.createElement('div');
+  section.id = 'salesLeaderboardSection';
+  section.className = 'lb-section';
+  section.innerHTML = `<div class="lb-card">
+    <div class="lb-header"><h3>🏆 Sales Leaderboard</h3><span class="lb-badge">Live</span></div>
+    <div id="lbBody"><div class="lb-empty">Loading leaderboard…</div></div>
+  </div>`;
+  dashLower.parentNode.insertBefore(section, dashLower.nextSibling);
+
+  try {
+    const clientSnap = await db.collection('clients').get();
+    const allClients = clientSnap.docs.map(d => d.data());
+
+    const userSnap = await db.collection('users').where('status','==','approved').get();
+    const userMap = {};
+    userSnap.docs.forEach(d => { userMap[d.id] = d.data(); });
+
+    /* Aggregate by rep */
+    const repStats = {};
+    allClients.forEach(c => {
+      const uid = c.employeeId || c.repId;
+      if (!uid) return;
+      if (!repStats[uid]) {
+        const u = userMap[uid];
+        repStats[uid] = { name: u ? u.name : (c.employeeName || 'Unknown'), deals: 0, mrr: 0, lifetime: 0 };
+      }
+      if (c.status === 'active') {
+        repStats[uid].deals++;
+        repStats[uid].mrr += parseFloat(c.monthly) || 0;
+        repStats[uid].lifetime += (parseFloat(c.monthly) || 0) * 12;
+      }
+    });
+
+    const sorted = Object.values(repStats)
+      .filter(r => r.deals > 0)
+      .sort((a, b) => b.mrr - a.mrr || b.deals - a.deals);
+
+    const body = document.getElementById('lbBody');
+    if (!sorted.length) {
+      body.innerHTML = '<div class="lb-empty">🏁 No closed deals yet — go get that first sale!</div>';
+      return;
+    }
+
+    body.innerHTML = `<table class="lb-table"><thead><tr>
+      <th style="width:50px">Rank</th><th>Rep Name</th><th>Deals Closed</th><th>Monthly MRR</th><th>Lifetime Rev</th>
+    </tr></thead><tbody>${sorted.map((r, i) => {
+      const rankClass = i < 3 ? ` lb-rank-${i+1}` : '';
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+      return `<tr>
+        <td><span class="lb-rank${rankClass}">${medal || (i+1)}</span></td>
+        <td class="lb-name">${esc(r.name)}</td>
+        <td>${r.deals}</td>
+        <td class="lb-money">$${r.mrr.toLocaleString()}/mo</td>
+        <td class="lb-money">$${r.lifetime.toLocaleString()}</td>
+      </tr>`;
+    }).join('')}</tbody></table>`;
+  } catch(e) {
+    const body = document.getElementById('lbBody');
+    if (body) body.innerHTML = `<div class="lb-empty" style="color:var(--danger)">Error loading leaderboard: ${e.message}</div>`;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COMMISSION DASHBOARD  (Admin tab — admin/owner only)
+   ══════════════════════════════════════════════════════════════ */
+let commFilterPeriod = 'all';
+
+async function renderCommissions() {
+  const role = currentUserData.role;
+  if (!isAdminRole(role)) return navigate('dashboard');
+
+  const content = document.getElementById('contentArea');
+  const pageActions = document.getElementById('pageActions');
+  if (pageActions) pageActions.innerHTML = '';
+
+  content.innerHTML = `
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header" style="flex-wrap:wrap;gap:10px">
+        <h3 style="font-family:'Exo 2',sans-serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px">💰 Commission Dashboard <span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--accent-glow);color:var(--accent);font-weight:600;border:1px solid var(--border)">60 / 40 Split</span></h3>
+        <div class="comm-filters">
+          <button class="comm-filter-btn ${commFilterPeriod==='current'?'active':''}" onclick="commSetFilter('current')">This Month</button>
+          <button class="comm-filter-btn ${commFilterPeriod==='last'?'active':''}" onclick="commSetFilter('last')">Last Month</button>
+          <button class="comm-filter-btn ${commFilterPeriod==='all'?'active':''}" onclick="commSetFilter('all')">All Time</button>
+          <button class="comm-export-btn" onclick="commExportCSV()">📥 Export CSV</button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0" id="commBody">
+        <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">Loading commission data…</div>
+      </div>
+    </div>`;
+
+  await commLoadData();
+}
+
+function commSetFilter(period) {
+  commFilterPeriod = period;
+  document.querySelectorAll('.comm-filter-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  commLoadData();
+}
+
+async function commLoadData() {
+  const body = document.getElementById('commBody');
+  if (!body) return;
+
+  try {
+    const [clientSnap, userSnap] = await Promise.all([
+      db.collection('clients').get(),
+      db.collection('users').where('status','==','approved').get()
+    ]);
+    const allClients = clientSnap.docs.map(d => d.data());
+    const userMap = {};
+    userSnap.docs.forEach(d => { userMap[d.id] = d.data(); });
+
+    /* Period filter — based on client createdAt timestamp */
+    const now = new Date();
+    const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthEnd   = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+
+    const filtered = allClients.filter(c => {
+      if (c.status !== 'active') return false;
+      if (commFilterPeriod === 'all') return true;
+      const ts = c.createdAt?.seconds ? new Date(c.createdAt.seconds * 1000) : null;
+      if (!ts) return commFilterPeriod === 'all';
+      if (commFilterPeriod === 'current') return ts >= thisMonthStart;
+      if (commFilterPeriod === 'last') return ts >= lastMonthStart && ts <= lastMonthEnd;
+      return true;
+    });
+
+    /* Aggregate by rep */
+    const repStats = {};
+    filtered.forEach(c => {
+      const uid = c.employeeId || c.repId;
+      if (!uid) return;
+      if (!repStats[uid]) {
+        const u = userMap[uid];
+        repStats[uid] = { name: u ? u.name : (c.employeeName || 'Unknown'), deals: 0, mrr: 0 };
+      }
+      repStats[uid].deals++;
+      repStats[uid].mrr += parseFloat(c.monthly) || 0;
+    });
+
+    const sorted = Object.values(repStats).sort((a, b) => b.mrr - a.mrr);
+
+    /* Totals */
+    const totals = sorted.reduce((t, r) => {
+      t.deals += r.deals; t.mrr += r.mrr; return t;
+    }, { deals: 0, mrr: 0 });
+
+    /* Store for CSV export */
+    window._commData = { rows: sorted, totals, period: commFilterPeriod };
+
+    if (!sorted.length) {
+      body.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted);font-size:13px">No commission data for this period.</div>';
+      return;
+    }
+
+    body.innerHTML = `<table class="lb-table"><thead><tr>
+      <th>Rep Name</th><th>Deals Closed</th><th>Monthly MRR</th><th>Rep Commission (40%)</th><th>Company Revenue (60%)</th>
+    </tr></thead><tbody>
+      ${sorted.map(r => {
+        const repShare = r.mrr * 0.4;
+        const coShare  = r.mrr * 0.6;
+        return `<tr>
+          <td class="lb-name">${esc(r.name)}</td>
+          <td>${r.deals}</td>
+          <td class="lb-money">$${r.mrr.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+          <td style="color:#22c55e;font-weight:600;font-family:'Exo 2',monospace">$${repShare.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+          <td style="color:var(--accent);font-weight:600;font-family:'Exo 2',monospace">$${coShare.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        </tr>`;
+      }).join('')}
+      <tr class="comm-totals-row">
+        <td>TOTALS</td>
+        <td>${totals.deals}</td>
+        <td style="font-family:'Exo 2',monospace">$${totals.mrr.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td style="color:#22c55e;font-family:'Exo 2',monospace">$${(totals.mrr*0.4).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td style="color:var(--accent);font-family:'Exo 2',monospace">$${(totals.mrr*0.6).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      </tr>
+    </tbody></table>`;
+  } catch(e) {
+    body.innerHTML = `<div style="padding:20px;color:var(--danger)">Error: ${e.message}</div>`;
+  }
+}
+
+function commExportCSV() {
+  const data = window._commData;
+  if (!data || !data.rows.length) return alert('No data to export.');
+
+  const periodLabel = data.period === 'current' ? 'This Month' : data.period === 'last' ? 'Last Month' : 'All Time';
+  let csv = `Brechtland Commission Report (${periodLabel})\n`;
+  csv += 'Rep Name,Deals Closed,Monthly MRR,Rep Commission (40%),Company Revenue (60%)\n';
+  data.rows.forEach(r => {
+    csv += `"${r.name}",${r.deals},${r.mrr.toFixed(2)},${(r.mrr*0.4).toFixed(2)},${(r.mrr*0.6).toFixed(2)}\n`;
+  });
+  csv += `\nTOTALS,${data.totals.deals},${data.totals.mrr.toFixed(2)},${(data.totals.mrr*0.4).toFixed(2)},${(data.totals.mrr*0.6).toFixed(2)}\n`;
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `brechtland-commissions-${data.period}-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 async function renderOverview() {
