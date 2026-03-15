@@ -2237,51 +2237,7 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
         <div class="role" id="sidebarRole"></div>
       </div>
     </div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">
-        <div class="nav-section-label">Main</div>
-        <div class="nav-item active" onclick="navigate('dashboard')" id="navDashboard">
-          <span class="icon">📊</span> Dashboard
-        </div>
-        <div class="nav-item" onclick="navigate('clients')" id="navClients">
-          <span class="icon">👥</span> Clients
-        </div>
-        <div class="nav-item" onclick="navigate('invoices')" id="navInvoices">
-          <span class="icon">📄</span> Invoices
-        </div>
-        <div class="nav-item" onclick="navigate('calendar')" id="navCalendar">
-          <span class="icon">📅</span> Calendar
-          <span class="nav-badge" id="calendarBadge"></span>
-        </div>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-label">Tools</div>
-        <div class="nav-item" onclick="navigate('templates')" id="navTemplates">
-          <span class="icon">🎨</span> Templates
-        </div>
-        <div class="nav-item" onclick="navigate('questionnaires')" id="navQuestionnaires">
-          <span class="icon">📋</span> Questionnaires
-        </div>
-        <div class="nav-item" onclick="navigate('chat')" id="navChat" style="position:relative">
-          <span class="icon">💬</span> Team Chat
-          <span class="nav-badge" id="chatBadge"></span>
-        </div>
-        <div class="nav-item" onclick="openSalesPlaybook()" id="navPlaybook">
-          <span class="icon">📞</span> Sales Playbook
-        </div>
-      </div>
-      <div class="nav-section" id="adminNavSection" style="display:none">
-        <div class="nav-section-label">Admin</div>
-        <div class="nav-item" onclick="navigate('team')" id="navTeam">
-          <span class="icon">🛡️</span> Team Management
-          <span class="nav-badge" id="pendingBadge"></span>
-        </div>
-        <div class="nav-item" onclick="navigate('overview')" id="navOverview" style="display:none">
-          <span class="icon">🔭</span> Team Overview
-        </div>
-
-      </div>
-    </nav>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
     <div class="sidebar-footer">
       <button class="btn btn-secondary" onclick="doLogout()">Sign Out</button>
     </div>
@@ -2426,26 +2382,12 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
         </div>
 
         <div class="sa-section-label">Client Information</div>
-        <div class="sa-client-grid">
-          <div class="sa-field-wrap"><label>Business Name *</label><input class="sa-field-input" id="sa_bizName" placeholder="ABC Roofing LLC"></div>
-          <div class="sa-field-wrap"><label>Owner / Contact Name *</label><input class="sa-field-input" id="sa_ownerName" placeholder="John Smith"></div>
-          <div class="sa-field-wrap"><label>Phone Number *</label><input class="sa-field-input" id="sa_phone" placeholder="(555) 000-0000" type="tel"></div>
-          <div class="sa-field-wrap"><label>Email Address *</label><input class="sa-field-input" id="sa_email" placeholder="john@abcroofing.com" type="email"></div>
-          <div class="sa-field-wrap" style="grid-column:1/-1"><label>Business Address *</label><input class="sa-field-input" id="sa_address" placeholder="123 Main St, Tampa, FL 33601"></div>
-        </div>
+        <div class="sa-client-grid" id="saClientGrid"></div>
 
         <hr>
 
         <div class="sa-section-label">What's Included Every Month</div>
-        <div style="margin-bottom:20px;">
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Professional Website Design &amp; Setup</strong><span>Custom-built site tailored to your brand, fully mobile responsive</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Website Hosting &amp; Domain Management</strong><span>We handle all technical hosting — your site stays live 24/7</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Ongoing Maintenance &amp; Security Updates</strong><span>Regular updates to keep your site fast, secure, and bug-free</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Unlimited Content Edits</strong><span>Update photos, text, pricing, services, or anything else — just ask</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Lead Capture Form &amp; CRM Integration</strong><span>Contact forms connected directly to your email or CRM</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Basic SEO Optimization</strong><span>Title tags, meta descriptions, local keywords, and Google Business setup</span></div></div>
-          <div class="service-row"><div class="check">✓</div><div class="service-text"><strong>Priority Support</strong><span>Direct access to Tyler — call or text anytime during business hours</span></div></div>
-        </div>
+        <div id="saServiceRows" style="margin-bottom:20px;"></div>
 
         <hr>
 
@@ -2473,29 +2415,12 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
         </div>
 
         <div id="saCardFields">
-          <div class="sa-client-grid">
-            <div class="sa-field-wrap" style="grid-column:1/-1"><label>Name on Card *</label><input class="sa-field-input" id="sa_cardName" placeholder="John Smith"></div>
-            <div class="sa-field-wrap" style="grid-column:1/-1"><label>Card Number *</label><input class="sa-field-input" id="sa_cardNum" placeholder="XXXX  XXXX  XXXX  XXXX" maxlength="19" oninput="saFormatCard(this)"></div>
-            <div class="sa-field-wrap"><label>Expiration Date *</label><input class="sa-field-input" id="sa_cardExp" placeholder="MM / YY" maxlength="7" oninput="saFormatExp(this)"></div>
-            <div class="sa-field-wrap"><label>CVV *</label><input class="sa-field-input" id="sa_cardCvv" placeholder="•••" maxlength="4" type="password"></div>
-            <div class="sa-field-wrap" style="grid-column:1/-1"><label>Billing Address (if different)</label><input class="sa-field-input" id="sa_cardBilling" placeholder="123 Main St, Tampa, FL 33601"></div>
+          <div class="sa-client-grid" id="saCardGrid">
           </div>
         </div>
 
         <div id="saBankFields" style="display:none;">
-          <div class="sa-client-grid">
-            <div class="sa-field-wrap"><label>Account Holder Name *</label><input class="sa-field-input" id="sa_bankName" placeholder="John Smith"></div>
-            <div class="sa-field-wrap"><label>Bank Name *</label><input class="sa-field-input" id="sa_bankBankName" placeholder="e.g. Chase, Wells Fargo"></div>
-            <div class="sa-field-wrap"><label>Routing Number *</label><input class="sa-field-input" id="sa_bankRouting" placeholder="9-digit routing number" maxlength="9"></div>
-            <div class="sa-field-wrap"><label>Account Number *</label><input class="sa-field-input" id="sa_bankAcct" placeholder="Account number" type="password"></div>
-            <div class="sa-field-wrap"><label>Account Type *</label>
-              <select class="sa-field-input" id="sa_bankType" style="cursor:pointer;">
-                <option value="">Select...</option>
-                <option>Checking</option>
-                <option>Savings</option>
-                <option>Business Checking</option>
-              </select>
-            </div>
+          <div class="sa-client-grid" id="saBankGrid">
           </div>
         </div>
 
@@ -3178,6 +3103,121 @@ async function renderRecentActivity(clients, calEvs) {
   const badge = document.getElementById('dapBadge');
   if (badge) badge.textContent = feed.length;
 }
+// ============================================================
+//  STATIC UI TEMPLATE GENERATORS
+//  Builds repeated HTML structures from data arrays.
+//  Replaces inline HTML in the sidebar nav, SA service rows,
+//  and SA payment field grids. All CSS classes are unchanged.
+// ============================================================
+
+// ── T1: Sidebar nav ─────────────────────────────────────────
+(function buildSidebarNav() {
+  const nav = document.getElementById('sidebarNav');
+  if (!nav) return;
+  const sections = [
+    { label: 'Main', items: [
+      { icon:'📊', label:'Dashboard', id:'navDashboard', action:"navigate('dashboard')", badge:'', extra:'' },
+      { icon:'👥', label:'Clients',   id:'navClients',   action:"navigate('clients')",   badge:'', extra:'' },
+      { icon:'📄', label:'Invoices',  id:'navInvoices',  action:"navigate('invoices')",  badge:'', extra:'' },
+      { icon:'📅', label:'Calendar',  id:'navCalendar',  action:"navigate('calendar')",  badge:'calendarBadge', extra:'' },
+    ]},
+    { label: 'Tools', items: [
+      { icon:'🎨', label:'Templates',       id:'navTemplates',      action:"navigate('templates')",      badge:'', extra:'' },
+      { icon:'📋', label:'Questionnaires',  id:'navQuestionnaires', action:"navigate('questionnaires')", badge:'', extra:'' },
+      { icon:'💬', label:'Team Chat',       id:'navChat',           action:"navigate('chat')",           badge:'chatBadge', extra:' style="position:relative"' },
+      { icon:'📞', label:'Sales Playbook',  id:'navPlaybook',       action:'openSalesPlaybook()',         badge:'', extra:'' },
+    ]},
+    { label: 'Admin', id: 'adminNavSection', style: 'display:none', items: [
+      { icon:'🛡️', label:'Team Management', id:'navTeam',     action:"navigate('team')",     badge:'pendingBadge', extra:'' },
+      { icon:'🔭', label:'Team Overview',   id:'navOverview', action:"navigate('overview')", badge:'', extra:' style="display:none"' },
+    ]},
+  ];
+  nav.innerHTML = sections.map(sec => {
+    const secAttrs = sec.id ? ` id="${sec.id}"${sec.style ? ` style="${sec.style}"` : ''}` : '';
+    const items = sec.items.map(it =>
+      `<div class="nav-item" onclick="${it.action}" id="${it.id}"${it.extra}>`+
+      `<span class="icon">${it.icon}</span> ${it.label}`+
+      (it.badge ? `<span class="nav-badge" id="${it.badge}"></span>` : '')+
+      `</div>`
+    ).join('');
+    return `<div class="nav-section"${secAttrs}><div class="nav-section-label">${sec.label}</div>${items}</div>`;
+  }).join('');
+  // Set Dashboard active by default (matches initApp behaviour)
+  const dash = document.getElementById('navDashboard');
+  if (dash) dash.classList.add('active');
+})();
+
+// ── T2: SA service rows ──────────────────────────────────────
+(function buildServiceRows() {
+  const el = document.getElementById('saServiceRows');
+  if (!el) return;
+  const rows = [
+    ['Professional Website Design &amp; Setup',    'Custom-built site tailored to your brand, fully mobile responsive'],
+    ['Website Hosting &amp; Domain Management',    'We handle all technical hosting — your site stays live 24/7'],
+    ['Ongoing Maintenance &amp; Security Updates', 'Regular updates to keep your site fast, secure, and bug-free'],
+    ['Unlimited Content Edits',                    'Update photos, text, pricing, services, or anything else — just ask'],
+    ['Lead Capture Form &amp; CRM Integration',   'Contact forms connected directly to your email or CRM'],
+    ['Basic SEO Optimization',                     'Title tags, meta descriptions, local keywords, and Google Business setup'],
+    ['Priority Support',                           'Direct access to Tyler — call or text anytime during business hours'],
+  ];
+  el.innerHTML = rows.map(([title, desc]) =>
+    `<div class="service-row"><div class="check">✓</div>`+
+    `<div class="service-text"><strong>${title}</strong><span>${desc}</span></div></div>`
+  ).join('');
+})();
+
+// ── T3: SA client-info grid ──────────────────────────────────
+(function buildClientGrid() {
+  const el = document.getElementById('saClientGrid');
+  if (!el) return;
+  const fields = [
+    { label:'Business Name *',         id:'sa_bizName',  ph:'ABC Roofing LLC', extra:'' },
+    { label:'Owner / Contact Name *',  id:'sa_ownerName',ph:'John Smith', extra:'' },
+    { label:'Phone Number *',          id:'sa_phone',    ph:'(555) 000-0000', extra:' type="tel"' },
+    { label:'Email Address *',         id:'sa_email',    ph:'john@abcroofing.com', extra:' type="email"' },
+    { label:'Business Address *',      id:'sa_address',  ph:'123 Main St, Tampa, FL 33601', extra:'' , span:true },
+  ];
+  el.innerHTML = fields.map(f =>
+    `<div class="sa-field-wrap"${f.span ? ' style="grid-column:1/-1"' : ''}>`+
+    `<label>${f.label}</label>`+
+    `<input class="sa-field-input" id="${f.id}" placeholder="${f.ph}"${f.extra}></div>`
+  ).join('');
+})();
+
+// ── T4: Card payment fields ──────────────────────────────────
+(function buildCardGrid() {
+  const el = document.getElementById('saCardGrid');
+  if (!el) return;
+  const fields = [
+    { label:'Name on Card *',              id:'sa_cardName',    ph:'John Smith',                   span:true,  extra:'' },
+    { label:'Card Number *',               id:'sa_cardNum',     ph:'XXXX  XXXX  XXXX  XXXX',       span:true,  extra:' maxlength="19" oninput="saFormatCard(this)"' },
+    { label:'Expiration Date *',           id:'sa_cardExp',     ph:'MM / YY',                       span:false, extra:' maxlength="7" oninput="saFormatExp(this)"' },
+    { label:'CVV *',                       id:'sa_cardCvv',     ph:'•••',                           span:false, extra:' maxlength="4" type="password"' },
+    { label:'Billing Address (if different)', id:'sa_cardBilling', ph:'123 Main St, Tampa, FL 33601', span:true, extra:'' },
+  ];
+  el.innerHTML = fields.map(f =>
+    `<div class="sa-field-wrap"${f.span ? ' style="grid-column:1/-1"' : ''}>`+
+    `<label>${f.label}</label>`+
+    `<input class="sa-field-input" id="${f.id}" placeholder="${f.ph}"${f.extra}></div>`
+  ).join('');
+})();
+
+// ── T5: Bank payment fields ──────────────────────────────────
+(function buildBankGrid() {
+  const el = document.getElementById('saBankGrid');
+  if (!el) return;
+  el.innerHTML =
+    '<div class="sa-field-wrap"><label>Account Holder Name *</label><input class="sa-field-input" id="sa_bankName" placeholder="John Smith"></div>'+
+    '<div class="sa-field-wrap"><label>Bank Name *</label><input class="sa-field-input" id="sa_bankBankName" placeholder="e.g. Chase, Wells Fargo"></div>'+
+    '<div class="sa-field-wrap"><label>Routing Number *</label><input class="sa-field-input" id="sa_bankRouting" placeholder="9-digit routing number" maxlength="9"></div>'+
+    '<div class="sa-field-wrap"><label>Account Number *</label><input class="sa-field-input" id="sa_bankAcct" placeholder="Account number" type="password"></div>'+
+    '<div class="sa-field-wrap"><label>Account Type *</label>'+
+    '<select class="sa-field-input" id="sa_bankType" style="cursor:pointer;">'+
+    '<option value="">Select...</option><option>Checking</option><option>Savings</option><option>Business Checking</option>'+
+    '</select></div>';
+})();
+
+
 function showLeadToast({ name, industry, city, status, clientId }) {
   const container = document.getElementById('leadToastContainer');
   if (!container) return;
