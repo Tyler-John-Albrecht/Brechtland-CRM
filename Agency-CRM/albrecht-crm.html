@@ -1980,6 +1980,18 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
 .ai-cap-chip:hover,
 .ai-cap-chip.active { background: rgba(106,0,255,0.22); border-color: rgba(106,0,255,0.55); color: #FFFFFF; box-shadow: 0 0 10px rgba(106,0,255,0.20) }
 
+.ai-objection-picker { padding: 10px 0 6px; display: flex; flex-direction: column; gap: 6px }
+.ai-objection-picker p { margin: 0 0 4px; font-size: 11.5px; color: rgba(255,255,255,0.55); font-weight: 600; font-family: 'Exo 2', sans-serif }
+.ai-objection-opt { display: block; width: 100%; text-align: left; font-family: 'Exo 2', sans-serif; font-size: 11.5px; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(106,0,255,0.18); background: rgba(106,0,255,0.06); color: rgba(255,255,255,0.78); cursor: pointer; transition: all 0.18s ease; line-height: 1.35 }
+.ai-objection-opt:hover { background: rgba(106,0,255,0.18); border-color: rgba(106,0,255,0.45); color: #fff; box-shadow: 0 0 8px rgba(106,0,255,0.15) }
+.ai-objection-response { padding: 10px 0 2px }
+.ai-objection-response h4 { margin: 0 0 8px; font-size: 12px; color: #a78bfa; font-family: 'Exo 2', sans-serif; font-weight: 700 }
+.ai-objection-response .obj-section { margin-bottom: 10px }
+.ai-objection-response .obj-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: rgba(255,255,255,0.40); font-weight: 700; margin-bottom: 3px; font-family: 'Exo 2', sans-serif }
+.ai-objection-response .obj-text { font-size: 12px; color: rgba(255,255,255,0.82); line-height: 1.5 }
+.ai-obj-copy-btn { font-family: 'Exo 2', sans-serif; font-size: 10.5px; font-weight: 600; padding: 5px 12px; border-radius: 16px; border: 1px solid rgba(106,0,255,0.30); background: rgba(106,0,255,0.12); color: rgba(255,255,255,0.72); cursor: pointer; transition: all 0.18s ease; margin-top: 4px }
+.ai-obj-copy-btn:hover { background: rgba(106,0,255,0.25); color: #fff }
+
 .ai-messages { flex: 1; overflow-y: auto; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth }
 .ai-messages::-webkit-scrollbar { width: 4px }
 .ai-messages::-webkit-scrollbar-track { background: transparent }
@@ -2254,6 +2266,7 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
     <button class="ai-cap-chip" onclick="aiQuickPrompt('followup')">📞 Suggest Follow-ups</button>
     <button class="ai-cap-chip" onclick="aiQuickPrompt('reply')">✉️ Draft Reply</button>
     <button class="ai-cap-chip" onclick="aiQuickPrompt('upsell')">💡 Upsell Ideas</button>
+    <button class="ai-cap-chip" onclick="aiShowObjections(event)">🛡️ Objections</button>
   </div>
 
   <!-- Message thread -->
@@ -3035,6 +3048,114 @@ const AI_RESPONSES = {
     "Great question. Here's what I'd suggest based on typical patterns in your pipeline:"
   ]
 };
+
+/* ── Objections Feature ──────────────────────────────────── */
+const OBJECTION_DATA = {
+  'not_interested': {
+    label: '"Not interested"',
+    response: "\"Of course you're not interested. That's impossible without me first asking a few questions to see if you're even a good fit for us. Let me ask you something — how often do you miss calls from potential clients?\"",
+    psychology: "Reframes the rejection as premature — they can't reject what they haven't evaluated. Shifts power by implying YOU are qualifying THEM. The follow-up question pivots to a real pain point.",
+    tone: "Casual and calm. Do not sound defensive."
+  },
+  'enough_business': {
+    label: '"We already have enough business"',
+    response: "\"Completely understand. Then you don't need more leads. You need to charge more for the ones you're already getting. A professional site acts as a price anchor. When customers compare you to other contractors, the business that looks more professional wins the job.\"",
+    psychology: "Agreement disarms the objection. Then reframes the value proposition from 'more leads' to 'higher revenue per job' — something every business owner cares about.",
+    tone: "Agree first, then reframe."
+  },
+  'expensive': {
+    label: '"Seems expensive"',
+    response: "\"100%. Let me ask you something — do you want a cheaper price or a cheaper cost?\"\n\nThen explain:\n\"Price is what you pay today. Cost is what it costs you when someone Googles you, finds nothing, and hires your competitor.\"",
+    psychology: "Separates price from cost. Makes them think about lost revenue rather than the monthly fee. The rhetorical question creates a 'gotcha' moment that reframes value.",
+    tone: "Logical and math-based."
+  },
+  'burned_before': {
+    label: '"We\'ve been burned by developers before"',
+    response: "\"Completely understand. I hear that a lot. Other than the past developer letting you down and making you hesitant… what else is holding you back?\"",
+    psychology: "Validates their experience, normalizes it ('I hear that a lot'), then isolates the objection. By asking 'what else,' you move past the emotional blocker and find the real objection underneath.",
+    tone: "Lower voice, slow pace, curious."
+  },
+  'think_about_it': {
+    label: '"I need to think about it"',
+    response: "\"No problem. How long do you need?\"\n\nThen schedule the follow-up call immediately.",
+    psychology: "Doesn't fight it. The short response disarms them. Asking 'how long' forces a concrete commitment instead of a vague brush-off. You walk away with a scheduled callback.",
+    tone: "Relaxed, not pushy."
+  }
+};
+
+function aiShowObjections(e) {
+  document.querySelectorAll('.ai-cap-chip').forEach(c => c.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  setTimeout(() => e.currentTarget.classList.remove('active'), 1200);
+
+  aiAddMessage('user', '🛡️ Objections');
+
+  const typingEl = aiAddTyping();
+  setTimeout(() => {
+    if (typingEl) typingEl.remove();
+
+    const keys = Object.keys(OBJECTION_DATA);
+    const optionsHtml = keys.map(k =>
+      `<button class="ai-objection-opt" onclick="aiHandleObjection('${k}')">${OBJECTION_DATA[k].label}</button>`
+    ).join('');
+
+    const pickerHtml = `<div class="ai-objection-picker"><p>Which objection did the prospect give you?</p>${optionsHtml}</div>`;
+
+    const msgs = document.getElementById('aiMessages');
+    if (!msgs) return;
+    const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const div = document.createElement('div');
+    div.className = 'ai-msg assist';
+    div.innerHTML = `<div class="ai-msg-bubble">${pickerHtml}</div><span class="ai-msg-time">${now}</span>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 500 + Math.random() * 400);
+}
+
+function aiHandleObjection(key) {
+  const obj = OBJECTION_DATA[key];
+  if (!obj) return;
+
+  aiAddMessage('user', obj.label);
+
+  const typingEl = aiAddTyping();
+  setTimeout(() => {
+    if (typingEl) typingEl.remove();
+
+    const responseText = obj.response.replace(/\n/g, '<br>');
+    const html = `<div class="ai-objection-response">
+      <h4>🛡️ Objection: ${obj.label}</h4>
+      <div class="obj-section"><div class="obj-label">Recommended Response</div><div class="obj-text">${responseText}</div></div>
+      <div class="obj-section"><div class="obj-label">Psychology Behind It</div><div class="obj-text">${obj.psychology}</div></div>
+      <div class="obj-section"><div class="obj-label">Suggested Tone</div><div class="obj-text">${obj.tone}</div></div>
+      <button class="ai-obj-copy-btn" onclick="aiCopyObjection(this, '${key}')">📋 Copy Response</button>
+    </div>`;
+
+    const msgs = document.getElementById('aiMessages');
+    if (!msgs) return;
+    const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const div = document.createElement('div');
+    div.className = 'ai-msg assist';
+    div.innerHTML = `<div class="ai-msg-bubble">${html}</div><span class="ai-msg-time">${now}</span>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600 + Math.random() * 600);
+}
+
+function aiCopyObjection(btn, key) {
+  const obj = OBJECTION_DATA[key];
+  if (!obj) return;
+  const plain = obj.response.replace(/\\n/g, '\n').replace(/"/g, '');
+  navigator.clipboard.writeText(plain).then(() => {
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Response'; }, 2000);
+  }).catch(() => {
+    btn.textContent = '⚠️ Copy failed';
+    setTimeout(() => { btn.textContent = '📋 Copy Response'; }, 2000);
+  });
+}
+/* ── End Objections Feature ──────────────────────────────── */
+
 function toggleAiPanel(forceState) {
   aiPanelOpen = typeof forceState === 'boolean' ? forceState : !aiPanelOpen;
   const panel = document.getElementById('aiPanel');
