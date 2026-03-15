@@ -303,7 +303,31 @@ body {
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<!-- Firebase SDK for CRM client creation -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script data-cfasync="false">
+(function() {
+  var firebaseConfig = {
+    apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
+    authDomain: "albrecht-agency-crm.firebaseapp.com",
+    projectId: "albrecht-agency-crm",
+    storageBucket: "albrecht-agency-crm.firebasestorage.app",
+    messagingSenderId: "924889697457",
+    appId: "1:924889697457:web:b304fff585bfaa25c46690"
+  };
+  if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+})();
+var saDb = (typeof firebase !== 'undefined') ? firebase.firestore() : null;
+var saRepParams = new URLSearchParams(window.location.search);
+var saRepName = saRepParams.get('rep') || 'Unknown Rep';
+</script>
+
+<script>
 const saPlans = {
   'mtm': { label:'Month-to-Month Agreement', title:'Month-to-Month Website Plan', price:'$349', term:'Billed monthly — cancel anytime', total:'No long-term commitment required', months:'1', monthly:349, theme:'theme-mtm' },
   '12':  { label:'12-Month Agreement',        title:'12-Month Website Plan',        price:'$299', term:'12 monthly payments',           total:'Total Contract Value: $3,588',    months:'12', monthly:299, theme:'theme-12' },
@@ -428,6 +452,13 @@ async function saSubmitAgreement() {
     return;
   }
 
+  /* ── TASK 2: Validate Stripe plan before proceeding ── */
+  if (!STRIPE_LINKS[saCurrentPlan]) {
+    console.error('Invalid plan selected:', saCurrentPlan);
+    alert('Plan selection error. Please reload and try again.');
+    return;
+  }
+
   const btn = document.getElementById('saSubmitBtn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
 
@@ -438,12 +469,21 @@ async function saSubmitAgreement() {
   const phone      = document.getElementById('sa_phone').value.trim();
   const address    = document.getElementById('sa_address').value.trim();
 
+  /* ── TASK 2: Prevent empty email/name reaching Stripe ── */
+  if (!email || !ownerName) {
+    btn.textContent = '\u2709\uFE0F Submit Agreement & Continue to Secure Payment';
+    btn.disabled = false;
+    errEl.innerHTML = '<strong>Email and Owner Name are required.</strong>';
+    errEl.style.display = 'block';
+    return;
+  }
+
   try {
     const res = await fetch('https://formspree.io/f/xojkeadq', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        _subject: 'New Signed Agreement — ' + bizName + ' (' + pl.label + ')',
+        _subject: 'New Signed Agreement \u2014 ' + bizName + ' (' + pl.label + ')',
         plan: pl.label,
         monthly_rate: pl.price + '/mo',
         total_contract_value: pl.total,
@@ -459,6 +499,38 @@ async function saSubmitAgreement() {
       })
     });
     if (res.ok) {
+      /* ── TASK 3 + 4: Create CRM client (with Firebase check + duplicate prevention) ── */
+      if (typeof firebase === 'undefined' || !saDb) {
+        console.error('Firebase SDK not loaded — skipping CRM client creation');
+      } else {
+        try {
+          var existing = await saDb.collection('clients')
+            .where('email', '==', email)
+            .limit(1)
+            .get();
+          if (existing.empty) {
+            await saDb.collection('clients').add({
+              businessName: bizName,
+              ownerName: ownerName,
+              email: email,
+              phone: phone,
+              address: address,
+              plan: pl.label,
+              monthly: pl.monthly,
+              status: 'lead',
+              employeeName: saRepName,
+              source: 'service_agreement',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } else {
+            console.log('Client with email ' + email + ' already exists — skipping creation');
+          }
+        } catch (fbErr) {
+          console.error('CRM client creation failed:', fbErr);
+        }
+      }
+      /* ── End CRM client creation ── */
+
       btn.textContent = 'Redirecting to Secure Payment...';
       const encodedName  = encodeURIComponent(ownerName);
       const encodedEmail = encodeURIComponent(email);
@@ -473,7 +545,8 @@ async function saSubmitAgreement() {
       throw new Error('Submission failed');
     }
   } catch(e) {
-    btn.textContent = '✉️ Submit Agreement & Continue to Secure Payment';
+    console.error('Agreement submission error:', e);
+    btn.textContent = '\u2709\uFE0F Submit Agreement & Continue to Secure Payment';
     btn.disabled = false;
     errEl.innerHTML = '<strong>Submission failed.</strong> Please check your connection and try again.';
     errEl.style.display = 'block';
