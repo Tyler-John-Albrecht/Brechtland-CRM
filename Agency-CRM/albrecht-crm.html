@@ -647,7 +647,7 @@ tbody tr:hover { background: rgba(43,92,230,0.04) }
 .cd-field.full { grid-column: 1 / -1 }
 .cd-readonly { padding:9px 12px; background:var(--bg-primary); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; color:var(--text-secondary) }
 
-.sa-overlay { display: none; position: fixed; inset: 0; z-index: 950; background: #f0f2f5; overflow-y: auto; animation: saSlideIn 0.25s ease-out }
+.sa-overlay { display: none; position: fixed; inset: 0; z-index: 950; background: #1a2744; overflow: hidden; animation: saSlideIn 0.25s ease-out }
 .sa-overlay.open { display: block }
 @keyframes saSlideIn { from { opacity: 0; transform: translateY(20px) }
   to { opacity: 1; transform: translateY(0) }
@@ -657,86 +657,11 @@ tbody tr:hover { background: rgba(43,92,230,0.04) }
 .sa-topbar-close { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 6px 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit }
 .sa-topbar-close:hover { background: rgba(255,255,255,0.22) }
 
-.sa-overlay .sa-body{font-family:'Segoe UI',sans-serif;color:#1f2937;font-size:14px }
-.sa-overlay .toolbar{max-width:760px;margin:28px auto 0;padding:0 20px }
-.sa-overlay .plan-selector{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap }
-.sa-overlay .plan-btn{flex:1;min-width:160px;padding:14px 16px;border-radius:10px;border:2px solid #d1d5db;background:#fff;cursor:pointer;text-align:center;transition:all 0.2s;color:#1f2937;font-family:inherit }
-.sa-overlay .plan-btn:hover{border-color:#1a2744 }
-.sa-overlay .plan-btn.active{border-color:#1a2744;background:#1a2744;color:#fff }
-.sa-overlay .plan-btn .plan-name{font-size:0.95rem;font-weight:800;display:block;margin-bottom:3px }
-.sa-overlay .plan-btn .plan-price{font-size:0.78rem;opacity:0.75 }
-.sa-overlay .toolbar-actions{display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap }
-.sa-overlay .toolbar-btn{padding:10px 22px;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;gap:6px;font-family:inherit }
-.sa-overlay .btn-print{background:#1a2744;color:#fff }
-.sa-overlay .btn-reset{background:#f3f4f6;color:#374151 }
-.sa-overlay .toolbar-note{font-size:0.75rem;color:#9ca3af;text-align:center;margin-top:-14px;margin-bottom:20px }
-.sa-overlay .doc{max-width:760px;margin:0 auto 40px;background:#fff;padding:54px 60px;box-shadow:0 4px 24px rgba(0,0,0,0.08);border-radius:0 }
-.sa-overlay .doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px;padding-bottom:22px;border-bottom:3px solid #1a2744 }
-.sa-overlay .brand-name{font-size:1.4rem;font-weight:800;color:#1a2744 }
-.sa-overlay .brand-sub{font-size:0.72rem;color:#6b7280;text-transform:uppercase;letter-spacing:1.5px;margin-top:2px }
-.sa-overlay .brand-contact p{font-size:0.78rem;color:#6b7280;line-height:1.7;margin-top:10px }
-.sa-overlay .doc-right{text-align:right }
-.sa-overlay .agreement-label{display:inline-block;padding:7px 16px;border-radius:4px;font-size:0.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px }
-.sa-overlay .meta-row{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:5px }
-.sa-overlay .meta-row label{font-size:0.72rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;white-space:nowrap }
-.sa-overlay .sa-inline-input{border:none;border-bottom:1.5px solid #d1d5db;font-size:0.82rem;color:#1f2937;padding:2px 4px;width:130px;outline:none;background:transparent;font-family:inherit }
-.sa-overlay .sa-inline-input:focus{border-bottom-color:#1a2744 }
-.sa-overlay .sa-plan-box{border-radius:10px;padding:22px 26px;margin:22px 0;display:flex;align-items:center;justify-content:space-between;gap:14px }
-.sa-overlay .sa-plan-box-left h2{font-size:1.1rem;font-weight:800;margin-bottom:4px }
-.sa-overlay .sa-plan-box-left p{font-size:0.82rem;opacity:0.85;line-height:1.6 }
-.sa-overlay .sa-plan-box-right{text-align:right }
-.sa-overlay .big-price{font-size:2.2rem;font-weight:900;line-height:1;color:inherit }
-.sa-overlay .price-sub{font-size:0.78rem;opacity:0.75;margin-top:3px }
-.sa-overlay .total-val{font-size:0.84rem;font-weight:700;margin-top:5px;opacity:0.9 }
-.sa-overlay .sa-section-label{font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#6b7280;margin-bottom:13px }
-.sa-overlay .sa-client-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px }
-.sa-overlay .sa-field-wrap{display:flex;flex-direction:column;gap:5px }
-.sa-overlay .sa-field-wrap label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af }
-.sa-overlay .sa-field-input{border:none;border-bottom:1.5px solid #d1d5db;font-size:0.9rem;color:#1f2937;padding:4px 2px;width:100%;outline:none;background:transparent;font-family:inherit;transition:border-color 0.2s }
-.sa-overlay .sa-field-input:focus{border-bottom-color:#1a2744 }
-.sa-overlay .sa-field-input::placeholder{color:#d1d5db }
-.sa-overlay .sa-field-input.error{border-bottom-color:#c0392b }
-.sa-overlay .service-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px }
-.sa-overlay .check{width:18px;height:18px;border:2px solid #1a2744;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#1a2744;font-weight:800;margin-top:1px }
-.sa-overlay .service-text strong{display:block;font-size:0.88rem;color:#1f2937 }
-.sa-overlay .service-text span{font-size:0.79rem;color:#6b7280 }
-.sa-overlay .terms-list{list-style:none;display:flex;flex-direction:column;gap:8px;padding:0 }
-.sa-overlay .terms-list li{font-size:0.81rem;color:#4b5563;line-height:1.65;padding-left:14px;position:relative }
-.sa-overlay .terms-list li::before{content:'•';position:absolute;left:0;color:#1a2744;font-weight:700 }
-.sa-overlay .doc hr{border:none;border-top:1px dashed #e5e7eb;margin:20px 0 }
-.sa-overlay .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:10px }
-.sa-overlay .sig-block-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin-bottom:6px;display:block }
-.sa-overlay .sig-canvas{border:1.5px solid #d1d5db;border-radius:6px;background:#fafafa;cursor:crosshair;display:block;touch-action:none;width:100%;height:80px }
-.sa-overlay .sig-canvas.signed{background:#fff;border-color:#1a2744 }
-.sa-overlay .sig-canvas.error{border-color:#c0392b }
-.sa-overlay .sig-controls{display:flex;gap:8px;margin-top:6px }
-.sa-overlay .sig-btn{padding:5px 12px;border-radius:4px;font-size:0.75rem;font-weight:700;cursor:pointer;border:none;font-family:inherit }
-.sa-overlay .sig-clear{background:#f3f4f6;color:#374151 }
-.sa-overlay .sig-confirm{background:#1a2744;color:#fff }
-.sa-overlay .sig-status{font-size:0.72rem;margin-top:4px;min-height:14px }
+
 .sa-overlay .sig-status.ok{color:#15803d;font-weight:700 }
 .sa-overlay .name-date-row{margin-top:12px;display:flex;flex-direction:column;gap:10px }
 .sa-overlay .pay-toggle{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap }
-.sa-overlay .pay-toggle label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;font-weight:600;color:#1a2744 }
-.sa-overlay .submit-wrap{margin-top:28px;text-align:center }
-.sa-overlay .submit-btn{background:#1a2744;color:#fff;border:none;padding:16px 50px;border-radius:8px;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;width:100%;font-family:inherit }
-.sa-overlay .submit-btn:hover{background:#243660;transform:translateY(-2px) }
-.sa-overlay .submit-btn:disabled{background:#9ca3af;cursor:not-allowed;transform:none }
-.sa-overlay .error-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:0.85rem;color:#c0392b;display:none }
-.sa-overlay .success-screen{display:none;text-align:center;padding:60px 20px }
-.sa-overlay .success-icon{width:72px;height:72px;border-radius:50%;background:rgba(21,128,61,0.1);border:2px solid #15803d;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px }
-.sa-overlay .success-screen h3{font-size:1.5rem;color:#1a2744;margin-bottom:10px }
-.sa-overlay .success-screen p{color:#6b7280;line-height:1.7;max-width:420px;margin:0 auto }
-.sa-overlay .doc-footer{margin-top:22px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:0.7rem;color:#9ca3af }
-.sa-overlay .theme-mtm .agreement-label,.sa-overlay .theme-mtm .sa-plan-box{background:#2d4a7a;color:#fff }
-.sa-overlay .theme-12 .agreement-label,.sa-overlay .theme-12 .sa-plan-box{background:#1a2744;color:#fff }
-.sa-overlay .theme-24 .agreement-label,.sa-overlay .theme-24 .sa-plan-box{background:#92400e;color:#fff }
-.sa-overlay .theme-36 .agreement-label,.sa-overlay .theme-36 .sa-plan-box{background:#065f46;color:#fff }
-@media(max-width:600px){ .sa-overlay .doc{padding:24px 18px }
-  .sa-overlay .doc-header{flex-direction:column;gap:14px }
-  .sa-overlay .doc-right{text-align:left }
-  .sa-overlay .sa-client-grid,.sa-overlay .sig-grid{grid-template-columns:1fr }
-}
+
 
 body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility }
 
@@ -1552,25 +1477,6 @@ textarea:not(.sa-overlay textarea) { color: #FFFFFF !important }
 input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35) !important }
 select option { background: #130026 !important; color: #FFFFFF !important }
 
-.sa-overlay,
-.sa-overlay *,
-.sa-overlay input,
-.sa-overlay select,
-.sa-overlay textarea,
-.sa-overlay label,
-.sa-overlay h1,
-.sa-overlay h2,
-.sa-overlay h3,
-.sa-overlay h4 { }
-
-.sa-overlay .toolbar { background: #ffffff; border-bottom: 2px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.06) }
-.sa-overlay .plan-selector { background: #ffffff }
-.sa-overlay .plan-btn { background: #f8fafc; border-color: #d1d5db }
-
-.sa-overlay .doc { background: #ffffff }
-
-.sa-overlay .sa-body { background: #f0f2f5; padding-top: 0 }
-
 .card,
 .stat-card,
 .whop-metric-card,
@@ -1726,9 +1632,6 @@ thead tr { background: rgba(106,0,255,0.10) !important }
 ::-webkit-scrollbar-thumb { background: rgba(106,0,255,0.35) !important; border-radius: 4px !important; border: 2px solid transparent !important; background-clip: content-box !important }
 ::-webkit-scrollbar-thumb:hover { background: rgba(106,0,255,0.55) !important; background-clip: content-box !important }
 
-.sa-overlay .doc,
-.sa-overlay .toolbar,
-.sa-overlay .plan-btn { backdrop-filter: none !important; -webkit-backdrop-filter: none !important }
 
 .whop-metric-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6A00FF 0%, #FF00C8 55%, #FF7A00 100%); border-radius: 14px 14px 0 0; opacity: 0.9; z-index: 2; pointer-events: none }
 
@@ -1910,11 +1813,6 @@ thead tr { background: rgba(106,0,255,0.10) !important }
 .chat-icon-btn:hover { box-shadow: 0 0 12px rgba(106,0,255,0.20) !important }
 
 tbody tr { transition: background 0.18s ease !important }
-
-.sa-overlay * { animation: none !important; transition: none !important }
-.sa-overlay .submit-btn,
-.sa-overlay .toolbar-btn,
-.sa-overlay .sig-btn { transition: background 0.15s ease, opacity 0.15s ease !important }
 
 .dash-activity-panel { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: var(--radius-card); box-shadow: var(--glass-shadow); overflow: hidden; position: relative }
 
@@ -2321,171 +2219,7 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
       <button class="sa-topbar-close" onclick="closeServiceAgreement()">✕ Back to CRM</button>
     </div>
   </div>
-  <div class="sa-body">
-
-    <div class="toolbar" id="saToolbar">
-      <div class="plan-selector">
-        <div class="plan-btn active" onclick="saSetPlan('mtm')"><span class="plan-name">Month-to-Month</span><span class="plan-price">$349/mo · No commitment</span></div>
-        <div class="plan-btn" onclick="saSetPlan('12')"><span class="plan-name">12-Month</span><span class="plan-price">$299/mo · $3,588 total</span></div>
-        <div class="plan-btn" onclick="saSetPlan('24')"><span class="plan-name">24-Month</span><span class="plan-price">$199/mo · $4,776 total</span></div>
-        <div class="plan-btn" onclick="saSetPlan('36')"><span class="plan-name">36-Month</span><span class="plan-price">$149/mo · $5,364 total</span></div>
-      </div>
-      <div class="toolbar-actions">
-        <button class="toolbar-btn btn-print" onclick="saPrint()">🖨️ Print / Save as PDF</button>
-        <button class="toolbar-btn btn-reset" onclick="saResetForm()">↺ Reset</button>
-      </div>
-      <div class="toolbar-note">Fill out all fields → Sign → Click Submit. Tyler will receive everything instantly at <a href="/cdn-cgi/l/email-protection#582b2d2828372a2c183a2a3d3b302c3439363c763b3735"><span class="__cf_email__" data-cfemail="99eaece9e9f6ebedd9fbebfcfaf1edf5f8f7fdb7faf6f4">[email&#160;protected]</span></a></div>
-    </div>
-
-    <div class="doc theme-mtm" id="saDoc">
-
-      <!-- FORM -->
-      <div id="saFormContent">
-        <div class="doc-header">
-          <div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-              <img src="https://tyler-john-albrecht.github.io/Brechtland-CRM/Agency-CRM/Agency%20CRM/images/brechtland-brand.png" width="28" height="28" alt="Brechtland logo" style="flex-shrink:0;" />
-              <div class="brand-name">Brechtland</div>
-            </div>
-            <div class="brand-sub">Website &amp; Digital Services</div>
-            <div class="brand-contact" style="margin-top:6px;display:grid;grid-template-columns:80px 1fr;row-gap:4px;align-items:center;">
-              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">Contact Name:</span>
-              <input type="text" name="rep_name" style="border:none;border-bottom:1px solid #1a2744;outline:none;font-size:12px;color:#1a2744;background:transparent;padding:1px 2px;" />
-              <span style="font-size:12px;color:#6b7280;white-space:nowrap;">Email:</span>
-              <input type="email" name="rep_email" style="border:none;border-bottom:1px solid #1a2744;outline:none;font-size:12px;color:#1a2744;background:transparent;padding:1px 2px;" />
-            </div>
-            <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
-              <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
-              <div><a href="/cdn-cgi/l/email-protection#3c4f494c4c534e487c5e4e595f5448505d5258125f5351"><span class="__cf_email__" data-cfemail="e695939696899492a6849483858e928a878882c885898b">[email&#160;protected]</span></a> &middot; 989-501-1397</div>
-            </div>
-          </div>
-          <div class="doc-right">
-            <div class="agreement-label" id="saAgreementLabel">Month-to-Month Agreement</div>
-            <div>
-              <div class="meta-row"><label>Agreement #</label><input class="sa-inline-input" id="sa_agreementNum" placeholder="AD-______"></div>
-              <div class="meta-row"><label>Date</label><input class="sa-inline-input" id="sa_date" type="date"></div>
-              <div class="meta-row"><label>Start Date</label><input class="sa-inline-input" id="sa_startDate" type="date"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sa-plan-box" id="saPlanBox">
-          <div class="sa-plan-box-left">
-            <h2 id="saPlanTitle">Month-to-Month Website Plan</h2>
-            <p>Professional website · Hosting · Maintenance · Edits · Basic SEO</p>
-          </div>
-          <div class="sa-plan-box-right">
-            <div class="big-price" id="saPlanPrice">$349<span style="font-size:1rem;font-weight:600">/mo</span></div>
-            <div class="price-sub" id="saPlanTerm">Billed monthly — cancel anytime</div>
-            <div class="total-val" id="saPlanTotal">No long-term commitment required</div>
-          </div>
-        </div>
-
-        <div class="sa-section-label">Client Information</div>
-        <div class="sa-client-grid" id="saClientGrid"></div>
-
-        <hr>
-
-        <div class="sa-section-label">What's Included Every Month</div>
-        <div id="saServiceRows" style="margin-bottom:20px;"></div>
-
-        <hr>
-
-        <div class="sa-section-label">Terms &amp; Conditions</div>
-        <ul class="terms-list" style="margin-bottom:20px;">
-          <li>This agreement begins on the start date above and runs on a month-to-month basis (<span id="saTermMonths">1</span> month renewal cycle).</li>
-          <li>Monthly payments of <strong><span id="saTermPrice">$349</span></strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.</li>
-          <li>A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.</li>
-          <li>Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.</li>
-          <li>Brechtland retains the right to suspend services if payment is more than <strong>10 days past due</strong>.</li>
-          <li>Client owns all content, photos, and copy provided. Brechtland owns the website design and code.</li>
-          <li>Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.</li>
-          <li>Brechtland will not work with a direct competitor in the same city during the active contract period.</li>
-          <li>Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.</li>
-        </ul>
-
-        <hr>
-
-        <div class="sa-section-label">Payment Authorization</div>
-        <p style="font-size:0.82rem;color:#6b7280;margin-bottom:14px;">Select your preferred payment method. Your information is kept strictly confidential and used only for monthly billing.</p>
-
-        <div class="pay-toggle">
-          <label><input type="radio" name="saPayMethod" value="card" onchange="saTogglePay('card')" checked style="accent-color:#1a2744;width:15px;height:15px;"> 💳 Credit / Debit Card</label>
-          <label><input type="radio" name="saPayMethod" value="bank" onchange="saTogglePay('bank')" style="accent-color:#1a2744;width:15px;height:15px;"> 🏦 Bank Account (ACH)</label>
-        </div>
-
-        <div id="saCardFields">
-          <div class="sa-client-grid" id="saCardGrid">
-          </div>
-        </div>
-
-        <div id="saBankFields" style="display:none;">
-          <div class="sa-client-grid" id="saBankGrid">
-          </div>
-        </div>
-
-        <div style="background:#f8f9fb;border:1.5px solid #e5e7eb;border-radius:8px;padding:14px 16px;margin-top:16px;margin-bottom:22px;">
-          <p style="font-size:0.78rem;color:#6b7280;line-height:1.65;"><strong style="color:#1a2744;">Payment Authorization:</strong> By signing this agreement, I authorize Brechtland to charge the payment method above the agreed monthly amount on the same date each month for the duration of this contract. I understand I will receive a receipt via email for each transaction.</p>
-        </div>
-
-        <hr>
-
-        <div class="sa-section-label">Authorization &amp; Signatures</div>
-        <p style="font-size:0.82rem;color:#6b7280;margin-bottom:16px;">By signing below, both parties agree to the terms outlined in this service agreement.</p>
-
-        <div class="sig-grid">
-          <div>
-            <span class="sig-block-label">Client Signature — Draw Below *</span>
-            <canvas class="sig-canvas" id="saClientSig"></canvas>
-            <div class="sig-controls">
-              <button class="sig-btn sig-clear" onclick="saClearSig('saClientSig','saCStatus')">✕ Clear</button>
-              <button class="sig-btn sig-confirm" onclick="saConfirmSig('saClientSig','saCStatus')">✓ Confirm</button>
-            </div>
-            <div class="sig-status" id="saCStatus"></div>
-            <div class="name-date-row">
-              <div class="sa-field-wrap"><label>Printed Name &amp; Title *</label><input class="sa-field-input" id="sa_clientPrint" placeholder="John Smith — Owner"></div>
-              <div class="sa-field-wrap"><label>Date Signed *</label><input class="sa-field-input" id="sa_clientDate" type="date"></div>
-            </div>
-          </div>
-          <div>
-            <span class="sig-block-label">Brechtland — Authorized Signature</span>
-            <canvas class="sig-canvas" id="saTylerSig"></canvas>
-            <div class="sig-controls">
-              <button class="sig-btn sig-clear" onclick="saClearSig('saTylerSig','saTStatus')">✕ Clear</button>
-              <button class="sig-btn sig-confirm" onclick="saConfirmSig('saTylerSig','saTStatus')">✓ Confirm</button>
-            </div>
-            <div class="sig-status" id="saTStatus"></div>
-            <div class="name-date-row">
-              <div class="sa-field-wrap"><label>Tyler Albrecht · Owner</label><input class="sa-field-input" value="Tyler Albrecht — Owner" readonly style="color:#9ca3af;"></div>
-              <div class="sa-field-wrap"><label>Date Signed</label><input class="sa-field-input" id="sa_tylerDate" type="date"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="doc-footer">
-          <span>Brechtland · Brechtland Client Services · <a href="/cdn-cgi/l/email-protection#f3808683839c8187b3918196909b879f929d97dd909c9e"><span class="__cf_email__" data-cfemail="1a696f6a6a75686e5a78687f79726e767b747e34797577">[email&#160;protected]</span></a> · 989-501-1397</span>
-          <span id="saFooterPlan">Month-to-Month Agreement</span>
-        </div>
-
-        <!-- SUBMIT -->
-        <div class="submit-wrap">
-          <div class="error-msg" id="saErrorMsg"></div>
-          <button class="submit-btn" id="saSubmitBtn" onclick="saSubmitAgreement()">✉️ Submit Signed Agreement</button>
-        </div>
-      </div>
-
-      <!-- SUCCESS -->
-      <div class="success-screen" id="saSuccessScreen">
-        <div class="success-icon">✓</div>
-        <h3>Agreement Submitted!</h3>
-        <p>The signed service agreement has been saved to the CRM and sent to Tyler. The client has been added automatically.</p>
-        <p style="margin-top:16px;font-size:0.82rem;color:#9ca3af;">You can close this screen to return to the CRM.</p>
-        <button class="toolbar-btn btn-print" style="margin:20px auto 0;display:inline-flex;" onclick="closeServiceAgreement()">← Back to CRM</button>
-      </div>
-
-    </div>
-
-  </div>
+  <iframe id="saFrame" src="" style="width:100%;height:calc(100vh - 56px);border:none;display:block;" allowfullscreen></iframe>
 </div>
 
 <!-- Floating trigger button -->
@@ -4761,36 +4495,12 @@ let saCanvasesInitialized = false;
 
 function openServiceAgreement() {
   const overlay = document.getElementById('saOverlay');
+  const frame = document.getElementById('saFrame');
+  if (frame.src !== SA_SHARE_URL) {
+    frame.src = SA_SHARE_URL;
+  }
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
-
-  document.getElementById('saFormContent').style.display = 'block';
-  document.getElementById('saSuccessScreen').style.display = 'none';
-  document.getElementById('saToolbar').style.display = 'block';
-  document.getElementById('saErrorMsg').style.display = 'none';
-  const btn = document.getElementById('saSubmitBtn');
-  btn.textContent = '✉️ Submit Signed Agreement';
-  btn.disabled = false;
-
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('sa_date').value = today;
-
-  saSetPlan('mtm');
-
-  if (!saCanvasesInitialized) {
-    setTimeout(() => {
-      saInitCanvas('saClientSig');
-      saInitCanvas('saTylerSig');
-      saCanvasesInitialized = true;
-    }, 100);
-  } else {
-    setTimeout(() => {
-      saInitCanvas('saClientSig');
-      saInitCanvas('saTylerSig');
-    }, 100);
-  }
-
-  overlay.scrollTop = 0;
 }
 
 function closeServiceAgreement() {
@@ -5050,10 +4760,7 @@ async function saSubmitAgreement() {
       });
     } catch(e) { console.warn('Formspree notification failed (non-critical):', e); }
 
-    document.getElementById('saFormContent').style.display = 'none';
-    document.getElementById('saSuccessScreen').style.display = 'block';
-    document.getElementById('saToolbar').style.display = 'none';
-    document.getElementById('saOverlay').scrollTop = 0;
+    closeServiceAgreement();
 
   } catch(e) {
     btn.textContent = '✉️ Submit Signed Agreement';
