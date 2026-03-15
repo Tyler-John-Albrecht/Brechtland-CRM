@@ -3352,6 +3352,15 @@ async function renderDashboard() {
   const invoices = invoiceSnap.docs.map(d => d.data());
   const calEvs   = calSnap.docs.map(d => ({id:d.id,...d.data()}));
 
+  /* Task 7: Merge clients attributed via repId (agreement-sourced) */
+  if (!isAdmin) {
+    try {
+      const repIdSnap = await db.collection('clients').where('repId', '==', currentUser.uid).get();
+      const existingIds = new Set(clientSnap.docs.map(d => d.id));
+      repIdSnap.docs.forEach(d => { if (!existingIds.has(d.id)) clients.push(d.data()); });
+    } catch(e) { console.error('repId query failed:', e); }
+  }
+
   const activeClients = clients.filter(c => c.status === 'active').length;
   const leadClients   = clients.filter(c => c.status === 'lead').length;
   const churnedClients= clients.filter(c => c.status === 'inactive' || c.status === 'churned').length;
@@ -3765,6 +3774,14 @@ async function renderClients(forceRefresh = false) {
     if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
     const snap = await query.get();
     clientsFetchCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    /* Task 7: Merge clients attributed via repId (agreement-sourced) */
+    if (!isAdmin) {
+      try {
+        const repIdSnap = await db.collection('clients').where('repId', '==', currentUser.uid).get();
+        const existingIds = new Set(snap.docs.map(d => d.id));
+        repIdSnap.docs.forEach(d => { if (!existingIds.has(d.id)) clientsFetchCache.push({ id: d.id, ...d.data() }); });
+      } catch(e) { console.error('repId query failed:', e); }
+    }
   }
   let clients = [...clientsFetchCache];
 
@@ -6023,11 +6040,16 @@ async function savePermissions(uid) {
   renderTeam();
 }
 
-/* ── Copy My Agreement Link ── */
+/* ── Copy My Agreement Link (UID-based for fraud prevention) ── */
 function copyAgreementLink() {
-  const repName = currentUser.displayName || "rep";
-  const cleanName = encodeURIComponent(repName);
-  const link = `${window.location.origin}/Roofing-Service-Agreement/albrecht-service-agreement.html?rep=${cleanName}`;
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    console.error("User not authenticated");
+    alert("You must be logged in to generate an agreement link.");
+    return;
+  }
+  const repId = user.uid;
+  const link = `${window.location.origin}/Roofing-Service-Agreement/albrecht-service-agreement.html?repId=${repId}`;
   navigator.clipboard.writeText(link);
   showToast("Agreement link copied!");
 }
