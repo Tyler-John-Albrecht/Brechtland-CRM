@@ -261,10 +261,11 @@ body {
 
     <hr>
 
-    <div class="sa-section-label">Authorization &amp; Signatures</div>
-    <p style="font-size:0.82rem;color:#6b7280;margin-bottom:16px;">By signing below, both parties agree to the terms outlined in this service agreement.</p>
+    <div class="sa-section-label">Step 3: Sign &amp; Activate Your Service</div>
+    <p style="font-size:1rem;font-weight:600;color:#1a2744;margin-bottom:6px;">Client Signature &amp; Agreement Confirmation</p>
+    <p style="font-size:0.82rem;color:#6b7280;margin-bottom:16px;">By signing below, you agree to the Brechtland service agreement and authorize the selected payment plan.</p>
 
-    <div class="sig-grid">
+    <div class="sig-grid" style="grid-template-columns:1fr;">
       <div>
         <span class="sig-block-label">Client Signature — Draw Below *</span>
         <canvas class="sig-canvas" id="saClientSig"></canvas>
@@ -278,20 +279,8 @@ body {
           <div class="sa-field-wrap"><label>Date Signed *</label><input class="sa-field-input" id="sa_clientDate" type="date"></div>
         </div>
       </div>
-      <div>
-        <span class="sig-block-label">Brechtland — Authorized Signature</span>
-        <canvas class="sig-canvas" id="saTylerSig"></canvas>
-        <div class="sig-controls">
-          <button class="sig-btn sig-clear" onclick="saClearSig('saTylerSig','saTStatus')">✕ Clear</button>
-          <button class="sig-btn sig-confirm" onclick="saConfirmSig('saTylerSig','saTStatus')">✓ Confirm</button>
-        </div>
-        <div class="sig-status" id="saTStatus"></div>
-        <div class="name-date-row">
-          <div class="sa-field-wrap"><label>Tyler Albrecht · Owner</label><input class="sa-field-input" value="Tyler Albrecht — Owner" readonly style="color:#9ca3af;"></div>
-          <div class="sa-field-wrap"><label>Date Signed</label><input class="sa-field-input" id="sa_tylerDate" type="date"></div>
-        </div>
-      </div>
     </div>
+    <input type="hidden" id="sa_tylerDate">
 
     <div class="doc-footer">
       <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="/cdn-cgi/l/email-protection#c9babcb9b9a6bbbd89abbbacaaa1bda5a8a7ade7aaa6a4"><span class="__cf_email__" data-cfemail="12616762627d606652706077717a667e737c763c717d7f">[email&#160;protected]</span></a></span>
