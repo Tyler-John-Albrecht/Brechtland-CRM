@@ -8,6 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase SDK: synchronous scripts placed before <style> so the browser
+     preload scanner fetches them at the earliest possible moment.
+     data-cfasync="false" prevents Cloudflare Rocket Loader from deferring them. -->
+<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -5592,10 +5599,6 @@ tr[data-lead-new="1"] {
     left: auto; }
 }
 </style>
-  <!-- Firebase SDK: loaded in <head> to guarantee availability before body scripts -->
-  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -6397,6 +6400,13 @@ function initApp() {
     document.body.appendChild(_ndPortal);
   }
 
+  // FEATURE 3: Restore AI panel open/closed state after refresh or navigation
+  try {
+    if (localStorage.getItem('crmAssistantOpen') === 'true') {
+      toggleAiPanel(true);
+    }
+  } catch(e) {}
+
   // Navigate to current page
   navigate(currentPage);
 }
@@ -6638,7 +6648,7 @@ async function renderRecentActivity(clients, calEvs) {
 
   // ── Source 1: Clients — new adds and leads from last 30 days ──
   const thirtyDaysAgo = Date.now() - 30 * 86400 * 1000;
-  clientSnap_loop: for (const c of clients) {
+  for (const c of clients) {  // iterates client list for activity feed
     const ts = c.createdAt?.seconds ? c.createdAt.seconds * 1000 : null;
     if (!ts || ts < thirtyDaysAgo) continue;
     const name = esc(c.businessName || c.name || 'Unknown');
@@ -6833,6 +6843,9 @@ function toggleAiPanel(forceState) {
   const panel = document.getElementById('aiPanel');
   if (!panel) return;
   panel.classList.toggle('open', aiPanelOpen);
+
+  // FEATURE 3: Persist open/closed state so it survives refreshes and navigation
+  try { localStorage.setItem('crmAssistantOpen', aiPanelOpen ? 'true' : 'false'); } catch(e) {}
 
   // Hide the floating button while the panel is open — it sits inside
   // the panel's footprint and overlaps the textarea when visible.
@@ -7125,11 +7138,29 @@ async function clearAllNotifications() {
 
 // Close dropdown on outside click
 document.addEventListener('click', (e) => {
+  // Close notification dropdown on outside click
   const dd  = document.getElementById('notifDropdown');
   const btn = document.getElementById('notifBtn');
   if (dd && btn && !dd.contains(e.target) && !btn.contains(e.target)) {
     dd.classList.remove('show');
     dd.style.top = dd.style.right = dd.style.left = '';
+  }
+
+  // FEATURE 1: Close AI panel on outside click
+  // Guard: panel must be open, click must be outside both the panel AND the trigger button
+  const aiPanel   = document.getElementById('aiPanel');
+  const aiTrigger = document.getElementById('aiAssistBtn');
+  if (aiPanelOpen && aiPanel && !aiPanel.contains(e.target) &&
+      (!aiTrigger || !aiTrigger.contains(e.target))) {
+    toggleAiPanel(false);
+  }
+})
+
+// FEATURE 2: Close AI panel on Escape key
+// Uses the same toggleAiPanel(false) path as the X button
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && aiPanelOpen) {
+    toggleAiPanel(false);
   }
 });
 
