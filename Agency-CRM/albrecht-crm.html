@@ -9,12 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Firebase SDK: synchronous scripts placed before <style> so the browser
-     preload scanner fetches them at the earliest possible moment.
-     data-cfasync="false" prevents Cloudflare Rocket Loader from deferring them. -->
-<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- Firebase SDK preload hints — actual script tags are placed immediately before
+     firebase.initializeApp() in the body to guarantee synchronous load order.
+     Preconnect ensures DNS + TLS are resolved early. -->
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.gstatic.com">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 
@@ -2283,7 +2282,13 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
 <!-- Lead toast container — direct child of body so it's never clipped -->
 <div id="leadToastContainer"></div>
 
-<!-- Firebase SDK loaded in <head> above — no duplicate needed here -->
+<!-- Firebase SDK — loaded synchronously here, immediately before initializeApp(),
+     so the browser MUST finish executing all three scripts before the init block
+     below runs. This is the only guaranteed-safe position: same document section,
+     sequential order, no async/defer, no CDN proxy can reorder them. -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script data-cfasync="false">
 const firebaseConfig = {
