@@ -188,7 +188,7 @@ body {
         </div>
         <div style="margin-top:8px;font-size:11px;color:#6b7280;line-height:1.6;">
           <div style="font-weight:600;color:#1a2744;">Brechtland Client Services</div>
-          <div><a href="mailto:support@brechtland.com">support@brechtland.com</a> &middot; 989-501-1397</div>
+          <div><a href="/cdn-cgi/l/email-protection#42313732322d303602203027212a362e232c266c212d2f"><span class="__cf_email__" data-cfemail="f0838580809f8284b09282959398849c919e94de939f9d">[email&#160;protected]</span></a> &middot; 989-501-1397</div>
         </div>
       </div>
       <div class="doc-right">
@@ -253,42 +253,10 @@ body {
     <hr>
 
     <div class="sa-section-label">Payment Authorization</div>
-    <p style="font-size:0.82rem;color:#6b7280;margin-bottom:14px;">Select your preferred payment method. Your information is kept strictly confidential and used only for monthly billing.</p>
 
-    <div class="pay-toggle">
-      <label><input type="radio" name="saPayMethod" value="card" onchange="saTogglePay('card')" checked style="accent-color:#1a2744;width:15px;height:15px;"> 💳 Credit / Debit Card</label>
-      <label><input type="radio" name="saPayMethod" value="bank" onchange="saTogglePay('bank')" style="accent-color:#1a2744;width:15px;height:15px;"> 🏦 Bank Account (ACH)</label>
-    </div>
-
-    <div id="saCardFields">
-      <div class="sa-client-grid">
-        <div class="sa-field-wrap" style="grid-column:1/-1"><label>Name on Card *</label><input class="sa-field-input" id="sa_cardName" placeholder="John Smith"></div>
-        <div class="sa-field-wrap" style="grid-column:1/-1"><label>Card Number *</label><input class="sa-field-input" id="sa_cardNum" placeholder="XXXX  XXXX  XXXX  XXXX" maxlength="19" oninput="saFormatCard(this)"></div>
-        <div class="sa-field-wrap"><label>Expiration Date *</label><input class="sa-field-input" id="sa_cardExp" placeholder="MM / YY" maxlength="7" oninput="saFormatExp(this)"></div>
-        <div class="sa-field-wrap"><label>CVV *</label><input class="sa-field-input" id="sa_cardCvv" placeholder="•••" maxlength="4" type="password"></div>
-        <div class="sa-field-wrap" style="grid-column:1/-1"><label>Billing Address (if different)</label><input class="sa-field-input" id="sa_cardBilling" placeholder="123 Main St, Tampa, FL 33601"></div>
-      </div>
-    </div>
-
-    <div id="saBankFields" style="display:none;">
-      <div class="sa-client-grid">
-        <div class="sa-field-wrap"><label>Account Holder Name *</label><input class="sa-field-input" id="sa_bankName" placeholder="John Smith"></div>
-        <div class="sa-field-wrap"><label>Bank Name *</label><input class="sa-field-input" id="sa_bankBankName" placeholder="e.g. Chase, Wells Fargo"></div>
-        <div class="sa-field-wrap"><label>Routing Number *</label><input class="sa-field-input" id="sa_bankRouting" placeholder="9-digit routing number" maxlength="9"></div>
-        <div class="sa-field-wrap"><label>Account Number *</label><input class="sa-field-input" id="sa_bankAcct" placeholder="Account number" type="password"></div>
-        <div class="sa-field-wrap"><label>Account Type *</label>
-          <select class="sa-field-input" id="sa_bankType" style="cursor:pointer;">
-            <option value="">Select...</option>
-            <option>Checking</option>
-            <option>Savings</option>
-            <option>Business Checking</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div style="background:#f8f9fb;border:1.5px solid #e5e7eb;border-radius:8px;padding:14px 16px;margin-top:16px;margin-bottom:22px;">
-      <p style="font-size:0.78rem;color:#6b7280;line-height:1.65;"><strong style="color:#1a2744;">Payment Authorization:</strong> By signing this agreement, I authorize Brechtland to charge the payment method above the agreed monthly amount on the same date each month for the duration of this contract. I understand I will receive a receipt via email for each transaction.</p>
+    <div style="background:#f8f9fb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px;">
+      <div style="font-size:1.4rem;line-height:1;">🔒</div>
+      <p style="font-size:0.82rem;color:#6b7280;line-height:1.65;margin:0;"><strong style="color:#1a2744;">Secure Payment via Stripe:</strong> Payment will be securely completed after you submit and sign this agreement using Stripe, our secure payment processor. Your card or bank details will never be stored by Brechtland.</p>
     </div>
 
     <hr>
@@ -326,13 +294,13 @@ body {
     </div>
 
     <div class="doc-footer">
-      <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="mailto:support@brechtland.com">support@brechtland.com</a></span>
+      <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="/cdn-cgi/l/email-protection#c9babcb9b9a6bbbd89abbbacaaa1bda5a8a7ade7aaa6a4"><span class="__cf_email__" data-cfemail="12616762627d606652706077717a667e737c763c717d7f">[email&#160;protected]</span></a></span>
       <span id="saFooterPlan">Month-to-Month Agreement</span>
     </div>
 
     <div class="submit-wrap">
       <div class="error-msg" id="saErrorMsg"></div>
-      <button class="submit-btn" id="saSubmitBtn" onclick="saSubmitAgreement()">✉️ Submit Signed Agreement</button>
+      <button class="submit-btn" id="saSubmitBtn" onclick="saSubmitAgreement()">✉️ Submit Agreement & Continue to Secure Payment</button>
     </div>
   </div>
 
@@ -346,7 +314,7 @@ body {
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const saPlans = {
   'mtm': { label:'Month-to-Month Agreement', title:'Month-to-Month Website Plan', price:'$349', term:'Billed monthly — cancel anytime', total:'No long-term commitment required', months:'1', monthly:349, theme:'theme-mtm' },
   '12':  { label:'12-Month Agreement',        title:'12-Month Website Plan',        price:'$299', term:'12 monthly payments',           total:'Total Contract Value: $3,588',    months:'12', monthly:299, theme:'theme-12' },
@@ -379,13 +347,6 @@ function saSetPlan(p) {
   document.querySelectorAll('#saToolbar .plan-btn').forEach((b, i) => b.classList.toggle('active', ['mtm','12','24','36'][i] === p));
 }
 
-function saTogglePay(type) {
-  document.getElementById('saCardFields').style.display = type === 'card' ? 'block' : 'none';
-  document.getElementById('saBankFields').style.display = type === 'bank' ? 'block' : 'none';
-}
-
-function saFormatCard(el) { let v = el.value.replace(/\D/g,'').substring(0,16); el.value = v.replace(/(.{4})/g,'$1  ').trim(); }
-function saFormatExp(el) { let v = el.value.replace(/\D/g,'').substring(0,4); if(v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2); el.value = v; }
 
 function saResetForm() {
   if (!confirm('Reset all fields?')) return;
@@ -461,21 +422,6 @@ async function saSubmitAgreement() {
     else el.classList.remove('error');
   });
 
-  const isCard = document.querySelector('input[name="saPayMethod"]:checked').value === 'card';
-  if (isCard) {
-    ['sa_cardName','sa_cardNum','sa_cardExp','sa_cardCvv'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) { errors.push('Card info'); el.classList.add('error'); }
-      else el.classList.remove('error');
-    });
-  } else {
-    ['sa_bankName','sa_bankBankName','sa_bankRouting','sa_bankAcct','sa_bankType'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) { errors.push('Bank info'); el.classList.add('error'); }
-      else el.classList.remove('error');
-    });
-  }
-
   const clientSig = document.getElementById('saClientSig');
   if (!clientSig._confirmed) { errors.push('Client Signature (must click Confirm)'); clientSig.classList.add('error'); }
 
@@ -511,16 +457,24 @@ async function saSubmitAgreement() {
         phone: phone,
         email: email,
         address: address,
-        payment_method: isCard ? 'Credit/Debit Card' : 'Bank Account (ACH)',
         client_printed_name: document.getElementById('sa_clientPrint').value,
         client_signed_date: document.getElementById('sa_clientDate').value,
-        start_date: document.getElementById('sa_startDate').value,
-        submitted_via: 'Standalone Service Agreement Form'
+        tyler_signed_date: document.getElementById('sa_tylerDate').value,
       })
     });
-
     if (res.ok) {
-      document.getElementById('saFormContent').style.display = 'none';
+      document.getElementById('saDoc').style.display = 'none';
       document.getElementById('saSuccessScreen').style.display = 'flex';
     } else {
-      errEl.innerHTML = 'Submission failed. Please try a
+      throw new Error('Submission failed');
+    }
+  } catch(e) {
+    btn.textContent = '✉️ Submit Agreement & Continue to Secure Payment';
+    btn.disabled = false;
+    errEl.innerHTML = '<strong>Submission failed.</strong> Please check your connection and try again.';
+    errEl.style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
