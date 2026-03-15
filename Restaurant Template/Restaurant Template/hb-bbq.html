@@ -27,17 +27,18 @@
             body: ['"DM Sans"', 'sans-serif'],
           },
           colors: {
-            ember:     '#B8520F',
-            ember_l:   '#D4631A',
-            ember_d:   '#8B3D0B',
-            smoke:     '#1A1A1A',
-            smoke_m:   '#3A3A3A',
-            smoke_l:   '#6B6B6B',
-            cloud:     '#FAFAF9',
+            gold:      '#D4AF37',
+            gold_l:    '#E4C65B',
+            gold_d:    '#C5A059',
+            gold_muted:'#A8935A',
+            slate:     '#0F0F0F',
+            slate_m:   '#1A1A1A',
+            slate_l:   '#2A2A2A',
+            ash:       '#6B6B6B',
+            ivory:     '#FAF9F6',
             cream:     '#F5F3EF',
-            sand:      '#EDE9E3',
-            stone:     '#D4D0CA',
-            line:      '#E8E5E0',
+            charcoal:  '#141414',
+            line_dark: '#2E2E2E',
           },
         },
       },
@@ -50,11 +51,11 @@
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: #FAFAF9;
-      color: #1A1A1A;
+      background: #0F0F0F;
+      color: #FAF9F6;
       overflow-x: hidden;
     }
-    ::selection { background: #B8520F22; color: #1A1A1A; }
+    ::selection { background: #D4AF3744; color: #FAF9F6; }
 
     /* ── Nav Blur ── */
     nav {
@@ -72,7 +73,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: #8B3D0B;
+      background: #C5A059;
       transform: scaleX(0);
       transform-origin: right;
       transition: transform .4s cubic-bezier(.4,0,.2,1);
@@ -85,9 +86,9 @@
       transition: all .3s cubic-bezier(.4,0,.2,1);
     }
     .btn-ghost:hover {
-      background: #1A1A1A;
-      color: #FAFAF9;
-      border-color: #1A1A1A;
+      background: #D4AF37;
+      color: #0F0F0F;
+      border-color: #D4AF37;
     }
 
     /* ── Card Hover ── */
@@ -96,7 +97,7 @@
     }
     .card-hover:hover {
       transform: translateY(-8px);
-      box-shadow: 0 32px 64px -16px rgba(0,0,0,.08), 0 8px 24px -8px rgba(0,0,0,.04);
+      box-shadow: 0 32px 64px -16px rgba(212,175,55,.12), 0 8px 24px -8px rgba(0,0,0,.3);
     }
 
     /* ── Image Hover Zoom ── */
@@ -111,13 +112,13 @@
     .stat-divider {
       width: 1px;
       height: 48px;
-      background: linear-gradient(180deg, transparent, #D4D0CA, transparent);
+      background: linear-gradient(180deg, transparent, #D4AF3744, transparent);
     }
 
     /* ── Section Divider ── */
     .section-rule {
       height: 1px;
-      background: linear-gradient(90deg, transparent 0%, #D4D0CA 20%, #D4D0CA 80%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, #2E2E2E 20%, #2E2E2E 80%, transparent 100%);
     }
 
     /* ── Pill Badge ── */
@@ -130,11 +131,11 @@
       transition: background .3s ease, transform .3s ease;
     }
     .card-hover:hover .icon-ring {
-      background: #B8520F;
+      background: #D4AF37;
       transform: scale(1.08);
     }
     .card-hover:hover .icon-ring svg {
-      color: white;
+      color: #0F0F0F;
     }
 
     /* ── Smooth Parallax ── */
@@ -142,49 +143,49 @@
   </style>
 </head>
 
-<body class="bg-cloud text-smoke antialiased overflow-x-hidden">
+<body class="bg-slate text-ivory antialiased overflow-x-hidden">
 
   <!-- ═══════════════════════════════════════════════
        NAVIGATION
   ═══════════════════════════════════════════════ -->
-  <nav class="fixed top-0 left-0 w-full z-50 bg-cloud/80 border-b border-line/60">
+  <nav class="fixed top-0 left-0 w-full z-50 bg-slate/80 border-b border-line_dark/60">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10 h-[72px]">
 
-      <!-- Logo -->
+      <!-- Logo Placeholder -->
       <a href="#" class="shrink-0 select-none">
-        <span class="font-display font-800 text-xl tracking-tight text-smoke">H&B<span class="text-ember"> BBQ</span></span>
+        <img src="" alt="H&B BBQ Gold Logo" class="h-16 w-auto object-contain" />
       </a>
 
       <!-- Desktop Links -->
-      <ul class="hidden md:flex items-center gap-8 font-body text-[13px] text-smoke_l font-500 tracking-wide">
-        <li><a href="#menu" class="hover:text-smoke transition-colors duration-300">Menu</a></li>
-        <li><a href="#story" class="hover:text-smoke transition-colors duration-300">Our Story</a></li>
-        <li><a href="#services" class="hover:text-smoke transition-colors duration-300">Services</a></li>
-        <li><a href="#footer" class="hover:text-smoke transition-colors duration-300">Contact</a></li>
+      <ul class="hidden md:flex items-center gap-8 font-body text-[13px] text-ash font-500 tracking-wide">
+        <li><a href="#menu" class="hover:text-gold transition-colors duration-300">Menu</a></li>
+        <li><a href="#story" class="hover:text-gold transition-colors duration-300">Our Story</a></li>
+        <li><a href="#services" class="hover:text-gold transition-colors duration-300">Services</a></li>
+        <li><a href="#footer" class="hover:text-gold transition-colors duration-300">Contact</a></li>
       </ul>
 
       <!-- Desktop CTA -->
-      <a href="#" class="btn-primary hidden md:inline-flex items-center gap-2 bg-ember text-white text-[13px] font-600 px-5 py-2.5 rounded-full tracking-wide">
+      <a href="#" class="btn-primary hidden md:inline-flex items-center gap-2 bg-gold text-slate text-[13px] font-600 px-5 py-2.5 rounded-full tracking-wide">
         Order Online
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
 
       <!-- Mobile Hamburger -->
       <button id="menuToggle" class="md:hidden flex flex-col gap-[5px] p-2" aria-label="Toggle menu">
-        <span class="block w-5 h-[1.5px] bg-smoke transition-all duration-300 origin-center" id="bar1"></span>
-        <span class="block w-5 h-[1.5px] bg-smoke transition-all duration-300" id="bar2"></span>
-        <span class="block w-5 h-[1.5px] bg-smoke transition-all duration-300 origin-center" id="bar3"></span>
+        <span class="block w-5 h-[1.5px] bg-ivory transition-all duration-300 origin-center" id="bar1"></span>
+        <span class="block w-5 h-[1.5px] bg-ivory transition-all duration-300" id="bar2"></span>
+        <span class="block w-5 h-[1.5px] bg-ivory transition-all duration-300 origin-center" id="bar3"></span>
       </button>
     </div>
 
     <!-- Mobile Menu Drawer -->
-    <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-500 ease-in-out bg-cloud border-t border-line/40">
-      <div class="flex flex-col gap-4 px-6 py-6 font-body text-base text-smoke">
-        <a href="#menu" class="hover:text-ember transition-colors duration-300">Menu</a>
-        <a href="#story" class="hover:text-ember transition-colors duration-300">Our Story</a>
-        <a href="#services" class="hover:text-ember transition-colors duration-300">Services</a>
-        <a href="#footer" class="hover:text-ember transition-colors duration-300">Contact</a>
-        <a href="#" class="mt-2 btn-primary inline-flex items-center justify-center gap-2 bg-ember text-white text-sm font-600 px-5 py-3 rounded-full">
+    <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-500 ease-in-out bg-slate border-t border-line_dark/40">
+      <div class="flex flex-col gap-4 px-6 py-6 font-body text-base text-ivory">
+        <a href="#menu" class="hover:text-gold transition-colors duration-300">Menu</a>
+        <a href="#story" class="hover:text-gold transition-colors duration-300">Our Story</a>
+        <a href="#services" class="hover:text-gold transition-colors duration-300">Services</a>
+        <a href="#footer" class="hover:text-gold transition-colors duration-300">Contact</a>
+        <a href="#" class="mt-2 btn-primary inline-flex items-center justify-center gap-2 bg-gold text-slate text-sm font-600 px-5 py-3 rounded-full">
           Order Online
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
@@ -196,30 +197,30 @@
   <!-- ═══════════════════════════════════════════════
        HERO
   ═══════════════════════════════════════════════ -->
-  <header class="relative min-h-screen flex items-center pt-[72px] bg-cloud">
+  <header class="relative min-h-screen flex items-center pt-[72px] bg-slate">
     <div class="max-w-7xl mx-auto w-full px-6 lg:px-10 py-16 lg:py-0 grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-8 items-center">
 
       <!-- Left — Copy -->
       <div class="flex flex-col gap-6 max-w-xl">
         <div id="heroEyebrow" class="opacity-0">
-          <span class="pill inline-block text-[11px] font-body font-600 text-ember uppercase bg-ember/[.07] px-3.5 py-1.5 rounded-full">Dallas, Texas</span>
+          <span class="pill inline-block text-[11px] font-body font-600 text-gold uppercase bg-gold/[.10] px-3.5 py-1.5 rounded-full border border-gold/20">Dallas, Texas</span>
         </div>
 
-        <h1 id="heroHeadline" class="font-display font-800 text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.04] tracking-tight text-smoke opacity-0">
-          Texas Smoke, <br/>Perfected.
+        <h1 id="heroHeadline" class="font-display font-800 text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.04] tracking-tight text-ivory opacity-0">
+          Texas Smoke, <br/><span class="text-gold">Perfected.</span>
         </h1>
 
-        <p id="heroSub" class="font-body font-400 text-lg text-smoke_l leading-relaxed max-w-md opacity-0">
+        <p id="heroSub" class="font-body font-400 text-lg text-ash leading-relaxed max-w-md opacity-0">
           Slow-smoked over Post Oak since day one.
-          <span class="font-600 text-smoke">Open daily at 11&nbsp;AM — until&nbsp;sold&nbsp;out.</span>
+          <span class="font-600 text-ivory">Open daily at 11&nbsp;AM — until&nbsp;sold&nbsp;out.</span>
         </p>
 
         <div id="heroCtas" class="flex flex-wrap items-center gap-4 pt-2 opacity-0">
-          <a href="#" class="btn-primary inline-flex items-center gap-2 bg-ember text-white text-sm font-600 px-7 py-3.5 rounded-full tracking-wide">
+          <a href="#" class="btn-primary inline-flex items-center gap-2 bg-gold text-slate text-sm font-600 px-7 py-3.5 rounded-full tracking-wide">
             Order Online
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
-          <a href="#menu" class="btn-ghost inline-flex items-center gap-2 text-sm font-600 text-smoke border border-stone px-7 py-3.5 rounded-full tracking-wide">
+          <a href="#menu" class="btn-ghost inline-flex items-center gap-2 text-sm font-600 text-ivory border border-ivory/20 px-7 py-3.5 rounded-full tracking-wide">
             View Menu
           </a>
         </div>
@@ -227,40 +228,40 @@
         <!-- Stats Row -->
         <div id="heroStats" class="flex items-center gap-6 sm:gap-8 pt-6 opacity-0">
           <div class="text-center">
-            <span class="block font-display font-700 text-3xl text-smoke">14<span class="text-ember font-600 text-xl ml-0.5">hr</span></span>
-            <span class="text-[11px] font-body text-smoke_l uppercase tracking-widest mt-1 block">Smoke Time</span>
+            <span class="block font-display font-700 text-3xl text-ivory">14<span class="text-gold font-600 text-xl ml-0.5">hr</span></span>
+            <span class="text-[11px] font-body text-ash uppercase tracking-widest mt-1 block">Smoke Time</span>
           </div>
           <div class="stat-divider"></div>
           <div class="text-center">
-            <span class="block font-display font-700 text-3xl text-smoke">225<span class="text-ember font-600 text-xl ml-0.5">°</span></span>
-            <span class="text-[11px] font-body text-smoke_l uppercase tracking-widest mt-1 block">Low &amp; Slow</span>
+            <span class="block font-display font-700 text-3xl text-ivory">225<span class="text-gold font-600 text-xl ml-0.5">°</span></span>
+            <span class="text-[11px] font-body text-ash uppercase tracking-widest mt-1 block">Low &amp; Slow</span>
           </div>
           <div class="stat-divider"></div>
           <div class="text-center">
-            <span class="block font-display font-700 text-3xl text-smoke">100<span class="text-ember font-600 text-xl ml-0.5">%</span></span>
-            <span class="text-[11px] font-body text-smoke_l uppercase tracking-widest mt-1 block">Post Oak</span>
+            <span class="block font-display font-700 text-3xl text-ivory">100<span class="text-gold font-600 text-xl ml-0.5">%</span></span>
+            <span class="text-[11px] font-body text-ash uppercase tracking-widest mt-1 block">Post Oak</span>
           </div>
         </div>
       </div>
 
       <!-- Right — Hero Image -->
       <div id="heroImage" class="relative opacity-0">
-        <div class="img-zoom overflow-hidden rounded-3xl aspect-[3/4] sm:aspect-[3/4] lg:aspect-[4/5] w-full max-w-lg lg:max-w-none mx-auto lg:ml-auto shadow-[0_32px_80px_-20px_rgba(0,0,0,.12)]">
+        <div class="img-zoom overflow-hidden rounded-3xl aspect-[3/4] sm:aspect-[3/4] lg:aspect-[4/5] w-full max-w-lg lg:max-w-none mx-auto lg:ml-auto shadow-[0_32px_80px_-20px_rgba(0,0,0,.5)] ring-1 ring-gold/10">
           <img
-            src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Hero%20Photo.png"
+            src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Restaurant%20Template/Hero%20Photo.png"
             alt="H&B BBQ — Smoked Brisket"
             class="parallax-img w-full h-full object-cover object-center"
             loading="eager"
           />
         </div>
         <!-- Floating Badge -->
-        <div class="absolute -bottom-5 -left-3 lg:-left-6 bg-white rounded-2xl shadow-lg shadow-black/[.06] px-5 py-4 flex items-center gap-3 border border-line">
-          <div class="flex items-center justify-center w-10 h-10 rounded-full bg-ember/10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-ember" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>
+        <div class="absolute -bottom-5 -left-3 lg:-left-6 bg-slate_m rounded-2xl shadow-lg shadow-black/30 px-5 py-4 flex items-center gap-3 border border-gold/20">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gold/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>
           </div>
           <div>
-            <p class="text-[11px] text-smoke_l font-body tracking-wide">Pitmasters since</p>
-            <p class="font-display font-700 text-smoke text-sm">2018</p>
+            <p class="text-[11px] text-ash font-body tracking-wide">Pitmasters since</p>
+            <p class="font-display font-700 text-gold text-sm">2018</p>
           </div>
         </div>
       </div>
@@ -268,9 +269,9 @@
 
     <!-- Scroll Indicator -->
     <div id="scrollHint" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0">
-      <span class="text-[10px] font-body text-smoke_l uppercase tracking-[.25em]">Scroll</span>
-      <div class="w-px h-8 bg-stone relative overflow-hidden">
-        <div class="w-px h-4 bg-ember absolute top-0 animate-bounce"></div>
+      <span class="text-[10px] font-body text-ash uppercase tracking-[.25em]">Scroll</span>
+      <div class="w-px h-8 bg-line_dark relative overflow-hidden">
+        <div class="w-px h-4 bg-gold absolute top-0 animate-bounce"></div>
       </div>
     </div>
   </header>
@@ -282,14 +283,14 @@
   <!-- ═══════════════════════════════════════════════
        THE MEAT — MENU HIGHLIGHTS
   ═══════════════════════════════════════════════ -->
-  <section id="menu" class="py-28 lg:py-40 bg-cloud">
+  <section id="menu" class="py-28 lg:py-40 bg-slate">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <!-- Section Header -->
       <div class="text-center mb-20 lg:mb-28">
-        <p class="menu-reveal pill text-[11px] font-body font-600 text-ember uppercase tracking-[.2em] mb-4">The Meat</p>
-        <h2 class="menu-reveal font-display font-800 text-4xl sm:text-5xl lg:text-6xl text-smoke tracking-tight">Smoked to Perfection</h2>
-        <p class="menu-reveal font-body font-400 text-smoke_l text-lg mt-5 max-w-lg mx-auto leading-relaxed">
+        <p class="menu-reveal pill text-[11px] font-body font-600 text-gold uppercase tracking-[.2em] mb-4">The Meat</p>
+        <h2 class="menu-reveal font-display font-800 text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">Smoked to Perfection</h2>
+        <p class="menu-reveal font-body font-400 text-ash text-lg mt-5 max-w-lg mx-auto leading-relaxed">
           Every cut hand-selected, trimmed in-house, and smoked low&nbsp;&amp;&nbsp;slow over Texas Post Oak.
         </p>
       </div>
@@ -299,17 +300,17 @@
 
         <!-- Brisket -->
         <article class="meat-card group">
-          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-sand ring-1 ring-line shadow-sm">
+          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-slate_l ring-1 ring-gold/10 shadow-sm">
             <img
-              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Brisket.png"
+              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Restaurant%20Template/Brisket.png"
               alt="USDA Prime Brisket sliced on a cutting board"
               class="parallax-img w-full h-full object-cover object-center"
               loading="lazy"
             />
           </div>
           <div class="px-1">
-            <h3 class="font-display font-700 text-2xl text-smoke mb-2">Prime Brisket</h3>
-            <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed">
+            <h3 class="font-display font-700 text-2xl text-ivory mb-2">Prime Brisket</h3>
+            <p class="font-body font-400 text-ash text-[15px] leading-relaxed">
               USDA Prime, pepper-crusted, and smoked for 14&nbsp;hours over Post Oak. Served by the half&#8209;pound.
             </p>
           </div>
@@ -317,17 +318,17 @@
 
         <!-- Beef Ribs -->
         <article class="meat-card group">
-          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-sand ring-1 ring-line shadow-sm">
+          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-slate_l ring-1 ring-gold/10 shadow-sm">
             <img
-              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Beef%20Ribs.png"
+              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Restaurant%20Template/Beef%20Ribs.png"
               alt="Smoked Beef Ribs"
               class="parallax-img w-full h-full object-cover object-center"
               loading="lazy"
             />
           </div>
           <div class="px-1">
-            <h3 class="font-display font-700 text-2xl text-smoke mb-2">Beef Ribs</h3>
-            <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed">
+            <h3 class="font-display font-700 text-2xl text-ivory mb-2">Beef Ribs</h3>
+            <p class="font-body font-400 text-ash text-[15px] leading-relaxed">
               Colossal bone-in beef ribs with a mahogany bark. Rich, buttery, and absurdly tender.
             </p>
           </div>
@@ -335,17 +336,17 @@
 
         <!-- Sausage -->
         <article class="meat-card group">
-          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-sand ring-1 ring-line shadow-sm">
+          <div class="img-zoom overflow-hidden rounded-2xl aspect-[4/5] mb-6 bg-slate_l ring-1 ring-gold/10 shadow-sm">
             <img
-              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Sausage.png"
+              src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Restaurant%20Template/Sausage.png"
               alt="House-made Smoked Sausage"
               class="parallax-img w-full h-full object-cover object-center"
               loading="lazy"
             />
           </div>
           <div class="px-1">
-            <h3 class="font-display font-700 text-2xl text-smoke mb-2">House Sausage</h3>
-            <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed">
+            <h3 class="font-display font-700 text-2xl text-ivory mb-2">House Sausage</h3>
+            <p class="font-body font-400 text-ash text-[15px] leading-relaxed">
               Ground in-house daily — coarse-ground beef and pork with cracked pepper and a perfect snap.
             </p>
           </div>
@@ -359,17 +360,17 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       THE STORY / PROCESS
+       THE STORY / KENYON RAILEY
   ═══════════════════════════════════════════════ -->
-  <section id="story" class="py-28 lg:py-40 bg-cloud">
+  <section id="story" class="py-28 lg:py-40 bg-charcoal">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
       <!-- Image -->
       <div class="story-reveal">
-        <div class="img-zoom overflow-hidden rounded-3xl aspect-[4/5] bg-sand shadow-[0_32px_80px_-20px_rgba(0,0,0,.08)] ring-1 ring-line">
+        <div class="img-zoom overflow-hidden rounded-3xl aspect-[4/5] bg-slate_l shadow-[0_32px_80px_-20px_rgba(0,0,0,.4)] ring-1 ring-gold/10">
           <img
-            src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/About%20KD.png"
-            alt="Pitmaster at H&B Barbecue"
+            src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Restaurant%20Template/About%20KD.png"
+            alt="Kenyon Railey — Pitmaster & Founder of H&B Barbecue"
             class="parallax-img w-full h-full object-cover object-center"
             loading="lazy"
           />
@@ -379,35 +380,38 @@
       <!-- Copy -->
       <div class="flex flex-col gap-6 lg:gap-8">
         <div class="story-reveal">
-          <span class="pill text-[11px] font-body font-600 text-ember uppercase tracking-[.2em]">Our Story</span>
+          <span class="pill text-[11px] font-body font-600 text-gold uppercase tracking-[.2em]">Our Story</span>
         </div>
-        <h2 class="story-reveal font-display font-800 text-4xl sm:text-5xl text-smoke tracking-tight leading-[1.1]">
-          No shortcuts.<br/>No compromises.
+        <h2 class="story-reveal font-display font-800 text-4xl sm:text-5xl text-ivory tracking-tight leading-[1.1]">
+          Meet the Pitmaster.<br/><span class="text-gold">Kenyon Railey.</span>
         </h2>
-        <div class="story-reveal w-12 h-[2px] bg-ember rounded-full"></div>
-        <p class="story-reveal font-body font-400 text-smoke_l text-lg leading-relaxed">
-          Every morning before dawn, our pitmasters load the offset smokers with seasoned Texas Post Oak. The fires burn clean, the smoke runs thin and blue, and the meat goes on at 225&nbsp;degrees — where it stays for up to 14&nbsp;hours.
+        <div class="story-reveal w-12 h-[2px] bg-gold rounded-full"></div>
+        <p class="story-reveal font-body font-400 text-ash text-lg leading-relaxed">
+          Before the sun rises over Dallas, Kenyon Railey is already at the pit. Splitting Post Oak, building fires, and loading the offset smoker the same way he has every morning since 2018. For Kenyon, barbecue isn't a business — it's an obsession with getting every detail right.
         </p>
-        <p class="story-reveal font-body font-400 text-smoke_l text-lg leading-relaxed">
-          There's no rushing this. No wrapping early, no cranking the heat. Just time, patience, and fire — the way real Texas barbecue has been made for generations.
+        <p class="story-reveal font-body font-400 text-ash text-lg leading-relaxed">
+          He chases the perfect bark — that deep, almost-black crust where pepper, smoke, and rendered fat fuse into something you can't fake. Every brisket is hand-trimmed, seasoned with nothing but coarse black pepper and kosher salt, then set on the grate at 225&nbsp;degrees. No wrapping early. No shortcuts. Just clean Post Oak smoke, patience, and 14&nbsp;hours of unwavering attention.
+        </p>
+        <p class="story-reveal font-body font-400 text-ash text-lg leading-relaxed">
+          It's Texas tradition, elevated by a pitmaster who refuses to cut a single corner.
         </p>
 
         <!-- Process Steps -->
         <div class="story-reveal grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
           <div class="flex flex-col gap-2">
-            <span class="font-display font-700 text-3xl text-smoke">01</span>
-            <span class="font-body font-600 text-sm text-smoke">Select</span>
-            <span class="font-body font-400 text-smoke_l text-sm leading-relaxed">Hand-picked USDA Prime and Choice cuts, trimmed by hand.</span>
+            <span class="font-display font-700 text-3xl text-gold">01</span>
+            <span class="font-body font-600 text-sm text-ivory">Select</span>
+            <span class="font-body font-400 text-ash text-sm leading-relaxed">Hand-picked USDA Prime and Choice cuts, trimmed by hand.</span>
           </div>
           <div class="flex flex-col gap-2">
-            <span class="font-display font-700 text-3xl text-smoke">02</span>
-            <span class="font-body font-600 text-sm text-smoke">Season</span>
-            <span class="font-body font-400 text-smoke_l text-sm leading-relaxed">Coarse black pepper, kosher salt. Nothing more, nothing less.</span>
+            <span class="font-display font-700 text-3xl text-gold">02</span>
+            <span class="font-body font-600 text-sm text-ivory">Season</span>
+            <span class="font-body font-400 text-ash text-sm leading-relaxed">Coarse black pepper, kosher salt. Nothing more, nothing less.</span>
           </div>
           <div class="flex flex-col gap-2">
-            <span class="font-display font-700 text-3xl text-smoke">03</span>
-            <span class="font-body font-600 text-sm text-smoke">Smoke</span>
-            <span class="font-body font-400 text-smoke_l text-sm leading-relaxed">14 hours over Post Oak at 225°. Low, slow, and&nbsp;unwavering.</span>
+            <span class="font-display font-700 text-3xl text-gold">03</span>
+            <span class="font-body font-600 text-sm text-ivory">Smoke</span>
+            <span class="font-body font-400 text-ash text-sm leading-relaxed">14 hours over Post Oak at 225°. Low, slow, and&nbsp;unwavering.</span>
           </div>
         </div>
       </div>
@@ -418,13 +422,13 @@
   <!-- ═══════════════════════════════════════════════
        QUOTE BREAK
   ═══════════════════════════════════════════════ -->
-  <section class="py-20 lg:py-28 bg-cream">
+  <section class="py-20 lg:py-28 bg-slate_m border-y border-line_dark">
     <div class="max-w-4xl mx-auto px-6 lg:px-10 text-center">
       <blockquote class="quote-reveal">
-        <p class="font-display font-700 text-3xl sm:text-4xl lg:text-[2.75rem] text-smoke leading-snug tracking-tight">
+        <p class="font-display font-700 text-3xl sm:text-4xl lg:text-[2.75rem] text-ivory leading-snug tracking-tight">
           "We don't rush the smoke.<br class="hidden sm:block"/> The smoke doesn't rush us."
         </p>
-        <footer class="mt-6 font-body font-500 text-ember text-sm tracking-wide">— Kenyon Railey, Pitmaster &amp; Founder</footer>
+        <footer class="mt-6 font-body font-500 text-gold text-sm tracking-wide">— Kenyon Railey, Pitmaster &amp; Founder</footer>
       </blockquote>
     </div>
   </section>
@@ -433,65 +437,65 @@
   <!-- ═══════════════════════════════════════════════
        SECONDARY REVENUE — SERVICE CARDS
   ═══════════════════════════════════════════════ -->
-  <section id="services" class="py-28 lg:py-40 bg-cloud">
+  <section id="services" class="py-28 lg:py-40 bg-slate">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <!-- Section Header -->
       <div class="text-center mb-16 lg:mb-24">
-        <p class="service-reveal pill text-[11px] font-body font-600 text-ember uppercase tracking-[.2em] mb-4">Beyond the Pit</p>
-        <h2 class="service-reveal font-display font-800 text-4xl sm:text-5xl lg:text-6xl text-smoke tracking-tight">More Ways to&nbsp;Enjoy</h2>
+        <p class="service-reveal pill text-[11px] font-body font-600 text-gold uppercase tracking-[.2em] mb-4">Beyond the Pit</p>
+        <h2 class="service-reveal font-display font-800 text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">More Ways to&nbsp;Enjoy</h2>
       </div>
 
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <!-- Card: Nationwide Shipping -->
-        <div class="service-card card-hover bg-white rounded-3xl p-8 lg:p-10 border border-line flex flex-col gap-5">
-          <div class="icon-ring w-14 h-14 rounded-2xl bg-ember/[.07] flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-ember transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <div class="service-card card-hover bg-slate_m rounded-3xl p-8 lg:p-10 border border-line_dark flex flex-col gap-5">
+          <div class="icon-ring w-14 h-14 rounded-2xl bg-gold/[.08] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gold transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25V3.375a1.125 1.125 0 011.125-1.125h9.75a1.125 1.125 0 011.125 1.125v7.875m-12 3.75h12m0 0V14.25m0 0h2.25a1.125 1.125 0 011.058.745l1.867 5.592M21 14.25H18"/>
             </svg>
           </div>
-          <h3 class="font-display font-700 text-xl text-smoke">Nationwide Shipping</h3>
-          <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed flex-1">
+          <h3 class="font-display font-700 text-xl text-ivory">Nationwide Shipping</h3>
+          <p class="font-body font-400 text-ash text-[15px] leading-relaxed flex-1">
             Vacuum-sealed and shipped overnight on dry ice. Texas barbecue at your door in 48 hours, anywhere in the U.S.
           </p>
-          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-ember hover:text-ember_d transition-colors duration-300 mt-auto">
+          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-gold hover:text-gold_l transition-colors duration-300 mt-auto">
             Ship to Me
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
         </div>
 
         <!-- Card: Book Catering -->
-        <div class="service-card card-hover bg-white rounded-3xl p-8 lg:p-10 border border-line flex flex-col gap-5">
-          <div class="icon-ring w-14 h-14 rounded-2xl bg-ember/[.07] flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-ember transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <div class="service-card card-hover bg-slate_m rounded-3xl p-8 lg:p-10 border border-line_dark flex flex-col gap-5">
+          <div class="icon-ring w-14 h-14 rounded-2xl bg-gold/[.08] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gold transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
             </svg>
           </div>
-          <h3 class="font-display font-700 text-xl text-smoke">Book Catering</h3>
-          <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed flex-1">
+          <h3 class="font-display font-700 text-xl text-ivory">Book Catering</h3>
+          <p class="font-body font-400 text-ash text-[15px] leading-relaxed flex-1">
             Corporate events, weddings, game days. Full-service catering with our pitmaster on-site or drop-off platters for any size.
           </p>
-          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-ember hover:text-ember_d transition-colors duration-300 mt-auto">
+          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-gold hover:text-gold_l transition-colors duration-300 mt-auto">
             Get a Quote
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
         </div>
 
         <!-- Card: Sauces & Rubs -->
-        <div class="service-card card-hover bg-white rounded-3xl p-8 lg:p-10 border border-line flex flex-col gap-5">
-          <div class="icon-ring w-14 h-14 rounded-2xl bg-ember/[.07] flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-ember transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <div class="service-card card-hover bg-slate_m rounded-3xl p-8 lg:p-10 border border-line_dark flex flex-col gap-5">
+          <div class="icon-ring w-14 h-14 rounded-2xl bg-gold/[.08] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gold transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/>
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z"/>
             </svg>
           </div>
-          <h3 class="font-display font-700 text-xl text-smoke">Shop Sauces &amp; Rubs</h3>
-          <p class="font-body font-400 text-smoke_l text-[15px] leading-relaxed flex-1">
+          <h3 class="font-display font-700 text-xl text-ivory">Shop Sauces &amp; Rubs</h3>
+          <p class="font-body font-400 text-ash text-[15px] leading-relaxed flex-1">
             Our signature rub and three house sauces — Original, Spicy, and Carolina Gold — bottled for your home pit.
           </p>
-          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-ember hover:text-ember_d transition-colors duration-300 mt-auto">
+          <a href="#" class="inline-flex items-center gap-2 font-body font-600 text-sm text-gold hover:text-gold_l transition-colors duration-300 mt-auto">
             Browse Shop
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
@@ -504,22 +508,22 @@
   <!-- ═══════════════════════════════════════════════
        FOOTER
   ═══════════════════════════════════════════════ -->
-  <footer id="footer" class="py-20 lg:py-28 bg-smoke text-white/70">
+  <footer id="footer" class="py-20 lg:py-28 bg-charcoal text-white/70 border-t border-line_dark">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8 mb-16">
 
         <!-- Brand -->
         <div class="md:col-span-1 flex flex-col gap-4">
-          <span class="font-display font-800 text-xl tracking-tight text-white">H&B<span class="text-ember"> BBQ</span></span>
-          <p class="font-body font-400 text-sm leading-relaxed text-white/50 max-w-xs">
+          <img src="" alt="H&B BBQ Gold Logo" class="h-16 w-auto object-contain object-left" />
+          <p class="font-body font-400 text-sm leading-relaxed text-white/40 max-w-xs">
             Texas barbecue done right. Slow smoked over Post Oak in Dallas since 2018.
           </p>
         </div>
 
         <!-- Visit -->
         <div class="flex flex-col gap-3">
-          <h4 class="font-display font-700 text-sm text-white tracking-wide">Visit</h4>
+          <h4 class="font-display font-700 text-sm text-gold tracking-wide">Visit</h4>
           <p class="font-body text-sm leading-relaxed text-white/50">
             1024 Main Street<br/>Dallas, TX 75201
           </p>
@@ -530,29 +534,29 @@
 
         <!-- Contact -->
         <div class="flex flex-col gap-3">
-          <h4 class="font-display font-700 text-sm text-white tracking-wide">Contact</h4>
-          <a href="tel:+12145551234" class="font-body text-sm text-white/50 hover:text-ember transition-colors duration-300">(214) 555-1234</a>
-          <a href="mailto:hello@hbbbq.com" class="font-body text-sm text-white/50 hover:text-ember transition-colors duration-300">hello@hbbbq.com</a>
+          <h4 class="font-display font-700 text-sm text-gold tracking-wide">Contact</h4>
+          <a href="tel:+12145551234" class="font-body text-sm text-white/50 hover:text-gold transition-colors duration-300">(214) 555-1234</a>
+          <a href="mailto:info@hbbbq.com" class="font-body text-sm text-white/50 hover:text-gold transition-colors duration-300">info@hbbbq.com</a>
         </div>
 
         <!-- Social -->
         <div class="flex flex-col gap-3">
-          <h4 class="font-display font-700 text-sm text-white tracking-wide">Follow</h4>
+          <h4 class="font-display font-700 text-sm text-gold tracking-wide">Follow</h4>
           <div class="flex items-center gap-4">
             <!-- Instagram -->
-            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-ember transition-colors duration-300" aria-label="Instagram">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-gold hover:text-slate transition-colors duration-300" aria-label="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
             <!-- Facebook -->
-            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-ember transition-colors duration-300" aria-label="Facebook">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-gold hover:text-slate transition-colors duration-300" aria-label="Facebook">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
             </a>
             <!-- TikTok -->
-            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-ember transition-colors duration-300" aria-label="TikTok">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-gold hover:text-slate transition-colors duration-300" aria-label="TikTok">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
             </a>
             <!-- X / Twitter -->
-            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-ember transition-colors duration-300" aria-label="X">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/[.06] flex items-center justify-center hover:bg-gold hover:text-slate transition-colors duration-300" aria-label="X">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
           </div>
@@ -579,7 +583,7 @@
     ScrollTrigger.create({
       start: 'top -50',
       onUpdate: (self) => {
-        nav.classList.toggle('shadow-[0_1px_3px_rgba(0,0,0,.06)]', self.progress > 0);
+        nav.classList.toggle('shadow-[0_1px_6px_rgba(0,0,0,.3)]', self.progress > 0);
       }
     });
 
@@ -651,9 +655,10 @@
     reveal('.menu-reveal', { y: 30, stagger: 0.12 });
     reveal('.meat-card', { y: 50, stagger: 0.15 });
     reveal('.story-reveal', { y: 40, stagger: 0.12 });
-    reveal('.quote-reveal', { y: 0, scale: 0.96 });
-    reveal('.service-reveal', { y: 30, stagger: 0.12 });
+    reveal('.quote-reveal', { y: 30, scale: 0.97 });
+    reveal('.service-reveal', { y: 30, stagger: 0.1 });
     reveal('.service-card', { y: 50, stagger: 0.12 });
   </script>
+
 </body>
 </html>
