@@ -140,6 +140,85 @@
 
     /* ── Smooth Parallax ── */
     .parallax-img { will-change: transform; }
+
+    /* ── Mobile Responsiveness (max-width: 768px) ── */
+    @media (max-width: 768px) {
+
+      /* Nav: scale logo down so it fits comfortably in 72px bar */
+      nav img[alt="H&B BBQ Gold Logo"] {
+        height: 2.75rem; /* 44px instead of 64px */
+      }
+
+      /* Hero: reduce min-height so content isn't stretched on short phones */
+      header.min-h-screen {
+        min-height: auto;
+      }
+
+      /* Hero stats row: tighten gap on very small screens */
+      #heroStats {
+        gap: 1rem;
+      }
+      #heroStats .stat-divider {
+        height: 36px;
+      }
+
+      /* Floating badge: prevent left-side clipping on small viewports */
+      #heroImage .absolute.-bottom-5 {
+        left: 0;
+        right: auto;
+      }
+
+      /* Section padding: reduce vertical breathing room on mobile */
+      section.py-28 {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+      section.py-20 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      /* Quote: slightly smaller on mobile to prevent overflow */
+      .quote-reveal p {
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+
+      /* Footer: add breathing room between stacked columns */
+      footer .grid {
+        gap: 2rem;
+      }
+
+      /* Service cards: reduce internal padding on mobile */
+      .service-card {
+        padding: 1.5rem;
+      }
+
+      /* Process steps: ensure readable spacing when stacked */
+      .story-reveal .grid {
+        gap: 1.5rem;
+      }
+    }
+
+    /* ── Very small phones (max-width: 380px) ── */
+    @media (max-width: 380px) {
+
+      /* Stats row: allow wrapping if viewport is too narrow */
+      #heroStats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+      #heroStats .stat-divider {
+        display: none;
+      }
+
+      /* Tighten horizontal padding */
+      .max-w-7xl {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
   </style>
 </head>
 
