@@ -143,32 +143,18 @@
 
     /* ── Mobile Responsiveness (max-width: 768px) ── */
     @media (max-width: 768px) {
-
-      /* Nav: scale logo down so it fits comfortably in 72px bar */
       nav img[alt="H&B BBQ Gold Logo"] {
-        height: 2.75rem; /* 44px instead of 64px */
+        height: 2.75rem;
       }
-
-      /* Hero: reduce min-height so content isn't stretched on short phones */
       header.min-h-screen {
         min-height: auto;
       }
-
-      /* Hero stats row: tighten gap on very small screens */
       #heroStats {
         gap: 1rem;
       }
       #heroStats .stat-divider {
         height: 36px;
       }
-
-      /* Floating badge: prevent left-side clipping on small viewports */
-      #heroImage .absolute.-bottom-5 {
-        left: 0;
-        right: auto;
-      }
-
-      /* Section padding: reduce vertical breathing room on mobile */
       section.py-28 {
         padding-top: 4rem;
         padding-bottom: 4rem;
@@ -177,24 +163,16 @@
         padding-top: 3rem;
         padding-bottom: 3rem;
       }
-
-      /* Quote: slightly smaller on mobile to prevent overflow */
       .quote-reveal p {
         font-size: 1.5rem;
         line-height: 1.3;
       }
-
-      /* Footer: add breathing room between stacked columns */
       footer .grid {
         gap: 2rem;
       }
-
-      /* Service cards: reduce internal padding on mobile */
       .service-card {
         padding: 1.5rem;
       }
-
-      /* Process steps: ensure readable spacing when stacked */
       .story-reveal .grid {
         gap: 1.5rem;
       }
@@ -202,8 +180,6 @@
 
     /* ── Very small phones (max-width: 380px) ── */
     @media (max-width: 380px) {
-
-      /* Stats row: allow wrapping if viewport is too narrow */
       #heroStats {
         flex-wrap: wrap;
         justify-content: center;
@@ -212,8 +188,6 @@
       #heroStats .stat-divider {
         display: none;
       }
-
-      /* Tighten horizontal padding */
       .max-w-7xl {
         padding-left: 1rem;
         padding-right: 1rem;
@@ -230,7 +204,7 @@
   <nav class="fixed top-0 left-0 w-full z-50 bg-slate/80 border-b border-line_dark/60">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10 h-[72px]">
 
-      <!-- Logo Placeholder -->
+      <!-- Logo -->
       <a href="#" class="shrink-0 select-none">
         <img src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/Logo.png" alt="H&B BBQ Gold Logo" class="h-16 w-auto object-contain" />
       </a>
@@ -286,7 +260,7 @@
         </div>
 
         <h1 id="heroHeadline" class="font-display font-800 text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.04] tracking-tight text-ivory opacity-0">
-          Texas Smoke, <br/><span class="font-display text-gold">Perfected.</span>
+          Texas Smoke, <br/><span class="font-display font-800 text-gold">Perfected.</span>
         </h1>
 
         <p id="heroSub" class="font-body font-400 text-lg text-ash leading-relaxed max-w-md opacity-0">
@@ -312,7 +286,7 @@
           </div>
           <div class="stat-divider"></div>
           <div class="text-center">
-            <span class="block font-display font-700 text-3xl text-ivory">225<span class="text-gold font-600 text-xl ml-0.5">°</span></span>
+            <span class="block font-display font-700 text-3xl text-ivory">225<span class="text-gold font-600 text-xl ml-0.5">&deg;</span></span>
             <span class="text-[11px] font-body text-ash uppercase tracking-widest mt-1 block">Low &amp; Slow</span>
           </div>
           <div class="stat-divider"></div>
@@ -449,7 +423,7 @@
         <div class="img-zoom overflow-hidden rounded-3xl aspect-[4/5] bg-slate_l shadow-[0_32px_80px_-20px_rgba(0,0,0,.4)] ring-1 ring-gold/10">
           <img
             src="https://raw.githubusercontent.com/Tyler-John-Albrecht/Brechtland-CRM/main/Restaurant%20Template/About%20KD.png"
-            alt="Kenyon Railey — Pitmaster & Founder of H&B Barbecue"
+            alt="Kenyon Railey — Pitmaster and Founder of H&B Barbecue"
             class="parallax-img w-full h-full object-cover object-center"
             loading="lazy"
           />
@@ -490,7 +464,7 @@
           <div class="flex flex-col gap-2">
             <span class="font-display font-700 text-3xl text-gold">03</span>
             <span class="font-body font-600 text-sm text-ivory">Smoke</span>
-            <span class="font-body font-400 text-ash text-sm leading-relaxed">14 hours over Post Oak at 225°. Low, slow, and&nbsp;unwavering.</span>
+            <span class="font-body font-400 text-ash text-sm leading-relaxed">14 hours over Post Oak at 225&deg;. Low, slow, and&nbsp;unwavering.</span>
           </div>
         </div>
       </div>
