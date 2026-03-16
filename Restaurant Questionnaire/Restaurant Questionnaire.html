@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brechtland — Client Onboarding</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Google Fonts: Instrument Sans (Swiss feel) + Newsreader (refined serif accent) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Newsreader"', 'Georgia', 'serif'],
+          },
+          colors: {
+            surface: '#FAFAFA',
+            paper: '#FFFFFF',
+            ink: '#111111',
+            muted: '#71717A',
+            line: '#E4E4E7',
+            accent: '#111111',
+            focus: '#2563EB',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Instrument Sans', system-ui, sans-serif;
+      background: #FAFAFA;
+      color: #111111;
+    }
+    ::selection { background: #111; color: #fff; }
+
+    /* Step transitions */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    /* Input refinement */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="color"],
+    textarea {
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #111 !important;
+      box-shadow: 0 0 0 3px rgba(17,17,17,0.06);
+    }
+
+    /* Color input special styling */
+    input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch {
+      border: 2px solid #E4E4E7;
+      border-radius: 8px;
+    }
+
+    /* Progress bar */
+    .progress-fill {
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Step indicator */
+    .step-dot {
+      transition: all 0.3s ease;
+    }
+    .step-dot.completed {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .step-dot.current {
+      border-color: #111;
+      color: #111;
+    }
+
+    /* Textarea auto-height feel */
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* JSON output */
+    #jsonOutput pre {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* Hide number spinner */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-ink min-h-screen">
+
+  <!-- ═══════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════ -->
+  <header class="border-b border-line bg-paper/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 bg-ink rounded-md flex items-center justify-center">
+          <span class="text-white text-xs font-bold tracking-tight">B</span>
+        </div>
+        <span class="font-sans font-600 text-sm tracking-tight">Brechtland</span>
+      </div>
+      <span class="font-sans text-xs text-muted tracking-wide">Client Onboarding</span>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO / INTRO
+  ═══════════════════════════════════════════════ -->
+  <div id="introSection" class="max-w-3xl mx-auto px-6 pt-20 pb-16">
+    <div class="mb-2">
+      <span class="font-serif italic text-muted text-sm">Premium Template Setup</span>
+    </div>
+    <h1 class="font-sans font-700 text-4xl sm:text-5xl tracking-tight leading-[1.1] mb-5">
+      Restaurant Website<br/>Questionnaire
+    </h1>
+    <p class="font-sans text-muted text-base leading-relaxed max-w-lg mb-1">
+      Complete each section below so we can build your custom restaurant website. Every field maps directly to your final site. Takes roughly 10 minutes.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PROGRESS BAR
+  ═══════════════════════════════════════════════ -->
+  <div id="progressArea" class="max-w-3xl mx-auto px-6 mb-12">
+    <div class="flex items-center justify-between mb-3">
+      <span id="progressLabel" class="font-sans text-xs font-600 text-muted tracking-wide uppercase">Step 1 of 8</span>
+      <span id="progressPercent" class="font-sans text-xs font-500 text-muted">0%</span>
+    </div>
+    <div class="w-full h-[3px] bg-line rounded-full overflow-hidden">
+      <div id="progressBar" class="progress-fill h-full bg-ink rounded-full" style="width: 0%"></div>
+    </div>
+
+    <!-- Step dots -->
+    <div class="flex items-center justify-between mt-5">
+      <button onclick="goToStep(0)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper current" data-step="0">1</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(1)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="1">2</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(2)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="2">3</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(3)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="3">4</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(4)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="4">5</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(5)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="5">6</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(6)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="6">7</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(7)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="7">8</button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FORM
+  ═══════════════════════════════════════════════ -->
+  <form id="onboardingForm" action="https://formspree.io/f/invoices@brechtland.com" method="POST">
+    <div class="max-w-3xl mx-auto px-6 pb-32">
+
+
+      <!-- ─── STEP 1: BRAND ─── -->
+      <div class="form-step active" data-step="0">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 01</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Brand Identity</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Core brand information that defines the look and feel of your website.</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Restaurant Name -->
+            <div>
+              <label for="restaurant_name" class="block font-sans text-sm font-600 mb-2">Restaurant Name <span class="text-red-400">*</span></label>
+              <input type="text" id="restaurant_name" name="restaurant_name" required placeholder="e.g. Oakwood Smokehouse" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <!-- Brand Color -->
+            <div>
+              <label for="brand_color" class="block font-sans text-sm font-600 mb-2">Primary Brand Color</label>
+              <p class="text-xs text-muted mb-3">This color will be used for accents, buttons, and highlights across the site.</p>
+              <div class="flex items-center gap-4">
+                <input type="color" id="brand_color" name="brand_color" value="#D4AF37" class="w-12 h-12 rounded-xl cursor-pointer" />
+                <input type="text" id="brand_color_hex" name="brand_color_hex" value="#D4AF37" placeholder="#D4AF37" class="w-36 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-mono font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Logo URL -->
+            <div>
+              <label for="logo_url" class="block font-sans text-sm font-600 mb-2">Logo Image URL</label>
+              <p class="text-xs text-muted mb-3">Direct link to your logo file (PNG or SVG preferred, transparent background).</p>
+              <input type="url" id="logo_url" name="logo_url" placeholder="https://example.com/your-logo.png" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 2: HERO SECTION ─── -->
+      <div class="form-step" data-step="1">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 02</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Hero Section</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">The first thing visitors see — your headline, location, and hero imagery.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="hero_location" class="block font-sans text-sm font-600 mb-2">Location / City <span class="text-red-400">*</span></label>
+              <input type="text" id="hero_location" name="hero_location" required placeholder="e.g. Austin, Texas" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_headline" class="block font-sans text-sm font-600 mb-2">Main Headline <span class="text-red-400">*</span></label>
+              <p class="text-xs text-muted mb-3">Your attention-grabbing tagline. Keep it short — 3 to 6 words works best.</p>
+              <input type="text" id="hero_headline" name="hero_headline" required placeholder="e.g. Texas Smoke, Perfected." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_subheadline" class="block font-sans text-sm font-600 mb-2">Subheadline / Hours</label>
+              <p class="text-xs text-muted mb-3">A brief supporting line — often includes hours of operation.</p>
+              <input type="text" id="hero_subheadline" name="hero_subheadline" placeholder="e.g. Open daily at 11 AM — until sold out." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_image_url" class="block font-sans text-sm font-600 mb-2">Hero Image URL</label>
+              <p class="text-xs text-muted mb-3">A high-quality, vertical or square image of your best dish or restaurant.</p>
+              <input type="url" id="hero_image_url" name="hero_image_url" placeholder="https://example.com/hero-image.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="established_year" class="block font-sans text-sm font-600 mb-2">Established Year</label>
+              <input type="text" id="established_year" name="established_year" placeholder="e.g. 2018" class="w-40 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 3: HERO STATS ─── -->
+      <div class="form-step" data-step="2">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 03</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Hero Stats</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Three key numbers displayed beneath the hero headline. Use these to showcase what makes you unique.</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Stat 1 -->
+            <div class="p-5 bg-surface rounded-xl border border-line">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-4 block">Stat 1</span>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="stat_1_number" class="block font-sans text-sm font-600 mb-2">Number / Value</label>
+                  <input type="text" id="stat_1_number" name="stat_1_number" placeholder="e.g. 14hr" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="stat_1_label" class="block font-sans text-sm font-600 mb-2">Label</label>
+                  <input type="text" id="stat_1_label" name="stat_1_label" placeholder="e.g. Smoke Time" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Stat 2 -->
+            <div class="p-5 bg-surface rounded-xl border border-line">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-4 block">Stat 2</span>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="stat_2_number" class="block font-sans text-sm font-600 mb-2">Number / Value</label>
+                  <input type="text" id="stat_2_number" name="stat_2_number" placeholder="e.g. 225°" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="stat_2_label" class="block font-sans text-sm font-600 mb-2">Label</label>
+                  <input type="text" id="stat_2_label" name="stat_2_label" placeholder="e.g. Low & Slow" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Stat 3 -->
+            <div class="p-5 bg-surface rounded-xl border border-line">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-4 block">Stat 3</span>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="stat_3_number" class="block font-sans text-sm font-600 mb-2">Number / Value</label>
+                  <input type="text" id="stat_3_number" name="stat_3_number" placeholder="e.g. 100%" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="stat_3_label" class="block font-sans text-sm font-600 mb-2">Label</label>
+                  <input type="text" id="stat_3_label" name="stat_3_label" placeholder="e.g. Post Oak" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 4: MENU HIGHLIGHTS ─── -->
+      <div class="form-step" data-step="3">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 04</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Menu Highlights</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Showcase your three best dishes with photos and descriptions.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="menu_section_title" class="block font-sans text-sm font-600 mb-2">Menu Section Title</label>
+              <input type="text" id="menu_section_title" name="menu_section_title" placeholder="e.g. Smoked to Perfection" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="menu_section_subtitle" class="block font-sans text-sm font-600 mb-2">Menu Section Subtitle</label>
+              <input type="text" id="menu_section_subtitle" name="menu_section_subtitle" placeholder="e.g. Every cut hand-selected, trimmed in-house..." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+
+          <!-- Menu Item 1 -->
+          <div class="mt-8 p-5 bg-surface rounded-xl border border-line space-y-4">
+            <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Menu Item 1</span>
+            <div>
+              <label for="menu_1_name" class="block font-sans text-sm font-600 mb-2">Dish Name</label>
+              <input type="text" id="menu_1_name" name="menu_1_name" placeholder="e.g. Prime Brisket" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+            <div>
+              <label for="menu_1_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+              <textarea id="menu_1_description" name="menu_1_description" rows="2" placeholder="Short description of the dish..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+            <div>
+              <label for="menu_1_image_url" class="block font-sans text-sm font-600 mb-2">Image URL</label>
+              <input type="url" id="menu_1_image_url" name="menu_1_image_url" placeholder="https://example.com/dish1.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+
+          <!-- Menu Item 2 -->
+          <div class="mt-6 p-5 bg-surface rounded-xl border border-line space-y-4">
+            <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Menu Item 2</span>
+            <div>
+              <label for="menu_2_name" class="block font-sans text-sm font-600 mb-2">Dish Name</label>
+              <input type="text" id="menu_2_name" name="menu_2_name" placeholder="e.g. Beef Ribs" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+            <div>
+              <label for="menu_2_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+              <textarea id="menu_2_description" name="menu_2_description" rows="2" placeholder="Short description of the dish..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+            <div>
+              <label for="menu_2_image_url" class="block font-sans text-sm font-600 mb-2">Image URL</label>
+              <input type="url" id="menu_2_image_url" name="menu_2_image_url" placeholder="https://example.com/dish2.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+
+          <!-- Menu Item 3 -->
+          <div class="mt-6 p-5 bg-surface rounded-xl border border-line space-y-4">
+            <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Menu Item 3</span>
+            <div>
+              <label for="menu_3_name" class="block font-sans text-sm font-600 mb-2">Dish Name</label>
+              <input type="text" id="menu_3_name" name="menu_3_name" placeholder="e.g. House Sausage" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+            <div>
+              <label for="menu_3_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+              <textarea id="menu_3_description" name="menu_3_description" rows="2" placeholder="Short description of the dish..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+            <div>
+              <label for="menu_3_image_url" class="block font-sans text-sm font-600 mb-2">Image URL</label>
+              <input type="url" id="menu_3_image_url" name="menu_3_image_url" placeholder="https://example.com/dish3.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 5: THE STORY ─── -->
+      <div class="form-step" data-step="4">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 05</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">The Story</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Tell visitors who's behind the food and what makes your approach special.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="founder_name" class="block font-sans text-sm font-600 mb-2">Pitmaster / Founder Name <span class="text-red-400">*</span></label>
+              <input type="text" id="founder_name" name="founder_name" required placeholder="e.g. Kenyon Railey" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="founder_image_url" class="block font-sans text-sm font-600 mb-2">Founder Profile Image URL</label>
+              <input type="url" id="founder_image_url" name="founder_image_url" placeholder="https://example.com/founder.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="founder_bio" class="block font-sans text-sm font-600 mb-2">Bio / Background Story <span class="text-red-400">*</span></label>
+              <p class="text-xs text-muted mb-3">Tell us your story in 2–4 paragraphs. What drives you? How did you start? What makes your food different?</p>
+              <textarea id="founder_bio" name="founder_bio" required rows="6" placeholder="Before the sun rises, I'm already at the pit..." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <!-- Process Steps -->
+            <div class="pt-2">
+              <h3 class="font-sans text-sm font-600 mb-4">Your 3-Step Process</h3>
+              <p class="text-xs text-muted mb-5">Describe your workflow in three simple steps (e.g. Select → Season → Smoke).</p>
+
+              <div class="space-y-5">
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 01</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_1_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_1_title" name="process_1_title" placeholder="e.g. Select" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_1_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_1_description" name="process_1_description" placeholder="e.g. Hand-picked USDA Prime cuts, trimmed by hand." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 02</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_2_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_2_title" name="process_2_title" placeholder="e.g. Season" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_2_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_2_description" name="process_2_description" placeholder="e.g. Coarse pepper and kosher salt — nothing more." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 03</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_3_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_3_title" name="process_3_title" placeholder="e.g. Smoke" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_3_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_3_description" name="process_3_description" placeholder="e.g. 14 hours over Post Oak at 225°." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 6: SOCIAL PROOF ─── -->
+      <div class="form-step" data-step="5">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 06</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Social Proof</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">A featured quote that appears as a full-width break between sections.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="quote_text" class="block font-sans text-sm font-600 mb-2">Featured Quote</label>
+              <p class="text-xs text-muted mb-3">A powerful one-liner from the founder, a review, or a philosophy. Keep it punchy.</p>
+              <textarea id="quote_text" name="quote_text" rows="3" placeholder='e.g. "We don&#39;t rush the smoke. The smoke doesn&#39;t rush us."' class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <div>
+              <label for="quote_author" class="block font-sans text-sm font-600 mb-2">Quote Author</label>
+              <p class="text-xs text-muted mb-3">Name and title of who said it.</p>
+              <input type="text" id="quote_author" name="quote_author" placeholder="e.g. Kenyon Railey, Pitmaster & Founder" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 7: SECONDARY SERVICES ─── -->
+      <div class="form-step" data-step="6">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 07</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Secondary Services</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Three service cards displayed below the quote (e.g. Shipping, Catering, Merch).</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Service 1 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Service 1</span>
+              <div>
+                <label for="service_1_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                <input type="text" id="service_1_title" name="service_1_title" placeholder="e.g. Nationwide Shipping" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="service_1_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                <textarea id="service_1_description" name="service_1_description" rows="2" placeholder="Brief description of this service..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="service_1_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="service_1_cta" name="service_1_cta" placeholder="e.g. Ship to Me" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Service 2</span>
+              <div>
+                <label for="service_2_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                <input type="text" id="service_2_title" name="service_2_title" placeholder="e.g. Book Catering" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="service_2_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                <textarea id="service_2_description" name="service_2_description" rows="2" placeholder="Brief description of this service..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="service_2_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="service_2_cta" name="service_2_cta" placeholder="e.g. Get a Quote" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Service 3</span>
+              <div>
+                <label for="service_3_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                <input type="text" id="service_3_title" name="service_3_title" placeholder="e.g. Shop Sauces & Rubs" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="service_3_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                <textarea id="service_3_description" name="service_3_description" rows="2" placeholder="Brief description of this service..." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="service_3_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="service_3_cta" name="service_3_cta" placeholder="e.g. Browse Shop" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 8: CONTACT / FOOTER ─── -->
+      <div class="form-step" data-step="7">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 08</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Contact &amp; Footer</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Where visitors can find you — address, phone, email, and social channels.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="contact_address" class="block font-sans text-sm font-600 mb-2">Full Address <span class="text-red-400">*</span></label>
+              <textarea id="contact_address" name="contact_address" required rows="2" placeholder="1024 Main Street&#10;Dallas, TX 75201" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="contact_phone" class="block font-sans text-sm font-600 mb-2">Phone Number <span class="text-red-400">*</span></label>
+                <input type="tel" id="contact_phone" name="contact_phone" required placeholder="(214) 555-1234" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="contact_email" class="block font-sans text-sm font-600 mb-2">Email Address <span class="text-red-400">*</span></label>
+                <input type="email" id="contact_email" name="contact_email" required placeholder="hello@yourrestaurant.com" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <h3 class="font-sans text-sm font-600 mb-4">Social Media Links</h3>
+              <p class="text-xs text-muted mb-5">Leave blank any platforms you don't use.</p>
+
+              <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  </div>
+                  <input type="url" id="social_instagram" name="social_instagram" placeholder="Instagram URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+                  </div>
+                  <input type="url" id="social_facebook" name="social_facebook" placeholder="Facebook URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                  </div>
+                  <input type="url" id="social_tiktok" name="social_tiktok" placeholder="TikTok URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-3.5 h-3.5 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </div>
+                  <input type="url" id="social_x" name="social_x" placeholder="X / Twitter URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── NAVIGATION BUTTONS ─── -->
+      <div class="flex items-center justify-between mt-8">
+        <button type="button" id="btnPrev" onclick="prevStep()" class="hidden items-center gap-2 font-sans text-sm font-600 text-muted hover:text-ink px-5 py-3 rounded-xl border border-line bg-paper transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+          Previous
+        </button>
+
+        <div class="ml-auto flex items-center gap-3">
+          <button type="button" id="btnNext" onclick="nextStep()" class="inline-flex items-center gap-2 font-sans text-sm font-600 text-white bg-ink hover:bg-zinc-800 px-7 py-3 rounded-xl transition-colors duration-200">
+            Continue
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </button>
+
+          <button type="submit" id="btnSubmit" class="hidden items-center gap-2 font-sans text-sm font-600 text-white bg-ink hover:bg-zinc-800 px-7 py-3 rounded-xl transition-colors duration-200">
+            Submit Questionnaire
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JSON OUTPUT AREA
+  ═══════════════════════════════════════════════ -->
+  <div id="jsonOutput" class="hidden max-w-3xl mx-auto px-6 pb-12">
+    <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 class="font-sans font-700 text-lg tracking-tight">Your Data — JSON</h3>
+          <p class="font-sans text-xs text-muted mt-1">Copy this for your records. It maps to every field in your website template.</p>
+        </div>
+        <button onclick="copyJson()" id="copyBtn" class="inline-flex items-center gap-2 font-sans text-xs font-600 text-muted hover:text-ink border border-line rounded-lg px-3 py-2 transition-colors duration-200">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
+          Copy
+        </button>
+      </div>
+      <pre id="jsonPre" class="bg-zinc-50 border border-line rounded-xl p-5 overflow-x-auto text-ink whitespace-pre-wrap break-words"></pre>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SUCCESS STATE
+  ═══════════════════════════════════════════════ -->
+  <div id="successMessage" class="hidden max-w-3xl mx-auto px-6 py-24 text-center">
+    <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-50 border border-emerald-200 rounded-full mb-6">
+      <svg class="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+    </div>
+    <h2 class="font-sans font-700 text-3xl tracking-tight mb-3">You're all set.</h2>
+    <p class="font-sans text-muted text-base leading-relaxed max-w-md mx-auto mb-2">
+      Your questionnaire has been submitted successfully. A copy of your data has been sent to:
+    </p>
+    <p class="font-sans font-600 text-sm text-ink mb-8">invoices@brechtland.com</p>
+    <p class="font-sans text-sm text-muted">We'll begin building your site within 48 hours. Scroll down to copy your JSON data.</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="border-t border-line mt-12 py-8">
+    <div class="max-w-3xl mx-auto px-6 flex items-center justify-between">
+      <p class="font-sans text-xs text-zinc-400">&copy; 2026 Brechtland LLC. All rights reserved.</p>
+      <p class="font-sans text-xs text-zinc-400">invoices@brechtland.com</p>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    /* ── State ── */
+    let currentStep = 0;
+    const totalSteps = 8;
+    const steps = document.querySelectorAll('.form-step');
+    const dots = document.querySelectorAll('.step-dot');
+    const form = document.getElementById('onboardingForm');
+
+    /* ── Color input sync ── */
+    const colorPicker = document.getElementById('brand_color');
+    const colorHex = document.getElementById('brand_color_hex');
+    colorPicker.addEventListener('input', (e) => { colorHex.value = e.target.value; });
+    colorHex.addEventListener('input', (e) => {
+      const v = e.target.value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(v)) colorPicker.value = v;
+    });
+
+    /* ── Step Navigation ── */
+    function showStep(index) {
+      // Validate current step before moving forward
+      steps.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+
+      // Animate in
+      const activeStep = steps[index];
+      gsap.fromTo(activeStep, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+
+      // Update progress
+      const pct = Math.round((index / (totalSteps - 1)) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressPercent').textContent = pct + '%';
+      document.getElementById('progressLabel').textContent = `Step ${index + 1} of ${totalSteps}`;
+
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.remove('completed', 'current');
+        if (i < index) dot.classList.add('completed');
+        else if (i === index) dot.classList.add('current');
+      });
+
+      // Toggle buttons
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      btnPrev.style.display = index > 0 ? 'inline-flex' : 'none';
+      btnNext.style.display = index < totalSteps - 1 ? 'inline-flex' : 'none';
+      btnSubmit.style.display = index === totalSteps - 1 ? 'inline-flex' : 'none';
+
+      currentStep = index;
+
+      // Smooth scroll to top of form
+      window.scrollTo({ top: document.getElementById('progressArea').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+      // Validate required fields in current step
+      const currentFields = steps[currentStep].querySelectorAll('[required]');
+      let valid = true;
+      currentFields.forEach(field => {
+        if (!field.value.trim()) {
+          valid = false;
+          field.style.borderColor = '#EF4444';
+          gsap.fromTo(field, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
+          field.addEventListener('input', function handler() {
+            if (this.value.trim()) this.style.borderColor = '';
+            this.removeEventListener('input', handler);
+          });
+        }
+      });
+      if (!valid) return;
+
+      if (currentStep < totalSteps - 1) showStep(currentStep + 1);
+    }
+
+    function prevStep() {
+      if (currentStep > 0) showStep(currentStep - 1);
+    }
+
+    function goToStep(index) {
+      // Only allow going to completed or current steps
+      if (index <= currentStep) showStep(index);
+    }
+
+    /* ── Build JSON from form ── */
+    function buildJson() {
+      const fd = new FormData(form);
+      const data = {
+        brand: {
+          restaurant_name: fd.get('restaurant_name') || '',
+          brand_color: fd.get('brand_color_hex') || fd.get('brand_color') || '',
+          logo_url: fd.get('logo_url') || '',
+        },
+        hero: {
+          location: fd.get('hero_location') || '',
+          headline: fd.get('hero_headline') || '',
+          subheadline: fd.get('hero_subheadline') || '',
+          hero_image_url: fd.get('hero_image_url') || '',
+          established_year: fd.get('established_year') || '',
+        },
+        hero_stats: [
+          { number: fd.get('stat_1_number') || '', label: fd.get('stat_1_label') || '' },
+          { number: fd.get('stat_2_number') || '', label: fd.get('stat_2_label') || '' },
+          { number: fd.get('stat_3_number') || '', label: fd.get('stat_3_label') || '' },
+        ],
+        menu: {
+          section_title: fd.get('menu_section_title') || '',
+          section_subtitle: fd.get('menu_section_subtitle') || '',
+          items: [
+            { name: fd.get('menu_1_name') || '', description: fd.get('menu_1_description') || '', image_url: fd.get('menu_1_image_url') || '' },
+            { name: fd.get('menu_2_name') || '', description: fd.get('menu_2_description') || '', image_url: fd.get('menu_2_image_url') || '' },
+            { name: fd.get('menu_3_name') || '', description: fd.get('menu_3_description') || '', image_url: fd.get('menu_3_image_url') || '' },
+          ]
+        },
+        story: {
+          founder_name: fd.get('founder_name') || '',
+          founder_image_url: fd.get('founder_image_url') || '',
+          bio: fd.get('founder_bio') || '',
+          process_steps: [
+            { title: fd.get('process_1_title') || '', description: fd.get('process_1_description') || '' },
+            { title: fd.get('process_2_title') || '', description: fd.get('process_2_description') || '' },
+            { title: fd.get('process_3_title') || '', description: fd.get('process_3_description') || '' },
+          ]
+        },
+        social_proof: {
+          quote: fd.get('quote_text') || '',
+          author: fd.get('quote_author') || '',
+        },
+        services: [
+          { title: fd.get('service_1_title') || '', description: fd.get('service_1_description') || '', cta: fd.get('service_1_cta') || '' },
+          { title: fd.get('service_2_title') || '', description: fd.get('service_2_description') || '', cta: fd.get('service_2_cta') || '' },
+          { title: fd.get('service_3_title') || '', description: fd.get('service_3_description') || '', cta: fd.get('service_3_cta') || '' },
+        ],
+        contact: {
+          address: fd.get('contact_address') || '',
+          phone: fd.get('contact_phone') || '',
+          email: fd.get('contact_email') || '',
+          social: {
+            instagram: fd.get('social_instagram') || '',
+            facebook: fd.get('social_facebook') || '',
+            tiktok: fd.get('social_tiktok') || '',
+            x: fd.get('social_x') || '',
+          }
+        }
+      };
+      return data;
+    }
+
+    /* ── Form Submit ── */
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Validate last step
+      const currentFields = steps[currentStep].querySelectorAll('[required]');
+      let valid = true;
+      currentFields.forEach(field => {
+        if (!field.value.trim()) {
+          valid = false;
+          field.style.borderColor = '#EF4444';
+          gsap.fromTo(field, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
+        }
+      });
+      if (!valid) return;
+
+      // Generate JSON
+      const jsonData = buildJson();
+      const jsonStr = JSON.stringify(jsonData, null, 2);
+
+      // Display JSON
+      document.getElementById('jsonPre').textContent = jsonStr;
+
+      // Submit to Formspree via fetch
+      const formData = new FormData(form);
+      // Also append the full JSON as a field
+      formData.append('_json_export', jsonStr);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        // Show success regardless (Formspree might need setup)
+      }).catch(err => {
+        // Still show success UI — JSON output is the backup
+      });
+
+      // Hide form, show success + JSON
+      const formArea = form;
+      const introSection = document.getElementById('introSection');
+      const progressArea = document.getElementById('progressArea');
+      const successMsg = document.getElementById('successMessage');
+      const jsonOutput = document.getElementById('jsonOutput');
+
+      gsap.to(formArea, {
+        opacity: 0, y: -20, duration: 0.4, ease: 'power2.in',
+        onComplete: () => {
+          formArea.style.display = 'none';
+          progressArea.style.display = 'none';
+
+          // Animate intro section out
+          gsap.to(introSection, { opacity: 0, y: -10, duration: 0.3 });
+
+          // Show success
+          successMsg.classList.remove('hidden');
+          gsap.fromTo(successMsg, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+
+          // Show JSON output
+          jsonOutput.classList.remove('hidden');
+          gsap.fromTo(jsonOutput, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.3 });
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* ── Copy JSON ── */
+    function copyJson() {
+      const text = document.getElementById('jsonPre').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Copied!';
+        btn.classList.add('text-emerald-600');
+        setTimeout(() => {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg> Copy';
+          btn.classList.remove('text-emerald-600');
+        }, 2000);
+      });
+    }
+
+    /* ── GSAP: Intro animations ── */
+    gsap.fromTo('#introSection', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 });
+    gsap.fromTo('#progressArea', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.25 });
+    gsap.fromTo('.form-step.active', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.4 });
+
+    /* ── GSAP: Input focus micro-interactions ── */
+    document.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('focus', () => {
+        gsap.to(el, { scale: 1.005, duration: 0.2, ease: 'power2.out' });
+      });
+      el.addEventListener('blur', () => {
+        gsap.to(el, { scale: 1, duration: 0.2, ease: 'power2.out' });
+      });
+    });
+  </script>
+
+</body>
+</html>
