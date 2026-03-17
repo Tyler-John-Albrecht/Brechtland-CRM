@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,7 @@
     <style>
         body {
             font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-            background-color: #030303; /* Deepened the black for a richer cinematic feel */
+            background-color: #030303; 
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             color: #ffffff;
@@ -46,7 +46,7 @@
             box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
         }
 
-        /* ── Pure CSS Neon Hover Effects (Reliable & Smooth) ── */
+        /* ── Pure CSS Neon Hover Effects ── */
         .pricing-card {
             background: linear-gradient(180deg, rgba(25,25,25,0.4) 0%, rgba(10,10,10,0.8) 100%);
             backdrop-filter: blur(20px);
@@ -55,7 +55,6 @@
             will-change: transform, box-shadow, border-color;
         }
         
-        /* Ice Cyan Hover for standard packages */
         .pricing-card:hover {
             transform: translateY(-12px) scale(1.02);
             border-color: rgba(34, 211, 238, 0.8);
@@ -65,7 +64,6 @@
             z-index: 20;
         }
 
-        /* Liquid Gold Hover for the Premium Package */
         .featured-tier {
             border: 1px solid rgba(251, 191, 36, 0.3);
             background: linear-gradient(180deg, rgba(251, 191, 36, 0.05) 0%, rgba(10,10,10,0.9) 100%);
@@ -131,7 +129,28 @@
 </head>
 <body class="min-h-screen flex flex-col items-center w-full">
 
-    <section class="w-full relative bg-cover bg-center bg-no-repeat min-h-[90vh] flex items-center" style="background-image: url('Hero Background.png');">
+    <nav class="fixed top-0 w-full z-50 bg-[#030303]/80 backdrop-blur-xl border-b border-white/5 transition-all py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="text-xl md:text-2xl font-black text-white tracking-widest uppercase cursor-pointer">
+            Grand Slam <span class="text-exotic-gold text-glow-gold">Detailing</span>
+        </div>
+        
+        <div class="hidden md:flex gap-10 text-sm font-bold text-[#9ca3af] uppercase tracking-widest">
+            <a href="#home" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Home</a>
+            <a href="#packages" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Packages</a>
+            <a href="#guarantee" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Guarantee</a>
+            <a href="#process" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Process</a>
+        </div>
+
+        <a href="#packages" class="hidden md:block btn-gold text-black font-black text-xs py-3 px-8 rounded-full uppercase tracking-widest hover:scale-105 transition-transform">
+            Book Now
+        </a>
+
+        <div class="md:hidden text-white cursor-pointer">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </div>
+    </nav>
+
+    <section id="home" class="w-full relative bg-cover bg-center bg-no-repeat min-h-[100vh] flex items-center pt-20" style="background-image: url('Hero Background.png');">
         <div class="hero-overlay absolute inset-0"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#030303]/50 to-[#030303]"></div>
         
@@ -144,13 +163,13 @@
             <p class="mt-6 text-base md:text-xl text-[#a1a1aa] max-w-2xl mx-auto mb-12 leading-relaxed font-light">
                 We don't just wash cars. We restore masterpieces. Experience the pinnacle of mobile detailing directly in your driveway.
             </p>
-            <button class="btn-gold text-black font-extrabold text-lg py-4 px-12 rounded-full uppercase tracking-widest hover:scale-105">
+            <a href="#packages" class="inline-block btn-gold text-black font-extrabold text-lg py-4 px-12 rounded-full uppercase tracking-widest hover:scale-105 transition-transform">
                 Unlock Pricing
-            </button>
+            </a>
         </div>
     </section>
 
-    <section class="w-full py-28 px-4 sm:px-6 lg:px-8 flex items-center justify-center relative">
+    <section id="packages" class="w-full py-28 px-4 sm:px-6 lg:px-8 flex items-center justify-center relative scroll-mt-20">
         <div class="absolute top-0 left-1/4 w-[800px] h-[800px] orb-cyan -translate-y-1/2 pointer-events-none blur-[100px]"></div>
         
         <div class="max-w-7xl w-full space-y-20 relative z-10">
@@ -249,7 +268,7 @@
         </div>
     </section>
 
-    <section class="w-full py-24 px-4 relative">
+    <section id="guarantee" class="w-full py-24 px-4 relative scroll-mt-20">
         <div class="absolute top-1/2 right-0 w-[600px] h-[600px] orb-gold -translate-y-1/2 pointer-events-none blur-[120px]"></div>
         
         <div class="glass max-w-7xl mx-auto rounded-[2.5rem] overflow-hidden relative z-10 border border-white/5">
@@ -260,7 +279,7 @@
                     <p class="text-lg text-[#9ca3af] leading-relaxed font-light mb-10">
                         We are obsessed with perfection. If you find a spot we missed, or if you aren't completely thrilled with your interior, call us within 24 hours. We will drive back and fix it for free. No arguments.
                     </p>
-                    <button class="text-exotic-gold font-bold uppercase tracking-widest text-sm hover:text-yellow-300 transition-colors flex items-center gap-2 group">
+                    <button class="text-exotic-gold font-bold uppercase tracking-widest text-sm hover:text-yellow-300 transition-colors flex items-center gap-2 group w-fit">
                         Read our policy <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                 </div>
@@ -272,7 +291,7 @@
         </div>
     </section>
 
-    <section class="w-full py-24 px-4 relative">
+    <section id="process" class="w-full py-24 px-4 relative scroll-mt-20">
         <div class="max-w-7xl mx-auto relative z-10">
             <div class="text-center mb-24">
                 <p class="text-[11px] font-bold tracking-[0.5em] uppercase text-cyan-400 mb-4 text-glow-cyan">Process</p>
@@ -324,11 +343,55 @@
         </div>
     </section>
 
+    <footer id="contact" class="w-full bg-[#020202] border-t border-white/5 pt-20 pb-10 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-2">
+                <h3 class="text-2xl font-black text-white tracking-widest uppercase mb-4">Grand Slam <span class="text-exotic-gold text-glow-gold">Detailing</span></h3>
+                <p class="text-[#9ca3af] font-light leading-relaxed max-w-sm">We don't just wash cars. We restore masterpieces. Serving New Port Richey, Florida and surrounding areas with uncompromised exotic and luxury mobile detailing.</p>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-sm">Quick Links</h4>
+                <ul class="space-y-4 text-[#9ca3af] text-sm font-light">
+                    <li><a href="#packages" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Packages & Pricing</a></li>
+                    <li><a href="#guarantee" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Our Guarantee</a></li>
+                    <li><a href="#process" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">How It Works</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 hover:text-glow-cyan transition-all">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-sm">Contact Us</h4>
+                <ul class="space-y-4 text-[#9ca3af] text-sm font-light mb-8">
+                    <li class="flex items-center gap-3"><span class="text-exotic-gold">📞</span> (555) 123-4567</li>
+                    <li class="flex items-center gap-3"><span class="text-exotic-gold">✉️</span> info@grandslamdetailing.com</li>
+                    <li class="flex items-center gap-3"><span class="text-exotic-gold">📍</span> New Port Richey, FL</li>
+                </ul>
+                
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 hover:text-cyan-400 transition-all border border-white/5 group">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 hover:text-cyan-400 transition-all border border-white/5 group">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 hover:text-cyan-400 transition-all border border-white/5 group">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-[#6b7280] font-light">
+            <p>&copy; 2026 Grand Slam Detailing. All rights reserved.</p>
+            <p class="mt-2 md:mt-0 uppercase tracking-widest text-[10px]">Designed for Perfection.</p>
+        </div>
+    </footer>
+
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Simplified GSAP only for scroll reveals. Hover effects are now handled perfectly by CSS.
             gsap.to(".header-content", {
                 opacity: 1, y: -10, duration: 1, ease: "power3.out",
                 scrollTrigger: { trigger: ".header-content", start: "top 85%", toggleActions: "play none none none" }
