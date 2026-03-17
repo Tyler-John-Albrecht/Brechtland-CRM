@@ -1060,7 +1060,7 @@ h1, h2, h3, h4, h5,
 
 .modal { background: linear-gradient(145deg, #130026 0%, #0B001A 100%); border: 1px solid rgba(106,0,255,0.3); border-radius: 16px; box-shadow: 0 0 0 1px rgba(106,0,255,0.15),
     0 24px 80px rgba(0,0,0,0.7),
-    0 0 60px rgba(106,0,255,0.12); position: relative; overflow: hidden }
+    0 0 60px rgba(106,0,255,0.12); position: relative; overflow-y: auto; overflow-x: hidden }
 
 .modal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #6A00FF 30%, #FF00C8 70%, transparent) }
 
@@ -2320,6 +2320,17 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Fallback: if primary gstatic CDN was blocked or failed, retry from jsDelivr.
+     document.write is synchronous during initial parse so load order is preserved. -->
+<script data-cfasync="false">
+if (typeof firebase === 'undefined') {
+  console.warn('[Brechtland CRM] Primary Firebase CDN failed — loading from fallback CDN (jsDelivr)...');
+  document.write('<script src="https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-app-compat.js"><\/script>');
+  document.write('<script src="https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-auth-compat.js"><\/script>');
+  document.write('<script src="https://cdn.jsdelivr.net/npm/firebase@9.23.0/firebase-firestore-compat.js"><\/script>');
+}
+</script>
 
 <script data-cfasync="false">
 const firebaseConfig = {
