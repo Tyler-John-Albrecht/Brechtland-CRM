@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Slam Detailing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcfcfc;
+            -webkit-font-smoothing: antialiased;
+        }
+        .pricing-card {
+            will-change: transform, box-shadow, border-color;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-900 flex flex-col items-center w-full">
+
+    <section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+            Don't Drive a Dirty Car.<br/>
+            <span class="text-blue-600">We Bring the Showroom to Your Driveway.</span>
+        </h1>
+        <p class="mt-4 text-xl text-gray-500 max-w-3xl mx-auto mb-10">
+            Top-rated mobile detailing that restores your vehicle's shine, protects your paint, and saves you 3 hours at the wash. Book in 60 seconds.
+        </p>
+        <button class="bg-blue-600 text-white font-bold text-lg py-4 px-8 rounded-xl hover:bg-blue-700 transition shadow-lg">
+            Get My Instant Price
+        </button>
+    </section>
+
+    <section class="w-full bg-gray-50 border-y border-gray-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center items-center gap-8 text-sm font-semibold text-gray-500 uppercase tracking-widest">
+            <span>⭐⭐⭐⭐⭐ 500+ 5-Star Reviews</span>
+            <span>|</span>
+            <span>Ceramic Pro Certified</span>
+            <span>|</span>
+            <span>100% Satisfaction Guarantee</span>
+        </div>
+    </section>
+
+    <section class="w-full py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div class="max-w-7xl w-full space-y-12">
+            <div class="text-center header-content opacity-0">
+                <h2 class="text-3xl font-extrabold sm:text-4xl tracking-tight">Simple, transparent pricing.</h2>
+                <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">Choose the level of perfection your vehicle deserves. No hidden fees.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start lg:gap-10">
+                
+                <div class="pricing-card opacity-0 bg-white rounded-3xl border border-gray-100 p-8 shadow-sm hover:shadow-xl flex flex-col h-full">
+                    <h3 class="text-lg font-semibold">The Commuter</h3>
+                    <p class="mt-2 text-sm text-gray-500">A premium maintenance wash to keep your daily driver looking sharp.</p>
+                    <div class="mt-6 flex items-baseline text-5xl font-extrabold">$149</div>
+                    <ul class="mt-8 space-y-4 flex-1">
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Foam cannon hand wash
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Wheel & tire detailing
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Interior vacuum & wipe down
+                        </li>
+                    </ul>
+                    <button class="mt-8 w-full bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 font-medium py-3 px-4 rounded-xl transition-colors duration-200">
+                        Book The Commuter
+                    </button>
+                </div>
+
+                <div class="pricing-card opacity-0 bg-white rounded-3xl border-2 border-black p-8 shadow-md hover:shadow-2xl relative flex flex-col h-full transform md:-translate-y-4">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="bg-black text-white text-xs font-bold tracking-wider uppercase py-1 px-4 rounded-full">Most Popular</span>
+                    </div>
+                    <h3 class="text-lg font-semibold">The "New Car" Reset</h3>
+                    <p class="mt-2 text-sm text-gray-500">Perfect for daily drivers that need a serious reset. Reverses a year of wear and tear in 3 hours.</p>
+                    <div class="mt-6 flex items-baseline text-5xl font-extrabold">$297</div>
+                    <div class="mt-2 text-sm text-gray-500 line-through">Value: $427</div>
+                    <ul class="mt-8 space-y-4 flex-1">
+                        <li class="flex items-center text-sm font-medium">
+                            <svg class="h-5 w-5 text-black mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Everything in Commuter
+                        </li>
+                        <li class="flex items-center text-sm font-medium">
+                            <svg class="h-5 w-5 text-black mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Deep carpet & seat extraction
+                        </li>
+                        <li class="flex items-center text-sm font-medium">
+                            <svg class="h-5 w-5 text-black mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            6-Month Ceramic Paint Sealant
+                        </li>
+                        <li class="flex items-center text-sm font-bold bg-gray-50 p-2 rounded-lg">
+                            <span class="mr-2 text-lg">🎁</span> + Free Engine Bay Detail ($50 value)
+                        </li>
+                        <li class="flex items-center text-sm font-bold bg-gray-50 p-2 rounded-lg mt-2">
+                            <span class="mr-2 text-lg">🛡️</span> 100% "Spilled Coffee" Guarantee
+                        </li>
+                    </ul>
+                    <button class="mt-8 w-full bg-black text-white hover:bg-gray-800 font-medium py-3 px-4 rounded-xl transition-colors duration-200">
+                        Claim The Reset Package
+                    </button>
+                </div>
+
+                <div class="pricing-card opacity-0 bg-white rounded-3xl border border-gray-100 p-8 shadow-sm hover:shadow-xl flex flex-col h-full">
+                    <h3 class="text-lg font-semibold">The Asset Protector</h3>
+                    <p class="mt-2 text-sm text-gray-500">Flawless paint correction and long-term ceramic protection.</p>
+                    <div class="mt-6 flex items-baseline text-5xl font-extrabold">$899<span class="text-xl text-gray-500 font-normal ml-1">+</span></div>
+                    <ul class="mt-8 space-y-4 flex-1">
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Full "New Car" Reset Interior
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Stage 1 Paint Correction
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <svg class="h-5 w-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            3-Year Professional Ceramic Coating
+                        </li>
+                    </ul>
+                    <button class="mt-8 w-full bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 font-medium py-3 px-4 rounded-xl transition-colors duration-200">
+                        Get a Custom Quote
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full max-w-4xl mx-auto py-16 px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Our "Spilled Coffee" Guarantee.</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            We are obsessed with perfection. If you find a spot we missed, or if you aren't completely thrilled with your interior, call us within 24 hours. We will drive back and fix it for free. No arguments.
+        </p>
+    </section>
+
+    <section class="w-full bg-gray-50 py-16 px-4 text-center">
+        <h2 class="text-3xl font-bold mb-10">How It Works</h2>
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="text-4xl mb-4">1️⃣</div>
+                <h4 class="font-bold text-lg">Book Online</h4>
+                <p class="text-gray-500 text-sm">Choose your package and time in 60 seconds.</p>
+            </div>
+            <div>
+                <div class="text-4xl mb-4">2️⃣</div>
+                <h4 class="font-bold text-lg">We Arrive</h4>
+                <p class="text-gray-500 text-sm">We bring the water, power, and expertise to you.</p>
+            </div>
+            <div>
+                <div class="text-4xl mb-4">3️⃣</div>
+                <h4 class="font-bold text-lg">Enjoy Your Clean Car</h4>
+                <p class="text-gray-500 text-sm">Drive away with that "New Car Feeling".</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full py-20 px-4 text-center bg-blue-600 text-white">
+        <h2 class="text-4xl font-extrabold mb-4">Ready to Fall in Love With Your Car Again?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Stop waiting in line at the scratch-and-shine wash. Choose your package and lock in your appointment today.</p>
+        <button class="bg-white text-blue-900 font-bold text-lg py-4 px-8 rounded-xl hover:bg-gray-100 transition shadow-lg">
+            Book Your Detail Now
+        </button>
+    </section>
+
+    <script>
+        // GSAP Animations for smooth, staggered entry
+        document.addEventListener("DOMContentLoaded", () => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            
+            // Fade in header
+            tl.to(".header-content", {
+                opacity: 1,
+                y: -10,
+                duration: 0.8
+            });
+            
+            // Stagger in pricing cards
+            tl.fromTo(".pricing-card", 
+                { opacity: 0, y: 40 },
+                { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 },
+                "-=0.4"
+            );
+
+            // Subtle hover micro-interactions (scaling up slightly)
+            const cards = document.querySelectorAll('.pricing-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {y: -8, duration: 0.3, ease: "power2.out" });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {y: 0, duration: 0.3, ease: "power2.out" });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
