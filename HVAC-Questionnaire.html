@@ -1556,7 +1556,7 @@
 
     <p style="font-size:12px;color:var(--muted);margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-      Submitted securely via Formspree · Responses emailed directly to tyler@brechtland.com
+      Submitted securely via Formspree · Responses emailed directly to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c0b4b9aca5b280a2b2a5a3a8b4aca1aea4eea3afad">[email&#160;protected]</a>
     </p>
 
   </div>
@@ -1592,7 +1592,32 @@
 </div><!-- /max-width wrapper -->
 
 
-<script>
+<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false">
+// ── Firebase Init ─────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
+  authDomain: "albrecht-agency-crm.firebaseapp.com",
+  projectId: "albrecht-agency-crm",
+  storageBucket: "albrecht-agency-crm.firebasestorage.app",
+  messagingSenderId: "924889697457",
+  appId: "1:924889697457:web:b304fff585bfaa25c46690"
+};
+// Wait for Firebase SDK to be available, then init
+const _fbReady = new Promise(resolve => {
+  function tryInit() {
+    if (typeof firebase !== 'undefined') {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      resolve(firebase.firestore());
+    } else {
+      setTimeout(tryInit, 50);
+    }
+  }
+  tryInit();
+});
+const repId = new URLSearchParams(window.location.search).get('repId');
+
 /* ══════════════════════════════════════════════════════
    1. SCROLL PROGRESS BAR
    ══════════════════════════════════════════════════════ */
@@ -1688,6 +1713,25 @@ document.getElementById('main-form').addEventListener('submit', async function(e
 
   try {
     const data = new FormData(this);
+
+    // ── Firestore write ───────────────────────────────────────────
+    try {
+      const db = await _fbReady;
+      await db.collection('clients').add({
+        businessName:  data.get('business_name') || null,
+        email:         data.get('business_email') || null,
+        phone:         data.get('phone_main') || null,
+        industry:      'hvac',
+        employeeId:    repId || null,
+        status:        'lead',
+        source:        'external_questionnaire',
+        createdAt:     firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (fsErr) {
+      console.error('Firestore write failed:', fsErr);
+    }
+    // ── End Firestore write ───────────────────────────────────────
+
     const res = await fetch('https://formspree.io/f/meelwrne', {
       method: 'POST',
       body: data,
@@ -1714,11 +1758,4 @@ document.getElementById('main-form').addEventListener('submit', async function(e
     alert('Network error. Please check your connection and try again.');
     btn.disabled = false;
     btn.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      Submit Questionnaire`;
-  }
-});
-
-</script>
-</body>
-</html>
+      <svg width="20" height="
