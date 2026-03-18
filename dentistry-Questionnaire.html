@@ -122,6 +122,9 @@ textarea.q-field.tall{min-height:110px}
   .extras-inner{padding:0 18px 22px}
 }
 </style>
+  <!-- Firebase SDK — loaded in <head> so it is guaranteed available before any body script runs -->
+  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <div class="page">
@@ -384,6 +387,31 @@ textarea.q-field.tall{min-height:110px}
 
 </div>
 
+<script data-cfasync="false">
+// ── Firebase Init ─────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
+  authDomain: "albrecht-agency-crm.firebaseapp.com",
+  projectId: "albrecht-agency-crm",
+  storageBucket: "albrecht-agency-crm.firebasestorage.app",
+  messagingSenderId: "924889697457",
+  appId: "1:924889697457:web:b304fff585bfaa25c46690"
+};
+// Wait for Firebase SDK to be available, then init
+const _fbReady = new Promise(resolve => {
+  function tryInit() {
+    if (typeof firebase !== 'undefined') {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      resolve(firebase.firestore());
+    } else {
+      setTimeout(tryInit, 50);
+    }
+  }
+  tryInit();
+});
+const repId = new URLSearchParams(window.location.search).get('repId');
+</script>
+
 <script>
 // EXTRAS TOGGLE
 document.getElementById('extrasBtn').addEventListener('click', () => {
@@ -404,6 +432,25 @@ form.addEventListener('submit', async (e) => {
   btn.textContent = 'Submitting...';
 
   try {
+    // ── Firestore write ───────────────────────────────────────────
+    try {
+      const fd = new FormData(form);
+      const db = await _fbReady;
+      await db.collection('clients').add({
+        businessName:  fd.get('practice_name') || null,
+        email:         fd.get('email') || null,
+        phone:         fd.get('phone') || null,
+        industry:      'dental',
+        employeeId:    repId || null,
+        status:        'lead',
+        source:        'external_questionnaire',
+        createdAt:     firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (fsErr) {
+      console.error('Firestore write failed:', fsErr);
+    }
+    // ── End Firestore write ───────────────────────────────────────
+
     const res = await fetch(form.action, {
       method: 'POST',
       body: new FormData(form),
