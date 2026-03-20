@@ -2631,6 +2631,7 @@ const tqIndustries = [
   { id: 'realestate',    icon: '🏢', name: 'Real Estate',       status: 'available' },
   { id: 'restaurant',    icon: '🍽️', name: 'Restaurant',        status: 'available' },
   { id: 'fitness',       icon: '💪', name: 'Fitness / Gym',     status: 'coming-soon' },
+  { id: 'detailing',     icon: '✨', name: 'Detailing',          status: 'available' },
   { id: 'automotive',    icon: '🚗', name: 'Automotive',        status: 'coming-soon' },
   { id: 'legal',         icon: '⚖️', name: 'Legal',             status: 'coming-soon' },
   { id: 'cleaning',      icon: '🧹', name: 'Cleaning Services', status: 'coming-soon' },
@@ -3658,7 +3659,7 @@ function dashNav(dir) {
   else dashCalDate = new Date(dashCalDate.getTime() + dir*86400000);
   drawDashboardCalendar();
 }
-function dashGoToday() { dashCalDate = new Date(); dashSelectedDate = new Date(); drawDashboardCalendar(); }
+function dashGoToday() { dashCalDate = new Date(); dashSelectedDate = new Date(); var _el = document.getElementById('dspDate'); if (_el) _el.textContent = dashFmtLong(dashSelectedDate); renderDspEvents(calendarEvents); drawDashboardCalendar(); }
 function dashSetView(v) { dashCalView = v; drawDashboardCalendar(); }
 function dashPickDay(dateStr) {
   const [y,m,d] = dateStr.split('-').map(Number);
@@ -6383,7 +6384,9 @@ const TQ_URL_STORE = {
   'template-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Plumbing-template.html',
   'questionnaire-plumbing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/plumbing-questionnaire.html',
   'template-restaurant': 'https://crm.brechtland.com/Restaurant%20Template/hb-bbq.html',
-  'questionnaire-restaurant': 'https://crm.brechtland.com/Restaurant%20Questionnaire/Restaurant%20Questionnaire.html'
+  'questionnaire-restaurant': 'https://crm.brechtland.com/Restaurant%20Questionnaire/Restaurant%20Questionnaire.html',
+  'template-detailing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Detailing-Template/Detailing-Template.html',
+  'questionnaire-detailing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Detailing-Questionnaire/Detailing-Questionnaire.html'
 };
 </script>
 
