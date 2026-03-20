@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brechtland — Client Onboarding</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Google Fonts: Instrument Sans (Swiss feel) + Newsreader (refined serif accent) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Newsreader"', 'Georgia', 'serif'],
+          },
+          colors: {
+            surface: '#FAFAFA',
+            paper: '#FFFFFF',
+            ink: '#111111',
+            muted: '#71717A',
+            line: '#E4E4E7',
+            accent: '#111111',
+            focus: '#2563EB',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Instrument Sans', system-ui, sans-serif;
+      background: #FAFAFA;
+      color: #111111;
+    }
+    ::selection { background: #111; color: #fff; }
+
+    /* Step transitions */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    /* Input refinement */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="color"],
+    input[type="number"],
+    select,
+    textarea {
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #111 !important;
+      box-shadow: 0 0 0 3px rgba(17,17,17,0.06);
+    }
+
+    /* Color input special styling */
+    input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch {
+      border: 2px solid #E4E4E7;
+      border-radius: 8px;
+    }
+
+    /* Progress bar */
+    .progress-fill {
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Step indicator */
+    .step-dot {
+      transition: all 0.3s ease;
+    }
+    .step-dot.completed {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .step-dot.current {
+      border-color: #111;
+      color: #111;
+    }
+
+    /* Textarea auto-height feel */
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* JSON output */
+    #jsonOutput pre {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* Hide number spinner */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Checkbox styling */
+    .checkbox-card {
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .checkbox-card:has(input:checked) {
+      border-color: #111;
+      background-color: #F4F4F5;
+    }
+  </style>
+  <!-- Firebase SDK — loaded in <head> so it is guaranteed available before any body script runs -->
+  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body class="bg-surface text-ink min-h-screen">
+
+  <!-- ═══════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════ -->
+  <header class="border-b border-line bg-paper/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 bg-ink rounded-md flex items-center justify-center">
+          <span class="text-white text-xs font-bold tracking-tight">B</span>
+        </div>
+        <span class="font-sans font-600 text-sm tracking-tight">Brechtland</span>
+      </div>
+      <span class="font-sans text-xs text-muted tracking-wide">Client Onboarding</span>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO / INTRO
+  ═══════════════════════════════════════════════ -->
+  <div id="introSection" class="max-w-3xl mx-auto px-6 pt-20 pb-16">
+    <div class="mb-2">
+      <span class="font-serif italic text-muted text-sm">Premium Template Setup</span>
+    </div>
+    <h1 class="font-sans font-700 text-4xl sm:text-5xl tracking-tight leading-[1.1] mb-5">
+      Auto Detailing Website<br/>Questionnaire
+    </h1>
+    <p class="font-sans text-muted text-base leading-relaxed max-w-lg mb-1">
+      Complete each section below so we can build your custom detailing website. Every field maps directly to your final site. Takes roughly 10 minutes.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PROGRESS BAR
+  ═══════════════════════════════════════════════ -->
+  <div id="progressArea" class="max-w-3xl mx-auto px-6 mb-12">
+    <div class="flex items-center justify-between mb-3">
+      <span id="progressLabel" class="font-sans text-xs font-600 text-muted tracking-wide uppercase">Step 1 of 8</span>
+      <span id="progressPercent" class="font-sans text-xs font-500 text-muted">0%</span>
+    </div>
+    <div class="w-full h-[3px] bg-line rounded-full overflow-hidden">
+      <div id="progressBar" class="progress-fill h-full bg-ink rounded-full" style="width: 0%"></div>
+    </div>
+
+    <!-- Step dots -->
+    <div class="flex items-center justify-between mt-5">
+      <button onclick="goToStep(0)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper current" data-step="0">1</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(1)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="1">2</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(2)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="2">3</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(3)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="3">4</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(4)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="4">5</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(5)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="5">6</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(6)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="6">7</button>
+      <div class="flex-1 h-px bg-line mx-1"></div>
+      <button onclick="goToStep(7)" class="step-dot w-8 h-8 rounded-full border-2 border-line text-xs font-600 flex items-center justify-center bg-paper" data-step="7">8</button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FORM
+  ═══════════════════════════════════════════════ -->
+  <form id="onboardingForm" action="https://formspree.io/f/xreyyvlr" method="POST">
+    <div class="max-w-3xl mx-auto px-6 pb-32">
+
+
+      <!-- ─── STEP 1: BRAND ─── -->
+      <div class="form-step active" data-step="0">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 01</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Brand Identity</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Core brand information that defines the look and feel of your detailing website.</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Business Name -->
+            <div>
+              <label for="business_name" class="block font-sans text-sm font-600 mb-2">Business Name <span class="text-red-400">*</span></label>
+              <input type="text" id="business_name" name="business_name" required placeholder="e.g. Grand Slam Detailing" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <!-- Brand Color -->
+            <div>
+              <label for="brand_color" class="block font-sans text-sm font-600 mb-2">Primary Brand Color</label>
+              <p class="text-xs text-muted mb-3">This color will be used for accents, buttons, and highlights across the site.</p>
+              <div class="flex items-center gap-4">
+                <input type="color" id="brand_color" name="brand_color" value="#fbbf24" class="w-12 h-12 rounded-xl cursor-pointer" />
+                <input type="text" id="brand_color_hex" name="brand_color_hex" value="#fbbf24" placeholder="#fbbf24" class="w-36 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-mono font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Logo URL -->
+            <div>
+              <label for="logo_url" class="block font-sans text-sm font-600 mb-2">Logo Image URL</label>
+              <p class="text-xs text-muted mb-3">Direct link to your logo file (PNG or SVG preferred, transparent background).</p>
+              <input type="url" id="logo_url" name="logo_url" placeholder="https://example.com/your-logo.png" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 2: HERO SECTION ─── -->
+      <div class="form-step" data-step="1">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 02</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Hero Section</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">The first thing visitors see — your headline, location, and hero imagery.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="hero_location" class="block font-sans text-sm font-600 mb-2">Service Area / City <span class="text-red-400">*</span></label>
+              <input type="text" id="hero_location" name="hero_location" required placeholder="e.g. New Port Richey, Florida" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_tagline" class="block font-sans text-sm font-600 mb-2">Top Tagline</label>
+              <p class="text-xs text-muted mb-3">A short uppercase label that appears above the headline (e.g. "Exotic & Luxury Detailers").</p>
+              <input type="text" id="hero_tagline" name="hero_tagline" placeholder="e.g. Exotic & Luxury Detailers" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_headline" class="block font-sans text-sm font-600 mb-2">Main Headline <span class="text-red-400">*</span></label>
+              <p class="text-xs text-muted mb-3">Your attention-grabbing tagline. Keep it punchy — 2 to 4 words works best.</p>
+              <input type="text" id="hero_headline" name="hero_headline" required placeholder="e.g. Flawless. Uncompromised." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_subheadline" class="block font-sans text-sm font-600 mb-2">Subheadline</label>
+              <p class="text-xs text-muted mb-3">A brief supporting line that sells the experience.</p>
+              <input type="text" id="hero_subheadline" name="hero_subheadline" placeholder="e.g. We don't just wash cars. We restore masterpieces." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_image_url" class="block font-sans text-sm font-600 mb-2">Hero Background Image URL</label>
+              <p class="text-xs text-muted mb-3">A high-quality, wide image of your best work or a vehicle you've detailed.</p>
+              <input type="url" id="hero_image_url" name="hero_image_url" placeholder="https://example.com/hero-image.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="hero_cta_text" class="block font-sans text-sm font-600 mb-2">Hero Button Text</label>
+              <input type="text" id="hero_cta_text" name="hero_cta_text" placeholder="e.g. Unlock Pricing" class="w-40 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 3: SERVICE PACKAGES ─── -->
+      <div class="form-step" data-step="2">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 03</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Service Packages</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Define your three pricing tiers. These become the main cards on your site.</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Package 1 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Package 1 — Entry Tier</span>
+              <div>
+                <label for="pkg_1_name" class="block font-sans text-sm font-600 mb-2">Package Name</label>
+                <input type="text" id="pkg_1_name" name="pkg_1_name" placeholder="e.g. The Commuter" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_1_description" class="block font-sans text-sm font-600 mb-2">Short Description</label>
+                <input type="text" id="pkg_1_description" name="pkg_1_description" placeholder="e.g. A premium maintenance wash to keep your daily driver looking sharp." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="pkg_1_price" class="block font-sans text-sm font-600 mb-2">Price</label>
+                  <input type="text" id="pkg_1_price" name="pkg_1_price" placeholder="e.g. $149" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="pkg_1_label" class="block font-sans text-sm font-600 mb-2">Price Label</label>
+                  <input type="text" id="pkg_1_label" name="pkg_1_label" placeholder="e.g. Starting at" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+              <div>
+                <label for="pkg_1_features" class="block font-sans text-sm font-600 mb-2">Features (one per line)</label>
+                <textarea id="pkg_1_features" name="pkg_1_features" rows="3" placeholder="Foam cannon hand wash&#10;Wheel & tire detailing&#10;Interior vacuum & wipe down" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="pkg_1_image_url" class="block font-sans text-sm font-600 mb-2">Package Image URL</label>
+                <input type="url" id="pkg_1_image_url" name="pkg_1_image_url" placeholder="https://example.com/package1.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_1_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="pkg_1_cta" name="pkg_1_cta" placeholder="e.g. Book The Commuter" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Package 2 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Package 2 — Featured / VIP Tier</span>
+              <div>
+                <label for="pkg_2_name" class="block font-sans text-sm font-600 mb-2">Package Name</label>
+                <input type="text" id="pkg_2_name" name="pkg_2_name" placeholder='e.g. The "New Car" Reset' class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_2_description" class="block font-sans text-sm font-600 mb-2">Short Description</label>
+                <input type="text" id="pkg_2_description" name="pkg_2_description" placeholder="e.g. Reverses a year of wear and tear in 3 hours." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="pkg_2_price" class="block font-sans text-sm font-600 mb-2">Price</label>
+                  <input type="text" id="pkg_2_price" name="pkg_2_price" placeholder="e.g. $297" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="pkg_2_label" class="block font-sans text-sm font-600 mb-2">Price Label</label>
+                  <input type="text" id="pkg_2_label" name="pkg_2_label" placeholder="e.g. Best value" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+              <div>
+                <label for="pkg_2_features" class="block font-sans text-sm font-600 mb-2">Features (one per line)</label>
+                <textarea id="pkg_2_features" name="pkg_2_features" rows="4" placeholder="Everything in Commuter&#10;Deep carpet & seat extraction&#10;6-Month Ceramic Paint Sealant&#10;Free Engine Bay Detail" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="pkg_2_image_url" class="block font-sans text-sm font-600 mb-2">Package Image URL</label>
+                <input type="url" id="pkg_2_image_url" name="pkg_2_image_url" placeholder="https://example.com/package2.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_2_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="pkg_2_cta" name="pkg_2_cta" placeholder="e.g. Claim The Reset" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_2_badge" class="block font-sans text-sm font-600 mb-2">VIP Badge Text</label>
+                <p class="text-xs text-muted mb-3">The highlighted badge label shown on the featured tier card.</p>
+                <input type="text" id="pkg_2_badge" name="pkg_2_badge" placeholder="e.g. The VIP Choice" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <!-- Package 3 -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Package 3 — Premium Tier</span>
+              <div>
+                <label for="pkg_3_name" class="block font-sans text-sm font-600 mb-2">Package Name</label>
+                <input type="text" id="pkg_3_name" name="pkg_3_name" placeholder="e.g. The Asset Protector" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_3_description" class="block font-sans text-sm font-600 mb-2">Short Description</label>
+                <input type="text" id="pkg_3_description" name="pkg_3_description" placeholder="e.g. Flawless paint correction and long-term ceramic protection." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="pkg_3_price" class="block font-sans text-sm font-600 mb-2">Price</label>
+                  <input type="text" id="pkg_3_price" name="pkg_3_price" placeholder="e.g. $899+" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="pkg_3_label" class="block font-sans text-sm font-600 mb-2">Price Label</label>
+                  <input type="text" id="pkg_3_label" name="pkg_3_label" placeholder="e.g. Starting at" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+              <div>
+                <label for="pkg_3_features" class="block font-sans text-sm font-600 mb-2">Features (one per line)</label>
+                <textarea id="pkg_3_features" name="pkg_3_features" rows="3" placeholder="Full Interior Reset&#10;Stage 1 Paint Correction&#10;3-Year Ceramic Coating" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+              </div>
+              <div>
+                <label for="pkg_3_image_url" class="block font-sans text-sm font-600 mb-2">Package Image URL</label>
+                <input type="url" id="pkg_3_image_url" name="pkg_3_image_url" placeholder="https://example.com/package3.jpg" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="pkg_3_cta" class="block font-sans text-sm font-600 mb-2">Button Text</label>
+                <input type="text" id="pkg_3_cta" name="pkg_3_cta" placeholder="e.g. Get a Custom Quote" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 4: SERVICES & SPECIALTIES ─── -->
+      <div class="form-step" data-step="3">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 04</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Services &amp; Specialties</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Select every service you offer. This determines what appears on your website.</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Services Offered -->
+            <div>
+              <h3 class="font-sans text-sm font-600 mb-4">Services Offered <span class="text-red-400">*</span></h3>
+              <p class="text-xs text-muted mb-5">Check all that apply. These will be displayed on your site as service highlights.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Foam Cannon Hand Wash" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Foam Cannon Hand Wash</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Interior Detailing" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Interior Detailing</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Deep Carpet & Seat Extraction" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Deep Carpet &amp; Seat Extraction</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Ceramic Coating" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Ceramic Coating</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Paint Correction" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Paint Correction</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Wheel & Tire Detailing" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Wheel &amp; Tire Detailing</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Engine Bay Detail" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Engine Bay Detail</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Ceramic Paint Sealant" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Ceramic Paint Sealant</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Headlight Restoration" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Headlight Restoration</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Odor Removal / Ozone Treatment" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Odor Removal / Ozone Treatment</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="PPF (Paint Protection Film)" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">PPF (Paint Protection Film)</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="services_offered" value="Window Tinting" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Window Tinting</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Other Services -->
+            <div>
+              <label for="services_other" class="block font-sans text-sm font-600 mb-2">Other Services (not listed above)</label>
+              <input type="text" id="services_other" name="services_other" placeholder="e.g. Boat Detailing, RV Detailing, Motorcycle Detailing" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <!-- Vehicle Types -->
+            <div>
+              <h3 class="font-sans text-sm font-600 mb-4">Vehicle Types Serviced</h3>
+              <p class="text-xs text-muted mb-5">Check all that apply.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="Sedans & Coupes" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Sedans &amp; Coupes</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="SUVs & Trucks" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">SUVs &amp; Trucks</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="Exotic & Luxury" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Exotic &amp; Luxury</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="Motorcycles" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Motorcycles</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="Boats & Watercraft" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Boats &amp; Watercraft</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="vehicle_types" value="RVs & Fleet" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">RVs &amp; Fleet</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Mobile vs Shop -->
+            <div>
+              <label for="service_type" class="block font-sans text-sm font-600 mb-2">Service Type</label>
+              <select id="service_type" name="service_type" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans text-ink">
+                <option value="">— Select —</option>
+                <option value="Mobile Only">Mobile Only (we come to you)</option>
+                <option value="Shop Only">Shop / Fixed Location Only</option>
+                <option value="Both">Both Mobile & Shop</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 5: THE STORY & PROCESS ─── -->
+      <div class="form-step" data-step="4">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 05</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">The Story &amp; Process</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Tell visitors who's behind the detail and how your service works.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="owner_name" class="block font-sans text-sm font-600 mb-2">Owner / Operator Name <span class="text-red-400">*</span></label>
+              <input type="text" id="owner_name" name="owner_name" required placeholder="e.g. Marcus Rivera" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="owner_image_url" class="block font-sans text-sm font-600 mb-2">Owner Profile Image URL</label>
+              <input type="url" id="owner_image_url" name="owner_image_url" placeholder="https://example.com/owner.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="owner_bio" class="block font-sans text-sm font-600 mb-2">Bio / Background Story <span class="text-red-400">*</span></label>
+              <p class="text-xs text-muted mb-3">Tell us your story in 2–4 paragraphs. How did you get into detailing? What makes your work different?</p>
+              <textarea id="owner_bio" name="owner_bio" required rows="6" placeholder="I've been obsessed with cars since I was 12 years old..." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <!-- Process Steps -->
+            <div class="pt-2">
+              <h3 class="font-sans text-sm font-600 mb-4">Your 3-Step Process</h3>
+              <p class="text-xs text-muted mb-5">Describe your workflow in three simple steps (e.g. Book → We Arrive → Enjoy the Shine).</p>
+
+              <div class="space-y-5">
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 01</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_1_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_1_title" name="process_1_title" placeholder="e.g. Book Online" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_1_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_1_description" name="process_1_description" placeholder="e.g. Choose your package and time in 60 seconds." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 02</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_2_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_2_title" name="process_2_title" placeholder="e.g. We Arrive" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_2_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_2_description" name="process_2_description" placeholder="e.g. We bring the water, power, and expertise to you." class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 bg-surface rounded-xl border border-line">
+                  <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider mb-3 block">Step 03</span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label for="process_3_title" class="block font-sans text-sm font-600 mb-2">Title</label>
+                      <input type="text" id="process_3_title" name="process_3_title" placeholder="e.g. Enjoy the Shine" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="process_3_description" class="block font-sans text-sm font-600 mb-2">Description</label>
+                      <input type="text" id="process_3_description" name="process_3_description" placeholder='e.g. Drive away with that true "New Car Feeling".' class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 6: GUARANTEE & SOCIAL PROOF ─── -->
+      <div class="form-step" data-step="5">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 06</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Guarantee &amp; Social Proof</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Your satisfaction guarantee and a featured quote that builds trust.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="guarantee_title" class="block font-sans text-sm font-600 mb-2">Guarantee Headline</label>
+              <p class="text-xs text-muted mb-3">A bold, memorable name for your guarantee.</p>
+              <input type="text" id="guarantee_title" name="guarantee_title" placeholder='e.g. The "Spilled Coffee" Guarantee.' class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="guarantee_text" class="block font-sans text-sm font-600 mb-2">Guarantee Description</label>
+              <p class="text-xs text-muted mb-3">Explain what the guarantee covers and how you'll make it right.</p>
+              <textarea id="guarantee_text" name="guarantee_text" rows="4" placeholder="e.g. If you find a spot we missed, call us within 24 hours. We will drive back and fix it for free. No arguments." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <div>
+              <label for="guarantee_image_url" class="block font-sans text-sm font-600 mb-2">Guarantee Section Image URL</label>
+              <input type="url" id="guarantee_image_url" name="guarantee_image_url" placeholder="https://example.com/guarantee.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div class="pt-4 border-t border-line">
+              <h3 class="font-sans text-sm font-600 mb-4">Featured Quote / CTA</h3>
+              <p class="text-xs text-muted mb-5">A powerful call-to-action headline and supporting text for the bottom of the page.</p>
+            </div>
+
+            <div>
+              <label for="cta_headline" class="block font-sans text-sm font-600 mb-2">CTA Headline</label>
+              <input type="text" id="cta_headline" name="cta_headline" placeholder="e.g. Ready to Fall in Love With Your Car Again?" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="cta_subtext" class="block font-sans text-sm font-600 mb-2">CTA Supporting Text</label>
+              <textarea id="cta_subtext" name="cta_subtext" rows="2" placeholder="e.g. Stop waiting in line at the scratch-and-shine wash. Demand perfection." class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <div>
+              <label for="cta_button_text" class="block font-sans text-sm font-600 mb-2">CTA Button Text</label>
+              <input type="text" id="cta_button_text" name="cta_button_text" placeholder="e.g. Book Your Detail" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="cta_image_url" class="block font-sans text-sm font-600 mb-2">CTA Background Image URL</label>
+              <input type="url" id="cta_image_url" name="cta_image_url" placeholder="https://example.com/cta-bg.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 7: VEHICLE & CONDITION ASSESSMENT ─── -->
+      <div class="form-step" data-step="6">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 07</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Showcase Vehicle &amp; Condition Info</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Provide details on a showcase vehicle for before/after portfolio content, and common conditions you specialize in.</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Showcase Vehicle -->
+            <div class="p-5 bg-surface rounded-xl border border-line space-y-4">
+              <span class="font-sans text-xs font-600 text-muted uppercase tracking-wider block">Showcase Vehicle</span>
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <label for="showcase_year" class="block font-sans text-sm font-600 mb-2">Year</label>
+                  <input type="text" id="showcase_year" name="showcase_year" placeholder="e.g. 2024" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="showcase_make" class="block font-sans text-sm font-600 mb-2">Make</label>
+                  <input type="text" id="showcase_make" name="showcase_make" placeholder="e.g. Porsche" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+                <div>
+                  <label for="showcase_model" class="block font-sans text-sm font-600 mb-2">Model</label>
+                  <input type="text" id="showcase_model" name="showcase_model" placeholder="e.g. 911 Turbo S" class="w-full bg-paper border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Before / After Images -->
+            <div>
+              <label for="before_image_url" class="block font-sans text-sm font-600 mb-2">Before &amp; After Image URL</label>
+              <p class="text-xs text-muted mb-3">A side-by-side or split image showing your best transformation.</p>
+              <input type="url" id="before_image_url" name="before_image_url" placeholder="https://example.com/before-after.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <div>
+              <label for="action_image_url" class="block font-sans text-sm font-600 mb-2">Action Shot Image URL</label>
+              <p class="text-xs text-muted mb-3">A photo of you or your team actively detailing a vehicle.</p>
+              <input type="url" id="action_image_url" name="action_image_url" placeholder="https://example.com/action-shot.jpg" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+
+            <!-- Condition Assessment -->
+            <div class="pt-2">
+              <h3 class="font-sans text-sm font-600 mb-4">Common Vehicle Conditions You Handle</h3>
+              <p class="text-xs text-muted mb-5">Select the special conditions you commonly deal with. We'll highlight these on your site.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Pet Hair Removal" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Pet Hair Removal</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Stain Removal" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Stain Removal</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Mold & Mildew Treatment" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Mold &amp; Mildew Treatment</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Smoke / Odor Removal" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Smoke / Odor Removal</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Swirl Mark & Scratch Correction" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Swirl Mark &amp; Scratch Correction</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Water Spot Removal" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Water Spot Removal</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Oxidized / Faded Paint" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Oxidized / Faded Paint</span>
+                </label>
+                <label class="checkbox-card flex items-center gap-3 p-4 bg-surface border border-line rounded-xl cursor-pointer">
+                  <input type="checkbox" name="conditions_handled" value="Neglected / Barn Find Vehicles" class="w-4 h-4 accent-ink" />
+                  <span class="font-sans text-sm">Neglected / Barn Find Vehicles</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label for="conditions_other" class="block font-sans text-sm font-600 mb-2">Other Conditions / Specialties</label>
+              <input type="text" id="conditions_other" name="conditions_other" placeholder="e.g. Bird dropping etching, tree sap removal, salt damage" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── STEP 8: CONTACT / FOOTER ─── -->
+      <div class="form-step" data-step="7">
+        <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+          <div class="mb-8">
+            <span class="inline-block font-sans text-[11px] font-600 text-muted uppercase tracking-[0.15em] border border-line rounded-full px-3 py-1 mb-4">Section 08</span>
+            <h2 class="font-sans font-700 text-2xl tracking-tight mb-2">Contact &amp; Footer</h2>
+            <p class="font-sans text-sm text-muted leading-relaxed">Where visitors can find you — address, phone, email, and social channels.</p>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label for="contact_address" class="block font-sans text-sm font-600 mb-2">Full Address / Service Area <span class="text-red-400">*</span></label>
+              <textarea id="contact_address" name="contact_address" required rows="2" placeholder="New Port Richey, FL 34652&#10;Serving Pasco, Pinellas & Hillsborough Counties" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="contact_phone" class="block font-sans text-sm font-600 mb-2">Phone Number <span class="text-red-400">*</span></label>
+                <input type="tel" id="contact_phone" name="contact_phone" required placeholder="(555) 123-4567" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+              <div>
+                <label for="contact_email" class="block font-sans text-sm font-600 mb-2">Email Address <span class="text-red-400">*</span></label>
+                <input type="email" id="contact_email" name="contact_email" required placeholder="info@yourbusiness.com" class="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <h3 class="font-sans text-sm font-600 mb-4">Social Media Links</h3>
+              <p class="text-xs text-muted mb-5">Leave blank any platforms you don't use.</p>
+
+              <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  </div>
+                  <input type="url" id="social_instagram" name="social_instagram" placeholder="Instagram URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
+                  </div>
+                  <input type="url" id="social_facebook" name="social_facebook" placeholder="Facebook URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                  </div>
+                  <input type="url" id="social_tiktok" name="social_tiktok" placeholder="TikTok URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-3.5 h-3.5 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </div>
+                  <input type="url" id="social_x" name="social_x" placeholder="X / Twitter URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-surface border border-line rounded-xl flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 3.993L9 16z"/></svg>
+                  </div>
+                  <input type="url" id="social_youtube" name="social_youtube" placeholder="YouTube URL" class="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-sm font-sans placeholder:text-zinc-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ─── NAVIGATION BUTTONS ─── -->
+      <div class="flex items-center justify-between mt-8">
+        <button type="button" id="btnPrev" onclick="prevStep()" class="hidden items-center gap-2 font-sans text-sm font-600 text-muted hover:text-ink px-5 py-3 rounded-xl border border-line bg-paper transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+          Previous
+        </button>
+
+        <div class="ml-auto flex items-center gap-3">
+          <button type="button" id="btnNext" onclick="nextStep()" class="inline-flex items-center gap-2 font-sans text-sm font-600 text-white bg-ink hover:bg-zinc-800 px-7 py-3 rounded-xl transition-colors duration-200">
+            Continue
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </button>
+
+          <button type="submit" id="btnSubmit" class="hidden items-center gap-2 font-sans text-sm font-600 text-white bg-ink hover:bg-zinc-800 px-7 py-3 rounded-xl transition-colors duration-200">
+            Submit Questionnaire
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JSON OUTPUT AREA
+  ═══════════════════════════════════════════════ -->
+  <div id="jsonOutput" class="hidden max-w-3xl mx-auto px-6 pb-12">
+    <div class="bg-paper rounded-2xl border border-line p-8 sm:p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 class="font-sans font-700 text-lg tracking-tight">Your Data — JSON</h3>
+          <p class="font-sans text-xs text-muted mt-1">Copy this for your records. It maps to every field in your detailing website template.</p>
+        </div>
+        <button onclick="copyJson()" id="copyBtn" class="inline-flex items-center gap-2 font-sans text-xs font-600 text-muted hover:text-ink border border-line rounded-lg px-3 py-2 transition-colors duration-200">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
+          Copy
+        </button>
+      </div>
+      <pre id="jsonPre" class="bg-zinc-50 border border-line rounded-xl p-5 overflow-x-auto text-ink whitespace-pre-wrap break-words"></pre>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SUCCESS STATE
+  ═══════════════════════════════════════════════ -->
+  <div id="successMessage" class="hidden max-w-3xl mx-auto px-6 py-24 text-center">
+    <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-50 border border-emerald-200 rounded-full mb-6">
+      <svg class="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+    </div>
+    <h2 class="font-sans font-700 text-3xl tracking-tight mb-3">You're all set.</h2>
+    <p class="font-sans text-muted text-base leading-relaxed max-w-md mx-auto mb-2">
+      Your questionnaire has been submitted successfully. A copy of your data has been sent to:
+    </p>
+    <p class="font-sans font-600 text-sm text-ink mb-8">tyler@brechtland.com</p>
+    <p class="font-sans text-sm text-muted">We'll begin building your site within 48 hours. Scroll down to copy your JSON data.</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="border-t border-line mt-12 py-8">
+    <div class="max-w-3xl mx-auto px-6 flex items-center justify-between">
+      <p class="font-sans text-xs text-zinc-400">&copy; 2026 Brechtland LLC. All rights reserved.</p>
+      <p class="font-sans text-xs text-zinc-400">tyler@brechtland.com</p>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script data-cfasync="false">
+  // ── Firebase Init ─────────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
+    authDomain: "albrecht-agency-crm.firebaseapp.com",
+    projectId: "albrecht-agency-crm",
+    storageBucket: "albrecht-agency-crm.firebasestorage.app",
+    messagingSenderId: "924889697457",
+    appId: "1:924889697457:web:b304fff585bfaa25c46690"
+  };
+  // Wait for Firebase SDK to be available, then init
+  const _fbReady = new Promise(resolve => {
+    function tryInit() {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        resolve(firebase.firestore());
+      } else {
+        setTimeout(tryInit, 50);
+      }
+    }
+    tryInit();
+  });
+  const repId = new URLSearchParams(window.location.search).get('repId');
+  </script>
+  <script>
+    /* ── State ── */
+    let currentStep = 0;
+    const totalSteps = 8;
+    const steps = document.querySelectorAll('.form-step');
+    const dots = document.querySelectorAll('.step-dot');
+    const form = document.getElementById('onboardingForm');
+
+    /* ── Color input sync ── */
+    const colorPicker = document.getElementById('brand_color');
+    const colorHex = document.getElementById('brand_color_hex');
+    colorPicker.addEventListener('input', (e) => { colorHex.value = e.target.value; });
+    colorHex.addEventListener('input', (e) => {
+      const v = e.target.value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(v)) colorPicker.value = v;
+    });
+
+    /* ── Step Navigation ── */
+    function showStep(index) {
+      // Validate current step before moving forward
+      steps.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+
+      // Animate in
+      const activeStep = steps[index];
+      gsap.fromTo(activeStep, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+
+      // Update progress
+      const pct = Math.round((index / (totalSteps - 1)) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressPercent').textContent = pct + '%';
+      document.getElementById('progressLabel').textContent = `Step ${index + 1} of ${totalSteps}`;
+
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.remove('completed', 'current');
+        if (i < index) dot.classList.add('completed');
+        else if (i === index) dot.classList.add('current');
+      });
+
+      // Toggle buttons
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      btnPrev.style.display = index > 0 ? 'inline-flex' : 'none';
+      btnNext.style.display = index < totalSteps - 1 ? 'inline-flex' : 'none';
+      btnSubmit.style.display = index === totalSteps - 1 ? 'inline-flex' : 'none';
+
+      currentStep = index;
+
+      // Smooth scroll to top of form
+      window.scrollTo({ top: document.getElementById('progressArea').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+      // Validate required fields in current step
+      const currentFields = steps[currentStep].querySelectorAll('[required]');
+      let valid = true;
+      currentFields.forEach(field => {
+        if (!field.value.trim()) {
+          valid = false;
+          field.style.borderColor = '#EF4444';
+          gsap.fromTo(field, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
+          field.addEventListener('input', function handler() {
+            if (this.value.trim()) this.style.borderColor = '';
+            this.removeEventListener('input', handler);
+          });
+        }
+      });
+      if (!valid) return;
+
+      if (currentStep < totalSteps - 1) showStep(currentStep + 1);
+    }
+
+    function prevStep() {
+      if (currentStep > 0) showStep(currentStep - 1);
+    }
+
+    function goToStep(index) {
+      // Only allow going to completed or current steps
+      if (index <= currentStep) showStep(index);
+    }
+
+    /* ── Helper: collect checked values ── */
+    function getCheckedValues(name) {
+      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+    }
+
+    /* ── Build JSON from form ── */
+    function buildJson() {
+      const fd = new FormData(form);
+      const data = {
+        brand: {
+          business_name: fd.get('business_name') || '',
+          brand_color: fd.get('brand_color_hex') || fd.get('brand_color') || '',
+          logo_url: fd.get('logo_url') || '',
+        },
+        hero: {
+          location: fd.get('hero_location') || '',
+          tagline: fd.get('hero_tagline') || '',
+          headline: fd.get('hero_headline') || '',
+          subheadline: fd.get('hero_subheadline') || '',
+          hero_image_url: fd.get('hero_image_url') || '',
+          cta_text: fd.get('hero_cta_text') || '',
+        },
+        packages: [
+          {
+            name: fd.get('pkg_1_name') || '',
+            description: fd.get('pkg_1_description') || '',
+            price: fd.get('pkg_1_price') || '',
+            price_label: fd.get('pkg_1_label') || '',
+            features: (fd.get('pkg_1_features') || '').split('\n').filter(l => l.trim()),
+            image_url: fd.get('pkg_1_image_url') || '',
+            cta: fd.get('pkg_1_cta') || '',
+          },
+          {
+            name: fd.get('pkg_2_name') || '',
+            description: fd.get('pkg_2_description') || '',
+            price: fd.get('pkg_2_price') || '',
+            price_label: fd.get('pkg_2_label') || '',
+            features: (fd.get('pkg_2_features') || '').split('\n').filter(l => l.trim()),
+            image_url: fd.get('pkg_2_image_url') || '',
+            cta: fd.get('pkg_2_cta') || '',
+            badge: fd.get('pkg_2_badge') || '',
+            featured: true,
+          },
+          {
+            name: fd.get('pkg_3_name') || '',
+            description: fd.get('pkg_3_description') || '',
+            price: fd.get('pkg_3_price') || '',
+            price_label: fd.get('pkg_3_label') || '',
+            features: (fd.get('pkg_3_features') || '').split('\n').filter(l => l.trim()),
+            image_url: fd.get('pkg_3_image_url') || '',
+            cta: fd.get('pkg_3_cta') || '',
+          },
+        ],
+        services: {
+          offered: getCheckedValues('services_offered'),
+          other: fd.get('services_other') || '',
+          vehicle_types: getCheckedValues('vehicle_types'),
+          service_type: fd.get('service_type') || '',
+        },
+        story: {
+          owner_name: fd.get('owner_name') || '',
+          owner_image_url: fd.get('owner_image_url') || '',
+          bio: fd.get('owner_bio') || '',
+          process_steps: [
+            { title: fd.get('process_1_title') || '', description: fd.get('process_1_description') || '' },
+            { title: fd.get('process_2_title') || '', description: fd.get('process_2_description') || '' },
+            { title: fd.get('process_3_title') || '', description: fd.get('process_3_description') || '' },
+          ]
+        },
+        guarantee: {
+          title: fd.get('guarantee_title') || '',
+          text: fd.get('guarantee_text') || '',
+          image_url: fd.get('guarantee_image_url') || '',
+        },
+        cta: {
+          headline: fd.get('cta_headline') || '',
+          subtext: fd.get('cta_subtext') || '',
+          button_text: fd.get('cta_button_text') || '',
+          image_url: fd.get('cta_image_url') || '',
+        },
+        showcase: {
+          vehicle: {
+            year: fd.get('showcase_year') || '',
+            make: fd.get('showcase_make') || '',
+            model: fd.get('showcase_model') || '',
+          },
+          before_after_image_url: fd.get('before_image_url') || '',
+          action_image_url: fd.get('action_image_url') || '',
+          conditions_handled: getCheckedValues('conditions_handled'),
+          conditions_other: fd.get('conditions_other') || '',
+        },
+        contact: {
+          address: fd.get('contact_address') || '',
+          phone: fd.get('contact_phone') || '',
+          email: fd.get('contact_email') || '',
+          social: {
+            instagram: fd.get('social_instagram') || '',
+            facebook: fd.get('social_facebook') || '',
+            tiktok: fd.get('social_tiktok') || '',
+            x: fd.get('social_x') || '',
+            youtube: fd.get('social_youtube') || '',
+          }
+        }
+      };
+      return data;
+    }
+
+    /* ── Form Submit ── */
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Validate last step
+      const currentFields = steps[currentStep].querySelectorAll('[required]');
+      let valid = true;
+      currentFields.forEach(field => {
+        if (!field.value.trim()) {
+          valid = false;
+          field.style.borderColor = '#EF4444';
+          gsap.fromTo(field, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
+        }
+      });
+      if (!valid) return;
+
+      // Generate JSON
+      const jsonData = buildJson();
+      const jsonStr = JSON.stringify(jsonData, null, 2);
+
+      // Display JSON
+      document.getElementById('jsonPre').textContent = jsonStr;
+
+      // Submit to Formspree via fetch
+      const formData = new FormData(form);
+      // Also append the full JSON as a field
+      formData.append('_json_export', jsonStr);
+
+      // ── Firestore write ───────────────────────────────────────────
+      try {
+        const db = await _fbReady;
+        await db.collection('clients').add({
+          businessName:  formData.get('business_name') || null,
+          email:         formData.get('contact_email') || null,
+          phone:         formData.get('contact_phone') || null,
+          industry:      'detailing',
+          employeeId:    repId || null,
+          status:        'lead',
+          source:        'external_questionnaire',
+          createdAt:     firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch (fsErr) {
+        console.error('Firestore write failed:', fsErr);
+      }
+      // ── End Firestore write ───────────────────────────────────────
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        // Show success regardless (Formspree might need setup)
+      }).catch(err => {
+        // Still show success UI — JSON output is the backup
+      });
+
+      // Hide form, show success + JSON
+      const formArea = form;
+      const introSection = document.getElementById('introSection');
+      const progressArea = document.getElementById('progressArea');
+      const successMsg = document.getElementById('successMessage');
+      const jsonOutput = document.getElementById('jsonOutput');
+
+      gsap.to(formArea, {
+        opacity: 0, y: -20, duration: 0.4, ease: 'power2.in',
+        onComplete: () => {
+          formArea.style.display = 'none';
+          progressArea.style.display = 'none';
+
+          // Animate intro section out
+          gsap.to(introSection, { opacity: 0, y: -10, duration: 0.3 });
+
+          // Show success
+          successMsg.classList.remove('hidden');
+          gsap.fromTo(successMsg, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+
+          // Show JSON output
+          jsonOutput.classList.remove('hidden');
+          gsap.fromTo(jsonOutput, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.3 });
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* ── Copy JSON ── */
+    function copyJson() {
+      const text = document.getElementById('jsonPre').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Copied!';
+        btn.classList.add('text-emerald-600');
+        setTimeout(() => {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg> Copy';
+          btn.classList.remove('text-emerald-600');
+        }, 2000);
+      });
+    }
+
+    /* ── GSAP: Intro animations ── */
+    gsap.fromTo('#introSection', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 });
+    gsap.fromTo('#progressArea', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.25 });
+    gsap.fromTo('.form-step.active', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.4 });
+  </script>
+
+</body>
+</html>
