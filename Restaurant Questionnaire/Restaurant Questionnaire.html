@@ -700,7 +700,7 @@
     <p class="font-sans text-muted text-base leading-relaxed max-w-md mx-auto mb-2">
       Your questionnaire has been submitted successfully. A copy of your data has been sent to:
     </p>
-    <p class="font-sans font-600 text-sm text-ink mb-8"><a href="/cdn-cgi/l/email-protection#5b32352d3432383e281b39293e38332f373a353f75383436"><span class="__cf_email__" data-cfemail="553c3b233a3c36302615372730363d2139343b317b363a38">[email&#160;protected]</span></a></p>
+    <p class="font-sans font-600 text-sm text-ink mb-8">tyler@brechtland.com</p>
     <p class="font-sans text-sm text-muted">We'll begin building your site within 48 hours. Scroll down to copy your JSON data.</p>
   </div>
 
@@ -711,7 +711,7 @@
   <footer class="border-t border-line mt-12 py-8">
     <div class="max-w-3xl mx-auto px-6 flex items-center justify-between">
       <p class="font-sans text-xs text-zinc-400">&copy; 2026 Brechtland LLC. All rights reserved.</p>
-      <p class="font-sans text-xs text-zinc-400"><a href="/cdn-cgi/l/email-protection#8ee7e0f8e1e7edebfdceecfcebede6fae2efe0eaa0ede1e3"><span class="__cf_email__" data-cfemail="87eee9f1e8eee4e2f4c7e5f5e2e4eff3ebe6e9e3a9e4e8ea">[email&#160;protected]</span></a></p>
+      <p class="font-sans text-xs text-zinc-400">tyler@brechtland.com</p>
     </div>
   </footer>
 
@@ -719,7 +719,7 @@
   <!-- ═══════════════════════════════════════════════
        JAVASCRIPT
   ═══════════════════════════════════════════════ -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     /* ── State ── */
     let currentStep = 0;
     const totalSteps = 8;
@@ -954,4 +954,20 @@
     gsap.fromTo('#progressArea', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.25 });
     gsap.fromTo('.form-step.active', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.4 });
 
-    /* ── GSA
+    /* ── GSAP: Step field stagger ── */
+    document.querySelectorAll('.form-step').forEach(step => {
+      const fields = step.querySelectorAll('.space-y-6 > div');
+      if (fields.length) {
+        gsap.set(fields, { opacity: 0, y: 12 });
+      }
+    });
+
+    // Animate first step's fields
+    const firstFields = steps[0].querySelectorAll('.space-y-6 > div');
+    if (firstFields.length) {
+      gsap.to(firstFields, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.06, delay: 0.5 });
+    }
+  </script>
+
+</body>
+</html>
