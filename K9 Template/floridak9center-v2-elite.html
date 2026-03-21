@@ -97,6 +97,47 @@
         }
         .review-nav-btn:hover svg { stroke: white; }
         .review-star { filter: drop-shadow(0 1px 2px rgba(183, 147, 92, 0.3)); }
+
+        /* ── Confirmation Modal ── */
+        .fk9-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(10, 14, 20, 0.6);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+        .fk9-modal-overlay.active { display: flex; }
+        .fk9-modal-box {
+            background: white;
+            border-radius: 32px;
+            padding: 48px;
+            max-width: 480px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .fk9-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .fk9-modal-close:hover { background: #f3f3f3; color: #333; }
     </style>
 </head>
 <body class="font-sans text-brand-navy antialiased bg-brand-accent selection:bg-brand-gold selection:text-white">
@@ -390,13 +431,13 @@
                         </a>
                         
                         
-                        <a href="mailto:YIANI77@AOL.COM" class="flex items-center group">
+                        <a href="/cdn-cgi/l/email-protection#f7aebeb6b9bec0c0b7b6b8bbd9b4b8ba" class="flex items-center group">
                             <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 flex items-center justify-center mr-5 group-hover:bg-brand-gold/20 transition-colors">
                                 <svg class="w-7 h-7 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-400 font-medium">Email</p>
-                                <p class="text-2xl font-bold text-brand-navy group-hover:text-brand-gold transition-colors">YIANI77@AOL.COM</p>
+                                <p class="text-2xl font-bold text-brand-navy group-hover:text-brand-gold transition-colors"><span class="__cf_email__" data-cfemail="0851414946413f3f48494744264b4745">[email&#160;protected]</span></p>
                             </div>
                         </a>
                         
@@ -418,7 +459,7 @@
                     <div class="bg-white p-10 rounded-[40px] shadow-xl">
                         <h3 class="text-2xl font-bold mb-2">Send a Message</h3>
                         <p class="text-gray-400 mb-8">We'll respond within 2 hours.</p>
-                        <form class="space-y-5">
+                        <form id="footer-form" class="space-y-5">
                             <input type="text" placeholder="Your Name" class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none">
                             <input type="email" placeholder="Email Address" class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none">
                             <input type="tel" placeholder="Phone Number" class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none">
@@ -719,6 +760,94 @@
     }
     </script>
     
+
+    <!-- ============================== -->
+    <!-- CONFIRMATION MODAL             -->
+    <!-- ============================== -->
+    <div class="fk9-modal-overlay" id="confirmModal">
+        <div class="fk9-modal-box">
+            <button class="fk9-modal-close" id="modalClose" aria-label="Close">&times;</button>
+            <div style="margin-bottom:20px;">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style="margin:0 auto;"><circle cx="28" cy="28" r="28" fill="rgba(183,147,92,0.1)"/><path d="M20 28.5L25.5 34L36 22" stroke="#b7935c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 style="font-size:22px;font-weight:700;margin-bottom:12px;color:#0a0e14;">Message Sent</h3>
+            <p style="font-size:16px;line-height:1.6;color:#666;">Thank you for your inquiry. John will be in touch within 1–2 business days. We appreciate your patience and look forward to working with you.</p>
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- FORM SUBMISSION HANDLERS       -->
+    <!-- ============================== -->
+    <script>
+    (function() {
+        var modal = document.getElementById('confirmModal');
+        var closeBtn = document.getElementById('modalClose');
+
+        function showModal() { modal.classList.add('active'); }
+        function hideModal() { modal.classList.remove('active'); }
+
+        closeBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) hideModal();
+        });
+
+        /* ── Hero Form: Book Your Session ── */
+        var heroForm = document.getElementById('hero-form');
+        var heroBtn = heroForm.querySelector('button[type="button"]');
+        heroBtn.addEventListener('click', function() {
+            var inputs = heroForm.querySelectorAll('input, select');
+            var name = inputs[0].value.trim();
+            var phone = inputs[1].value.trim();
+            var program = inputs[2].value;
+
+            if (!name || !phone || program === 'Select Program') {
+                alert('Please fill out all fields before submitting.');
+                return;
+            }
+
+            var subject = encodeURIComponent('New Session Request from ' + name);
+            var body = encodeURIComponent(
+                'New booking request from the website:\n\n' +
+                'Name: ' + name + '\n' +
+                'Phone: ' + phone + '\n' +
+                'Program: ' + program + '\n'
+            );
+            window.location.href = 'mailto:YIANI77@AOL.COM?subject=' + subject + '&body=' + body;
+
+            heroForm.reset();
+            setTimeout(showModal, 500);
+        });
+
+        /* ── Footer Form: Send a Message ── */
+        var footerForm = document.getElementById('footer-form');
+        var footerBtn = footerForm.querySelector('button[type="button"]');
+        footerBtn.addEventListener('click', function() {
+            var inputs = footerForm.querySelectorAll('input, textarea');
+            var name = inputs[0].value.trim();
+            var email = inputs[1].value.trim();
+            var phone = inputs[2].value.trim();
+            var message = inputs[3].value.trim();
+
+            if (!name || !email || !phone) {
+                alert('Please fill out all required fields before submitting.');
+                return;
+            }
+
+            var subject = encodeURIComponent('New Message from ' + name);
+            var body = encodeURIComponent(
+                'New message from the website:\n\n' +
+                'Name: ' + name + '\n' +
+                'Email: ' + email + '\n' +
+                'Phone: ' + phone + '\n' +
+                'Message: ' + message + '\n'
+            );
+            window.location.href = 'mailto:YIANI77@AOL.COM?subject=' + subject + '&body=' + body;
+
+            footerForm.reset();
+            setTimeout(showModal, 500);
+        });
+    })();
+    </script>
 
 </body>
 </html>
