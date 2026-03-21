@@ -60,14 +60,40 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .custom-shape-divider-bottom {
+
+        /* ── Testimonial Slider ── */
+        .review-card {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
+            top: 0; left: 0; width: 100%; 
+            opacity: 0;
+            visibility: hidden;
         }
+        .review-card.active {
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+        }
+        .review-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        .review-nav-btn {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid rgba(183, 147, 92, 0.2);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .review-nav-btn:hover {
+            background: #b7935c;
+            border-color: #b7935c;
+            box-shadow: 0 8px 30px rgba(183, 147, 92, 0.3);
+        }
+        .review-nav-btn:hover svg { stroke: white; }
+        .review-star { filter: drop-shadow(0 1px 2px rgba(183, 147, 92, 0.3)); }
     </style>
 </head>
 <body class="font-sans text-brand-navy antialiased bg-brand-accent selection:bg-brand-gold selection:text-white">
@@ -91,7 +117,7 @@
                             </span>
                             813.523.5532
                         </a>
-                        <a href="#contact" class="bg-brand-navy text-white hover:bg-brand-gold px-8 py-3 rounded-full font-bold shadow-xl shadow-navy/20 transition-all transform hover:-translate-y-1">
+                        <a href="#contact" class="bg-brand-navy text-white hover:bg-brand-gold px-8 py-3 rounded-full font-bold shadow-xl shadow-brand-navy/20 transition-all transform hover:-translate-y-1">
                             Free Evaluation
                         </a>
                     </div>
@@ -162,7 +188,7 @@
                                     <option>Puppy Foundation</option>
                                 </select>
                             </div>
-                            <button class="w-full bg-brand-gold hover:bg-brand-navy text-white font-bold py-5 rounded-2xl shadow-xl shadow-brand-gold/20 transition-all transform hover:scale-[1.02] active:scale-95">
+                            <button type="button" class="w-full bg-brand-gold hover:bg-brand-navy text-white font-bold py-5 rounded-2xl shadow-xl shadow-brand-gold/20 transition-all transform hover:scale-[1.02] active:scale-95">
                                 START TRANSFORMATION
                             </button>
                         </form>
@@ -282,9 +308,67 @@
     </section>
 
     <!-- ============================== -->
+    <!-- TESTIMONIALS SLIDER            -->
+    <!-- ============================== -->
+    <section class="py-28 md:py-36 bg-brand-accent relative overflow-hidden" id="reviews">
+        <!-- Subtle background texture -->
+        <div class="absolute top-0 right-0 text-[16rem] font-serif font-black text-brand-gold/[0.03] select-none pointer-events-none leading-none" aria-hidden="true">&starf;</div>
+        <div class="absolute bottom-0 left-0 text-[12rem] font-serif font-black text-brand-gold/[0.03] select-none pointer-events-none leading-none" aria-hidden="true">&starf;</div>
+
+        <div class="max-w-4xl mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-16 gsap-review-header">
+                <h4 class="text-brand-gold font-bold tracking-widest uppercase mb-4 flex items-center justify-center">
+                    <span class="w-10 h-[2px] bg-brand-gold mr-3"></span>
+                    Client Stories
+                    <span class="w-10 h-[2px] bg-brand-gold ml-3"></span>
+                </h4>
+                <h2 class="font-serif text-4xl md:text-5xl mb-4">What Owners Say</h2>
+                <p class="text-gray-400 max-w-lg mx-auto text-lg"><span id="reviewCountHeader"></span> five-star reviews. Zero compromises. Real results from real families.</p>
+            </div>
+
+            <!-- Slider Container -->
+            <div class="relative" id="reviewSlider"
+                 onmouseenter="pauseAutoplay()" onmouseleave="resumeAutoplay()">
+
+                <!-- Card Wrapper -->
+                <div class="review-slider-wrapper">
+                    <!-- Cards are injected by JS -->
+                    <div id="reviewCards"></div>
+                </div>
+
+                <!-- Navigation Arrows (flanking the card on desktop) -->
+                <button class="review-nav-btn absolute top-1/2 -translate-y-1/2 -left-4 md:-left-20 z-10 hidden md:flex" onclick="prevReview();resumeAutoplay()" aria-label="Previous review">
+                    <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button class="review-nav-btn absolute top-1/2 -translate-y-1/2 -right-4 md:-right-20 z-10 hidden md:flex" onclick="nextReview();resumeAutoplay()" aria-label="Next review">
+                    <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Nav + Counter Row -->
+            <div class="flex items-center justify-center gap-6 mt-10">
+                <button class="review-nav-btn flex-shrink-0 !w-11 !h-11" onclick="prevReview();resumeAutoplay()" aria-label="Previous review">
+                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <span class="text-sm font-semibold text-gray-400 tabular-nums tracking-wide min-w-[60px] text-center" id="reviewCounter">1 / 40</span>
+                <button class="review-nav-btn flex-shrink-0 !w-11 !h-11" onclick="nextReview();resumeAutoplay()" aria-label="Next review">
+                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <!-- Google Rating Badge -->
+            <div class="flex items-center justify-center mt-10 gap-3 opacity-60">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                <span class="text-sm font-semibold text-gray-500">5.0 on Google &middot; <span id="reviewCountBadge"></span> Reviews</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================== -->
     <!-- FINAL CTA FOOTER               -->
     <!-- ============================== -->
-    <footer class="bg-brand-accent pt-32 pb-12" id="contact">
+    <footer class="bg-brand-accent pt-32 pb-24 md:pb-12" id="contact">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-20 pb-20 border-b border-brand-gold/10">
                 <div>
@@ -302,7 +386,7 @@
                             </div>
                         </a>
                         
-                        <!--email_off-->
+                        
                         <a href="mailto:YIANI77@AOL.COM" class="flex items-center group">
                             <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 flex items-center justify-center mr-5 group-hover:bg-brand-gold/20 transition-colors">
                                 <svg class="w-7 h-7 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -312,7 +396,7 @@
                                 <p class="text-2xl font-bold text-brand-navy group-hover:text-brand-gold transition-colors">YIANI77@AOL.COM</p>
                             </div>
                         </a>
-                        <!--/email_off-->
+                        
                         
                         <a href="https://maps.google.com/?q=10801+Tarpon+Springs+Road+Odessa+FL+33556" target="_blank" rel="noopener" class="flex items-center group">
                             <div class="w-16 h-16 rounded-2xl bg-brand-gold/10 flex items-center justify-center mr-5 group-hover:bg-brand-gold/20 transition-colors">
@@ -336,7 +420,7 @@
                             <input type="email" placeholder="Email Address" class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none">
                             <input type="tel" placeholder="Phone Number" class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none">
                             <textarea rows="4" placeholder="Tell us about your dog..." class="w-full bg-gray-50 border-none px-6 py-4 rounded-2xl focus:ring-2 focus:ring-brand-gold outline-none resize-none"></textarea>
-                            <button class="w-full bg-brand-navy hover:bg-brand-gold text-white font-bold py-5 rounded-2xl shadow-xl transition-all transform hover:scale-[1.02] active:scale-95">
+                            <button type="button" class="w-full bg-brand-navy hover:bg-brand-gold text-white font-bold py-5 rounded-2xl shadow-xl transition-all transform hover:scale-[1.02] active:scale-95">
                                 SEND MESSAGE
                             </button>
                         </form>
@@ -353,7 +437,7 @@
                 <div class="flex items-center gap-6">
                     <a href="tel:8135235532" class="text-gray-400 hover:text-brand-gold transition-colors text-sm font-medium">(813) 523-5532</a>
                     <span class="text-gray-300">|</span>
-                    <!--email_off--><a href="mailto:YIANI77@AOL.COM" class="text-gray-400 hover:text-brand-gold transition-colors text-sm font-medium">YIANI77@AOL.COM</a><!--/email_off-->
+                    <a href="mailto:YIANI77@AOL.COM" class="text-gray-400 hover:text-brand-gold transition-colors text-sm font-medium">YIANI77@AOL.COM</a>
                     <span class="text-gray-300">|</span>
                     <span class="text-gray-400 text-sm">Open 7 Days · 9AM–7PM</span>
                 </div>
@@ -432,8 +516,180 @@
         });
     </script>
 
-    <!--email_off-->
-    <!-- Structured Data -->
+    <!-- ============================== -->
+    <!-- TESTIMONIALS SLIDER ENGINE     -->
+    <!-- ============================== -->
+    <script>
+    /* ──────────────────────────────────────────────
+       REVIEWS DATA — Add, edit, or remove reviews here.
+       Each object: { name: "Name", text: "Review text" }
+       All reviews are 5 stars.
+    ────────────────────────────────────────────── */
+    const reviews = [
+        { name: "Jennifer Versaggi", text: "We had an amazing experience with John. He helped us teach our puppy, Bruno, essential commands like heel, drop, and not jumping up. His training style was clear, patient, and incredibly effective. Bruno responded so well, and we saw immediate results." },
+        { name: "Justin Hochberg", text: "I can't recommend John enough if you're looking for a truly exceptional dog trainer. He's incredibly knowledgeable, not just about training dogs, but about helping owners understand how to communicate effectively and build lasting relationships with their pets." },
+        { name: "Amanda Heloisa", text: "We've had a great experience training with John. The owner is incredibly attentive and really focuses on what you and your dog actually need. It's obvious he knows a lot about what he does, and he explains everything in a way that's easy to understand." },
+        { name: "Kay Praschma", text: "I have 2 dogs that needed obedience training. I learned quickly that I had to change my own behavior and the tools I was using. John was great to work with and I know I still need to keep working at it. I am very happy with the quick results already seen. I plan to do a few more lessons so that I stay on track. I highly recommend!" },
+        { name: "Peggy Brock", text: "Cooper is a rescue pup, approximately 5 months old, found on a roadside in NC. When I got him he was very skittish and afraid of everyone except me. He'd cower, back away, bark and growl. Could've been mistaken for aggression. John completely turned him around." },
+        { name: "Shannan T.", text: "Great experience with our new puppy! John was extremely helpful and took the time to listen to our needs and build the first session based upon them! This was huge! Then he created a homework plan for us to follow the first week after our session." },
+        { name: "Angela Steventon", text: "John at Florida K9 gave me the tools I needed to build my confidence and that of my 6 month old working border collie. He gave us a solid foundation that has allowed my relationship with my dog to be significantly better and has set us up for success." },
+        { name: "Mallory Miller", text: "I highly recommend Florida K9 Center. John has a unique approach to working with you and your dog. He has been patient, flexible and extremely effective in helping us set boundaries for our dog and her behavior. Walking our dog on a leash has completely transformed." },
+        { name: "Judy Michael", text: "John is an excellent dog trainer. We got help with my dog Emily especially for potty training and walking on a leash. I highly recommend him." },
+        { name: "Robbie Wallace", text: "After thoroughly researching and talking to numerous dog trainers in the Tampa area, John is by far the best choice. His house management plan is beneficial for us and our pup. He teaches us how to train her. His hands-on training is incredible." },
+        { name: "Lindsay Seeney", text: "John is the dog whisperer! No one compares to him when it comes to training needs. He listens and knows exactly what you and your dog need! He is able to gain respect and trust from the dogs right away. I am so happy my puppy's issues were resolved." },
+        { name: "Pucky Lewis", text: "I've been taking my 7 month old cane corso, Pixel, to John weekly for a month now and I wish I had done it sooner. Pixel and I are both learning so much and are always excited for the next lesson. As a first time large working dog owner, I couldn't be happier." },
+        { name: "Shannon Graves", text: "I would recommend John and his training center to any dog owner. John takes his time to learn about the individual dog's character, temperament, needs and what would be best for the owner and dog. He helps train YOU to be able to train and communicate with your dog." },
+        { name: "Martha Lang", text: "John isn't your typical 'throw a million treats at your dog' type of trainer. I was not looking for that. He cares deeply about the dogs AND the families that own them. He teaches training methodologies, goes into theory with fact-based knowledge." },
+        { name: "Brenda Singleton", text: "John helped my puppy Maverick after just one training session! He was having some issues with pulling when we were on walks and he is already walking better after just one session! John is super knowledgeable with years of experience on dog training." },
+        { name: "Alicia", text: "I would 100% recommend this training facility. I brought home an 8 month old puppy who was never leash trained and afraid to even walk out of the house. After my first session with John she had a complete turnaround. We now walk 3 to 4 times daily." },
+        { name: "Sophie Hall", text: "John is the real deal when it comes to dog training needs! He is truly like a dog whisperer and can help solve any problem your dog is having! He was able to correct the behavioral issues my puppy has been having and help guide me in the right direction." },
+        { name: "Kelly Panagiotopoulou", text: "Our boy's overall behavior and obedience has improved dramatically after only 2 sessions. From all the advice John gave us to the smallest mannerisms while handling our dog you could tell he has a lot of experience as a trainer." },
+        { name: "Zachary Thorn", text: "We have had two sessions with John with our Cavalier puppy. He takes the time to get to know you and your lifestyle, and we have seen immediate results. He is patient and has had great advice for our particular breed. Would recommend him to anyone!" },
+        { name: "Joseph Warden", text: "John was very informative on my Cane Corso and handled him well on our first training! I saw a difference in the way my dog walked with me within the first 30 minutes of training. John gave us tips and tools for home use. I can't wait to see where the next 9 weeks take us." },
+        { name: "Anthony Bellomo", text: "John is a very knowledgeable person with so much experience. I brought my 8 month black lab and within an hour I saw changes. She has been 10x better on walks and kennel training. He has helped us establish a great system." },
+        { name: "Cody Cox", text: "John knows his stuff. He's very knowledgeable and fair. Give this place a shot if you're looking to have a better relationship with your dog. John makes you understand what your dog is thinking and dumbs it down so that a normal human can understand what the dog needs." },
+        { name: "Gunner Bakke", text: "John does an excellent job correcting your behavior and teaching you how to lead your dog. We highly recommend him as a trainer." },
+        { name: "Drew Warner", text: "John provides a focused approach to training each dog based on the needs of the owner and breed. Refreshing to have someone customize the training versus applying a one size fits all model." },
+        { name: "Natalia Eldridge", text: "We have done one session with John so far and already know that we made the right decision to choose him. He is an absolute wealth of knowledge and offers solid advice and guidance. It is very apparent that he cares for the dogs he trains and puts 100% into the training." },
+        { name: "Susan Seaver", text: "I met with Trainer John today and he is great! In just the first visit, I am confident that we have the right person to train our GSP. He is very knowledgeable and is easy to talk with. Thanks Trainer John for taking the time needed to talk with me and give me peace of mind." },
+        { name: "Kelly Jones", text: "We took our dog here for obedience and leash training and Ray has been such a pleasure to work with. He's super knowledgeable on all topics from obedience and behavior to food and diet. Highly recommend for any of your dog's needs." },
+        { name: "Megan Singleton", text: "This is by far the best session I had with trainers. Our 3 year old rottie needed some obedience and John was on point! If you are in the Tampa Bay area I highly recommend him. A dog whisperer if you will! Contacting John will be the best decision you make for your furry friends." },
+        { name: "George William", text: "I took my pup to Florida K9 Center, owned by John, and it was awesome! John's like the dog whisperer — patient, friendly, and really knows his stuff. My furball went from chaos to a canine genius. The whole vibe there is chill." },
+        { name: "Despina Sierros", text: "The trainer John helped us a lot in resolving obedience issues with our 6 month old lab pup. I highly recommend him. Will be back for more sessions soon." },
+        { name: "Alexandra Robbins", text: "This place helped me understand my dog's needs and wants. So impressed with the results. My dog finally listens to me!" },
+        { name: "David Happe", text: "Expert trainer. What a beautiful facility with agility and John is a foremost expert. Highly recommended." },
+        { name: "Kenneth Williams", text: "The knowledge on this guy is second to none! Incredible trainer! Very hands on and attention to detail when it comes down to any breed of dog. He takes the time to bond and get to know the dog on a personal level before any type of training." },
+        { name: "Alexander Torres", text: "We had an issue with our 7 month German Shepherd Brownie and John helped us achieve results. Hands down the best dog trainer in Tampa. Would highly recommend!" },
+        { name: "Jason", text: "Real knowledge of training and long term behavioral success. Definitely recommend. You get good effective knowledge for a good price. They make sure you are well equipped with tools and knowledge." },
+        { name: "G OuTaKaRaCtr", text: "The dog trainer Ray was very informative, hands-on and patient while helping to train me to train my dog. Definitely the best experience I've had with a dog trainer." },
+        { name: "Rick Sanchez", text: "John and Ray are great. This is a great place to train humans how to work with their dogs. Highly recommend these guys!" },
+        { name: "Savvas Milatos", text: "Highly recommend this place. The trainer John is a cool guy and knows a lot. After one session my pup was doing a lot better." },
+        { name: "Vasiliki Sierros", text: "John's knowledge is above and beyond. Highly recommend bringing your dog here." },
+        { name: "Bx Arnold", text: "Best training out here and great customer service." }
+    ];
+
+    /* ── SVG 5-Star Row (reusable) ── */
+    const starsHTML = Array(5).fill(`<svg class="review-star w-5 h-5" viewBox="0 0 20 20" fill="none"><path d="M10 1.25l2.47 5.01 5.53.8-4 3.9.94 5.5L10 13.87l-4.94 2.6.94-5.5-4-3.9 5.53-.8L10 1.25z" fill="#b7935c"/></svg>`).join('');
+
+    /* ── Set dynamic review counts ── */
+    document.getElementById('reviewCountHeader').textContent = reviews.length;
+    document.getElementById('reviewCountBadge').textContent = reviews.length;
+
+    /* ── Build Cards ── */
+    const cardsContainer = document.getElementById('reviewCards');
+    const reviewCounter  = document.getElementById('reviewCounter');
+
+    reviews.forEach((r, i) => {
+        const card = document.createElement('div');
+        card.className = `review-card ${i === 0 ? 'active' : ''}`;
+        card.innerHTML = `
+            <div class="bg-white rounded-[32px] md:rounded-[40px] p-8 md:p-14 shadow-xl shadow-black/[0.04] border border-brand-gold/[0.08] text-center">
+                <div class="flex items-center justify-center gap-1 mb-6">${starsHTML}</div>
+                <p class="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 max-w-2xl mx-auto font-light">"${r.text}"</p>
+                <div class="w-10 h-[2px] bg-brand-gold/30 mx-auto mb-5"></div>
+                <p class="font-bold text-brand-navy text-base tracking-wide">${r.name}</p>
+                <p class="text-xs text-gray-400 mt-1 uppercase tracking-widest font-medium">Verified Google Review</p>
+            </div>`;
+        cardsContainer.appendChild(card);
+    });
+
+    /* ── Slider State ── */
+    let currentReview  = 0;
+    let autoplayTimer  = null;
+    let isAnimating    = false;
+    const allCards = cardsContainer.querySelectorAll('.review-card');
+
+    function updateCounter() {
+        reviewCounter.textContent = `${currentReview + 1} / ${reviews.length}`;
+    }
+    updateCounter();
+
+    /* ── Transition (GSAP fade + slide) ── */
+    function goToReview(index) {
+        if (isAnimating || index === currentReview) return;
+        isAnimating = true;
+
+        const direction = index > currentReview ? 1 : -1;
+        const outCard   = allCards[currentReview];
+        const inCard    = allCards[index];
+
+        gsap.to(outCard, {
+            opacity: 0,
+            x: -60 * direction,
+            duration: 0.45,
+            ease: 'power2.in',
+            onComplete: () => {
+                outCard.classList.remove('active');
+                inCard.classList.add('active');
+                gsap.set(inCard, { opacity: 0, x: 60 * direction });
+                gsap.to(inCard, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.5,
+                    ease: 'power2.out',
+                    onComplete: () => { isAnimating = false; }
+                });
+            }
+        });
+
+        currentReview = index;
+        updateCounter();
+    }
+
+    function nextReview() { goToReview((currentReview + 1) % reviews.length); }
+    function prevReview() { goToReview((currentReview - 1 + reviews.length) % reviews.length); }
+
+    /* ── Autoplay (5s, pause on hover, reset on manual nav) ── */
+    function startAutoplay() { autoplayTimer = setInterval(nextReview, 5000); }
+    function pauseAutoplay() { clearInterval(autoplayTimer); }
+    function resumeAutoplay() { pauseAutoplay(); startAutoplay(); }
+    startAutoplay();
+
+    /* ── Touch / Swipe Support ── */
+    (function() {
+        const slider = document.getElementById('reviewSlider');
+        let startX = 0, startY = 0, distX = 0, tracking = false;
+
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            distX = 0;
+            tracking = true;
+        }, { passive: true });
+
+        slider.addEventListener('touchmove', (e) => {
+            if (!tracking) return;
+            distX = e.touches[0].clientX - startX;
+            const distY = e.touches[0].clientY - startY;
+            // If scrolling more vertically, release the gesture
+            if (Math.abs(distY) > Math.abs(distX)) { tracking = false; }
+        }, { passive: true });
+
+        slider.addEventListener('touchend', () => {
+            if (!tracking) return;
+            tracking = false;
+            const threshold = 50;
+            if (distX < -threshold) { nextReview(); resumeAutoplay(); }
+            else if (distX > threshold) { prevReview(); resumeAutoplay(); }
+        });
+    })();
+
+    /* ── Keyboard a11y ── */
+    document.getElementById('reviewSlider').addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { nextReview(); resumeAutoplay(); }
+        if (e.key === 'ArrowLeft')  { prevReview(); resumeAutoplay(); }
+    });
+
+    /* ── ScrollTrigger entrance ── */
+    gsap.from('.gsap-review-header', {
+        scrollTrigger: { trigger: '.gsap-review-header', start: 'top 85%' },
+        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out'
+    });
+    gsap.from('#reviewSlider', {
+        scrollTrigger: { trigger: '#reviewSlider', start: 'top 85%' },
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2
+    });
+    </script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -459,7 +715,7 @@
         }
     }
     </script>
-    <!--/email_off-->
+    
 
 </body>
 </html>
