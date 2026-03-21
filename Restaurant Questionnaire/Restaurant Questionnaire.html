@@ -120,9 +120,6 @@
       margin: 0;
     }
   </style>
-  <!-- Firebase SDK — loaded in <head> so it is guaranteed available before any body script runs -->
-  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script data-cfasync="false" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 
 <body class="bg-surface text-ink min-h-screen">
@@ -703,7 +700,7 @@
     <p class="font-sans text-muted text-base leading-relaxed max-w-md mx-auto mb-2">
       Your questionnaire has been submitted successfully. A copy of your data has been sent to:
     </p>
-    <p class="font-sans font-600 text-sm text-ink mb-8"><a href="/cdn-cgi/l/email-protection#c4adaab2abada7a1b784a6b6a1a7acb0a8a5aaa0eaa7aba9"><span class="__cf_email__" data-cfemail="3b52554d5452585e487b59495e58534f575a555f15585456">[email&#160;protected]</span></a></p>
+    <p class="font-sans font-600 text-sm text-ink mb-8"><a href="/cdn-cgi/l/email-protection#5b32352d3432383e281b39293e38332f373a353f75383436"><span class="__cf_email__" data-cfemail="553c3b233a3c36302615372730363d2139343b317b363a38">[email&#160;protected]</span></a></p>
     <p class="font-sans text-sm text-muted">We'll begin building your site within 48 hours. Scroll down to copy your JSON data.</p>
   </div>
 
@@ -714,7 +711,7 @@
   <footer class="border-t border-line mt-12 py-8">
     <div class="max-w-3xl mx-auto px-6 flex items-center justify-between">
       <p class="font-sans text-xs text-zinc-400">&copy; 2026 Brechtland LLC. All rights reserved.</p>
-      <p class="font-sans text-xs text-zinc-400"><a href="/cdn-cgi/l/email-protection#157c7b637a7c76706655776770767d6179747b713b767a78"><span class="__cf_email__" data-cfemail="bfd6d1c9d0d6dcdaccffddcddadcd7cbd3ded1db91dcd0d2">[email&#160;protected]</span></a></p>
+      <p class="font-sans text-xs text-zinc-400"><a href="/cdn-cgi/l/email-protection#8ee7e0f8e1e7edebfdceecfcebede6fae2efe0eaa0ede1e3"><span class="__cf_email__" data-cfemail="87eee9f1e8eee4e2f4c7e5f5e2e4eff3ebe6e9e3a9e4e8ea">[email&#160;protected]</span></a></p>
     </div>
   </footer>
 
@@ -722,30 +719,6 @@
   <!-- ═══════════════════════════════════════════════
        JAVASCRIPT
   ═══════════════════════════════════════════════ -->
-  <script data-cfasync="false">
-  // ── Firebase Init ─────────────────────────────────────────────────
-  const firebaseConfig = {
-    apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
-    authDomain: "albrecht-agency-crm.firebaseapp.com",
-    projectId: "albrecht-agency-crm",
-    storageBucket: "albrecht-agency-crm.firebasestorage.app",
-    messagingSenderId: "924889697457",
-    appId: "1:924889697457:web:b304fff585bfaa25c46690"
-  };
-  // Wait for Firebase SDK to be available, then init
-  const _fbReady = new Promise(resolve => {
-    function tryInit() {
-      if (typeof firebase !== 'undefined') {
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        resolve(firebase.firestore());
-      } else {
-        setTimeout(tryInit, 50);
-      }
-    }
-    tryInit();
-  });
-  const repId = new URLSearchParams(window.location.search).get('repId');
-  </script>
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     /* ── State ── */
     let currentStep = 0;
@@ -896,7 +869,7 @@
     }
 
     /* ── Form Submit ── */
-    form.addEventListener('submit', async function(e) {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       // Validate last step
@@ -922,24 +895,6 @@
       const formData = new FormData(form);
       // Also append the full JSON as a field
       formData.append('_json_export', jsonStr);
-
-      // ── Firestore write ───────────────────────────────────────────
-      try {
-        const db = await _fbReady;
-        await db.collection('clients').add({
-          businessName:  formData.get('restaurant_name') || null,
-          email:         formData.get('contact_email') || null,
-          phone:         formData.get('contact_phone') || null,
-          industry:      'restaurant',
-          employeeId:    repId || null,
-          status:        'lead',
-          source:        'external_questionnaire',
-          createdAt:     firebase.firestore.FieldValue.serverTimestamp()
-        });
-      } catch (fsErr) {
-        console.error('Firestore write failed:', fsErr);
-      }
-      // ── End Firestore write ───────────────────────────────────────
 
       fetch(form.action, {
         method: 'POST',
