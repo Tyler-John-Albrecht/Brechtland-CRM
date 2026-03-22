@@ -2739,14 +2739,14 @@ async function navigate(page) {
   const navEl = document.getElementById('nav' + page.charAt(0).toUpperCase() + page.slice(1));
   if (navEl) navEl.classList.add('active');
 
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', commissions: 'Commission Dashboard' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Website Invoices', emailInvoices: 'Email Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', commissions: 'Commission Dashboard' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   const contentArea = document.getElementById('contentArea');
   contentArea.style.opacity = '0';
   await new Promise(r => setTimeout(r, 180));
 
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, emailInvoices: renderEmailInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
   if (renderers[page]) await Promise.resolve(renderers[page]());
 
   contentArea.style.opacity = '1';
@@ -2900,7 +2900,8 @@ async function renderRecentActivity(clients, calEvs) {
     { label: 'Main', items: [
       { icon:'📊', label:'Dashboard', id:'navDashboard', action:"navigate('dashboard')", badge:'', extra:'' },
       { icon:'👥', label:'Clients',   id:'navClients',   action:"navigate('clients')",   badge:'', extra:'' },
-      { icon:'📄', label:'Invoices',  id:'navInvoices',  action:"navigate('invoices')",  badge:'', extra:'' },
+      { icon:'📄', label:'Website Invoices',  id:'navInvoices',  action:"navigate('invoices')",  badge:'', extra:'' },
+      { icon:'✉️', label:'Email Invoices',  id:'navEmailInvoices',  action:"navigate('emailInvoices')",  badge:'', extra:'' },
       { icon:'📅', label:'Calendar',  id:'navCalendar',  action:"navigate('calendar')",  badge:'calendarBadge', extra:'' },
     ]},
     { label: 'Tools', items: [
@@ -3659,7 +3660,7 @@ function dashNav(dir) {
   else dashCalDate = new Date(dashCalDate.getTime() + dir*86400000);
   drawDashboardCalendar();
 }
-function dashGoToday() { dashCalDate = new Date(); dashSelectedDate = new Date(); var _el = document.getElementById('dspDate'); if (_el) _el.textContent = dashFmtLong(dashSelectedDate); renderDspEvents(calendarEvents); drawDashboardCalendar(); }
+function dashGoToday() { dashCalDate = new Date(); dashSelectedDate = new Date(); drawDashboardCalendar(); }
 function dashSetView(v) { dashCalView = v; drawDashboardCalendar(); }
 function dashPickDay(dateStr) {
   const [y,m,d] = dateStr.split('-').map(Number);
@@ -3911,7 +3912,7 @@ async function renderClients(forceRefresh = false) {
                 <td>${src}</td>
                 <td class="team-actions">
                   <button class="btn btn-secondary btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
-                  ${(isAdmin || c.employeeId === currentUser.uid) ? `<button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>` : ''}
+                  ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>` : ''}
                 </td>
               </tr>`;
             }).join('')
@@ -4497,6 +4498,42 @@ async function renderInvoices() {
   `;
 }
 
+async function renderEmailInvoices() {
+  const content = document.getElementById('contentArea');
+  const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
+
+  let query = db.collection('invoices').orderBy('createdAt', 'desc');
+  if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
+
+  const snap = await query.get();
+  const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h3>Email Invoices (${invoices.length})</h3>
+        <button class="btn btn-primary btn-sm" onclick="openEmailAgreement()">+ New Invoice</button>
+      </div>
+      <div class="card-body" style="padding:0">
+        ${invoices.length === 0 ? '<div class="empty-state"><div class="empty-icon">📄</div><p>No invoices yet</p></div>' :
+          `<table><thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
+            invoices.map(inv => `<tr>
+              <td style="color:var(--text-primary);font-weight:500">${esc(inv.clientName)}</td>
+              <td>$${parseFloat(inv.amount || 0).toLocaleString()}</td>
+              <td><span class="status-badge status-${inv.status}">${esc(inv.status)}</span></td>
+              <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
+              <td class="team-actions">
+                <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>
+              </td>
+            </tr>`).join('')
+          }</tbody></table>`
+        }
+      </div>
+    </div>
+  `;
+}
+
 function openInvoiceModal(editId) {
   const title = editId ? 'Edit Invoice' : 'New Invoice';
   const load = editId ? db.collection('invoices').doc(editId).get() : Promise.resolve(null);
@@ -4572,10 +4609,21 @@ function openServiceAgreement() {
   document.body.style.overflow = 'hidden';
 }
 
+const EMAIL_AGREEMENT_URL = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Email%20Marketing%20Price/Email-Marketing-Price.html';
+
+function openEmailAgreement() {
+  const overlay = document.getElementById('saOverlay');
+  const frame = document.getElementById('saFrame');
+  frame.src = EMAIL_AGREEMENT_URL;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
 function closeServiceAgreement() {
   document.getElementById('saOverlay').classList.remove('open');
   document.body.style.overflow = '';
   if (currentPage === 'invoices') renderInvoices();
+  else if (currentPage === 'emailInvoices') renderEmailInvoices();
   else if (currentPage === 'clients') renderClients();
   else if (currentPage === 'dashboard') renderDashboard();
 }
@@ -4583,7 +4631,8 @@ function closeServiceAgreement() {
 const SA_SHARE_URL = 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Service-Agreement/albrecht-service-agreement.html';
 
 function saCopyShareLink() {
-  navigator.clipboard.writeText(SA_SHARE_URL).then(() => {
+  const currentUrl = document.getElementById('saFrame').src || SA_SHARE_URL;
+  navigator.clipboard.writeText(currentUrl).then(() => {
     const btn = document.getElementById('saShareBtn');
     btn.textContent = '✓ Copied!';
     setTimeout(() => { btn.textContent = '📋 Copy Shareable Link'; }, 2000);
@@ -4591,7 +4640,8 @@ function saCopyShareLink() {
 }
 
 function saOpenNewTab() {
-  window.open(SA_SHARE_URL, '_blank');
+  const currentUrl = document.getElementById('saFrame').src || SA_SHARE_URL;
+  window.open(currentUrl, '_blank');
 }
 
 function saSetPlan(p) {
