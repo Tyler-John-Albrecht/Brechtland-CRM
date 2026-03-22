@@ -350,7 +350,7 @@
         <li><span class="feature-dot dot-purple"></span>Monthly performance snapshot</li>
         <li><span class="feature-dot dot-purple"></span>Professional email templates</li>
       </ul>
-      <a href="#" class="card-cta cta-outline">Get Started</a>
+      <a href="https://buy.stripe.com/8x2cN764Q7IW10v4db3Ru05" class="card-cta cta-outline" data-link-monthly="https://buy.stripe.com/8x2cN764Q7IW10v4db3Ru05" data-link-annual="https://buy.stripe.com/bJe8wR0Kw3sG10v8tr3Ru06" target="_blank">Get Started</a>
     </div>
 
     <!-- MOMENTUM — POPULAR -->
@@ -377,7 +377,7 @@
         <li><span class="feature-dot dot-magenta"></span>Monthly report with recommendations</li>
         <li><span class="feature-dot dot-magenta"></span>Seasonal promo campaigns</li>
       </ul>
-      <a href="#" class="card-cta cta-solid">Get Started</a>
+      <a href="https://buy.stripe.com/5kQdRb3WI0gu7oT6lj3Ru07" class="card-cta cta-solid" data-link-monthly="https://buy.stripe.com/5kQdRb3WI0gu7oT6lj3Ru07" data-link-annual="https://buy.stripe.com/dRm7sN2SE8N07oT7pn3Ru08" target="_blank">Get Started</a>
     </div>
 
     <!-- COMMAND -->
@@ -403,7 +403,7 @@
         <li><span class="feature-dot dot-orange"></span>A/B subject line testing</li>
         <li><span class="feature-dot dot-orange"></span>Bi-weekly performance reports</li>
       </ul>
-      <a href="#" class="card-cta cta-outline">Get Started</a>
+      <a href="https://buy.stripe.com/dRm6oJ3WI5AOfVp7pn3Ru09" class="card-cta cta-outline" data-link-monthly="https://buy.stripe.com/dRm6oJ3WI5AOfVp7pn3Ru09" data-link-annual="https://buy.stripe.com/5kQeVfctefbogZt5hf3Ru0a" target="_blank">Get Started</a>
     </div>
 
     <!-- APEX -->
@@ -429,7 +429,7 @@
         <li><span class="feature-dot dot-orange"></span>Dedicated strategist on your account</li>
         <li><span class="feature-dot dot-orange"></span>Weekly reports + monthly strategy call</li>
       </ul>
-      <a href="#" class="card-cta cta-outline">Get Started</a>
+      <a href="https://buy.stripe.com/00w00lgJu7IW24zeRP3Ru0b" class="card-cta cta-outline" data-link-monthly="https://buy.stripe.com/00w00lgJu7IW24zeRP3Ru0b" data-link-annual="https://buy.stripe.com/7sY4gBbpa6ESfVp10Z3Ru0c" target="_blank">Get Started</a>
     </div>
 
   </div><!-- /pricing-grid -->
@@ -458,6 +458,9 @@
     });
     document.querySelectorAll('.annual-note').forEach(el=>el.style.display=isAnnual?'block':'none');
     document.querySelectorAll('.monthly-note').forEach(el=>el.style.display=isAnnual?'none':'block');
+    document.querySelectorAll('.card-cta[data-link-monthly]').forEach(el=>{
+      el.href = isAnnual ? el.dataset.linkAnnual : el.dataset.linkMonthly;
+    });
   }
 </script>
 
