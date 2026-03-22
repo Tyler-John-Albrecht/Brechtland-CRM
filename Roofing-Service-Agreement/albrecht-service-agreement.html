@@ -570,7 +570,6 @@ window.addEventListener('load', () => {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('sa_date').value = today;
   saInitCanvas('saClientSig');
-  saInitCanvas('saTylerSig');
 });
 
 function saSetPlan(p) {
@@ -594,7 +593,6 @@ function saResetForm() {
   if (!confirm('Reset all fields?')) return;
   document.querySelectorAll('#saDoc .sa-field-input:not([readonly]), #saDoc .sa-inline-input').forEach(f => { f.value = ''; });
   saClearSig('saClientSig','saCStatus');
-  saClearSig('saTylerSig','saTStatus');
   document.getElementById('saErrorMsg').style.display = 'none';
   document.getElementById('sa_date').value = new Date().toISOString().split('T')[0];
 }
@@ -757,12 +755,12 @@ async function saSubmitAgreement() {
     } else {
       throw new Error('Submission failed');
     }
-  } catch(e) {
-    console.error('Agreement submission error:', e);
-    btn.textContent = '\u2709\uFE0F Submit Agreement & Continue to Secure Payment';
-    btn.disabled = false;
-    errEl.innerHTML = '<strong>Submission failed.</strong> Please check your connection and try again.';
+  } catch (err) {
+    errEl.innerHTML = '<strong>Something went wrong.</strong> Please try again or contact Tyler directly at 989-501-1397.';
     errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    btn.textContent = '✉️ Submit Agreement & Continue to Secure Payment';
+    btn.disabled = false;
   }
 }
 </script>
