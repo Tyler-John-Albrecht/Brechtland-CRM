@@ -389,7 +389,7 @@ body::after {
         </div>
         <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.6;">
           <div style="font-weight:600;color:var(--text-primary);">Brechtland Client Services</div>
-          <div>tyler@brechtland.com &middot; 989-501-1397</div>
+          <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a8dcd1c4cddae8cadacdcbc0dcc4c9c6cc86cbc7c5">[email&#160;protected]</a> &middot; 989-501-1397</div>
         </div>
       </div>
       <div class="doc-right">
@@ -484,7 +484,7 @@ body::after {
     <input type="hidden" id="sa_tylerDate">
 
     <div class="doc-footer">
-      <span>Brechtland · Tyler Albrecht · 989-501-1397 · tyler@brechtland.com</span>
+      <span>Brechtland · Tyler Albrecht · 989-501-1397 · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="74000d18110634160611171c0018151a105a171b19">[email&#160;protected]</a></span>
       <span id="saFooterPlan">Month-to-Month Agreement</span>
     </div>
 
@@ -505,7 +505,7 @@ body::after {
 </div>
 
 <!-- Firebase SDK for CRM client creation + rep verification -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
 /* Task 5: Firebase safety check */
@@ -606,13 +606,14 @@ function saInitCanvas(id) {
   const ctx = c.getContext('2d');
   ctx.strokeStyle = '#1a2744'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   let drawing = false;
-  const pos = e => { const r = c.getBoundingClientRect(), s = e.touches ? e.touches[0] : e; return { x: s.clientX - r.left, y: s.clientY - r.top }; };
+  let pos = e => { const r = c.getBoundingClientRect(), s = e.touches ? e.touches[0] : e; return { x: s.clientX - r.left, y: s.clientY - r.top }; };
 
   const newC = c.cloneNode(true);
   c.parentNode.replaceChild(newC, c);
+  pos = e => { const r = newC.getBoundingClientRect(), s = e.touches ? e.touches[0] : e; return { x: s.clientX - r.left, y: s.clientY - r.top }; };
   const ctx2 = newC.getContext('2d');
-  ctx2.strokeStyle = '#1a2744'; ctx2.lineWidth = 2; ctx2.lineCap = 'round'; ctx2.lineJoin = 'round';
   newC.width = rect.width || 300; newC.height = 80;
+  ctx2.strokeStyle = '#1a2744'; ctx2.lineWidth = 2; ctx2.lineCap = 'round'; ctx2.lineJoin = 'round';
 
   newC.addEventListener('mousedown', e => { drawing = true; const p = pos(e); ctx2.beginPath(); ctx2.moveTo(p.x, p.y); });
   newC.addEventListener('mousemove', e => { if (!drawing) return; const p = pos(e); ctx2.lineTo(p.x, p.y); ctx2.stroke(); newC.classList.add('signed'); newC._signed = true; });
@@ -682,8 +683,9 @@ async function saSubmitAgreement() {
   const phone      = document.getElementById('sa_phone').value.trim();
   const address    = document.getElementById('sa_address').value.trim();
 
+  /* Formspree email - fire and forget, do not block payment */
   try {
-    const res = await fetch('https://formspree.io/f/xojkeadq', {
+    fetch('https://formspree.io/f/xojkeadq', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -701,67 +703,62 @@ async function saSubmitAgreement() {
         client_signed_date: document.getElementById('sa_clientDate').value,
         tyler_signed_date: document.getElementById('sa_tylerDate').value,
       })
-    });
-    if (res.ok) {
-      /* Task 5: Firebase safety check before Firestore operations */
-      if (typeof firebase === 'undefined' || !saDb) {
-        console.error('Firebase not loaded.');
-      } else {
-        /* Task 4: Warn if repId is not verified */
-        if (!saRepId) {
-          console.warn('Invalid repId detected. Client will be created but not credited.');
-        }
-        try {
-          /* Task 6: Duplicate email check before client creation */
-          var existing = await saDb.collection('clients')
-            .where('email', '==', email)
-            .limit(1)
-            .get();
-          if (existing.empty) {
-            /* Task 3: Store both repId and employeeName securely */
-            await saDb.collection('clients').add({
-              businessName: bizName,
-              ownerName: ownerName,
-              email: email,
-              phone: phone,
-              address: address,
-              plan: pl.label,
-              monthly: pl.monthly,
-              status: 'pending',
-              employeeId: saRepId,
-              employeeName: saRepName,
-              repId: saRepId,
-              source: 'service_agreement',
-              createdAt: new Date().toISOString()
-            });
-          } else {
-            console.log('Client with email ' + email + ' already exists \u2014 skipping creation');
-          }
-        } catch (fbErr) {
-          console.error('CRM client creation failed:', fbErr);
-        }
-      }
-
-      btn.textContent = 'Redirecting to Secure Payment...';
-      const encodedName  = encodeURIComponent(ownerName);
-      const encodedEmail = encodeURIComponent(email);
-      const baseLink     = STRIPE_LINKS[saCurrentPlan];
-      const stripeURL    = baseLink + '?prefilled_email=' + encodedEmail + '&client_reference_id=' + encodedName;
-      const redirectMsg  = document.getElementById('saErrorMsg');
-      redirectMsg.style.cssText = 'display:block;background:rgba(6,95,70,0.15);border-color:rgba(52,211,153,0.4);color:#34d399;';
-      redirectMsg.innerHTML = '&#10003; Agreement submitted. Redirecting to secure payment&hellip;';
-      redirectMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(function() { window.location.href = stripeURL; }, 800);
-    } else {
-      throw new Error('Submission failed');
-    }
-  } catch (err) {
-    errEl.innerHTML = '<strong>Something went wrong.</strong> Please try again or contact Tyler directly at 989-501-1397.';
-    errEl.style.display = 'block';
-    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    btn.textContent = '✉️ Submit Agreement & Continue to Secure Payment';
-    btn.disabled = false;
+    }).catch(function(fspErr) { console.warn('Formspree submission failed (non-blocking):', fspErr); });
+  } catch (fspErr) {
+    console.warn('Formspree submission failed (non-blocking):', fspErr);
   }
+
+  /* Firebase client creation - also non-blocking for payment */
+  try {
+    /* Task 5: Firebase safety check before Firestore operations */
+    if (typeof firebase === 'undefined' || !saDb) {
+      console.error('Firebase not loaded.');
+    } else {
+      /* Task 4: Warn if repId is not verified */
+      if (!saRepId) {
+        console.warn('Invalid repId detected. Client will be created but not credited.');
+      }
+      /* Task 6: Duplicate email check before client creation */
+      var existing = await saDb.collection('clients')
+        .where('email', '==', email)
+        .limit(1)
+        .get();
+      if (existing.empty) {
+        /* Task 3: Store both repId and employeeName securely */
+        await saDb.collection('clients').add({
+          businessName: bizName,
+          ownerName: ownerName,
+          email: email,
+          phone: phone,
+          address: address,
+          plan: pl.label,
+          monthly: pl.monthly,
+          status: 'pending',
+          employeeId: saRepId,
+          employeeName: saRepName,
+          repId: saRepId,
+          source: 'service_agreement',
+          createdAt: new Date().toISOString()
+        });
+      } else {
+        console.log('Client with email ' + email + ' already exists \u2014 skipping creation');
+      }
+    }
+  } catch (fbErr) {
+    console.error('CRM client creation failed:', fbErr);
+  }
+
+  /* Stripe redirect - always fires regardless of Formspree or Firebase */
+  btn.textContent = 'Redirecting to Secure Payment...';
+  const sanitizedName = ownerName.replace(/[^a-zA-Z0-9_-]/g, '_');
+  const encodedEmail = encodeURIComponent(email);
+  const baseLink     = STRIPE_LINKS[saCurrentPlan];
+  const stripeURL    = baseLink + '?prefilled_email=' + encodedEmail + '&client_reference_id=' + sanitizedName;
+  const redirectMsg  = document.getElementById('saErrorMsg');
+  redirectMsg.style.cssText = 'display:block;background:rgba(6,95,70,0.15);border-color:rgba(52,211,153,0.4);color:#34d399;';
+  redirectMsg.innerHTML = '&#10003; Agreement submitted. Redirecting to secure payment&hellip;';
+  redirectMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() { window.location.href = stripeURL; }, 800);
 }
 </script>
 </body>
