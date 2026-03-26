@@ -3547,7 +3547,7 @@ async function renderDashboardStats(clients, calEvs) {
     const activitySnaps = await Promise.all(
       sampleIds.map(cid =>
         db.collection('clients').doc(cid).collection('activities')
-          .where('loggedBy', '==', currentUser.uid).orderBy('loggedAt', 'desc').limit(20).get()
+          .where('loggedBy', '==', currentUser.uid).get()
       )
     );
     activitySnaps.forEach(actSnap => {
@@ -3912,7 +3912,7 @@ async function renderClients(forceRefresh = false) {
                 <td>${src}</td>
                 <td class="team-actions">
                   <button class="btn btn-secondary btn-sm" onclick="openClientModal('${c.id}')">Edit</button>
-                  ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>` : ''}
+                  ${isAdminRole(currentUserData.role) ? `<button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">Delete</button>` : ''}
                 </td>
               </tr>`;
             }).join('')
@@ -4122,7 +4122,7 @@ async function openClientDetail(clientId) {
   document.getElementById('cdTitle').textContent = c.businessName || c.name || 'Client Profile';
 
   const cdDelBtn = document.getElementById('cdDeleteBtn');
-  if (cdDelBtn) cdDelBtn.style.display = (currentUserData.role !== 'owner') ? 'none' : '';
+  if (cdDelBtn) cdDelBtn.style.display = !isAdminRole(currentUserData.role) ? 'none' : '';
 
   const navArrows = document.getElementById('cdNavArrows');
   if (clientListCache.length > 1 && cdNavIndex >= 0) {
@@ -4468,7 +4468,7 @@ async function loadActivityTimeline(clientId) {
 async function renderInvoices() {
   const content = document.getElementById('contentArea');
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
-  const isOwner = currentUserData.role === 'owner';
+  const canDelete = isAdminRole(currentUserData.role);
 
   let query = db.collection('invoices');
   if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
@@ -4493,7 +4493,7 @@ async function renderInvoices() {
               <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
               <td class="team-actions">
                 <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
+                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
               </td>
             </tr>`).join('')
           }</tbody></table>`
@@ -4506,7 +4506,7 @@ async function renderInvoices() {
 async function renderEmailInvoices() {
   const content = document.getElementById('contentArea');
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
-  const isOwner = currentUserData.role === 'owner';
+  const canDelete = isAdminRole(currentUserData.role);
 
   let query = db.collection('invoices');
   if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
@@ -4531,7 +4531,7 @@ async function renderEmailInvoices() {
               <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
               <td class="team-actions">
                 <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
+                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
               </td>
             </tr>`).join('')
           }</tbody></table>`
