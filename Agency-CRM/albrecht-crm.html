@@ -2747,7 +2747,12 @@ async function navigate(page) {
   await new Promise(r => setTimeout(r, 180));
 
   const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, emailInvoices: renderEmailInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
-  if (renderers[page]) await Promise.resolve(renderers[page]());
+  try {
+    if (renderers[page]) await Promise.resolve(renderers[page]());
+  } catch(err) {
+    console.error(`[Brechtland CRM] Error rendering "${page}":`, err);
+    contentArea.innerHTML = `<div class="card"><div class="card-body" style="text-align:center;padding:48px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="color:var(--text-primary);font-weight:600;margin-bottom:8px">Something went wrong loading this page</div><div style="color:var(--text-muted);font-size:13px;margin-bottom:16px">${err.message || 'Unknown error'}</div><button class="btn btn-primary btn-sm" onclick="navigate('${page}')">Try Again</button></div></div>`;
+  }
 
   contentArea.style.opacity = '1';
 }
