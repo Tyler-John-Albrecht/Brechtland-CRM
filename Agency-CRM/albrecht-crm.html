@@ -4121,6 +4121,9 @@ async function openClientDetail(clientId) {
 
   document.getElementById('cdTitle').textContent = c.businessName || c.name || 'Client Profile';
 
+  const cdDelBtn = document.getElementById('cdDeleteBtn');
+  if (cdDelBtn) cdDelBtn.style.display = (currentUserData.role !== 'owner') ? 'none' : '';
+
   const navArrows = document.getElementById('cdNavArrows');
   if (clientListCache.length > 1 && cdNavIndex >= 0) {
     navArrows.style.display = 'flex';
@@ -4465,12 +4468,14 @@ async function loadActivityTimeline(clientId) {
 async function renderInvoices() {
   const content = document.getElementById('contentArea');
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
+  const isOwner = currentUserData.role === 'owner';
 
-  let query = db.collection('invoices').orderBy('createdAt', 'desc');
+  let query = db.collection('invoices');
   if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
 
   const snap = await query.get();
   const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  invoices.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
   content.innerHTML = `
     <div class="card">
@@ -4488,7 +4493,7 @@ async function renderInvoices() {
               <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
               <td class="team-actions">
                 <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>
+                ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
               </td>
             </tr>`).join('')
           }</tbody></table>`
@@ -4501,12 +4506,14 @@ async function renderInvoices() {
 async function renderEmailInvoices() {
   const content = document.getElementById('contentArea');
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
+  const isOwner = currentUserData.role === 'owner';
 
-  let query = db.collection('invoices').orderBy('createdAt', 'desc');
+  let query = db.collection('invoices');
   if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
 
   const snap = await query.get();
   const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  invoices.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
   content.innerHTML = `
     <div class="card">
@@ -4524,7 +4531,7 @@ async function renderEmailInvoices() {
               <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
               <td class="team-actions">
                 <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>
+                ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
               </td>
             </tr>`).join('')
           }</tbody></table>`
