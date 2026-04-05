@@ -3,988 +3,442 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="data:image/png;base64,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gCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSAJUmSJEk9MWBJkiRJUk8MWJIkSZLUEwOWJEmSJPXEgCVJkiRJPTFgSZIkSVJPDFiSJEmS1BMDliRJkiT1xIAlSZIkST0xYEmSJElSTwxYkiRJktQTA5YkSZIk9cSA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" width="28" height="28" alt="Brechtland logo" style="flex-shrink:0;" />
-<title>Brechtland — Service Agreement</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA" width="28" height="28">
+<title>Brechtland — Website Plans</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-:root {
-  --bg-deep: #0a0a14;
-  --bg-card: #0d0d1a;
-  --border-glow: rgba(124,58,237,0.25);
-  --purple: #7c3aed;
-  --purple-glow: rgba(124,58,237,0.6);
-  --magenta: #e040a0;
-  --magenta-glow: rgba(224,64,160,0.5);
-  --orange: #f97316;
-  --orange-glow: rgba(249,115,22,0.5);
-  --cyan: #06b6d4;
-  --text-primary: #f0f0f5;
-  --text-secondary: #b0b8c4;
-  --text-muted: #8b95a5;
-}
+  :root{
+    --bg-deep:#0a0a14;
+    --bg-card:#0d0d1a;
+    --border-glow:rgba(124,58,237,0.25);
+    --purple:#7c3aed;
+    --purple-glow:rgba(124,58,237,0.6);
+    --magenta:#e040a0;
+    --magenta-glow:rgba(224,64,160,0.5);
+    --orange:#f97316;
+    --orange-glow:rgba(249,115,22,0.5);
+    --cyan:#06b6d4;
+    --cyan-glow:rgba(6,182,212,0.5);
+    --text-primary:#f0f0f5;
+    --text-secondary:#9ca3af;
+    --text-muted:#6b7280;
+  }
 
-body {
-  font-family: 'Exo 2', sans-serif;
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+  body{
+    background:var(--bg-deep);
+    font-family:'Exo 2',sans-serif;
+    color:var(--text-primary);
+    -webkit-font-smoothing:antialiased;
+  }
 
-/* ── PRICING-SECTION BACKGROUND (from Email Marketing page) ── */
-.sa-page-wrap {
-  position: relative;
-  min-height: 100vh;
-  padding-bottom: 60px;
-  overflow: hidden;
-}
-.sa-page-wrap::before {
-  content: '';
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(124,58,237,0.08), transparent),
-    radial-gradient(ellipse 40% 50% at 80% 80%, rgba(249,115,22,0.05), transparent);
-  pointer-events: none;
-  z-index: 0;
-}
-.sa-page-wrap::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(124,58,237,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124,58,237,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
-}
+  /* ── PAGE WRAP ── */
+  .sa-page-wrap{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+  }
+  .sa-page-wrap::before{
+    content:'';
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.08),transparent),
+      radial-gradient(ellipse 40% 50% at 80% 80%,rgba(249,115,22,0.05),transparent);
+    pointer-events:none;z-index:0;
+  }
+  .sa-page-wrap::after{
+    content:'';
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;z-index:0;
+  }
 
-/* ── TOP BAR ── */
-.sa-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 20px rgba(124,58,237,0.1);
-  border-bottom: 1px solid var(--border-glow);
-}
-.sa-topbar h3 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+  /* ── TOP BAR ── */
+  .sa-topbar{
+    position:sticky;top:0;z-index:100;
+    background:var(--bg-card);
+    padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 2px 20px rgba(124,58,237,0.1);
+    border-bottom:1px solid var(--border-glow);
+  }
+  .sa-topbar h3{
+    font-family:'Orbitron',sans-serif;
+    font-size:13px;font-weight:700;
+    display:flex;align-items:center;gap:8px;
+    letter-spacing:1px;text-transform:uppercase;
+  }
+  .btn-print{
+    padding:7px 16px;border-radius:8px;
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+    cursor:pointer;border:none;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    color:#fff;box-shadow:0 4px 20px rgba(124,58,237,0.3);
+    transition:all .3s;
+  }
+  .btn-print:hover{box-shadow:0 4px 30px rgba(124,58,237,0.5);transform:translateY(-1px);}
 
-/* ── GRADIENT TEXT (pricing-title style) ── */
-.gradient-text {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 800;
-  line-height: 1.15;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--purple) 50%, var(--magenta) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
+  /* ── PRICING SECTION ── */
+  .pricing-section{
+    position:relative;
+    padding:80px 24px 120px;
+    overflow:hidden;
+    z-index:1;
+  }
+  .pricing-inner{
+    position:relative;z-index:1;
+    max-width:1400px;margin:0 auto;
+  }
 
-/* ── PAGE HEADER ── */
-.sa-page-header {
-  text-align: center;
-  padding: 60px 24px 20px;
-  position: relative;
-  z-index: 1;
-}
-.sa-page-header .pricing-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--orange);
-  margin-bottom: 16px; display: block;
-  text-shadow: 0 0 20px var(--orange-glow);
-}
-.sa-page-header h1 {
-  font-size: clamp(26px, 4vw, 42px);
-  margin-bottom: 16px;
-}
-.sa-page-header p {
-  font-size: 16px; color: var(--text-secondary);
-  max-width: 560px; margin: 0 auto; line-height: 1.7;
-}
+  /* ── HEADER ── */
+  .pricing-header{text-align:center;margin-bottom:64px;}
+  .pricing-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--orange);margin-bottom:16px;display:block;
+    text-shadow:0 0 20px var(--orange-glow);
+  }
+  .pricing-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(26px,4vw,44px);font-weight:800;
+    line-height:1.15;margin-bottom:20px;
+    background:linear-gradient(135deg,var(--text-primary) 0%,var(--purple) 50%,var(--magenta) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .pricing-subtitle{
+    font-size:16px;color:var(--text-secondary);
+    max-width:560px;margin:0 auto;line-height:1.7;
+  }
 
-/* ── PLAN CARDS GRID (pricing-grid style) ── */
-.plan-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  max-width: 1380px;
-  margin: 40px auto 16px;
-  padding: 0 24px;
-  position: relative;
-  z-index: 1;
-}
-@media(max-width:1080px) { .plan-card-grid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:600px)  { .plan-card-grid { grid-template-columns: 1fr; max-width: 420px; } }
+  /* ── GRID ── */
+  .pricing-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:18px;
+    align-items:stretch;
+  }
+  @media(max-width:1100px){.pricing-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:700px) {.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px) {.pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
 
-.plan-card {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 16px;
-  padding: 36px 28px 32px;
-  display: flex; flex-direction: column;
-  cursor: pointer;
-  transition: border-color 0.4s, transform 0.3s, box-shadow 0.4s;
-}
-.plan-card:hover {
-  border-color: var(--border-glow);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 40px rgba(124,58,237,0.08);
-}
-/* Active / selected card — pricing .popular style */
-.plan-card.active {
-  border-color: var(--purple);
-  background: linear-gradient(180deg, rgba(124,58,237,0.06) 0%, var(--bg-card) 40%);
-  box-shadow: 0 0 30px rgba(124,58,237,0.1), inset 0 1px 0 rgba(124,58,237,0.2);
-}
-.plan-card.active .selected-tag {
-  display: block;
-}
-.selected-tag {
-  display: none;
-  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: #fff; font-weight: 700;
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  padding: 5px 20px; border-radius: 20px; white-space: nowrap;
-  box-shadow: 0 0 20px var(--purple-glow);
-}
-.plan-card .card-tier {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--text-muted); margin-bottom: 8px;
-}
-.plan-card .card-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 20px; font-weight: 700;
-  color: var(--text-primary); margin-bottom: 4px;
-}
-.plan-card .card-desc {
-  font-size: 13px; color: var(--text-muted);
-  line-height: 1.6; margin-bottom: 20px; min-height: 36px;
-}
-.plan-card .price-row {
-  display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px;
-}
-.plan-card .price-dollar {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px; font-weight: 700; color: var(--text-primary);
-  align-self: flex-start; margin-top: 6px;
-}
-.plan-card .price-amount {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 40px; font-weight: 800;
-  color: var(--text-primary); line-height: 1;
-}
-.plan-card .price-period {
-  font-size: 14px; color: var(--text-muted); font-weight: 400;
-}
-.plan-card .price-note {
-  font-size: 12px; color: var(--text-muted); margin-bottom: 0; margin-top: 2px;
-}
-/* divider inside card */
-.card-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(124,58,237,0.2), transparent);
-  margin: 20px 0;
-}
+  /* ── CARD ── */
+  .price-card{
+    position:relative;
+    background:var(--bg-card);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:16px;
+    padding:32px 24px 28px;
+    display:flex;flex-direction:column;
+    cursor:pointer;
+    transition:border-color .4s,transform .3s,box-shadow .4s;
+  }
+  .price-card:hover{
+    border-color:var(--border-glow);
+    transform:translateY(-4px);
+    box-shadow:0 8px 40px rgba(124,58,237,0.08);
+  }
 
-/* ── TOOLBAR ACTIONS ── */
-.toolbar-actions {
-  display: flex; gap: 10px; justify-content: center;
-  position: relative; z-index: 1;
-  padding: 0 24px; margin-bottom: 30px;
-}
-.toolbar-btn {
-  padding: 10px 22px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
-  cursor: pointer; border: none; display: flex; align-items: center; gap: 6px;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px; text-transform: uppercase;
-  transition: all 0.3s;
-}
-.btn-print {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(124,58,237,0.3);
-}
-.btn-print:hover { box-shadow: 0 4px 30px rgba(124,58,237,0.5); transform: translateY(-1px); }
-.btn-reset { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.06); }
-.btn-reset:hover { border-color: var(--border-glow); }
+  /* Selected — border outline only */
+  .price-card.active{
+    border-color:var(--purple);
+    box-shadow:0 0 0 1px var(--purple),0 0 24px rgba(124,58,237,0.25);
+  }
+  .price-card.active .selected-tag{display:block;}
 
-/* ── DOCUMENT ── */
-.doc {
-  max-width: 800px; margin: 0 auto 40px;
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.04);
-  padding: 54px 60px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-  border-radius: 16px;
-  font-size: 16px;
-  position: relative;
-  z-index: 1;
-  transition: border-color 0.4s, box-shadow 0.4s;
-}
-.doc:hover {
-  border-color: var(--border-glow);
-  box-shadow: 0 8px 50px rgba(124,58,237,0.1);
-}
-.doc-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 26px; padding-bottom: 22px;
-}
-.doc-header-divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--purple), var(--magenta), transparent);
-  margin-bottom: 26px;
-}
-.brand-name {
-  font-size: 1.4rem;
-}
-.brand-sub {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;
-}
-.doc-right { text-align: right; }
-.agreement-label {
-  display: inline-block; padding: 7px 16px; border-radius: 20px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.meta-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 5px; }
-.meta-row label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;
-}
-.sa-inline-input {
-  border: none; border-bottom: 1.5px solid rgba(124,58,237,0.25);
-  font-size: 0.9rem; color: var(--text-primary); padding: 2px 4px; width: 130px;
-  outline: none; background: transparent; font-family: 'Exo 2', sans-serif;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.sa-inline-input:focus { border-bottom-color: var(--purple); box-shadow: 0 2px 8px rgba(124,58,237,0.15); }
+  /* Selected tag */
+  .selected-tag{
+    display:none;
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:#fff;font-weight:700;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:5px 20px;border-radius:20px;white-space:nowrap;
+    box-shadow:0 0 20px var(--purple-glow);
+  }
 
-/* ── FIX: Invisible date picker icon on dark theme ── */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  cursor: pointer;
-}
+  /* Popular card — pill only, no border */
+  .price-card.popular{
+    border-color:rgba(255,255,255,0.04);
+  }
+  .popular-tag{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:#fff;font-weight:700;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:5px 20px;border-radius:20px;white-space:nowrap;
+    box-shadow:0 0 20px var(--purple-glow);
+  }
 
-/* ── PLAN BOX ── */
-.sa-plan-box {
-  border-radius: 12px; padding: 22px 26px; margin: 22px 0;
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-}
-.sa-plan-box-left h2 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px;
-}
-.sa-plan-box-left p { font-size: 0.92rem; opacity: 0.85; line-height: 1.7; }
-.sa-plan-box-right { text-align: right; }
-.big-price {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.2rem; font-weight: 900; line-height: 1;
-}
-.price-sub { font-size: 0.88rem; opacity: 0.75; margin-top: 3px; }
-.total-val { font-size: 0.92rem; font-weight: 700; margin-top: 5px; opacity: 0.9; }
+  .card-tier{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:8px;
+  }
+  .card-name{
+    font-family:'Orbitron',sans-serif;
+    font-size:19px;font-weight:700;
+    color:var(--text-primary);margin-bottom:4px;
+  }
+  .card-desc{
+    font-size:13px;color:var(--text-muted);
+    line-height:1.6;margin-bottom:20px;
+    min-height:38px;
+  }
 
-/* ── THEME COLORS ── */
-.theme-mtm .agreement-label, .theme-mtm .sa-plan-box {
-  background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(124,58,237,0.08));
-  border: 1px solid rgba(124,58,237,0.3);
-  color: var(--text-primary);
-}
-.theme-12 .agreement-label, .theme-12 .sa-plan-box {
-  background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(224,64,160,0.1));
-  border: 1px solid rgba(124,58,237,0.4);
-  color: var(--text-primary);
-}
-.theme-24 .agreement-label, .theme-24 .sa-plan-box {
-  background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(249,115,22,0.08));
-  border: 1px solid rgba(249,115,22,0.3);
-  color: var(--text-primary);
-}
-.theme-36 .agreement-label, .theme-36 .sa-plan-box {
-  background: linear-gradient(135deg, rgba(6,214,160,0.15), rgba(6,214,160,0.05));
-  border: 1px solid rgba(6,214,160,0.3);
-  color: var(--text-primary);
-}
-.theme-own .agreement-label, .theme-own .sa-plan-box {
-  background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(6,182,212,0.06));
-  border: 1px solid rgba(6,182,212,0.3);
-  color: var(--text-primary);
-}
+  /* Price */
+  .price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px;}
+  .price-dollar{
+    font-family:'Orbitron',sans-serif;
+    font-size:14px;font-weight:700;color:var(--text-primary);
+    align-self:flex-start;margin-top:6px;
+  }
+  .price-amount{
+    font-family:'Orbitron',sans-serif;
+    font-size:40px;font-weight:800;
+    color:var(--text-primary);line-height:1;
+  }
+  .price-period{font-size:14px;color:var(--text-muted);font-weight:400;}
+  .price-note{font-size:12px;color:var(--text-muted);margin-bottom:20px;margin-top:2px;}
 
-/* ── SECTION LABEL ── */
-.sa-section-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--orange); margin-bottom: 13px;
-  text-shadow: 0 0 20px var(--orange-glow);
-}
+  /* Divider */
+  .card-divider{
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(124,58,237,0.2),transparent);
+    margin-bottom:20px;
+  }
 
-/* ── CLIENT GRID ── */
-.sa-client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
-.sa-field-wrap { display: flex; flex-direction: column; gap: 5px; }
-.sa-field-wrap label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted);
-}
-.sa-field-input {
-  border: none; border-bottom: 1.5px solid rgba(124,58,237,0.2);
-  font-size: 1rem; color: var(--text-primary); padding: 6px 2px; width: 100%;
-  outline: none; background: transparent; font-family: 'Exo 2', sans-serif;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.sa-field-input:focus { border-bottom-color: var(--purple); box-shadow: 0 2px 10px rgba(124,58,237,0.2); }
-.sa-field-input::placeholder { color: rgba(255,255,255,0.15); }
-.sa-field-input.error { border-bottom-color: var(--magenta); }
+  /* Features */
+  .features-label{
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:12px;font-weight:600;
+  }
+  .feature-list{list-style:none;margin-bottom:auto;padding-bottom:24px;}
+  .feature-list li{
+    font-size:12px;color:var(--text-secondary);
+    padding:5px 0;display:flex;align-items:flex-start;gap:8px;
+    line-height:1.5;
+  }
+  .feature-dot{
+    width:6px;height:6px;border-radius:50%;
+    flex-shrink:0;margin-top:5px;
+  }
+  .dot-purple {background:var(--purple); box-shadow:0 0 6px var(--purple-glow);}
+  .dot-magenta{background:var(--magenta);box-shadow:0 0 6px var(--magenta-glow);}
+  .dot-orange {background:var(--orange); box-shadow:0 0 6px var(--orange-glow);}
+  .dot-cyan   {background:var(--cyan);   box-shadow:0 0 6px var(--cyan-glow);}
 
-/* ── SERVICES (feature-list + feature-dot style) ── */
-.feature-list { list-style: none; padding: 0; margin-bottom: 20px; }
-.feature-list li {
-  font-size: 15px; color: var(--text-secondary);
-  padding: 7px 0; display: flex; align-items: flex-start; gap: 10px;
-  line-height: 1.65;
-}
-.feature-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  flex-shrink: 0; margin-top: 8px;
-}
-.dot-purple  { background: var(--purple);  box-shadow: 0 0 6px var(--purple-glow); }
-.dot-magenta { background: var(--magenta); box-shadow: 0 0 6px var(--magenta-glow); }
-.dot-orange  { background: var(--orange);  box-shadow: 0 0 6px var(--orange-glow); }
-.feature-list li strong { color: var(--text-primary); font-weight: 600; }
+  /* CTA */
+  .card-cta{
+    display:block;width:100%;text-align:center;
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+    padding:13px 0;border-radius:10px;
+    text-decoration:none;transition:all .3s;cursor:pointer;border:none;
+  }
+  .cta-outline{
+    background:transparent;
+    border:1px solid rgba(124,58,237,0.35);
+    color:var(--purple);
+  }
+  .cta-outline:hover{
+    border-color:var(--purple);
+    background:rgba(124,58,237,0.06);
+    box-shadow:0 0 20px rgba(124,58,237,0.15);
+  }
+  .cta-solid{
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    color:#fff;box-shadow:0 4px 20px rgba(124,58,237,0.3);
+  }
+  .cta-solid:hover{
+    box-shadow:0 4px 30px rgba(124,58,237,0.5);
+    transform:translateY(-1px);
+  }
+  .cta-cyan{
+    background:transparent;
+    border:1px solid rgba(6,182,212,0.35);
+    color:var(--cyan);
+  }
+  .cta-cyan:hover{
+    border-color:var(--cyan);
+    background:rgba(6,182,212,0.06);
+    box-shadow:0 0 20px rgba(6,182,212,0.15);
+  }
 
-/* ── TERMS ── */
-.terms-list { list-style: none; display: flex; flex-direction: column; gap: 8px; padding: 0; }
-.terms-list li {
-  font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75;
-  padding-left: 14px; position: relative;
-}
-.terms-list li::before {
-  content: '•'; position: absolute; left: 0;
-  color: var(--purple); font-weight: 700;
-}
-
-/* ── SIGNATURES ── */
-.sig-grid { display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 10px; }
-.sig-block-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--text-muted); margin-bottom: 6px; display: block;
-}
-.sig-canvas {
-  border: 1.5px solid rgba(124,58,237,0.25); border-radius: 8px;
-  background: rgba(255,255,255,0.03); cursor: crosshair; display: block; touch-action: none;
-  width: 100%; height: 80px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.sig-canvas:hover { border-color: rgba(124,58,237,0.4); }
-.sig-canvas.signed { background: rgba(255,255,255,0.06); border-color: var(--purple); box-shadow: 0 0 12px rgba(124,58,237,0.15); }
-.sig-canvas.error { border-color: var(--magenta); }
-.sig-controls { display: flex; gap: 8px; margin-top: 6px; }
-.sig-btn {
-  padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;
-  cursor: pointer; border: none; font-family: 'Orbitron', sans-serif;
-  letter-spacing: 0.5px; transition: all 0.3s;
-}
-.sig-clear { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.06); }
-.sig-confirm {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff; box-shadow: 0 2px 12px rgba(124,58,237,0.2);
-}
-.sig-status { font-size: 0.72rem; margin-top: 4px; min-height: 14px; }
-.sig-status.ok { color: #34d399; font-weight: 700; }
-.name-date-row { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
-
-/* ── SUBMIT (cta-solid style) ── */
-.submit-wrap { margin-top: 28px; text-align: center; }
-.submit-btn {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff; border: none; padding: 16px 50px; border-radius: 10px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 12px; font-weight: 700; cursor: pointer;
-  letter-spacing: 2px; text-transform: uppercase;
-  transition: all 0.3s; width: 100%;
-  box-shadow: 0 4px 24px rgba(124,58,237,0.3);
-}
-.submit-btn:hover { box-shadow: 0 4px 36px rgba(124,58,237,0.5); transform: translateY(-2px); }
-.submit-btn:disabled { background: rgba(255,255,255,0.1); color: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
-.error-msg {
-  background: rgba(224,64,160,0.08); border: 1.5px solid rgba(224,64,160,0.25);
-  border-radius: 8px; padding: 14px 18px; margin-bottom: 16px;
-  font-size: 0.85rem; color: var(--magenta); display: none;
-}
-
-/* ── SUCCESS ── */
-.success-screen { display: none; text-align: center; padding: 60px 20px; }
-.success-icon {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: rgba(52,211,153,0.08); border: 2px solid #34d399;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem; margin: 0 auto 20px; color: #34d399;
-}
-.success-screen h3 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.3rem; color: var(--text-primary); margin-bottom: 10px;
-}
-.success-screen p { color: var(--text-muted); line-height: 1.7; max-width: 420px; margin: 0 auto; }
-
-/* ── FOOTER ── */
-.doc-footer {
-  margin-top: 22px; padding-top: 14px;
-  border-top: 1px solid rgba(124,58,237,0.15);
-  display: flex; justify-content: space-between;
-  font-size: 0.7rem; color: var(--text-muted);
-}
-
-/* ── MOBILE ── */
-@media(max-width: 600px) {
-  .doc { padding: 24px 18px; }
-  .doc-header { flex-direction: column; gap: 14px; }
-  .doc-right { text-align: left; }
-  .sa-client-grid { grid-template-columns: 1fr; }
-  .sa-plan-box { flex-direction: column; align-items: flex-start; }
-  .sa-plan-box-right { text-align: left; }
-}
-
-/* ── PRINT ── */
-@media print {
-  .sa-topbar, .plan-card-grid, .toolbar-actions, .sig-controls, .sig-status, .submit-wrap, .error-msg, .sa-page-header { display: none !important; }
-  body { background: #fff; color: #1f2937; }
-  .sa-page-wrap::before, .sa-page-wrap::after { display: none; }
-  .doc { box-shadow: none; margin: 0; padding: 40px; max-width: 100%; background: #fff; border: none; border-radius: 0; }
-  .brand-name { -webkit-text-fill-color: #1a2744; }
-  .sa-section-label { color: #1a2744; text-shadow: none; }
-  .sig-canvas { background: #fafafa; }
-}
+  /* ── PRINT ── */
+  @media print{
+    .sa-topbar{display:none !important;}
+    body{background:#fff;color:#1f2937;}
+    .sa-page-wrap::before,.sa-page-wrap::after{display:none;}
+  }
 </style>
 </head>
 <body>
 
 <div class="sa-page-wrap">
 
-<div class="sa-topbar">
-  <h3>📋 Brechtland — Service Agreement</h3>
-  <button class="toolbar-btn btn-print" onclick="window.print()" style="padding:7px 16px;font-size:11px;">🖨️ Print / Save PDF</button>
-</div>
-
-<!-- Page Header (pricing-title style) -->
-<div class="sa-page-header">
-  <span class="pricing-label">Service Agreement</span>
-  <h1 class="gradient-text">Brechtland Service Agreement</h1>
-  <p>Choose your plan below, fill out the agreement, sign, and you're on your way to a professional website that works as hard as you do.</p>
-</div>
-
-<!-- Plan Cards (pricing-grid / price-card style) -->
-<div class="plan-card-grid" id="saPlanCards">
-
-  <div class="plan-card active" onclick="saSetPlan('mtm')">
-    <div class="selected-tag">Selected</div>
-    <div class="card-tier">Flexible</div>
-    <div class="card-name">Month-to-Month</div>
-    <div class="card-desc">No commitment. Cancel anytime with 30 days notice.</div>
-    <div class="price-row">
-      <span class="price-dollar">$</span>
-      <span class="price-amount">349</span>
-      <span class="price-period">/mo</span>
-    </div>
-    <div class="price-note">Billed monthly — cancel anytime</div>
-    <div class="card-divider"></div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:auto;">No long-term commitment required</div>
+  <!-- Top Bar -->
+  <div class="sa-topbar">
+    <h3>📋 Brechtland — Website Plans</h3>
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
   </div>
 
-  <div class="plan-card" onclick="saSetPlan('12')">
-    <div class="selected-tag">Selected</div>
-    <div class="card-tier">12 Months</div>
-    <div class="card-name">12-Month</div>
-    <div class="card-desc">Best value starter. Lock in savings with a 1-year commitment.</div>
-    <div class="price-row">
-      <span class="price-dollar">$</span>
-      <span class="price-amount">299</span>
-      <span class="price-period">/mo</span>
-    </div>
-    <div class="price-note">12 monthly payments</div>
-    <div class="card-divider"></div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:auto;">Total: $3,588</div>
-  </div>
+  <!-- Pricing Section -->
+  <section class="pricing-section">
+    <div class="pricing-inner">
 
-  <div class="plan-card" onclick="saSetPlan('24')">
-    <div class="selected-tag">Selected</div>
-    <div class="card-tier">24 Months</div>
-    <div class="card-name">24-Month</div>
-    <div class="card-desc">Serious savings. Two years of growth at a fraction of the cost.</div>
-    <div class="price-row">
-      <span class="price-dollar">$</span>
-      <span class="price-amount">199</span>
-      <span class="price-period">/mo</span>
-    </div>
-    <div class="price-note">24 monthly payments</div>
-    <div class="card-divider"></div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:auto;">Total: $4,776</div>
-  </div>
-
-  <div class="plan-card" onclick="saSetPlan('36')">
-    <div class="selected-tag">Selected</div>
-    <div class="card-tier">36 Months</div>
-    <div class="card-name">36-Month</div>
-    <div class="card-desc">Maximum savings. Lowest monthly rate — build for the long haul.</div>
-    <div class="price-row">
-      <span class="price-dollar">$</span>
-      <span class="price-amount">149</span>
-      <span class="price-period">/mo</span>
-    </div>
-    <div class="price-note">36 monthly payments</div>
-    <div class="card-divider"></div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:auto;">Total: $5,364</div>
-  </div>
-
-  <div class="plan-card" onclick="saSetPlan('own')">
-    <div class="selected-tag">Selected</div>
-    <div class="card-tier">Ownership</div>
-    <div class="card-name">Website Ownership</div>
-    <div class="card-desc">Own your website outright. One payment, no monthly fees, it's yours forever.</div>
-    <div class="price-row">
-      <span class="price-dollar">$</span>
-      <span class="price-amount">4,997</span>
-    </div>
-    <div class="price-note">One-time payment</div>
-    <div class="card-divider"></div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:auto;">Full Website Ownership</div>
-  </div>
-
-</div>
-
-<!-- Toolbar Actions -->
-<div class="toolbar-actions">
-  <button class="toolbar-btn btn-reset" onclick="saResetForm()">↺ Reset</button>
-</div>
-
-<!-- Document -->
-<div class="doc theme-mtm" id="saDoc">
-  <div id="saFormContent">
-    <div class="doc-header">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-          <div class="brand-name gradient-text">Brechtland</div>
-        </div>
-        <div class="brand-sub">Website &amp; Digital Services</div>
-        <div class="brand-contact" style="margin-top:6px;display:grid;grid-template-columns:80px 1fr;row-gap:4px;align-items:center;">
-          <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">Contact Name:</span>
-          <input type="text" name="rep_name" style="border:none;border-bottom:1px solid rgba(124,58,237,0.25);outline:none;font-size:12px;color:var(--text-primary);background:transparent;padding:1px 2px;font-family:'Exo 2',sans-serif;transition:border-color .3s,box-shadow .3s;" onfocus="this.style.borderBottomColor='var(--purple)';this.style.boxShadow='0 2px 8px rgba(124,58,237,0.15)'" onblur="this.style.borderBottomColor='rgba(124,58,237,0.25)';this.style.boxShadow='none'" />
-          <span style="font-size:12px;color:var(--text-muted);white-space:nowrap;">Email:</span>
-          <input type="email" name="rep_email" style="border:none;border-bottom:1px solid rgba(124,58,237,0.25);outline:none;font-size:12px;color:var(--text-primary);background:transparent;padding:1px 2px;font-family:'Exo 2',sans-serif;transition:border-color .3s,box-shadow .3s;" onfocus="this.style.borderBottomColor='var(--purple)';this.style.boxShadow='0 2px 8px rgba(124,58,237,0.15)'" onblur="this.style.borderBottomColor='rgba(124,58,237,0.25)';this.style.boxShadow='none'" />
-        </div>
-        <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.6;">
-          <div style="font-weight:600;color:var(--text-primary);">Brechtland Client Services</div>
-          <div>tyler@brechtland.com &middot; 989-501-1397</div>
-        </div>
+      <!-- Header -->
+      <div class="pricing-header">
+        <span class="pricing-label">Website Service Plans</span>
+        <h2 class="pricing-title">Your Website. Your Terms.</h2>
+        <p class="pricing-subtitle">A professionally built, fully managed website — designed, hosted, and maintained for you every month. Pick the commitment that works for your business.</p>
       </div>
-      <div class="doc-right">
-        <div class="agreement-label" id="saAgreementLabel">Month-to-Month Agreement</div>
-        <div>
-          <div class="meta-row"><label>Agreement #</label><input class="sa-inline-input" id="sa_agreementNum" placeholder="AD-______"></div>
-          <div class="meta-row"><label>Date</label><input class="sa-inline-input" id="sa_date" type="date"></div>
-          <div class="meta-row"><label>Start Date</label><input class="sa-inline-input" id="sa_startDate" type="date"></div>
+
+      <!-- Cards -->
+      <div class="pricing-grid">
+
+        <!-- MONTH-TO-MONTH -->
+        <div class="price-card" onclick="selectCard(this)">
+          <div class="selected-tag">Selected</div>
+          <div class="card-tier">Flexible</div>
+          <div class="card-name">Month-to-Month</div>
+          <div class="card-desc">No commitment. Cancel anytime with 30 days notice.</div>
+          <div class="price-row">
+            <span class="price-dollar">$</span>
+            <span class="price-amount">349</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <div class="price-note">Billed monthly — cancel anytime</div>
+          <div class="card-divider"></div>
+          <div class="features-label">What's Included</div>
+          <ul class="feature-list">
+            <li><span class="feature-dot dot-purple"></span>Professional website design &amp; setup</li>
+            <li><span class="feature-dot dot-purple"></span>Hosting, domain &amp; SSL management</li>
+            <li><span class="feature-dot dot-purple"></span>Unlimited content edits</li>
+            <li><span class="feature-dot dot-purple"></span>Lead capture &amp; CRM integration</li>
+            <li><span class="feature-dot dot-purple"></span>Basic SEO + Google Business setup</li>
+            <li><span class="feature-dot dot-purple"></span>Direct support — call or text Tyler</li>
+          </ul>
+          <a href="https://buy.stripe.com/6oU3cx3WId3g4cH6lj3Ru03" class="card-cta cta-outline" target="_blank">Get Started</a>
         </div>
-      </div>
-    </div>
 
-    <div class="doc-header-divider"></div>
-
-    <div class="sa-plan-box" id="saPlanBox">
-      <div class="sa-plan-box-left">
-        <h2 id="saPlanTitle">Month-to-Month Website Plan</h2>
-        <p>Professional website · Hosting · Maintenance · Edits · Basic SEO</p>
-      </div>
-      <div class="sa-plan-box-right">
-        <div class="big-price" id="saPlanPrice">$349<span style="font-size:1rem;font-weight:600">/mo</span></div>
-        <div class="price-sub" id="saPlanTerm">Billed monthly — cancel anytime</div>
-        <div class="total-val" id="saPlanTotal">No long-term commitment required</div>
-      </div>
-    </div>
-
-    <div class="sa-section-label">Client Information</div>
-    <div class="sa-client-grid">
-      <div class="sa-field-wrap"><label>Business Name *</label><input class="sa-field-input" id="sa_bizName" placeholder="ABC Roofing LLC"></div>
-      <div class="sa-field-wrap"><label>Owner / Contact Name *</label><input class="sa-field-input" id="sa_ownerName" placeholder="John Smith"></div>
-      <div class="sa-field-wrap"><label>Phone Number *</label><input class="sa-field-input" id="sa_phone" placeholder="(555) 000-0000" type="tel"></div>
-      <div class="sa-field-wrap"><label>Email Address *</label><input class="sa-field-input" id="sa_email" placeholder="john@abcroofing.com" type="email"></div>
-      <div class="sa-field-wrap" style="grid-column:1/-1"><label>Business Address *</label><input class="sa-field-input" id="sa_address" placeholder="123 Main St, Tampa, FL 33601"></div>
-    </div>
-
-    <div class="card-divider"></div>
-
-    <div class="sa-section-label">What's Included Every Month</div>
-    <ul class="feature-list">
-      <li><span class="feature-dot dot-purple"></span><div><strong>Professional Website Design &amp; Setup</strong><br><span style="color:var(--text-muted);">Custom-built site tailored to your brand, fully mobile responsive</span></div></li>
-      <li><span class="feature-dot dot-purple"></span><div><strong>Website Hosting &amp; Domain Management</strong><br><span style="color:var(--text-muted);">We handle all technical hosting — your site stays live 24/7</span></div></li>
-      <li><span class="feature-dot dot-magenta"></span><div><strong>Ongoing Maintenance &amp; Security Updates</strong><br><span style="color:var(--text-muted);">Regular updates to keep your site fast, secure, and bug-free</span></div></li>
-      <li><span class="feature-dot dot-magenta"></span><div><strong>Unlimited Content Edits</strong><br><span style="color:var(--text-muted);">Update photos, text, pricing, services, or anything else — just ask</span></div></li>
-      <li><span class="feature-dot dot-orange"></span><div><strong>Lead Capture Form &amp; CRM Integration</strong><br><span style="color:var(--text-muted);">Contact forms connected directly to your email or CRM</span></div></li>
-      <li><span class="feature-dot dot-orange"></span><div><strong>Basic SEO Optimization</strong><br><span style="color:var(--text-muted);">Title tags, meta descriptions, local keywords, and Google Business setup</span></div></li>
-      <li><span class="feature-dot dot-purple"></span><div><strong>Priority Support</strong><br><span style="color:var(--text-muted);">Direct access to Tyler — call or text anytime during business hours</span></div></li>
-    </ul>
-
-    <div class="card-divider"></div>
-
-    <div class="sa-section-label">Terms &amp; Conditions</div>
-    <ul class="terms-list" style="margin-bottom:20px;">
-      <li>This agreement begins on the start date above and runs on a month-to-month basis (<span id="saTermMonths">1</span> month renewal cycle).</li>
-      <li>Monthly payments of <strong><span id="saTermPrice">$349</span></strong> are due on the same date each month. Accepted via check, ACH, Zelle, or card.</li>
-      <li>A one-time setup fee of <strong>$0</strong> is included — no upfront costs beyond the first monthly payment.</li>
-      <li>Early termination requires <strong>30 days written notice</strong> and payment of <strong>2 remaining months</strong> as a cancellation fee.</li>
-      <li>Brechtland retains the right to suspend services if payment is more than <strong>10 days past due</strong>.</li>
-      <li>Client owns all content, photos, and copy provided. Brechtland owns the website design and code.</li>
-      <li>Upon contract completion, client may purchase full website ownership for a one-time fee agreed upon in writing.</li>
-      <li>Brechtland will not work with a direct competitor in the same city during the active contract period.</li>
-      <li>Either party may renew this agreement at the then-current rate with 30 days written notice before contract end.</li>
-    </ul>
-
-    <div class="card-divider"></div>
-
-    <div class="sa-section-label">Payment Authorization</div>
-
-    <div style="background:rgba(124,58,237,0.06);border:1.5px solid var(--border-glow);border-radius:8px;padding:16px 18px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px;">
-      <div style="font-size:1.4rem;line-height:1;">🔒</div>
-      <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;margin:0;"><strong style="color:var(--text-primary);">Secure Payment via Stripe:</strong> Payment will be securely completed after you submit and sign this agreement using Stripe, our secure payment processor. Your card or bank details will never be stored by Brechtland.</p>
-    </div>
-
-    <div class="card-divider"></div>
-
-    <div class="sa-section-label">Step 3: Sign &amp; Activate Your Service</div>
-    <p style="font-size:1rem;font-weight:600;color:var(--text-primary);margin-bottom:6px;font-family:'Orbitron',sans-serif;">Client Signature &amp; Agreement Confirmation</p>
-    <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">By signing below, you agree to the Brechtland service agreement and authorize the selected payment plan.</p>
-
-    <div class="sig-grid">
-      <div>
-        <span class="sig-block-label">Client Signature — Draw Below *</span>
-        <canvas class="sig-canvas" id="saClientSig"></canvas>
-        <div class="sig-controls">
-          <button class="sig-btn sig-clear" onclick="saClearSig('saClientSig','saCStatus')">✕ Clear</button>
-          <button class="sig-btn sig-confirm" onclick="saConfirmSig('saClientSig','saCStatus')">✓ Confirm</button>
+        <!-- 12-MONTH — MOST POPULAR -->
+        <div class="price-card popular" onclick="selectCard(this)">
+          <div class="popular-tag">Most Popular</div>
+          <div class="card-tier">12 Months</div>
+          <div class="card-name">12-Month</div>
+          <div class="card-desc">Best value starter. Lock in savings with a 1-year commitment.</div>
+          <div class="price-row">
+            <span class="price-dollar">$</span>
+            <span class="price-amount">299</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <div class="price-note">12 monthly payments · Total: $3,588</div>
+          <div class="card-divider"></div>
+          <div class="features-label">What's Included</div>
+          <ul class="feature-list">
+            <li><span class="feature-dot dot-magenta"></span>Professional website design &amp; setup</li>
+            <li><span class="feature-dot dot-magenta"></span>Hosting, domain &amp; SSL management</li>
+            <li><span class="feature-dot dot-magenta"></span>Unlimited content edits</li>
+            <li><span class="feature-dot dot-magenta"></span>Lead capture &amp; CRM integration</li>
+            <li><span class="feature-dot dot-magenta"></span>Basic SEO + Google Business setup</li>
+            <li><span class="feature-dot dot-magenta"></span>Direct support — call or text Tyler</li>
+          </ul>
+          <a href="https://buy.stripe.com/aFaeVf3WI3sG38D5hf3Ru01" class="card-cta cta-solid" target="_blank">Get Started</a>
         </div>
-        <div class="sig-status" id="saCStatus"></div>
-        <div class="name-date-row">
-          <div class="sa-field-wrap"><label>Printed Name &amp; Title *</label><input class="sa-field-input" id="sa_clientPrint" placeholder="John Smith — Owner"></div>
-          <div class="sa-field-wrap"><label>Date Signed *</label><input class="sa-field-input" id="sa_clientDate" type="date"></div>
+
+        <!-- 24-MONTH -->
+        <div class="price-card" onclick="selectCard(this)">
+          <div class="selected-tag">Selected</div>
+          <div class="card-tier">24 Months</div>
+          <div class="card-name">24-Month</div>
+          <div class="card-desc">Serious savings. Two years of growth at a fraction of the cost.</div>
+          <div class="price-row">
+            <span class="price-dollar">$</span>
+            <span class="price-amount">199</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <div class="price-note">24 monthly payments · Total: $4,776</div>
+          <div class="card-divider"></div>
+          <div class="features-label">What's Included</div>
+          <ul class="feature-list">
+            <li><span class="feature-dot dot-orange"></span>Professional website design &amp; setup</li>
+            <li><span class="feature-dot dot-orange"></span>Hosting, domain &amp; SSL management</li>
+            <li><span class="feature-dot dot-orange"></span>Unlimited content edits</li>
+            <li><span class="feature-dot dot-orange"></span>Lead capture &amp; CRM integration</li>
+            <li><span class="feature-dot dot-orange"></span>Basic SEO + Google Business setup</li>
+            <li><span class="feature-dot dot-orange"></span>Direct support — call or text Tyler</li>
+          </ul>
+          <a href="https://buy.stripe.com/5kQ3cxcte2oCfVp9xv3Ru02" class="card-cta cta-outline" target="_blank">Get Started</a>
         </div>
-      </div>
-    </div>
-    <input type="hidden" id="sa_tylerDate">
 
-    <div class="doc-footer">
-      <span>Brechtland · Tyler Albrecht · 989-501-1397 · tyler@brechtland.com</span>
-      <span id="saFooterPlan">Month-to-Month Agreement</span>
-    </div>
+        <!-- 36-MONTH -->
+        <div class="price-card" onclick="selectCard(this)">
+          <div class="selected-tag">Selected</div>
+          <div class="card-tier">36 Months</div>
+          <div class="card-name">36-Month</div>
+          <div class="card-desc">Maximum savings. Lowest monthly rate — built for the long haul.</div>
+          <div class="price-row">
+            <span class="price-dollar">$</span>
+            <span class="price-amount">149</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <div class="price-note">36 monthly payments · Total: $5,364</div>
+          <div class="card-divider"></div>
+          <div class="features-label">What's Included</div>
+          <ul class="feature-list">
+            <li><span class="feature-dot dot-orange"></span>Professional website design &amp; setup</li>
+            <li><span class="feature-dot dot-orange"></span>Hosting, domain &amp; SSL management</li>
+            <li><span class="feature-dot dot-orange"></span>Unlimited content edits</li>
+            <li><span class="feature-dot dot-orange"></span>Lead capture &amp; CRM integration</li>
+            <li><span class="feature-dot dot-orange"></span>Basic SEO + Google Business setup</li>
+            <li><span class="feature-dot dot-orange"></span>Direct support — call or text Tyler</li>
+          </ul>
+          <a href="https://buy.stripe.com/bJe3cxfFqe7kgZt10Z3Ru00" class="card-cta cta-outline" target="_blank">Get Started</a>
+        </div>
 
-    <div class="submit-wrap">
-      <div class="error-msg" id="saErrorMsg"></div>
-      <button class="submit-btn" id="saSubmitBtn" onclick="saSubmitAgreement()">✉️ Submit Agreement & Continue to Secure Payment</button>
-    </div>
-  </div>
+        <!-- OWNERSHIP -->
+        <div class="price-card" onclick="selectCard(this)">
+          <div class="selected-tag">Selected</div>
+          <div class="card-tier">Ownership</div>
+          <div class="card-name">Own It</div>
+          <div class="card-desc">One payment. No monthly fees. The website is yours forever.</div>
+          <div class="price-row">
+            <span class="price-dollar">$</span>
+            <span class="price-amount">4,997</span>
+          </div>
+          <div class="price-note">One-time payment — full ownership</div>
+          <div class="card-divider"></div>
+          <div class="features-label">What's Included</div>
+          <ul class="feature-list">
+            <li><span class="feature-dot dot-cyan"></span>Full custom website build</li>
+            <li><span class="feature-dot dot-cyan"></span>You own all code &amp; assets</li>
+            <li><span class="feature-dot dot-cyan"></span>Hosting setup &amp; domain config</li>
+            <li><span class="feature-dot dot-cyan"></span>Lead capture &amp; CRM integration</li>
+            <li><span class="feature-dot dot-cyan"></span>SEO optimization at launch</li>
+            <li><span class="feature-dot dot-cyan"></span>30-day post-launch support</li>
+          </ul>
+          <a href="https://buy.stripe.com/cNicN72SE8N0eRlcJH3Ru0d" class="card-cta cta-cyan" target="_blank">Get Started</a>
+        </div>
 
-  <!-- SUCCESS -->
-  <div class="success-screen" id="saSuccessScreen">
-    <div class="success-icon">✓</div>
-    <h3>Agreement Submitted!</h3>
-    <p>Tyler has received your signed agreement and will be in touch within 1 business day to get started.</p>
-    <p style="margin-top:16px;font-size:0.82rem;color:var(--text-muted);">Questions? Call or text Tyler at <strong style="color:var(--text-primary);">989-501-1397</strong></p>
-  </div>
+      </div><!-- /pricing-grid -->
 
-</div>
+    </div><!-- /pricing-inner -->
+  </section>
 
 </div><!-- /sa-page-wrap -->
 
-<!-- Firebase SDK for CRM client creation + rep verification -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-/* Task 5: Firebase safety check */
-if (typeof firebase === 'undefined') {
-  console.error('Firebase not loaded.');
-}
-(function() {
-  var firebaseConfig = {
-    apiKey: "AIzaSyC1OP7Iq0hgSwfVxLkVNgBoXY5UytTmx2g",
-    authDomain: "albrecht-agency-crm.firebaseapp.com",
-    projectId: "albrecht-agency-crm",
-    storageBucket: "albrecht-agency-crm.firebasestorage.app",
-    messagingSenderId: "924889697457",
-    appId: "1:924889697457:web:b304fff585bfaa25c46690"
-  };
-  if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  function selectCard(card) {
+    document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
   }
-})();
-var saDb = (typeof firebase !== 'undefined') ? firebase.firestore() : null;
-
-/* Task 2: Rep identity verification via UID lookup */
-var saRepId = null;
-var saRepName = 'Unknown';
-(async function() {
-  var params = new URLSearchParams(window.location.search);
-  var repIdParam = params.get('repId');
-  if (repIdParam && saDb) {
-    try {
-      var repDoc = await saDb.collection('users').doc(repIdParam).get();
-      if (repDoc.exists) {
-        saRepId = repIdParam;
-        saRepName = repDoc.data().name || 'Sales Rep';
-      } else {
-        console.warn('Rep UID not found in users collection:', repIdParam);
-      }
-    } catch (e) {
-      console.error('Rep lookup failed:', e);
-    }
-  }
-})();
-</script>
-
-<script>
-const saPlans = {
-  'mtm': { label:'Month-to-Month Agreement', title:'Month-to-Month Website Plan', price:'$349', term:'Billed monthly — cancel anytime', total:'No long-term commitment required', months:'1', monthly:349, theme:'theme-mtm' },
-  '12':  { label:'12-Month Agreement',        title:'12-Month Website Plan',        price:'$299', term:'12 monthly payments',           total:'Total Contract Value: $3,588',    months:'12', monthly:299, theme:'theme-12' },
-  '24':  { label:'24-Month Agreement',        title:'24-Month Website Plan',        price:'$199', term:'24 monthly payments',           total:'Total Contract Value: $4,776',    months:'24', monthly:199, theme:'theme-24' },
-  '36':  { label:'36-Month Agreement',        title:'36-Month Website Plan',        price:'$149', term:'36 monthly payments',           total:'Total Contract Value: $5,364',    months:'36', monthly:149, theme:'theme-36' },
-  'own': { label:'Website Ownership Agreement', title:'One-Time Website Purchase',    price:'$4,997', term:'One-time payment',           total:'Full Website Ownership',           months:'1',  monthly:4997, theme:'theme-own' }
-};
-let saCurrentPlan = 'mtm';
-
-const STRIPE_LINKS = {
-  'mtm': 'https://buy.stripe.com/6oU3cx3WId3g4cH6lj3Ru03',
-  '12':  'https://buy.stripe.com/aFaeVf3WI3sG38D5hf3Ru01',
-  '24':  'https://buy.stripe.com/5kQ3cxcte2oCfVp9xv3Ru02',
-  '36':  'https://buy.stripe.com/bJe3cxfFqe7kgZt10Z3Ru00',
-  'own': 'https://buy.stripe.com/cNicN72SE8N0eRlcJH3Ru0d'
-};
-
-const PLAN_KEYS = ['mtm','12','24','36','own'];
-
-// Set today's date on load
-window.addEventListener('load', () => {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('sa_date').value = today;
-  saInitCanvas('saClientSig');
-});
-
-function saSetPlan(p) {
-  saCurrentPlan = p;
-  const pl = saPlans[p];
-  const doc = document.getElementById('saDoc');
-  doc.className = 'doc ' + pl.theme;
-  document.getElementById('saAgreementLabel').textContent = pl.label;
-  document.getElementById('saPlanTitle').textContent = pl.title;
-  document.getElementById('saPlanPrice').innerHTML = pl.price + (p === 'own' ? '' : '<span style="font-size:1rem;font-weight:600">/mo</span>');
-  document.getElementById('saPlanTerm').textContent = pl.term;
-  document.getElementById('saPlanTotal').textContent = pl.total;
-  document.getElementById('saTermMonths').textContent = pl.months;
-  document.getElementById('saTermPrice').textContent = pl.price;
-  document.getElementById('saFooterPlan').textContent = pl.label;
-
-  // Update plan cards active state
-  const cards = document.querySelectorAll('#saPlanCards .plan-card');
-  cards.forEach((card, i) => {
-    card.classList.toggle('active', PLAN_KEYS[i] === p);
-  });
-}
-
-function saResetForm() {
-  if (!confirm('Reset all fields?')) return;
-  document.querySelectorAll('#saDoc .sa-field-input:not([readonly]), #saDoc .sa-inline-input').forEach(f => { f.value = ''; });
-  saClearSig('saClientSig','saCStatus');
-  document.getElementById('saErrorMsg').style.display = 'none';
-  document.getElementById('sa_date').value = new Date().toISOString().split('T')[0];
-}
-
-/* ── BUG FIX: saInitCanvas — corrected canvas context reset + pos reference ── */
-function saInitCanvas(id) {
-  const c = document.getElementById(id);
-  if (!c) return;
-  const rect = c.getBoundingClientRect();
-  let drawing = false;
-
-  // Clone to remove old listeners
-  const newC = c.cloneNode(true);
-  c.parentNode.replaceChild(newC, c);
-
-  // BUG FIX: Set width/height BEFORE getting context and applying styles
-  newC.width = rect.width || 300;
-  newC.height = 80;
-
-  const ctx2 = newC.getContext('2d');
-  ctx2.strokeStyle = '#f0f0f5';
-  ctx2.lineWidth = 2;
-  ctx2.lineCap = 'round';
-  ctx2.lineJoin = 'round';
-
-  // BUG FIX: pos always references newC (the live element)
-  const pos = (e) => {
-    const r = newC.getBoundingClientRect();
-    const s = e.touches ? e.touches[0] : e;
-    return { x: s.clientX - r.left, y: s.clientY - r.top };
-  };
-
-  newC.addEventListener('mousedown', e => { drawing = true; const p = pos(e); ctx2.beginPath(); ctx2.moveTo(p.x, p.y); });
-  newC.addEventListener('mousemove', e => { if (!drawing) return; const p = pos(e); ctx2.lineTo(p.x, p.y); ctx2.stroke(); newC.classList.add('signed'); newC._signed = true; });
-  newC.addEventListener('mouseup', () => drawing = false);
-  newC.addEventListener('mouseleave', () => drawing = false);
-  newC.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = pos(e); ctx2.beginPath(); ctx2.moveTo(p.x, p.y); }, { passive: false });
-  newC.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = pos(e); ctx2.lineTo(p.x, p.y); ctx2.stroke(); newC.classList.add('signed'); newC._signed = true; }, { passive: false });
-  newC.addEventListener('touchend', () => drawing = false);
-}
-
-function saClearSig(cid, sid) {
-  const c = document.getElementById(cid);
-  if (!c) return;
-  c.getContext('2d').clearRect(0, 0, c.width, c.height);
-  c._signed = false; c._confirmed = false;
-  c.classList.remove('signed', 'error');
-  const s = document.getElementById(sid);
-  if (s) { s.textContent = ''; s.className = 'sig-status'; }
-}
-
-function saConfirmSig(cid, sid) {
-  const c = document.getElementById(cid);
-  if (!c._signed) { alert('Please draw your signature first.'); return; }
-  c._confirmed = true; c.classList.remove('error');
-  const s = document.getElementById(sid);
-  s.textContent = '✓ Signature confirmed'; s.className = 'sig-status ok';
-}
-
-async function saSubmitAgreement() {
-  const errEl = document.getElementById('saErrorMsg');
-  errEl.style.display = 'none';
-  const errors = [];
-
-  const req = [
-    { id: 'sa_bizName',    label: 'Business Name' },
-    { id: 'sa_ownerName',  label: 'Owner Name' },
-    { id: 'sa_phone',      label: 'Phone Number' },
-    { id: 'sa_email',      label: 'Email Address' },
-    { id: 'sa_address',    label: 'Business Address' },
-    { id: 'sa_clientPrint',label: 'Printed Name (Client)' },
-    { id: 'sa_clientDate', label: 'Date Signed (Client)' },
-  ];
-
-  req.forEach(r => {
-    const el = document.getElementById(r.id);
-    if (!el.value.trim()) { errors.push(r.label); el.classList.add('error'); }
-    else el.classList.remove('error');
-  });
-
-  const clientSig = document.getElementById('saClientSig');
-  if (!clientSig._confirmed) { errors.push('Client Signature (must click Confirm)'); clientSig.classList.add('error'); }
-
-  if (errors.length > 0) {
-    errEl.innerHTML = '<strong>Please complete the following before submitting:</strong><br>• ' + [...new Set(errors)].join('<br>• ');
-    errEl.style.display = 'block';
-    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-
-  const btn = document.getElementById('saSubmitBtn');
-  btn.textContent = 'Submitting...'; btn.disabled = true;
-
-  const pl = saPlans[saCurrentPlan];
-  const bizName    = document.getElementById('sa_bizName').value.trim();
-  const ownerName  = document.getElementById('sa_ownerName').value.trim();
-  const email      = document.getElementById('sa_email').value.trim();
-  const phone      = document.getElementById('sa_phone').value.trim();
-  const address    = document.getElementById('sa_address').value.trim();
-
-  /* BUG FIX: Formspree — fire-and-forget, wrapped in try/catch, does NOT block Stripe */
-  try {
-    fetch('https://formspree.io/f/xojkeadq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'New Signed Agreement \u2014 ' + bizName + ' (' + pl.label + ')',
-        plan: pl.label,
-        monthly_rate: pl.price + '/mo',
-        total_contract_value: pl.total,
-        agreement_number: document.getElementById('sa_agreementNum').value,
-        business_name: bizName,
-        owner_name: ownerName,
-        phone: phone,
-        email: email,
-        address: address,
-        client_printed_name: document.getElementById('sa_clientPrint').value,
-        client_signed_date: document.getElementById('sa_clientDate').value,
-        tyler_signed_date: document.getElementById('sa_tylerDate').value,
-      })
-    }).catch(function(fspErr) { console.warn('Formspree submission failed (non-blocking):', fspErr); });
-  } catch (fspErr) {
-    console.warn('Formspree submission failed (non-blocking):', fspErr);
-  }
-
-  /* Firebase client creation - also non-blocking for payment */
-  try {
-    if (typeof firebase === 'undefined' || !saDb) {
-      console.error('Firebase not loaded.');
-    } else {
-      if (!saRepId) {
-        console.warn('Invalid repId detected. Client will be created but not credited.');
-      }
-      var existing = await saDb.collection('clients')
-        .where('email', '==', email)
-        .limit(1)
-        .get();
-      if (existing.empty) {
-        await saDb.collection('clients').add({
-          businessName: bizName,
-          ownerName: ownerName,
-          email: email,
-          phone: phone,
-          address: address,
-          plan: pl.label,
-          monthly: pl.monthly,
-          status: 'pending',
-          employeeId: saRepId,
-          employeeName: saRepName,
-          repId: saRepId,
-          source: 'service_agreement',
-          createdAt: new Date().toISOString()
-        });
-      } else {
-        console.log('Client with email ' + email + ' already exists \u2014 skipping creation');
-      }
-    }
-  } catch (fbErr) {
-    console.error('CRM client creation failed:', fbErr);
-  }
-
-  /* BUG FIX: Stripe redirect — ALWAYS fires regardless of Formspree or Firebase outcomes */
-  /* BUG FIX: Sanitize ownerName for client_reference_id — only alphanumeric, dashes, underscores */
-  btn.textContent = 'Redirecting to Secure Payment...';
-  const sanitizedName = ownerName.replace(/[^a-zA-Z0-9_-]/g, '_');
-  const encodedEmail = encodeURIComponent(email);
-  const baseLink     = STRIPE_LINKS[saCurrentPlan];
-  const stripeURL    = baseLink + '?prefilled_email=' + encodedEmail + '&client_reference_id=' + sanitizedName;
-  const redirectMsg  = document.getElementById('saErrorMsg');
-  redirectMsg.style.cssText = 'display:block;background:rgba(34,197,94,0.12);border:1px solid #22C55E;color:#22C55E;text-align:center;padding:16px;border-radius:8px;margin-top:16px;font-size:0.9rem;';
-  redirectMsg.innerHTML = '✅ Agreement submitted! Opening secure payment page...';
-
-  /* Open Stripe in new tab — required because this page runs inside an iframe in the CRM */
-  window.open(stripeURL, '_blank');
-}
 </script>
 
 </body>
