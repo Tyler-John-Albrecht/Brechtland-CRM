@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Receptionist Setup — Brechtland</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg-deep:#0a0a14;
+    --bg-card:#0d0d1a;
+    --border-glow:rgba(124,58,237,0.25);
+    --purple:#7c3aed;
+    --purple-glow:rgba(124,58,237,0.6);
+    --magenta:#e040a0;
+    --magenta-glow:rgba(224,64,160,0.5);
+    --orange:#f97316;
+    --orange-glow:rgba(249,115,22,0.5);
+    --cyan:#06b6d4;
+    --green:#22c55e;
+    --green-glow:rgba(34,197,94,0.5);
+    --text-primary:#f0f0f5;
+    --text-secondary:#9ca3af;
+    --text-muted:#6b7280;
+  }
+  body{
+    background:var(--bg-deep);
+    font-family:'Exo 2',sans-serif;
+    color:var(--text-primary);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .page-bg{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.07),transparent),
+      radial-gradient(ellipse 40% 50% at 90% 80%,rgba(224,64,160,0.04),transparent);
+  }
+  .page-bg::after{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(124,58,237,0.025) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+
+  /* ── LAYOUT ── */
+  .page{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:60px 24px 100px}
+
+  /* ── HEADER ── */
+  .page-header{text-align:center;margin-bottom:56px}
+  .logo-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px}
+  .logo-text{
+    font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;
+    background:linear-gradient(135deg,var(--text-primary),var(--purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .page-eyebrow{
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--magenta);display:block;margin-bottom:14px;
+    text-shadow:0 0 16px var(--magenta-glow);
+  }
+  .page-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(22px,4vw,36px);font-weight:800;line-height:1.2;
+    margin-bottom:16px;
+    background:linear-gradient(135deg,var(--text-primary) 0%,var(--purple) 50%,var(--magenta) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .page-subtitle{font-size:15px;color:var(--text-secondary);line-height:1.7;max-width:520px;margin:0 auto}
+
+  /* ── FORM SECTION ── */
+  .form-section{margin-bottom:40px}
+  .section-header{
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:20px;padding-bottom:14px;
+    border-bottom:1px solid rgba(124,58,237,0.15);
+  }
+  .section-icon{
+    width:34px;height:34px;border-radius:8px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+  }
+  .icon-purple{background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3)}
+  .icon-magenta{background:rgba(224,64,160,0.12);border:1px solid rgba(224,64,160,0.25)}
+  .icon-orange{background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25)}
+  .icon-cyan{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2)}
+  .section-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:13px;font-weight:700;letter-spacing:1px;
+    color:var(--text-primary);
+  }
+  .section-note{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+  /* ── FIELDS ── */
+  .field-group{display:flex;flex-direction:column;gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:540px){.field-row{grid-template-columns:1fr}}
+  label{
+    font-size:13px;font-weight:600;color:var(--text-secondary);
+    letter-spacing:.3px;
+  }
+  label .required{color:var(--magenta);margin-left:2px}
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea{
+    background:#0a0a16;
+    border:1px solid rgba(255,255,255,0.07);
+    border-radius:10px;
+    padding:12px 16px;
+    font-family:'Exo 2',sans-serif;
+    font-size:14px;
+    color:var(--text-primary);
+    transition:border-color .25s,box-shadow .25s;
+    width:100%;
+    outline:none;
+    -webkit-appearance:none;appearance:none;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  textarea:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 0 3px rgba(124,58,237,0.12);
+  }
+  input::placeholder,textarea::placeholder{color:var(--text-muted);font-size:13px}
+  select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:36px;cursor:pointer;
+  }
+  select option{background:#0d0d1a;color:var(--text-primary)}
+  textarea{resize:vertical;min-height:90px;line-height:1.6}
+
+  /* ── HOURS GRID ── */
+  .hours-grid{display:flex;flex-direction:column;gap:10px}
+  .day-row{
+    display:grid;grid-template-columns:80px 1fr 1fr 100px;gap:10px;align-items:center;
+  }
+  @media(max-width:500px){
+    .day-row{grid-template-columns:1fr 1fr;gap:8px}
+    .day-label{grid-column:1/-1;font-weight:700}
+    .closed-wrap{grid-column:1/-1}
+  }
+  .day-label{font-size:13px;font-weight:600;color:var(--text-secondary)}
+  .time-input{padding:10px 12px;font-size:13px}
+  .closed-wrap{display:flex;align-items:center;gap:8px;cursor:pointer}
+  .closed-wrap input[type="checkbox"]{
+    width:16px;height:16px;border-radius:4px;
+    accent-color:var(--purple);cursor:pointer;
+    flex-shrink:0;
+  }
+  .closed-label{font-size:13px;color:var(--text-muted)}
+
+  /* ── RADIO GROUP ── */
+  .radio-group{display:flex;gap:12px;flex-wrap:wrap}
+  .radio-option{
+    display:flex;align-items:center;gap:8px;
+    background:#0a0a16;border:1px solid rgba(255,255,255,0.07);
+    border-radius:8px;padding:10px 16px;cursor:pointer;
+    transition:border-color .25s,background .25s;
+    flex:1;min-width:100px;
+  }
+  .radio-option:has(input:checked){
+    border-color:var(--purple);
+    background:rgba(124,58,237,0.08);
+  }
+  .radio-option input[type="radio"]{accent-color:var(--purple);flex-shrink:0}
+  .radio-option span{font-size:14px;color:var(--text-secondary)}
+  .radio-option:has(input:checked) span{color:var(--text-primary)}
+
+  /* ── SUBMIT ── */
+  .submit-wrap{margin-top:48px;text-align:center}
+  .submit-note{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+  .submit-btn{
+    font-family:'Orbitron',sans-serif;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:18px 56px;border-radius:12px;border:none;cursor:pointer;
+    box-shadow:0 4px 32px rgba(124,58,237,0.4);
+    transition:all .3s;display:inline-block;
+    width:100%;max-width:360px;
+  }
+  .submit-btn:hover{
+    box-shadow:0 4px 48px rgba(124,58,237,0.6);
+    transform:translateY(-2px);
+  }
+  .submit-btn:disabled{
+    opacity:.5;cursor:not-allowed;transform:none;
+  }
+
+  /* ── SUCCESS ── */
+  .success-screen{
+    display:none;text-align:center;padding:60px 24px;
+  }
+  .success-icon{
+    font-size:56px;margin-bottom:24px;
+    filter:drop-shadow(0 0 20px var(--green-glow));
+  }
+  .success-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(20px,3vw,28px);font-weight:800;
+    color:var(--text-primary);margin-bottom:12px;
+  }
+  .success-msg{font-size:15px;color:var(--text-secondary);line-height:1.7;max-width:440px;margin:0 auto}
+
+  /* ── DIVIDER ── */
+  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,0.2),transparent);margin:32px 0}
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+<div class="page">
+
+  <div class="logo-wrap">
+    <span class="logo-text">BRECHTLAND</span>
+  </div>
+
+  <div id="form-area">
+    <div class="page-header">
+      <span class="page-eyebrow">New Client Setup</span>
+      <h1 class="page-title">Let's Build Your AI Receptionist</h1>
+      <p class="page-subtitle">Fill out the form below so we can configure your AI receptionist exactly the way you need it. This takes about 5 minutes.</p>
+    </div>
+
+    <form id="intake-form" action="https://formspree.io/f/xeepprvd" method="POST">
+
+      <!-- ── BUSINESS BASICS ── -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon icon-purple">🏢</div>
+          <div>
+            <div class="section-title">Business Basics</div>
+            <div class="section-note">Tell us about your company</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Business Name <span class="required">*</span></label>
+            <input type="text" name="business_name" placeholder="e.g. Peak Performance Roofing" required>
+          </div>
+          <div class="field">
+            <label>Industry <span class="required">*</span></label>
+            <select name="industry" required>
+              <option value="" disabled selected>Select your industry</option>
+              <option value="roofing">Roofing</option>
+              <option value="hvac">HVAC</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="dental">Dental</option>
+              <option value="real_estate">Real Estate</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="landscaping">Landscaping</option>
+              <option value="detailing">Auto Detailing</option>
+              <option value="epoxy_flooring">Epoxy Flooring</option>
+              <option value="window_cleaning">Window Cleaning</option>
+              <option value="fitness">Fitness / Gym</option>
+              <option value="general">Other / General</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Owner's Name <span class="required">*</span></label>
+              <input type="text" name="owner_name" placeholder="First and last name" required>
+            </div>
+            <div class="field">
+              <label>Your Email <span class="required">*</span></label>
+              <input type="email" name="email" placeholder="you@yourbusiness.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Existing Business Phone Number</label>
+            <input type="tel" name="existing_phone" placeholder="The number customers call today (e.g. 214-555-0000)">
+          </div>
+          <div class="field">
+            <label>Service Area</label>
+            <input type="text" name="service_area" placeholder="e.g. Dallas–Fort Worth metro, all of Michigan, nationwide">
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ── BUSINESS HOURS ── -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon icon-orange">🕐</div>
+          <div>
+            <div class="section-title">Business Hours</div>
+            <div class="section-note">Check "Closed" for days you don't work</div>
+          </div>
+        </div>
+        <div class="hours-grid">
+          <div class="day-row">
+            <span class="day-label">Monday</span>
+            <input class="time-input" type="time" name="mon_open" value="08:00">
+            <input class="time-input" type="time" name="mon_close" value="17:00">
+            <label class="closed-wrap"><input type="checkbox" name="mon_closed" onchange="toggleDay(this,'mon')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Tuesday</span>
+            <input class="time-input" type="time" name="tue_open" value="08:00">
+            <input class="time-input" type="time" name="tue_close" value="17:00">
+            <label class="closed-wrap"><input type="checkbox" name="tue_closed" onchange="toggleDay(this,'tue')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Wednesday</span>
+            <input class="time-input" type="time" name="wed_open" value="08:00">
+            <input class="time-input" type="time" name="wed_close" value="17:00">
+            <label class="closed-wrap"><input type="checkbox" name="wed_closed" onchange="toggleDay(this,'wed')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Thursday</span>
+            <input class="time-input" type="time" name="thu_open" value="08:00">
+            <input class="time-input" type="time" name="thu_close" value="17:00">
+            <label class="closed-wrap"><input type="checkbox" name="thu_closed" onchange="toggleDay(this,'thu')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Friday</span>
+            <input class="time-input" type="time" name="fri_open" value="08:00">
+            <input class="time-input" type="time" name="fri_close" value="17:00">
+            <label class="closed-wrap"><input type="checkbox" name="fri_closed" onchange="toggleDay(this,'fri')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Saturday</span>
+            <input class="time-input" type="time" name="sat_open" value="09:00">
+            <input class="time-input" type="time" name="sat_close" value="13:00">
+            <label class="closed-wrap"><input type="checkbox" name="sat_closed" onchange="toggleDay(this,'sat')"><span class="closed-label">Closed</span></label>
+          </div>
+          <div class="day-row">
+            <span class="day-label">Sunday</span>
+            <input class="time-input" type="time" name="sun_open" value="09:00" disabled style="opacity:.4">
+            <input class="time-input" type="time" name="sun_close" value="13:00" disabled style="opacity:.4">
+            <label class="closed-wrap"><input type="checkbox" name="sun_closed" checked onchange="toggleDay(this,'sun')"><span class="closed-label">Closed</span></label>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:18px">
+          <label>Book appointments after hours? <span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="after_hours_booking" value="yes" required><span>Yes — book 24/7</span></label>
+            <label class="radio-option"><input type="radio" name="after_hours_booking" value="no"><span>No — take a message only</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ── ESCALATION ── -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon icon-magenta">📞</div>
+          <div>
+            <div class="section-title">Call Escalation</div>
+            <div class="section-note">For emergencies or callers who demand a human</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Escalation / Transfer Phone Number <span class="required">*</span></label>
+            <input type="tel" name="escalation_phone" placeholder="The number to transfer urgent calls to (e.g. your cell)" required>
+          </div>
+          <div class="field">
+            <label>Any situations where you always want a human involved?</label>
+            <textarea name="escalation_notes" placeholder="e.g. Insurance claims, commercial jobs over $10k, any mention of a lawsuit..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ── CALENDAR ── -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon icon-cyan">📅</div>
+          <div>
+            <div class="section-title">Google Calendar</div>
+            <div class="section-note">This is how we connect your appointments</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Gmail Address Tied to Your Google Calendar <span class="required">*</span></label>
+            <input type="email" name="google_calendar_email" placeholder="The Gmail you use for Google Calendar (e.g. you@gmail.com)" required>
+          </div>
+          <div class="field">
+            <label>Do you already use Google Calendar? <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option"><input type="radio" name="has_google_calendar" value="yes" required><span>Yes, I use it</span></label>
+              <label class="radio-option"><input type="radio" name="has_google_calendar" value="no"><span>No, help me set it up</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- ── YOUR SERVICES ── -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon icon-purple">⚡</div>
+          <div>
+            <div class="section-title">Your Services</div>
+            <div class="section-note">Help us train your AI on what you offer</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>List your top 3–5 services <span class="required">*</span></label>
+            <textarea name="services" placeholder="e.g.&#10;1. Roof replacement — full shingle and metal roof installs&#10;2. Storm damage inspection — free, no obligation&#10;3. Leak repair — emergency same-day available&#10;4. Gutter installation and cleaning" required style="min-height:120px"></textarea>
+          </div>
+          <div class="field">
+            <label>Do you offer free estimates or inspections?</label>
+            <div class="radio-group">
+              <label class="radio-option"><input type="radio" name="free_estimates" value="yes"><span>Yes</span></label>
+              <label class="radio-option"><input type="radio" name="free_estimates" value="no"><span>No</span></label>
+              <label class="radio-option"><input type="radio" name="free_estimates" value="sometimes"><span>Sometimes</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Anything the AI should always say?</label>
+            <textarea name="always_say" placeholder="e.g. Always mention we've been in business for 15 years. Always offer a free inspection first."></textarea>
+          </div>
+          <div class="field">
+            <label>Anything the AI should never say?</label>
+            <textarea name="never_say" placeholder="e.g. Never quote prices on the phone. Never mention competitors by name."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUBMIT ── -->
+      <div class="submit-wrap">
+        <p class="submit-note">We'll review your info and reach out within 24 hours to confirm everything before going live.</p>
+        <button type="submit" class="submit-btn" id="submit-btn">Submit My Setup Info</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2 class="success-title">You're all set!</h2>
+    <p class="success-msg">We got your info and will have your AI Receptionist configured within 24–48 hours. We'll reach out to confirm everything before going live. Welcome to Brechtland.</p>
+  </div>
+
+</div>
+
+<script>
+  function toggleDay(checkbox, day){
+    const row = checkbox.closest('.day-row');
+    const inputs = row.querySelectorAll('input[type="time"]');
+    inputs.forEach(inp => {
+      inp.disabled = checkbox.checked;
+      inp.style.opacity = checkbox.checked ? '0.4' : '1';
+    });
+  }
+
+  // Initialize Sunday as closed
+  document.addEventListener('DOMContentLoaded', function(){
+    const sunCheckbox = document.querySelector('input[name="sun_closed"]');
+    if(sunCheckbox && sunCheckbox.checked) toggleDay(sunCheckbox, 'sun');
+  });
+
+  // Handle form submission
+  const form = document.getElementById('intake-form');
+  const btn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if(res.ok){
+        document.getElementById('form-area').style.display = 'none';
+        document.getElementById('success-screen').style.display = 'block';
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Submit My Setup Info';
+        alert('Something went wrong. Please try again or email us directly.');
+      }
+    } catch(err){
+      btn.disabled = false;
+      btn.textContent = 'Submit My Setup Info';
+      alert('Something went wrong. Please check your connection and try again.');
+    }
+  });
+</script>
+</body>
+</html>
