@@ -144,11 +144,26 @@
     box-shadow:0 8px 40px rgba(124,58,237,0.08);
   }
 
-  /* Popular card */
-  .price-card.popular{
+  /* Selected / active card — border outline only */
+  .price-card.active{
     border-color:var(--purple);
-    background:linear-gradient(180deg,rgba(124,58,237,0.06) 0%,var(--bg-card) 40%);
-    box-shadow:0 0 30px rgba(124,58,237,0.1),inset 0 1px 0 rgba(124,58,237,0.2);
+    box-shadow:0 0 0 1px var(--purple), 0 0 24px rgba(124,58,237,0.25);
+  }
+  .price-card.active .selected-tag{display:block}
+  .selected-tag{
+    display:none;
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:#fff;font-weight:700;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:5px 20px;border-radius:20px;white-space:nowrap;
+    box-shadow:0 0 20px var(--purple-glow);
+  }
+
+  /* Popular card — pill only, no border highlight */
+  .price-card.popular{
+    border-color:rgba(255,255,255,0.04);
   }
   .popular-tag{
     position:absolute;top:-13px;left:50%;transform:translateX(-50%);
@@ -197,9 +212,6 @@
   }
   .price-note{
     font-size:12px;color:var(--text-muted);margin-bottom:28px;
-  }
-  .bundle-note{
-    color:var(--orange);margin-top:-20px;
   }
 
   /* Divider */
@@ -259,49 +271,6 @@
     box-shadow:0 4px 30px rgba(124,58,237,0.5);
     transform:translateY(-1px);
   }
-
-  /* Bundle banner */
-  .bundle-banner{
-    margin-top:64px;
-    background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(249,115,22,0.06));
-    border:1px solid rgba(124,58,237,0.15);
-    border-radius:16px;
-    padding:40px 48px;
-    display:flex;align-items:center;justify-content:space-between;
-    gap:32px;flex-wrap:wrap;
-  }
-  .bundle-text h3{
-    font-family:'Orbitron',sans-serif;
-    font-size:20px;font-weight:700;margin-bottom:8px;
-  }
-  .bundle-text h3 span{
-    background:linear-gradient(135deg,var(--orange),var(--magenta));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    background-clip:text;
-  }
-  .bundle-text p{
-    font-size:15px;color:var(--text-secondary);line-height:1.7;
-    max-width:520px;
-  }
-  .bundle-cta{
-    font-family:'Orbitron',sans-serif;
-    font-size:12px;letter-spacing:2px;text-transform:uppercase;
-    font-weight:700;color:#fff;
-    background:linear-gradient(135deg,var(--orange),var(--magenta));
-    padding:16px 36px;border-radius:10px;
-    text-decoration:none;white-space:nowrap;
-    box-shadow:0 4px 24px rgba(249,115,22,0.25);
-    transition:all .3s;border:none;cursor:pointer;
-  }
-  .bundle-cta:hover{
-    box-shadow:0 4px 36px rgba(249,115,22,0.4);
-    transform:translateY(-2px);
-  }
-
-  @media(max-width:700px){
-    .bundle-banner{padding:28px 24px;flex-direction:column;text-align:center}
-    .bundle-text p{max-width:100%}
-  }
 </style>
 </head>
 <body>
@@ -330,7 +299,8 @@
   <div class="pricing-grid">
 
     <!-- SPARK -->
-    <div class="price-card">
+    <div class="price-card" onclick="selectTier(this)">
+      <div class="selected-tag">Selected</div>
       <div class="card-tier">Tier 01</div>
       <div class="card-name">Spark</div>
       <div class="card-desc">Get started without overthinking it.</div>
@@ -354,7 +324,7 @@
     </div>
 
     <!-- MOMENTUM — POPULAR -->
-    <div class="price-card popular">
+    <div class="price-card popular" onclick="selectTier(this)">
       <div class="popular-tag">Most Popular</div>
       <div class="card-tier">Tier 02</div>
       <div class="card-name">Momentum</div>
@@ -366,7 +336,6 @@
       </div>
       <div class="price-note annual-note" style="display:none">Billed annually at $1,524/yr</div>
       <div class="price-note monthly-note">No long-term commitment required</div>
-      <div class="price-note bundle-note">Bundle with a Brechtland website and save $29/mo</div>
       <div class="card-divider"></div>
       <div class="features-label">Everything in Spark, plus</div>
       <ul class="feature-list">
@@ -381,7 +350,8 @@
     </div>
 
     <!-- COMMAND -->
-    <div class="price-card">
+    <div class="price-card" onclick="selectTier(this)">
+      <div class="selected-tag">Selected</div>
       <div class="card-tier">Tier 03</div>
       <div class="card-name">Command</div>
       <div class="card-desc">For businesses ready to dominate their market.</div>
@@ -392,7 +362,6 @@
       </div>
       <div class="price-note annual-note" style="display:none">Billed annually at $2,544/yr</div>
       <div class="price-note monthly-note">No long-term commitment required</div>
-      <div class="price-note bundle-note">Bundle with a Brechtland website and save $49/mo</div>
       <div class="card-divider"></div>
       <div class="features-label">Everything in Momentum, plus</div>
       <ul class="feature-list">
@@ -407,7 +376,8 @@
     </div>
 
     <!-- APEX -->
-    <div class="price-card">
+    <div class="price-card" onclick="selectTier(this)">
+      <div class="selected-tag">Selected</div>
       <div class="card-tier">Tier 04</div>
       <div class="card-name">Apex</div>
       <div class="card-desc">A full marketing department. Without the payroll.</div>
@@ -418,7 +388,6 @@
       </div>
       <div class="price-note annual-note" style="display:none">Billed annually at $4,068/yr</div>
       <div class="price-note monthly-note">No long-term commitment required</div>
-      <div class="price-note bundle-note">Bundle with a Brechtland website and save $49/mo</div>
       <div class="card-divider"></div>
       <div class="features-label">Everything in Command, plus</div>
       <ul class="feature-list">
@@ -434,20 +403,17 @@
 
   </div><!-- /pricing-grid -->
 
-  <!-- Bundle Banner -->
-  <div class="bundle-banner">
-    <div class="bundle-text">
-      <h3>Already have a Brechtland website? <span>Save up to $49/mo</span></h3>
-      <p>Add email marketing to your existing website plan and get everything under one roof. One bill, one team, zero headaches. Most clients pair their site with Momentum.</p>
-    </div>
-    <a href="#" class="bundle-cta">See Bundles</a>
-  </div>
-
 </div><!-- /pricing-inner -->
 </section>
 
 <script>
   let isAnnual = false;
+
+  function selectTier(card) {
+    document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  }
+
   function toggleBilling(){
     isAnnual = !isAnnual;
     document.getElementById('billing-toggle').classList.toggle('on',isAnnual);
