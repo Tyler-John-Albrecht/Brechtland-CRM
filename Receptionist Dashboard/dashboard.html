@@ -546,6 +546,7 @@
       const [saving, setSaving] = useState(false);
       const [newEntry, setNewEntry] = useState({ category: "faq", question: "", answer: "", priority: 5 });
       const [editId, setEditId] = useState(null);
+      const [editData, setEditData] = useState({});
       const [toast, setToast] = useState("");
 
       const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 3000); };
@@ -574,6 +575,20 @@
           setEntries(entries.filter(e => e.id !== id));
           showToast("Deleted ✓");
         } catch (err) { showToast("Failed to delete"); }
+      }
+
+      function handleEditStart(entry) {
+        setEditId(entry.id);
+        setEditData({ category: entry.category, question: entry.question, answer: entry.answer, priority: entry.priority });
+      }
+
+      async function handleEditSave(id) {
+        try {
+          await apiFetch(`/api/v1/client/knowledge-base/${id}`, { method: "PUT", body: editData });
+          setEntries(entries.map(e => e.id === id ? { ...e, ...editData } : e));
+          setEditId(null);
+          showToast("Saved ✓");
+        } catch (err) { showToast("Failed to save"); }
       }
 
       async function handleToggle(entry) {
@@ -622,23 +637,45 @@
 
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {entries.length === 0 ? <EmptyState message="No knowledge base entries yet" /> : entries.map(e => (
-              <div key={e.id} style={{ background: "#fff", borderRadius: 12, border: "1px solid #e8ecf1", padding: "16px 18px", display: "flex", gap: 14, alignItems: "flex-start", opacity: e.is_active ? 1 : 0.5 }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <Badge label={e.category} color="#1b3a5c" />
-                    <span style={{ fontSize: 11, color: "#adb5c2" }}>Priority {e.priority}</span>
+              <div key={e.id} style={{ background: "#fff", borderRadius: 12, border: "1px solid #e8ecf1", padding: "16px 18px", opacity: e.is_active ? 1 : 0.5 }}>
+                {editId === e.id ? (
+                  <div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+                      <select value={editData.category} onChange={ev => setEditData({...editData, category: ev.target.value})} style={inputStyle}>
+                        {categories.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+                      </select>
+                      <input type="number" value={editData.priority} onChange={ev => setEditData({...editData, priority: parseInt(ev.target.value)})} placeholder="Priority (1-10)" style={inputStyle} min={1} max={10} />
+                    </div>
+                    <input value={editData.question} onChange={ev => setEditData({...editData, question: ev.target.value})} style={{ ...inputStyle, marginBottom: 10 }} />
+                    <textarea value={editData.answer} onChange={ev => setEditData({...editData, answer: ev.target.value})} style={{ ...inputStyle, minHeight: 70, resize: "vertical", display: "block" }} />
+                    <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                      <button onClick={() => handleEditSave(e.id)} style={{ padding: "7px 16px", borderRadius: 7, border: "none", cursor: "pointer", background: "#0f1b2d", color: "#fff", fontSize: 12, fontWeight: 600 }}>Save</button>
+                      <button onClick={() => setEditId(null)} style={{ padding: "7px 16px", borderRadius: 7, border: "1px solid #d4d9e0", cursor: "pointer", background: "#fff", color: "#3d4f63", fontSize: 12, fontWeight: 600 }}>Cancel</button>
+                    </div>
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#0f1b2d", marginBottom: 4 }}>{e.question}</div>
-                  <div style={{ fontSize: 13, color: "#3d4f63", lineHeight: 1.55 }}>{e.answer}</div>
-                </div>
-                <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                  <button onClick={() => handleToggle(e)} style={{ padding: "6px 12px", borderRadius: 7, border: "1px solid #d4d9e0", cursor: "pointer", background: "#fff", fontSize: 11, fontWeight: 600, color: e.is_active ? "#10b981" : "#adb5c2" }}>
-                    {e.is_active ? "Active" : "Inactive"}
-                  </button>
-                  <button onClick={() => handleDelete(e.id)} style={{ padding: "6px 10px", borderRadius: 7, border: "1px solid #fecaca", cursor: "pointer", background: "#fff", color: "#ef4444" }}>
-                    <Icon name="trash" size={14} />
-                  </button>
-                </div>
+                ) : (
+                  <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                        <Badge label={e.category} color="#1b3a5c" />
+                        <span style={{ fontSize: 11, color: "#adb5c2" }}>Priority {e.priority}</span>
+                      </div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: "#0f1b2d", marginBottom: 4 }}>{e.question}</div>
+                      <div style={{ fontSize: 13, color: "#3d4f63", lineHeight: 1.55 }}>{e.answer}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                      <button onClick={() => handleToggle(e)} style={{ padding: "6px 12px", borderRadius: 7, border: "1px solid #d4d9e0", cursor: "pointer", background: "#fff", fontSize: 11, fontWeight: 600, color: e.is_active ? "#10b981" : "#adb5c2" }}>
+                        {e.is_active ? "Active" : "Inactive"}
+                      </button>
+                      <button onClick={() => handleEditStart(e)} style={{ padding: "6px 10px", borderRadius: 7, border: "1px solid #d4d9e0", cursor: "pointer", background: "#fff", color: "#3d4f63" }}>
+                        <Icon name="edit" size={14} />
+                      </button>
+                      <button onClick={() => handleDelete(e.id)} style={{ padding: "6px 10px", borderRadius: 7, border: "1px solid #fecaca", cursor: "pointer", background: "#fff", color: "#ef4444" }}>
+                        <Icon name="trash" size={14} />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -839,7 +876,7 @@
         <div style={{ display: "flex", height: "100%", background: "#f3f5f8" }}>
 
           {/* ─── Sidebar ─── */}
-          <div style={{ width: 240, background: "#0f1b2d", color: "#fff", display: "flex", flexDirection: "column", flexShrink: 0, padding: "20px 0" }}>
+          <div style={{ width: 240, background: "#0f1b2d", color: "#fff", display: "flex", flexDirection: "column", flexShrink: 0, padding: "20px 0", minHeight: "100vh" }}>
             <div style={{ padding: "6px 24px 28px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 1.5 }}>BRECHTLAND</div>
               <div style={{ fontSize: 11, color: "#5c7a9a", fontWeight: 500, marginTop: 2 }}>AI Receptionist</div>
