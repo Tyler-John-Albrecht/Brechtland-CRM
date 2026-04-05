@@ -2624,6 +2624,7 @@ function loadTeamUsers() {
 }
 
 const tqIndustries = [
+  { id: 'ai-receptionist', icon: '🤖', name: 'AI Receptionist', status: 'available', noTemplate: true },
   { id: 'roofing',       icon: '🏠', name: 'Roofing',           status: 'available' },
   { id: 'hvac',          icon: '❄️', name: 'HVAC',              status: 'available' },
   { id: 'plumbing',      icon: '🔧', name: 'Plumbing',          status: 'available' },
@@ -2652,6 +2653,7 @@ function renderTQGrid(type) {
   let html = `<div class="tq-header"><div><h2>${label} Library</h2><p>${desc}</p></div></div>`;
   html += '<div class="industry-grid">';
   tqIndustries.forEach(ind => {
+    if (type === 'templates' && ind.noTemplate) return;
     const avail = ind.status === 'available';
     const hasContent = typeof TQ_URL_STORE !== 'undefined' && TQ_URL_STORE[storePrefix + ind.id];
     const isAvail = avail && hasContent;
@@ -6419,6 +6421,7 @@ showScreen('loginScreen');
 
 <script data-cfasync="false">
 const TQ_URL_STORE = {
+  'questionnaire-ai-receptionist': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Receptionist%20Questionnaire/client-intake-form.html',
   'template-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Template/roofing-template.html',
   'questionnaire-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Questionnaire/roofing-questionnaire.html',
   'template-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Real%20Estate%202.0/realtor-template.html',
