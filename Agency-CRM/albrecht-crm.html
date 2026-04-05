@@ -2740,14 +2740,14 @@ async function navigate(page) {
   const navEl = document.getElementById('nav' + page.charAt(0).toUpperCase() + page.slice(1));
   if (navEl) navEl.classList.add('active');
 
-  const titles = { dashboard: 'Dashboard', clients: 'Clients', invoices: 'Website Invoices', emailInvoices: 'Email Invoices', receptionistInvoices: 'Receptionist Invoices', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', commissions: 'Commission Dashboard' };
+  const titles = { dashboard: 'Dashboard', clients: 'Clients', services: 'Services', calendar: 'Calendar', templates: 'Templates', questionnaires: 'Questionnaires', team: 'Team Management', overview: 'Team Overview', chat: 'Team Chat', commissions: 'Commission Dashboard' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
 
   const contentArea = document.getElementById('contentArea');
   contentArea.style.opacity = '0';
   await new Promise(r => setTimeout(r, 180));
 
-  const renderers = { dashboard: renderDashboard, clients: renderClients, invoices: renderInvoices, emailInvoices: renderEmailInvoices, receptionistInvoices: renderReceptionistInvoices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
+  const renderers = { dashboard: renderDashboard, clients: renderClients, services: renderServices, calendar: renderCalendar, templates: renderTemplates, questionnaires: renderQuestionnaires, team: renderTeam, overview: renderOverview, chat: renderChat, commissions: renderCommissions };
   try {
     if (renderers[page]) await Promise.resolve(renderers[page]());
   } catch(err) {
@@ -2906,9 +2906,7 @@ async function renderRecentActivity(clients, calEvs) {
     { label: 'Main', items: [
       { icon:'📊', label:'Dashboard', id:'navDashboard', action:"navigate('dashboard')", badge:'', extra:'' },
       { icon:'👥', label:'Clients',   id:'navClients',   action:"navigate('clients')",   badge:'', extra:'' },
-      { icon:'📄', label:'Website Invoices',  id:'navInvoices',  action:"navigate('invoices')",  badge:'', extra:'' },
-      { icon:'✉️', label:'Email Invoices',  id:'navEmailInvoices',  action:"navigate('emailInvoices')",  badge:'', extra:'' },
-      { icon:'📞', label:'Receptionist Invoices',  id:'navReceptionistInvoices',  action:"navigate('receptionistInvoices')",  badge:'', extra:'' },
+      { icon:'🛍️', label:'Services',  id:'navServices',  action:"navigate('services')",  badge:'', extra:'' },
       { icon:'📅', label:'Calendar',  id:'navCalendar',  action:"navigate('calendar')",  badge:'calendarBadge', extra:'' },
     ]},
     { label: 'Tools', items: [
@@ -3386,7 +3384,7 @@ document.addEventListener('keydown', (e) => {
 async function renderDashboard() {
   const content = document.getElementById('contentArea');
   const pageActions = document.getElementById('pageActions');
-  if (pageActions) pageActions.innerHTML = `<button class="btn btn-gradient btn-sm" onclick="openAppointmentQuestionnaire(dashFmtISO(dashSelectedDate))">📅 Book Appointment</button><button class="btn btn-secondary btn-sm" onclick="copyAgreementLink()" style="margin-left:6px">🔗 Copy My Agreement Link</button>`;
+  if (pageActions) pageActions.innerHTML = `<button class="btn btn-gradient btn-sm" onclick="openAppointmentQuestionnaire(dashFmtISO(dashSelectedDate))">📅 Book Appointment</button>`;
 
   const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canViewTeamData');
   let clientQuery = db.collection('clients');
@@ -4472,116 +4470,50 @@ async function loadActivityTimeline(clientId) {
   }
 }
 
-async function renderInvoices() {
+function renderServices() {
   const content = document.getElementById('contentArea');
-  const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
-  const canDelete = isAdminRole(currentUserData.role);
-
-  let query = db.collection('invoices');
-  if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
-
-  const snap = await query.get();
-  const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  invoices.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
   content.innerHTML = `
-    <div class="card">
+    <div class="card" style="margin-bottom:20px">
       <div class="card-header">
-        <h3>Invoices (${invoices.length})</h3>
-        <button class="btn btn-primary btn-sm" onclick="openServiceAgreement()">+ New Invoice</button>
-      </div>
-      <div class="card-body" style="padding:0">
-        ${invoices.length === 0 ? '<div class="empty-state"><div class="empty-icon">📄</div><p>No invoices yet</p></div>' :
-          `<table><thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
-            invoices.map(inv => `<tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(inv.clientName)}</td>
-              <td>$${parseFloat(inv.amount || 0).toLocaleString()}</td>
-              <td><span class="status-badge status-${inv.status}">${esc(inv.status)}</span></td>
-              <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
-              <td class="team-actions">
-                <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
-              </td>
-            </tr>`).join('')
-          }</tbody></table>`
-        }
+        <h3>Services</h3>
+        <span style="font-size:12px;color:var(--text-muted)">Open a pricing page or copy a tracked client link</span>
       </div>
     </div>
-  `;
-}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
 
-async function renderEmailInvoices() {
-  const content = document.getElementById('contentArea');
-  const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
-  const canDelete = isAdminRole(currentUserData.role);
-
-  let query = db.collection('invoices');
-  if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
-
-  const snap = await query.get();
-  const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  invoices.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
-  content.innerHTML = `
-    <div class="card">
-      <div class="card-header">
-        <h3>Email Invoices (${invoices.length})</h3>
-        <button class="btn btn-primary btn-sm" onclick="openEmailAgreement()">+ New Invoice</button>
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size:40px;margin-bottom:14px">🌐</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;letter-spacing:0.5px">Website</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">$149 – $349 / mo</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:22px;line-height:1.65">Professional websites built, hosted, and fully managed on a flat monthly subscription. No surprises.</div>
+          <button class="btn btn-gradient btn-sm" style="width:100%;margin-bottom:8px" onclick="openServiceAgreement()">Open Pricing Page</button>
+          <button class="btn btn-secondary btn-sm" style="width:100%" onclick="copyServiceLink('website')">🔗 Copy Client Link</button>
+        </div>
       </div>
-      <div class="card-body" style="padding:0">
-        ${invoices.length === 0 ? '<div class="empty-state"><div class="empty-icon">📄</div><p>No invoices yet</p></div>' :
-          `<table><thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
-            invoices.map(inv => `<tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(inv.clientName)}</td>
-              <td>$${parseFloat(inv.amount || 0).toLocaleString()}</td>
-              <td><span class="status-badge status-${inv.status}">${esc(inv.status)}</span></td>
-              <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
-              <td class="team-actions">
-                <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
-              </td>
-            </tr>`).join('')
-          }</tbody></table>`
-        }
+
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size:40px;margin-bottom:14px">✉️</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;letter-spacing:0.5px">Email Marketing</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">$79 – $399 / mo</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:22px;line-height:1.65">Done-for-you email campaigns that drive repeat customers and keep your business top of mind every month.</div>
+          <button class="btn btn-gradient btn-sm" style="width:100%;margin-bottom:8px" onclick="openEmailAgreement()">Open Pricing Page</button>
+          <button class="btn btn-secondary btn-sm" style="width:100%" onclick="copyServiceLink('email')">🔗 Copy Client Link</button>
+        </div>
       </div>
-    </div>
-  `;
-}
 
-async function renderReceptionistInvoices() {
-  const content = document.getElementById('contentArea');
-  const isAdmin = isAdminRole(currentUserData.role) || hasPermission('canManageInvoices');
-  const canDelete = isAdminRole(currentUserData.role);
-
-  let query = db.collection('invoices');
-  if (!isAdmin) query = query.where('employeeId', '==', currentUser.uid);
-
-  const snap = await query.get();
-  const invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  invoices.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-
-  content.innerHTML = `
-    <div class="card">
-      <div class="card-header">
-        <h3>Receptionist Invoices (${invoices.length})</h3>
-        <button class="btn btn-primary btn-sm" onclick="openReceptionistAgreement()">+ New Invoice</button>
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size:40px;margin-bottom:14px">📞</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;letter-spacing:0.5px">AI Receptionist</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">$497 / mo</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:22px;line-height:1.65">24/7 AI phone answering, appointment booking, and lead capture — fully automated, no staff required.</div>
+          <button class="btn btn-gradient btn-sm" style="width:100%;margin-bottom:8px" onclick="openReceptionistAgreement()">Open Pricing Page</button>
+          <button class="btn btn-secondary btn-sm" style="width:100%" onclick="copyServiceLink('receptionist')">🔗 Copy Client Link</button>
+        </div>
       </div>
-      <div class="card-body" style="padding:0">
-        ${invoices.length === 0 ? '<div class="empty-state"><div class="empty-icon">📞</div><p>No invoices yet</p></div>' :
-          `<table><thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${
-            invoices.map(inv => `<tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(inv.clientName)}</td>
-              <td>$${parseFloat(inv.amount || 0).toLocaleString()}</td>
-              <td><span class="status-badge status-${inv.status}">${esc(inv.status)}</span></td>
-              <td>${inv.createdAt ? inv.createdAt.toDate().toLocaleDateString() : '-'}</td>
-              <td class="team-actions">
-                <button class="btn btn-secondary btn-sm" onclick="openInvoiceModal('${inv.id}')">Edit</button>
-                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">Delete</button>` : ''}
-              </td>
-            </tr>`).join('')
-          }</tbody></table>`
-        }
-      </div>
+
     </div>
   `;
 }
@@ -4630,7 +4562,7 @@ async function saveInvoice(editId) {
       await db.collection('invoices').add(data);
     }
     closeModal();
-    renderInvoices();
+    renderServices();
   } catch(e) {
     alert('Error saving invoice: ' + e.message);
   }
@@ -4639,7 +4571,7 @@ async function saveInvoice(editId) {
 async function deleteInvoice(id) {
   if (!confirm('Delete this invoice?')) return;
   await db.collection('invoices').doc(id).delete();
-  renderInvoices();
+  renderServices();
 }
 
 const saPlans = {
@@ -4684,9 +4616,7 @@ function openReceptionistAgreement() {
 function closeServiceAgreement() {
   document.getElementById('saOverlay').classList.remove('open');
   document.body.style.overflow = '';
-  if (currentPage === 'invoices') renderInvoices();
-  else if (currentPage === 'emailInvoices') renderEmailInvoices();
-  else if (currentPage === 'receptionistInvoices') renderReceptionistInvoices();
+  if (currentPage === 'services') renderServices();
   else if (currentPage === 'clients') renderClients();
   else if (currentPage === 'dashboard') renderDashboard();
 }
@@ -6419,18 +6349,19 @@ async function savePermissions(uid) {
   renderTeam();
 }
 
-/* ── Copy My Agreement Link (UID-based for fraud prevention) ── */
-function copyAgreementLink() {
+/* ── Agreement Link Dropdown ── */
+function copyServiceLink(type) {
   const user = firebase.auth().currentUser;
-  if (!user) {
-    console.error("User not authenticated");
-    alert("You must be logged in to generate an agreement link.");
-    return;
-  }
+  if (!user) { alert('You must be logged in to generate a link.'); return; }
   const repId = user.uid;
-  const link = `${window.location.origin}/Roofing-Service-Agreement/albrecht-service-agreement.html?repId=${repId}`;
-  navigator.clipboard.writeText(link);
-  showToast("Agreement link copied!");
+  const links = {
+    website:      SA_SHARE_URL + '?repId=' + repId,
+    email:        EMAIL_AGREEMENT_URL + '?repId=' + repId,
+    receptionist: RECEPTIONIST_PRICING_URL + '?repId=' + repId
+  };
+  const labels = { website: 'Website link', email: 'Email marketing link', receptionist: 'AI Receptionist link' };
+  navigator.clipboard.writeText(links[type]);
+  showToast(labels[type] + ' copied!');
 }
 
 function showToast(msg) {
