@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexandra Reed | Luxury Real Estate</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        gold: {
+          300: '#e8c878',
+          400: '#d4a84b',
+          500: '#C9A55A',
+          600: '#b8893a',
+          700: '#9a6e2e',
+        },
+        ink: {
+          50:  '#f8f8f9',
+          100: '#eeeef1',
+          200: '#d5d6de',
+          300: '#b0b1bf',
+          400: '#83859a',
+          500: '#676879',
+          600: '#535462',
+          700: '#444551',
+          800: '#2e2f3a',
+          900: '#1a1b26',
+          950: '#0d0f14',
+        },
+        cream: '#F5F0E8',
+        ivory: '#FAFAF7',
+      },
+      fontFamily: {
+        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans:    ['"DM Sans"', 'system-ui', 'sans-serif'],
+        caps:    ['Cinzel', 'serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: "DM Sans", system-ui, sans-serif; background: #FAFAF7; color: #1a1b26; -webkit-font-smoothing: antialiased; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0d0f14; }
+::-webkit-scrollbar-thumb { background: #C9A55A; border-radius: 10px; }
+
+/* ── Gold text gradient ── */
+.gold-text {
+  background: linear-gradient(135deg, #d4a84b 0%, #C9A55A 40%, #e8c878 70%, #b8893a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── Navbar ── */
+#navbar {
+  background: rgba(13,15,20,0);
+  backdrop-filter: blur(0px);
+  transition: background .4s ease, backdrop-filter .4s ease, box-shadow .4s ease;
+}
+#navbar.scrolled {
+  background: rgba(13,15,20,0.96);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 rgba(201,165,90,.15), 0 4px 30px rgba(0,0,0,.4);
+}
+
+/* ── Nav link underline ── */
+.nav-link { position: relative; padding-bottom: 2px; }
+.nav-link::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px; background: #C9A55A;
+  transition: width .35s ease;
+}
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link.active { color: #C9A55A !important; }
+
+/* ── Mobile menu ── */
+#mobile-menu {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+}
+#mobile-menu.open { max-height: 500px; opacity: 1; }
+
+/* ── Hero / parallax background ── */
+.hero-bg    { background-image: url('hero-twilight.jpg');         background-size: cover; background-position: center; background-attachment: fixed; }
+.section-bg { background-image: url('keys-closing.jpg');          background-size: cover; background-position: center; background-attachment: fixed; }
+@media (max-width: 768px) {
+  .hero-bg, .section-bg { background-attachment: scroll; }
+}
+
+/* ── Dot pattern ── */
+.dot-bg { background-image: radial-gradient(circle, rgba(201,165,90,.12) 1px, transparent 1px); background-size: 24px 24px; }
+
+/* ── Reveal animation ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal.from-left  { transform: translateX(-40px); }
+.reveal.from-right { transform: translateX(40px);  }
+.reveal.visible    { opacity: 1; transform: translate(0,0); }
+.d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+
+/* ── Listing card ── */
+.listing-card { transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1); }
+.listing-card:hover { transform: translateY(-10px); box-shadow: 0 30px 70px rgba(0,0,0,.13), 0 0 0 1px rgba(201,165,90,.12); }
+.card-img img { transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.listing-card:hover .card-img img { transform: scale(1.07); }
+
+/* ── Pillar card ── */
+.pillar-card { transition: transform .35s ease, box-shadow .35s ease; }
+.pillar-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,.07); }
+.pillar-icon { transition: background .3s ease; }
+.pillar-card:hover .pillar-icon { background: #C9A55A !important; }
+.pillar-icon svg { transition: color .3s ease; }
+.pillar-card:hover .pillar-icon svg { color: #0d0f14 !important; }
+
+/* ── Testimonial slides ── */
+.t-slide { display: none; animation: fadeSlide .5s ease forwards; }
+.t-slide.active { display: block; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ── Decorative quote mark ── */
+.quote-mark {
+  font-family: "Cormorant Garamond", serif; font-size: 180px; line-height: .8;
+  color: rgba(201,165,90,.1); position: absolute; top: -10px; left: -4px;
+  pointer-events: none; user-select: none;
+}
+
+/* ── Stat card ── */
+.stat-card {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(10px); border-radius: 14px; padding: 16px 24px;
+  transition: border-color .3s ease, background .3s ease;
+}
+.stat-card:hover { border-color: rgba(201,165,90,.4); background: rgba(201,165,90,.06); }
+
+/* ── Buttons ── */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #d4a84b, #C9A55A, #b8893a);
+  background-size: 200% 200%; background-position: 0% 50%;
+  color: #0d0f14; font-weight: 600; font-size: 13px;
+  letter-spacing: .04em; padding: 13px 28px; border-radius: 100px;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: background-position .4s ease, box-shadow .3s ease, transform .2s ease;
+}
+.btn-gold:hover { background-position: 100% 50%; box-shadow: 0 8px 28px rgba(201,165,90,.45); transform: translateY(-1px); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #1a1b26; font-weight: 600; font-size: 13px;
+  letter-spacing: .04em; padding: 12px 26px; border-radius: 100px;
+  border: 1px solid rgba(26,27,38,.22); cursor: pointer; text-decoration: none;
+  transition: border-color .3s ease, color .3s ease;
+}
+.btn-outline:hover { border-color: #C9A55A; color: #b8893a; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: rgba(255,255,255,.8); font-weight: 500; font-size: 13px;
+  letter-spacing: .04em; padding: 12px 26px; border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.2); cursor: pointer; text-decoration: none;
+  transition: border-color .3s ease, color .3s ease;
+}
+.btn-ghost:hover { border-color: #C9A55A; color: #C9A55A; }
+
+/* ── Section label ── */
+.slabel { font-family: Cinzel, serif; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: #C9A55A; }
+
+/* ── Agent frame decoration ── */
+.agent-frame::before {
+  content: ''; position: absolute; top: 22px; left: 22px; right: -22px; bottom: -22px;
+  border: 1px solid rgba(201,165,90,.3); border-radius: 20px; z-index: 0;
+}
+
+/* ── Tag pill ── */
+.tag-pill {
+  font-family: Cinzel, serif; font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 100px; display: inline-block;
+}
+
+/* ── Form fields ── */
+.f-field {
+  width: 100%; background: rgba(255,255,255,.75); border: 1px solid rgba(26,27,38,.13);
+  color: #1a1b26; border-radius: 10px; padding: 13px 17px;
+  font-family: "DM Sans", sans-serif; font-size: 14px; outline: none;
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+  -webkit-appearance: none; appearance: none;
+}
+.f-field:focus { border-color: #C9A55A; box-shadow: 0 0 0 3px rgba(201,165,90,.12); background: #fff; }
+.f-field::placeholder { color: #9b9bae; }
+.f-field.err { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+
+/* ── Contact info card ── */
+.contact-row {
+  display: flex; align-items: center; gap: 16px; padding: 14px 16px;
+  border-radius: 16px; border: 1px solid rgba(26,27,38,.1); background: #fff;
+  transition: border-color .3s ease, box-shadow .3s ease;
+  text-decoration: none;
+}
+.contact-row:hover { border-color: rgba(201,165,90,.4); box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+.contact-icon {
+  width: 46px; height: 46px; border-radius: 12px; background: #0d0f14;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background .3s ease;
+}
+.contact-row:hover .contact-icon { background: #C9A55A; }
+.contact-icon i { color: #C9A55A; transition: color .3s ease; font-size: 14px; }
+.contact-row:hover .contact-icon i { color: #0d0f14; }
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════
+     STICKY NAVIGATION
+═══════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex items-center justify-between h-[76px]">
+
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-3 group" aria-label="Alexandra Reed Real Estate">
+        <div class="w-9 h-9 rounded-full border border-gold-500/60 flex items-center justify-center group-hover:border-gold-400 transition-colors duration-300">
+          <svg class="w-[18px] h-[18px] text-gold-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/>
+          </svg>
+        </div>
+        <div class="leading-none">
+          <div class="font-display text-white text-[17px] font-semibold tracking-wide leading-tight">Alexandra Reed</div>
+          <div class="font-caps text-gold-500 text-[8px] tracking-[.26em] mt-0.5 opacity-80">Luxury Real Estate</div>
+        </div>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#home"         class="nav-link text-white/70 hover:text-white text-sm transition-colors duration-200">Home</a>
+        <a href="#about"        class="nav-link text-white/70 hover:text-white text-sm transition-colors duration-200">About</a>
+        <a href="#listings"     class="nav-link text-white/70 hover:text-white text-sm transition-colors duration-200">Listings</a>
+        <a href="#testimonials" class="nav-link text-white/70 hover:text-white text-sm transition-colors duration-200">Testimonials</a>
+        <a href="#contact" class="btn-gold text-[12px] py-2.5 px-5">Contact Me <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-[5px] p-2 group" aria-label="Toggle menu">
+        <span id="bar1" class="block w-6 h-[1.5px] bg-white transition-all duration-300 origin-center"></span>
+        <span id="bar2" class="block w-4 h-[1.5px] bg-white transition-all duration-300 ml-auto"></span>
+        <span id="bar3" class="block w-6 h-[1.5px] bg-white transition-all duration-300 origin-center"></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden border-t border-white/8">
+      <div class="py-4 flex flex-col gap-1">
+        <a href="#home"         class="mob-link px-3 py-3 text-white/75 hover:text-gold-400 hover:bg-white/5 rounded-xl text-sm transition-all duration-200">Home</a>
+        <a href="#about"        class="mob-link px-3 py-3 text-white/75 hover:text-gold-400 hover:bg-white/5 rounded-xl text-sm transition-all duration-200">About</a>
+        <a href="#listings"     class="mob-link px-3 py-3 text-white/75 hover:text-gold-400 hover:bg-white/5 rounded-xl text-sm transition-all duration-200">Listings</a>
+        <a href="#testimonials" class="mob-link px-3 py-3 text-white/75 hover:text-gold-400 hover:bg-white/5 rounded-xl text-sm transition-all duration-200">Testimonials</a>
+        <a href="#contact"      class="mob-link mt-2 btn-gold w-full justify-center">Contact Me</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <!-- Overlay -->
+  <div class="absolute inset-0" style="background: linear-gradient(165deg,rgba(13,15,20,.88) 0%,rgba(13,15,20,.62) 50%,rgba(13,15,20,.88) 100%);"></div>
+  <!-- Mesh accent -->
+  <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 60% at 15% 85%,rgba(201,165,90,.07) 0%,transparent 60%), radial-gradient(ellipse 50% 40% at 85% 15%,rgba(255,255,255,.03) 0%,transparent 50%);"></div>
+  <!-- Left gold bar -->
+  <div class="absolute left-0 top-1/4 bottom-1/4 w-[2px]" style="background: linear-gradient(180deg,transparent,#C9A55A,transparent);"></div>
+
+  <div class="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8 pt-28 pb-20">
+    <div class="max-w-4xl">
+
+      <!-- Eyebrow -->
+      <div class="reveal flex items-center gap-4 mb-7">
+        <div class="h-px w-10 bg-gold-500"></div>
+        <span class="slabel">Premier Luxury Agent · Greater Los Angeles</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="reveal d1 font-display font-semibold text-white leading-[.95] tracking-tight mb-6"
+          style="font-size: clamp(3.2rem, 9vw, 6.5rem);">
+        Find Your<br>
+        <em class="gold-text not-italic">Dream Home.</em>
+      </h1>
+
+      <!-- Sub -->
+      <p class="reveal d2 text-white/55 text-lg sm:text-xl max-w-xl leading-relaxed mb-10" style="font-weight:300;">
+        With 15 years of luxury market mastery, I transform the complex into the seamless — guiding you to properties that don't just meet expectations, they redefine them.
+      </p>
+
+      <!-- Search bar -->
+      <div class="reveal d3 mb-11">
+        <div class="max-w-2xl rounded-2xl p-2 sm:p-2.5" style="background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gold-500 text-sm pointer-events-none"></i>
+              <input type="text" placeholder="City, neighborhood, or ZIP code…"
+                class="w-full bg-white/90 text-ink-900 pl-11 pr-4 py-3.5 rounded-xl text-sm placeholder-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-500/40">
+            </div>
+            <select class="bg-white/90 text-ink-700 px-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/40 min-w-[130px] cursor-pointer">
+              <option value="">Any Type</option>
+              <option>Single Family</option>
+              <option>Condo</option>
+              <option>Townhome</option>
+              <option>Land / Lot</option>
+            </select>
+            <button class="btn-gold whitespace-nowrap">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA row -->
+      <div class="reveal d4 flex flex-wrap items-center gap-4 mb-14">
+        <a href="#listings" class="btn-gold"><i class="fa-solid fa-building text-xs"></i>View Listings</a>
+        <a href="#about"    class="btn-ghost">Meet Alexandra</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="reveal flex flex-wrap gap-2 sm:gap-3">
+        <div class="stat-card"><div class="font-display text-3xl text-white font-semibold">$1.2B<span class="text-gold-500">+</span></div><div class="font-caps text-[8px] tracking-[.2em] text-white/35 mt-0.5">Sales Volume</div></div>
+        <div class="stat-card"><div class="font-display text-3xl text-white font-semibold">850<span class="text-gold-500">+</span></div><div class="font-caps text-[8px] tracking-[.2em] text-white/35 mt-0.5">Homes Sold</div></div>
+        <div class="stat-card"><div class="font-display text-3xl text-white font-semibold">15<span class="text-gold-500">yr</span></div><div class="font-caps text-[8px] tracking-[.2em] text-white/35 mt-0.5">Experience</div></div>
+        <div class="stat-card"><div class="font-display text-3xl text-white font-semibold">98<span class="text-gold-500">%</span></div><div class="font-caps text-[8px] tracking-[.2em] text-white/35 mt-0.5">Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+    <span class="font-caps text-[8px] tracking-[.3em] text-white/25">SCROLL</span>
+    <div class="w-px h-10 bg-gradient-to-b from-white/25 to-transparent"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════ -->
+<section id="about" class="py-28 lg:py-36 bg-ivory overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 xl:gap-24 items-center">
+
+      <!-- Image -->
+      <div class="reveal from-left relative">
+        <div class="dot-bg absolute -top-8 -left-8 w-40 h-40 rounded-2xl"></div>
+        <div class="agent-frame relative z-10">
+          <div class="relative rounded-[20px] overflow-hidden shadow-2xl shadow-ink-950/10" style="height:600px;">
+            <img src="agent-headshot.jpg" alt="Alexandra Reed – Luxury Real Estate Agent"
+              class="w-full h-full object-cover object-top">
+            <div class="absolute bottom-0 left-0 right-0 h-2/5" style="background:linear-gradient(to top,rgba(13,15,20,.72),transparent);"></div>
+            <!-- Award badge -->
+            <div class="absolute bottom-6 left-6 right-6">
+              <div class="rounded-2xl p-4 flex items-center gap-4" style="background:rgba(13,15,20,.88);backdrop-filter:blur(12px);border:1px solid rgba(201,165,90,.2);">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(201,165,90,.15);">
+                  <i class="fa-solid fa-trophy text-gold-500 text-base"></i>
+                </div>
+                <div>
+                  <div class="text-white text-sm font-semibold leading-tight">Top 1% Nationally</div>
+                  <div class="text-white/40 text-xs mt-0.5">Forbes Recognized · 2024–2025</div>
+                </div>
+                <div class="ml-auto flex gap-0.5 shrink-0">
+                  <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+                  <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+                  <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+                  <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+                  <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 15+ Years badge -->
+          <div class="absolute -bottom-5 -left-5 p-6 shadow-2xl hidden md:block w-52 z-20" style="background:#0d0f14;border:1px solid rgba(201,165,90,.25);border-radius:8px;">
+            <p class="font-display text-4xl text-white font-semibold mb-1">15<span class="text-gold-500">+</span></p>
+            <p class="slabel">Years of Excellence</p>
+            <p class="font-caps mt-2" style="font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);">Proven Market Leadership</p>
+          </div>
+        </div>
+        <div class="absolute -bottom-8 -right-4 w-32 h-32 rounded-2xl border border-gold-500/20 dot-bg"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="reveal from-right">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="h-px w-8 bg-gold-500"></div>
+          <span class="slabel">Meet Your Agent</span>
+        </div>
+        <h2 class="font-display text-5xl lg:text-6xl font-semibold text-ink-950 leading-tight mb-6">
+          Dedicated to Finding<br><em class="gold-text not-italic">Your Perfect Place</em>
+        </h2>
+        <p class="text-ink-700 text-lg leading-relaxed mb-5" style="font-weight:300;">
+          Hello, I'm <strong class="text-ink-950 font-semibold">Alexandra Reed</strong> — a luxury real estate specialist with a passion for matching discerning clients with exceptional properties. My reputation is built on transparency, tenacity, and an intimate knowledge of the local market.
+        </p>
+        <p class="text-ink-500 leading-relaxed mb-8" style="font-weight:300;">
+          Whether you're a first-time buyer or a seasoned investor expanding your portfolio, I bring the same white-glove service and relentless advocacy to every transaction. My clients don't just find houses — they find homes they love.
+        </p>
+
+        <!-- Credentials -->
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="tag-pill border border-ink-200 text-ink-600">CRS Designation</span>
+          <span class="tag-pill border border-ink-200 text-ink-600">ABR Certified</span>
+          <span class="tag-pill text-gold-700" style="border:1px solid rgba(201,165,90,.4);background:rgba(201,165,90,.08);">Forbes Top Agent</span>
+          <span class="tag-pill border border-ink-200 text-ink-600">Licensed Since 2009</span>
+        </div>
+
+        <!-- Feature grid -->
+        <div class="grid sm:grid-cols-2 gap-3 mb-10">
+          <div class="flex items-start gap-3 p-4 rounded-xl hover:bg-ink-50 transition-colors">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(201,165,90,.12);"><i class="fa-solid fa-check text-gold-600 text-xs"></i></div>
+            <div><div class="font-semibold text-ink-900 text-sm">Local Market Expert</div><div class="text-ink-400 text-xs mt-0.5">Deep neighborhood-level insight</div></div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-xl hover:bg-ink-50 transition-colors">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(201,165,90,.12);"><i class="fa-solid fa-check text-gold-600 text-xs"></i></div>
+            <div><div class="font-semibold text-ink-900 text-sm">Skilled Negotiator</div><div class="text-ink-400 text-xs mt-0.5">Consistently above ask on listings</div></div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-xl hover:bg-ink-50 transition-colors">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(201,165,90,.12);"><i class="fa-solid fa-check text-gold-600 text-xs"></i></div>
+            <div><div class="font-semibold text-ink-900 text-sm">Always Accessible</div><div class="text-ink-400 text-xs mt-0.5">Available 7 days a week</div></div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-xl hover:bg-ink-50 transition-colors">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(201,165,90,.12);"><i class="fa-solid fa-check text-gold-600 text-xs"></i></div>
+            <div><div class="font-semibold text-ink-900 text-sm">Full-Service Support</div><div class="text-ink-400 text-xs mt-0.5">From staging to closing</div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="#contact" class="btn-gold">Work With Me</a>
+          <a href="tel:+15551234567" class="btn-outline"><i class="fa-solid fa-phone text-xs"></i>(555) 123-4567</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FEATURED LISTINGS
+═══════════════════════════════════════════ -->
+<section id="listings" class="py-28 lg:py-36" style="background:linear-gradient(180deg,#eeece5 0%,#FAFAF7 100%);">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+    <!-- Header -->
+    <div class="reveal text-center mb-16">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="h-px w-8 bg-gold-500"></div><span class="slabel">Portfolio</span><div class="h-px w-8 bg-gold-500"></div>
+      </div>
+      <h2 class="font-display text-5xl lg:text-6xl font-semibold text-ink-950 mb-4">Featured Listings</h2>
+      <p class="text-ink-400 text-lg max-w-lg mx-auto" style="font-weight:300;">Hand-curated exceptional properties — each selected with uncompromising standards.</p>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+
+      <!-- Card 1 -->
+      <div class="listing-card bg-white rounded-2xl overflow-hidden shadow-sm reveal d1">
+        <div class="card-img relative h-64 overflow-hidden">
+          <img src="property-living.jpg" alt="The Whitmore Estate" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink-950/65 via-transparent to-transparent"></div>
+          <div class="absolute top-4 left-4"><span class="tag-pill text-white" style="background:rgba(13,15,20,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);font-size:9px;">For Sale</span></div>
+          <div class="absolute top-4 right-4"><span class="font-display text-xl text-white font-semibold" style="text-shadow:0 2px 8px rgba(0,0,0,.5);">$1,485,000</span></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-xl font-semibold text-ink-950 mb-1">The Whitmore Estate</h3>
+          <p class="text-ink-400 text-sm mb-5 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-gold-500 text-xs"></i>142 Sunset Ridge Dr, Beverly Hills</p>
+          <div class="flex items-center gap-5 text-sm text-ink-400 mb-5 pb-5 border-b border-ink-100">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bed text-gold-500 text-xs"></i><strong class="text-ink-800">5</strong> Beds</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bath text-gold-500 text-xs"></i><strong class="text-ink-800">4.5</strong> Baths</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-gold-500 text-xs"></i><strong class="text-ink-800">5,240</strong> sqft</span>
+          </div>
+          <a href="#contact" class="btn-outline w-full justify-center text-xs py-3">View Details</a>
+        </div>
+      </div>
+
+      <!-- Card 2 — Featured -->
+      <div class="listing-card bg-white rounded-2xl overflow-hidden shadow-sm reveal d2 relative" style="box-shadow:0 0 0 1.5px rgba(201,165,90,.4),0 4px 20px rgba(201,165,90,.1);">
+        <div class="absolute top-0 inset-x-0 h-[2px]" style="background:linear-gradient(90deg,transparent,#C9A55A,transparent);"></div>
+        <div class="card-img relative h-64 overflow-hidden">
+          <img src="property-kitchen.jpg" alt="The Harlow Modern" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink-950/65 via-transparent to-transparent"></div>
+          <div class="absolute top-4 left-4"><span class="tag-pill text-ink-950" style="background:#C9A55A;font-size:9px;">New Listing</span></div>
+          <div class="absolute top-4 right-4"><span class="font-display text-xl text-white font-semibold" style="text-shadow:0 2px 8px rgba(0,0,0,.5);">$2,250,000</span></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-xl font-semibold text-ink-950 mb-1">The Harlow Modern</h3>
+          <p class="text-ink-400 text-sm mb-5 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-gold-500 text-xs"></i>89 Pacific Coast Hwy, Malibu</p>
+          <div class="flex items-center gap-5 text-sm text-ink-400 mb-5 pb-5 border-b border-ink-100">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bed text-gold-500 text-xs"></i><strong class="text-ink-800">6</strong> Beds</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bath text-gold-500 text-xs"></i><strong class="text-ink-800">5</strong> Baths</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-gold-500 text-xs"></i><strong class="text-ink-800">6,800</strong> sqft</span>
+          </div>
+          <a href="#contact" class="btn-gold w-full justify-center text-xs py-3">View Details</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="listing-card bg-white rounded-2xl overflow-hidden shadow-sm reveal d3">
+        <div class="card-img relative h-64 overflow-hidden">
+          <img src="property-backyard.jpg" alt="Casa Del Mar Vista" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink-950/65 via-transparent to-transparent"></div>
+          <div class="absolute top-4 left-4"><span class="tag-pill text-white" style="background:rgba(245,158,11,.9);font-size:9px;">Open House</span></div>
+          <div class="absolute top-4 right-4"><span class="font-display text-xl text-white font-semibold" style="text-shadow:0 2px 8px rgba(0,0,0,.5);">$895,000</span></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-display text-xl font-semibold text-ink-950 mb-1">Casa Del Mar Vista</h3>
+          <p class="text-ink-400 text-sm mb-5 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-gold-500 text-xs"></i>27 Willowbrook Ln, Santa Monica</p>
+          <div class="flex items-center gap-5 text-sm text-ink-400 mb-5 pb-5 border-b border-ink-100">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bed text-gold-500 text-xs"></i><strong class="text-ink-800">4</strong> Beds</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bath text-gold-500 text-xs"></i><strong class="text-ink-800">3</strong> Baths</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-gold-500 text-xs"></i><strong class="text-ink-800">3,150</strong> sqft</span>
+          </div>
+          <a href="#contact" class="btn-outline w-full justify-center text-xs py-3">View Details</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal text-center mt-12">
+      <a href="#contact" class="btn-outline">View All Properties <i class="fa-solid fa-arrow-right text-xs"></i></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     WHY CHOOSE ME / SERVICES
+═══════════════════════════════════════════ -->
+<section id="services" class="py-28 lg:py-36 bg-ivory overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid lg:grid-cols-2 gap-14 xl:gap-24 items-center">
+
+      <!-- Image -->
+      <div class="reveal from-left relative order-2 lg:order-1">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-ink-950/10">
+          <img src="neighborhood-lifestyle.jpg" alt="Neighborhood lifestyle in Los Angeles" class="w-full object-cover" style="max-height:580px;">
+          <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(13,15,20,.28) 0%,transparent 60%);"></div>
+          <!-- Floating metric -->
+          <div class="absolute bottom-6 right-6 bg-white rounded-2xl shadow-2xl p-5 text-center">
+            <div class="font-display text-4xl font-semibold text-ink-950">97<span class="text-gold-500">%</span></div>
+            <div class="font-caps text-[8px] tracking-[.2em] text-ink-400 mt-1">List-to-Sale Ratio</div>
+            <div class="flex justify-center gap-0.5 mt-2">
+              <i class="fa-solid fa-star text-gold-500 text-xs"></i><i class="fa-solid fa-star text-gold-500 text-xs"></i>
+              <i class="fa-solid fa-star text-gold-500 text-xs"></i><i class="fa-solid fa-star text-gold-500 text-xs"></i>
+              <i class="fa-solid fa-star text-gold-500 text-xs"></i>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-6 -left-6 w-28 h-28 border border-gold-500/25 rounded-2xl dot-bg"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="order-1 lg:order-2 reveal from-right">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="h-px w-8 bg-gold-500"></div>
+          <span class="slabel">Why Work With Me</span>
+        </div>
+        <h2 class="font-display text-5xl lg:text-6xl font-semibold text-ink-950 leading-tight mb-5">
+          The Advantage<br><em class="gold-text not-italic">You Deserve</em>
+        </h2>
+        <p class="text-ink-400 text-lg leading-relaxed mb-10" style="font-weight:300;">
+          Every client deserves a partner who fights for their best outcome — in price, terms, and peace of mind. Here's what sets my service apart.
+        </p>
+
+        <div class="space-y-5">
+          <!-- Pillar 1 -->
+          <div class="pillar-card group flex gap-5 p-5 rounded-2xl border border-ink-100 bg-white">
+            <div class="pillar-icon w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(201,165,90,.1);">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-xl font-semibold text-ink-950 mb-1.5">Local Expertise</h3>
+              <p class="text-ink-400 text-sm leading-relaxed" style="font-weight:300;">I've lived and worked in this community for over a decade. I know the school districts, hidden gems, and micro-trends that data portals simply miss.</p>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card group flex gap-5 p-5 rounded-2xl border border-ink-100 bg-white">
+            <div class="pillar-icon w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(201,165,90,.1);">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-xl font-semibold text-ink-950 mb-1.5">Elite Negotiation Skills</h3>
+              <p class="text-ink-400 text-sm leading-relaxed" style="font-weight:300;">With hundreds of successful negotiations, I know when to push, when to hold, and how to structure offers that win. My sellers consistently close above list price.</p>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card group flex gap-5 p-5 rounded-2xl border border-ink-100 bg-white">
+            <div class="pillar-icon w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(201,165,90,.1);">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-xl font-semibold text-ink-950 mb-1.5">Smooth, Stress-Free Closings</h3>
+              <p class="text-ink-400 text-sm leading-relaxed" style="font-weight:300;">I coordinate every detail — inspections, contingencies, title, lenders, and escrow — so you don't have to. Your keys on time, every time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════ -->
+<section id="testimonials" class="relative py-28 lg:py-36 section-bg overflow-hidden">
+  <div class="absolute inset-0" style="background:linear-gradient(160deg,rgba(13,15,20,.94) 0%,rgba(13,15,20,.88) 100%);"></div>
+  <div class="absolute top-0 inset-x-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(201,165,90,.4),transparent);"></div>
+  <div class="absolute bottom-0 inset-x-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(201,165,90,.4),transparent);"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-5 sm:px-8">
+
+    <!-- Header -->
+    <div class="reveal text-center mb-14">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="h-px w-8 bg-gold-500"></div><span class="slabel">Client Stories</span><div class="h-px w-8 bg-gold-500"></div>
+      </div>
+      <h2 class="font-display text-5xl lg:text-6xl font-semibold text-white mb-4">What Clients Say</h2>
+      <p class="text-white/40 text-lg" style="font-weight:300;">Real words from real people I've been privileged to serve.</p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="reveal">
+      <div id="carousel-track">
+
+        <!-- Slide 1 -->
+        <div class="t-slide active">
+          <div class="relative rounded-3xl p-8 sm:p-12 text-center" style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);">
+            <div class="quote-mark">&ldquo;</div>
+            <div class="flex justify-center gap-1 mb-6">
+              <i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i>
+            </div>
+            <blockquote class="font-display text-2xl sm:text-3xl text-white font-medium italic leading-relaxed mb-8">
+              "Alexandra didn't just sell our home — she orchestrated the entire process with grace and precision. We received four offers over asking in just three days. She is in a league of her own."
+            </blockquote>
+            <div class="flex items-center justify-center gap-4">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-semibold text-ink-950 shrink-0" style="background:#C9A55A;font-size:15px;">MJ</div>
+              <div class="text-left">
+                <div class="text-white font-semibold text-sm">Michael & Jessica Thornton</div>
+                <div class="text-white/35 text-xs mt-0.5">Sold in Beverly Hills · Spring 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="t-slide">
+          <div class="relative rounded-3xl p-8 sm:p-12 text-center" style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);">
+            <div class="quote-mark">&ldquo;</div>
+            <div class="flex justify-center gap-1 mb-6">
+              <i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i>
+            </div>
+            <blockquote class="font-display text-2xl sm:text-3xl text-white font-medium italic leading-relaxed mb-8">
+              "As first-time buyers, we were completely overwhelmed. Alexandra made us feel like her only clients. She found us our dream home $50,000 under budget — then negotiated repairs on top of that!"
+            </blockquote>
+            <div class="flex items-center justify-center gap-4">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-semibold text-ink-950 shrink-0" style="background:#C9A55A;font-size:15px;">SC</div>
+              <div class="text-left">
+                <div class="text-white font-semibold text-sm">Sarah & Peter Collins</div>
+                <div class="text-white/35 text-xs mt-0.5">Purchased in Santa Monica · Fall 2024</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="t-slide">
+          <div class="relative rounded-3xl p-8 sm:p-12 text-center" style="background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);">
+            <div class="quote-mark">&ldquo;</div>
+            <div class="flex justify-center gap-1 mb-6">
+              <i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i><i class="fa-solid fa-star text-gold-500"></i>
+            </div>
+            <blockquote class="font-display text-2xl sm:text-3xl text-white font-medium italic leading-relaxed mb-8">
+              "I've worked with several agents across my investment career. Alexandra is the gold standard. Her market intelligence is elite, her network is unmatched, and she closes deals others walk away from."
+            </blockquote>
+            <div class="flex items-center justify-center gap-4">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-semibold text-ink-950 shrink-0" style="background:#C9A55A;font-size:15px;">DW</div>
+              <div class="text-left">
+                <div class="text-white font-semibold text-sm">David Wren</div>
+                <div class="text-white/35 text-xs mt-0.5">Portfolio Investor, Malibu · 2024</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex items-center justify-center gap-5 mt-8">
+        <button id="prev-btn" class="w-11 h-11 rounded-full flex items-center justify-center text-white hover:text-gold-500 transition-colors duration-300" style="border:1px solid rgba(255,255,255,.2);" aria-label="Previous">
+          <i class="fa-solid fa-chevron-left text-xs"></i>
+        </button>
+        <div class="flex gap-2" id="dots">
+          <button class="dot w-6 h-1.5 rounded-full bg-gold-500 transition-all duration-300" data-i="0"></button>
+          <button class="dot w-2  h-1.5 rounded-full transition-all duration-300" style="background:rgba(255,255,255,.25);" data-i="1"></button>
+          <button class="dot w-2  h-1.5 rounded-full transition-all duration-300" style="background:rgba(255,255,255,.25);" data-i="2"></button>
+        </div>
+        <button id="next-btn" class="w-11 h-11 rounded-full flex items-center justify-center text-white hover:text-gold-500 transition-colors duration-300" style="border:1px solid rgba(255,255,255,.2);" aria-label="Next">
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="reveal text-center mt-16">
+      <p class="text-white/35 text-lg mb-5" style="font-weight:300;">Ready to write your own success story?</p>
+      <a href="#contact" class="btn-gold"><i class="fa-solid fa-calendar-check text-xs"></i>Schedule a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT / LEAD GEN
+═══════════════════════════════════════════ -->
+<section id="contact" class="py-28 lg:py-36 bg-ivory">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid lg:grid-cols-5 gap-14 xl:gap-20 items-start">
+
+      <!-- Left: Info -->
+      <div class="lg:col-span-2 reveal from-left">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="h-px w-8 bg-gold-500"></div><span class="slabel">Let's Connect</span>
+        </div>
+        <h2 class="font-display text-5xl font-semibold text-ink-950 leading-tight mb-5">
+          Your Journey<br><em class="gold-text not-italic">Starts Here</em>
+        </h2>
+        <p class="text-ink-400 text-lg leading-relaxed mb-10" style="font-weight:300;">
+          Whether buying, selling, or simply curious about your home's value — I'd love to connect. I personally respond to every inquiry within 2 hours.
+        </p>
+
+        <!-- Contact rows -->
+        <div class="space-y-3 mb-10">
+          <a href="tel:+15551234567" class="contact-row">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <div class="font-caps text-[9px] tracking-[.2em] text-ink-300 mb-0.5">Call or Text</div>
+              <div class="font-semibold text-ink-900">(555) 123-4567</div>
+            </div>
+          </a>
+          <a href="mailto:hello@alexandrareed.com" class="contact-row">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <div class="font-caps text-[9px] tracking-[.2em] text-ink-300 mb-0.5">Email</div>
+              <div class="font-semibold text-ink-900 text-sm">hello@alexandrareed.com</div>
+            </div>
+          </a>
+          <div class="contact-row" style="cursor:default;">
+            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <div class="font-caps text-[9px] tracking-[.2em] text-ink-300 mb-0.5">Office</div>
+              <div class="font-semibold text-ink-900 text-sm">9000 Wilshire Blvd, Beverly Hills</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div>
+          <div class="font-caps text-[9px] tracking-[.25em] text-ink-300 mb-4">Follow Along</div>
+          <div class="flex gap-2">
+            <a href="#" class="w-10 h-10 rounded-xl border border-ink-100 bg-white hover:bg-ink-950 hover:border-ink-950 text-ink-400 hover:text-gold-500 flex items-center justify-center transition-all duration-300 text-sm" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="w-10 h-10 rounded-xl border border-ink-100 bg-white hover:bg-ink-950 hover:border-ink-950 text-ink-400 hover:text-gold-500 flex items-center justify-center transition-all duration-300 text-sm" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="w-10 h-10 rounded-xl border border-ink-100 bg-white hover:bg-ink-950 hover:border-ink-950 text-ink-400 hover:text-gold-500 flex items-center justify-center transition-all duration-300 text-sm" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="w-10 h-10 rounded-xl border border-ink-100 bg-white hover:bg-ink-950 hover:border-ink-950 text-ink-400 hover:text-gold-500 flex items-center justify-center transition-all duration-300 text-sm" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="lg:col-span-3 reveal from-right">
+        <div class="bg-white border border-ink-100 rounded-3xl p-8 sm:p-10 shadow-sm">
+          <h3 class="font-display text-2xl font-semibold text-ink-950 mb-1">Request a Free Valuation or Showing</h3>
+          <p class="text-ink-400 text-sm mb-8" style="font-weight:300;">I personally respond to every message within 2 hours during business hours.</p>
+
+          <form id="contact-form" novalidate>
+            <div class="grid sm:grid-cols-2 gap-4 mb-4">
+              <!-- Name -->
+              <div>
+                <label class="block font-caps text-[9px] tracking-[.25em] text-ink-400 mb-2" for="f-name">Full Name *</label>
+                <input type="text" id="f-name" name="name" required placeholder="John Smith" class="f-field">
+                <span class="err-msg hidden text-red-500 text-xs mt-1.5 block">Please enter your name.</span>
+              </div>
+              <!-- Email -->
+              <div>
+                <label class="block font-caps text-[9px] tracking-[.25em] text-ink-400 mb-2" for="f-email">Email Address *</label>
+                <input type="email" id="f-email" name="email" required placeholder="john@example.com" class="f-field">
+                <span class="err-msg hidden text-red-500 text-xs mt-1.5 block">Please enter a valid email.</span>
+              </div>
+              <!-- Phone -->
+              <div>
+                <label class="block font-caps text-[9px] tracking-[.25em] text-ink-400 mb-2" for="f-phone">Phone Number</label>
+                <input type="tel" id="f-phone" name="phone" placeholder="(555) 000-0000" class="f-field">
+              </div>
+              <!-- Inquiry -->
+              <div>
+                <label class="block font-caps text-[9px] tracking-[.25em] text-ink-400 mb-2" for="f-inquiry">I'm Looking To *</label>
+                <select id="f-inquiry" name="inquiry" required class="f-field cursor-pointer">
+                  <option value="" disabled selected>Select an option…</option>
+                  <option value="buy">Buy a Home</option>
+                  <option value="sell">Sell My Home</option>
+                  <option value="value">Free Home Valuation</option>
+                  <option value="invest">Investment Properties</option>
+                  <option value="other">Other / Just Exploring</option>
+                </select>
+                <span class="err-msg hidden text-red-500 text-xs mt-1.5 block">Please select an option.</span>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-6">
+              <label class="block font-caps text-[9px] tracking-[.25em] text-ink-400 mb-2" for="f-message">Your Message *</label>
+              <textarea id="f-message" name="message" rows="5" required placeholder="Tell me about your goals, preferred timeline, budget range, or neighborhoods you love…" class="f-field resize-none"></textarea>
+              <span class="err-msg hidden text-red-500 text-xs mt-1.5 block">Please enter your message.</span>
+            </div>
+
+            <!-- Privacy -->
+            <p class="text-ink-300 text-xs mb-6 flex items-start gap-2">
+              <i class="fa-solid fa-lock text-gold-500 mt-0.5 shrink-0"></i>
+              Your information is 100% private and will never be shared with third parties.
+            </p>
+
+            <!-- Submit -->
+            <button type="submit" id="submit-btn" class="btn-gold w-full justify-center py-4 text-sm">
+              <i class="fa-solid fa-paper-plane text-xs"></i>Send My Message
+            </button>
+
+            <!-- Success -->
+            <div id="form-success" class="hidden mt-5 rounded-xl p-5 text-center" style="background:rgba(5,150,105,.07);border:1px solid rgba(16,185,129,.3);">
+              <i class="fa-solid fa-circle-check text-emerald-500 text-2xl mb-2 block"></i>
+              <p class="font-semibold text-emerald-700 text-sm">Message received! I'll be in touch within 2 hours.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer style="background:#0d0f14;">
+  <div class="h-px" style="background:linear-gradient(90deg,transparent,rgba(201,165,90,.45),transparent);"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a href="#home" class="flex items-center gap-3 mb-5 w-fit group">
+          <div class="w-9 h-9 rounded-full border border-gold-500/50 flex items-center justify-center group-hover:border-gold-400 transition-colors">
+            <svg class="w-4 h-4 text-gold-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-display text-white text-[17px] font-semibold">Alexandra Reed</div>
+            <div class="font-caps text-gold-500 text-[8px] tracking-[.25em] opacity-70 mt-0.5">Luxury Real Estate</div>
+          </div>
+        </a>
+        <p class="text-white/25 text-sm leading-relaxed mb-6 max-w-xs" style="font-weight:300;">Serving greater Los Angeles with integrity, expertise, and an unwavering commitment to your best outcome.</p>
+        <div class="flex gap-2">
+          <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-white/25 hover:text-gold-500 transition-all duration-300 text-sm" style="border:1px solid rgba(255,255,255,.08);" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-white/25 hover:text-gold-500 transition-all duration-300 text-sm" style="border:1px solid rgba(255,255,255,.08);" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-white/25 hover:text-gold-500 transition-all duration-300 text-sm" style="border:1px solid rgba(255,255,255,.08);" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-white/25 hover:text-gold-500 transition-all duration-300 text-sm" style="border:1px solid rgba(255,255,255,.08);" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h4 class="font-caps text-[9px] tracking-[.25em] text-white/25 mb-5">Navigation</h4>
+        <ul class="space-y-3">
+          <li><a href="#home"         class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Home</a></li>
+          <li><a href="#about"        class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">About Alexandra</a></li>
+          <li><a href="#listings"     class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Featured Listings</a></li>
+          <li><a href="#services"     class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Services</a></li>
+          <li><a href="#testimonials" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Testimonials</a></li>
+          <li><a href="#contact"      class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="font-caps text-[9px] tracking-[.25em] text-white/25 mb-5">Services</h4>
+        <ul class="space-y-3">
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Buyer Representation</a></li>
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Seller Representation</a></li>
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Free Home Valuation</a></li>
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Investment Properties</a></li>
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Relocation Services</a></li>
+          <li><a href="#contact" class="text-white/40 hover:text-gold-400 text-sm transition-colors duration-200">Property Management</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div style="border-top:1px solid rgba(255,255,255,.06);">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-white/18 text-xs text-center sm:text-left">&copy; 2025 Alexandra Reed Luxury Real Estate · All rights reserved · DRE #01234567</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-white/18 hover:text-gold-500 text-xs transition-colors duration-200">Privacy Policy</a>
+        <a href="#" class="text-white/18 hover:text-gold-500 text-xs transition-colors duration-200">Terms of Service</a>
+        <a href="#" class="text-white/18 hover:text-gold-500 text-xs transition-colors duration-200">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 55);
+  }, { passive: true });
+
+  /* ── Hamburger / mobile menu ── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  let menuOpen = false;
+
+  hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    if (menuOpen) {
+      bar1.style.cssText = 'transform:translateY(6.5px) rotate(45deg);';
+      bar2.style.cssText = 'opacity:0;width:0;';
+      bar3.style.cssText = 'transform:translateY(-6.5px) rotate(-45deg);';
+    } else {
+      bar1.style.cssText = bar2.style.cssText = bar3.style.cssText = '';
+    }
+  });
+
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      bar1.style.cssText = bar2.style.cssText = bar3.style.cssText = '';
+    });
+  });
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 76, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Active nav link ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks  = document.querySelectorAll('nav .nav-link');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+  }, { passive: true });
+
+  /* ── Scroll reveal ── */
+  const revObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -55px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  /* ── Testimonial carousel ── */
+  const slides  = document.querySelectorAll('.t-slide');
+  const dots    = document.querySelectorAll('.dot');
+  let cur = 0, timer;
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dots[cur].style.width = '8px'; dots[cur].style.background = 'rgba(255,255,255,.25)';
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].style.width = '24px'; dots[cur].style.background = '#C9A55A';
+  }
+
+  function startTimer() { timer = setInterval(() => goTo(cur + 1), 5500); }
+  function resetTimer() { clearInterval(timer); startTimer(); }
+
+  document.getElementById('prev-btn').addEventListener('click', () => { goTo(cur - 1); resetTimer(); });
+  document.getElementById('next-btn').addEventListener('click', () => { goTo(cur + 1); resetTimer(); });
+  dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
+
+  const track = document.getElementById('carousel-track');
+  track.addEventListener('mouseenter', () => clearInterval(timer));
+  track.addEventListener('mouseleave', startTimer);
+  startTimer();
+
+  /* ── Contact form ── */
+  const form       = document.getElementById('contact-form');
+  const submitBtn  = document.getElementById('submit-btn');
+  const successMsg = document.getElementById('form-success');
+
+  function getErr(field) { return field.parentElement.querySelector('.err-msg'); }
+
+  function validate(field) {
+    const err = getErr(field);
+    let ok = true;
+    if (field.required && !field.value.trim()) ok = false;
+    else if (field.type === 'email' && field.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) ok = false;
+    field.classList.toggle('err', !ok);
+    if (err) err.classList.toggle('hidden', ok);
+    return ok;
+  }
+
+  form.querySelectorAll('input, textarea, select').forEach(f => {
+    f.addEventListener('blur', () => validate(f));
+    f.addEventListener('input', () => { if (f.classList.contains('err')) validate(f); });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let allOk = true;
+    form.querySelectorAll('[required]').forEach(f => { if (!validate(f)) allOk = false; });
+    if (!allOk) return;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs"></i> Sending…';
+
+    setTimeout(() => {
+      form.querySelectorAll('input, textarea, select').forEach(f => { f.value = ''; f.classList.remove('err'); });
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i>Send My Message';
+      successMsg.classList.remove('hidden');
+      setTimeout(() => successMsg.classList.add('hidden'), 5000);
+    }, 2000);
+  });
+
+}());
+</script>
+</body>
+</html>
