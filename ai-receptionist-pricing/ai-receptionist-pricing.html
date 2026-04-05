@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Receptionist — Brechtland</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg-deep:#0a0a14;
+    --bg-card:#0d0d1a;
+    --border-glow:rgba(124,58,237,0.25);
+    --purple:#7c3aed;
+    --purple-glow:rgba(124,58,237,0.6);
+    --magenta:#e040a0;
+    --magenta-glow:rgba(224,64,160,0.5);
+    --orange:#f97316;
+    --orange-glow:rgba(249,115,22,0.5);
+    --cyan:#06b6d4;
+    --text-primary:#f0f0f5;
+    --text-secondary:#9ca3af;
+    --text-muted:#6b7280;
+  }
+
+  body{
+    background:var(--bg-deep);
+    font-family:'Exo 2',sans-serif;
+    color:var(--text-primary);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── PRICING SECTION ── */
+  .pricing-section{
+    position:relative;
+    padding:100px 24px 80px;
+    overflow:hidden;
+  }
+  .pricing-section::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.08),transparent),
+      radial-gradient(ellipse 40% 50% at 80% 80%,rgba(249,115,22,0.05),transparent);
+    pointer-events:none;
+  }
+  .pricing-section::after{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+  }
+  .pricing-inner{
+    position:relative;z-index:1;
+    max-width:1280px;margin:0 auto;
+  }
+
+  /* ── HEADER ── */
+  .pricing-header{text-align:center;margin-bottom:64px}
+  .pricing-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--magenta);display:block;margin-bottom:16px;
+    text-shadow:0 0 20px var(--magenta-glow);
+  }
+  .pricing-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(26px,4.5vw,46px);
+    font-weight:800;line-height:1.15;margin-bottom:20px;
+    background:linear-gradient(135deg,var(--text-primary) 0%,var(--purple) 50%,var(--magenta) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .pricing-subtitle{
+    font-size:17px;color:var(--text-secondary);
+    max-width:580px;margin:0 auto;line-height:1.7;
+  }
+
+  /* ── STAT ROW ── */
+  .stat-row{
+    display:flex;justify-content:center;gap:48px;
+    margin-bottom:64px;flex-wrap:wrap;
+  }
+  .stat-item{text-align:center}
+  .stat-number{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(28px,4vw,42px);font-weight:800;
+    background:linear-gradient(135deg,var(--orange),var(--magenta));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    display:block;line-height:1.1;margin-bottom:6px;
+  }
+  .stat-label{font-size:13px;color:var(--text-muted);letter-spacing:.5px}
+
+  /* ── SINGLE CARD LAYOUT ── */
+  .card-wrap{
+    display:flex;justify-content:center;
+    margin-bottom:72px;
+  }
+  .price-card{
+    position:relative;
+    background:var(--bg-card);
+    border:1px solid var(--purple);
+    border-radius:20px;
+    padding:48px 44px 44px;
+    width:100%;max-width:520px;
+    background:linear-gradient(180deg,rgba(124,58,237,0.07) 0%,var(--bg-card) 40%);
+    box-shadow:0 0 40px rgba(124,58,237,0.12),inset 0 1px 0 rgba(124,58,237,0.25);
+    transition:transform .3s,box-shadow .4s;
+  }
+  .price-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 56px rgba(124,58,237,0.18),inset 0 1px 0 rgba(124,58,237,0.3);
+  }
+  .launch-tag{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:3px;text-transform:uppercase;
+    color:#fff;font-weight:700;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:5px 22px;border-radius:20px;white-space:nowrap;
+    box-shadow:0 0 22px var(--purple-glow);
+  }
+
+  .card-eyebrow{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:6px;
+  }
+  .card-name{
+    font-family:'Orbitron',sans-serif;
+    font-size:26px;font-weight:800;
+    color:var(--text-primary);margin-bottom:6px;
+  }
+  .card-desc{
+    font-size:14px;color:var(--text-secondary);line-height:1.65;margin-bottom:28px;
+  }
+
+  .price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+  .price-dollar{
+    font-family:'Orbitron',sans-serif;
+    font-size:16px;font-weight:700;color:var(--text-primary);
+    align-self:flex-start;margin-top:8px;
+  }
+  .price-amount{
+    font-family:'Orbitron',sans-serif;
+    font-size:56px;font-weight:800;color:var(--text-primary);line-height:1;
+  }
+  .price-period{font-size:15px;color:var(--text-muted);font-weight:400}
+  .price-note{font-size:12px;color:var(--text-muted);margin-bottom:32px}
+
+  .card-divider{
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(124,58,237,0.3),transparent);
+    margin-bottom:24px;
+  }
+  .features-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--text-muted);margin-bottom:16px;
+  }
+  .feature-list{list-style:none;margin-bottom:36px}
+  .feature-list li{
+    display:flex;align-items:center;gap:12px;
+    font-size:14px;color:var(--text-secondary);
+    padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+    line-height:1.4;
+  }
+  .feature-list li:last-child{border-bottom:none}
+  .feature-dot{
+    width:7px;height:7px;border-radius:50%;flex-shrink:0;
+  }
+  .dot-purple{background:var(--purple);box-shadow:0 0 8px var(--purple-glow)}
+  .dot-magenta{background:var(--magenta);box-shadow:0 0 8px var(--magenta-glow)}
+  .dot-orange{background:var(--orange);box-shadow:0 0 8px var(--orange-glow)}
+
+  .card-cta{
+    display:block;width:100%;text-align:center;
+    font-family:'Orbitron',sans-serif;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--purple),var(--magenta));
+    padding:17px 32px;border-radius:10px;
+    text-decoration:none;
+    box-shadow:0 4px 28px rgba(124,58,237,0.35);
+    transition:all .3s;border:none;cursor:pointer;
+  }
+  .card-cta:hover{
+    box-shadow:0 4px 42px rgba(124,58,237,0.55);
+    transform:translateY(-2px);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section{
+    position:relative;
+    padding:0 24px 80px;
+  }
+  .how-inner{max-width:1280px;margin:0 auto}
+  .how-header{text-align:center;margin-bottom:48px}
+  .how-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--cyan);display:block;margin-bottom:14px;
+    text-shadow:0 0 16px rgba(6,182,212,0.5);
+  }
+  .how-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(22px,3.5vw,34px);font-weight:800;
+    color:var(--text-primary);
+  }
+  .steps-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  @media(max-width:768px){.steps-grid{grid-template-columns:1fr}}
+  .step-card{
+    background:var(--bg-card);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:14px;padding:28px 24px;
+    transition:border-color .3s,transform .3s;
+  }
+  .step-card:hover{
+    border-color:var(--border-glow);
+    transform:translateY(-3px);
+  }
+  .step-number{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:2px;
+    color:var(--text-muted);margin-bottom:12px;display:block;
+  }
+  .step-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:15px;font-weight:700;
+    color:var(--text-primary);margin-bottom:10px;
+  }
+  .step-desc{font-size:14px;color:var(--text-secondary);line-height:1.65}
+
+  /* ── OBJECTION / FAQ ── */
+  .faq-section{
+    padding:0 24px 80px;
+  }
+  .faq-inner{max-width:760px;margin:0 auto}
+  .faq-header{text-align:center;margin-bottom:40px}
+  .faq-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--orange);display:block;margin-bottom:14px;
+    text-shadow:0 0 16px var(--orange-glow);
+  }
+  .faq-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(20px,3vw,30px);font-weight:800;
+    color:var(--text-primary);
+  }
+  .faq-list{display:flex;flex-direction:column;gap:12px}
+  .faq-item{
+    background:var(--bg-card);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:12px;padding:22px 24px;
+    cursor:pointer;
+    transition:border-color .3s;
+  }
+  .faq-item:hover{border-color:var(--border-glow)}
+  .faq-q{
+    font-family:'Orbitron',sans-serif;
+    font-size:13px;font-weight:700;
+    color:var(--text-primary);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .faq-arrow{
+    color:var(--purple);font-size:16px;
+    transition:transform .3s;flex-shrink:0;
+  }
+  .faq-item.open .faq-arrow{transform:rotate(180deg)}
+  .faq-a{
+    font-size:14px;color:var(--text-secondary);
+    line-height:1.7;max-height:0;overflow:hidden;
+    transition:max-height .35s ease,padding-top .3s;
+  }
+  .faq-item.open .faq-a{max-height:200px;padding-top:14px}
+
+  /* ── BUNDLE BANNER ── */
+  .bundle-section{padding:0 24px 100px}
+  .bundle-inner{max-width:1280px;margin:0 auto}
+  .bundle-banner{
+    background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(224,64,160,0.08));
+    border:1px solid rgba(124,58,237,0.2);
+    border-radius:18px;padding:40px 44px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:32px;flex-wrap:wrap;
+  }
+  .bundle-text h3{
+    font-family:'Orbitron',sans-serif;
+    font-size:20px;font-weight:700;margin-bottom:10px;
+  }
+  .bundle-text h3 span{
+    background:linear-gradient(135deg,var(--orange),var(--magenta));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .bundle-text p{font-size:15px;color:var(--text-secondary);line-height:1.7;max-width:520px}
+  .bundle-cta{
+    font-family:'Orbitron',sans-serif;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--orange),var(--magenta));
+    padding:16px 36px;border-radius:10px;
+    text-decoration:none;white-space:nowrap;
+    box-shadow:0 4px 24px rgba(249,115,22,0.25);
+    transition:all .3s;border:none;cursor:pointer;display:inline-block;
+  }
+  .bundle-cta:hover{
+    box-shadow:0 4px 36px rgba(249,115,22,0.4);
+    transform:translateY(-2px);
+  }
+
+  @media(max-width:700px){
+    .bundle-banner{padding:28px 24px;flex-direction:column;text-align:center}
+    .bundle-text p{max-width:100%}
+    .price-card{padding:40px 28px 36px}
+    .stat-row{gap:28px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── PRICING ── -->
+<section class="pricing-section">
+<div class="pricing-inner">
+
+  <div class="pricing-header">
+    <span class="pricing-label">AI Receptionist</span>
+    <h2 class="pricing-title">Your Best Employee.<br>Works 24/7. Never Calls In Sick.</h2>
+    <p class="pricing-subtitle">A fully trained AI receptionist that answers every call, books appointments directly to your Google Calendar, and captures every lead — automatically.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-row">
+    <div class="stat-item">
+      <span class="stat-number">24/7</span>
+      <span class="stat-label">Always answering</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">&#8734;</span>
+      <span class="stat-label">Simultaneous calls</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">0s</span>
+      <span class="stat-label">Average wait time</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">12+</span>
+      <span class="stat-label">Industries supported</span>
+    </div>
+  </div>
+
+  <!-- Single Card -->
+  <div class="card-wrap">
+    <div class="price-card">
+      <div class="launch-tag">Launch Offer</div>
+      <div class="card-eyebrow">AI Receptionist</div>
+      <div class="card-name">Full Access</div>
+      <div class="card-desc">Everything you need to stop missing calls and start booking more jobs — fully automated, fully done for you.</div>
+      <div class="price-row">
+        <span class="price-dollar">$</span>
+        <span class="price-amount">497</span>
+        <span class="price-period">/mo</span>
+      </div>
+      <div class="price-note">No long-term commitment. Cancel anytime.</div>
+      <div class="card-divider"></div>
+      <div class="features-label">Everything Included</div>
+      <ul class="feature-list">
+        <li><span class="feature-dot dot-purple"></span>24/7 AI call answering — never miss a lead</li>
+        <li><span class="feature-dot dot-purple"></span>Automatic appointment booking to your Google Calendar</li>
+        <li><span class="feature-dot dot-purple"></span>Lead capture with full caller details saved</li>
+        <li><span class="feature-dot dot-purple"></span>Industry-trained AI — roofing, HVAC, plumbing, electrical &amp; more</li>
+        <li><span class="feature-dot dot-magenta"></span>Custom business hours &amp; after-hours handling</li>
+        <li><span class="feature-dot dot-magenta"></span>Intelligent call escalation to a real person when needed</li>
+        <li><span class="feature-dot dot-magenta"></span>Voicemail fallback with recording &amp; transcription</li>
+        <li><span class="feature-dot dot-magenta"></span>Dedicated Twilio phone number included</li>
+        <li><span class="feature-dot dot-orange"></span>Full onboarding &amp; setup — done by Brechtland</li>
+        <li><span class="feature-dot dot-orange"></span>Ongoing support from your Brechtland team</li>
+      </ul>
+      <a href="https://buy.stripe.com/4gM00lgJuaV87oTgZX3Ru0e" class="card-cta" target="_blank">Get Started</a>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-section">
+<div class="how-inner">
+  <div class="how-header">
+    <span class="how-label">The Process</span>
+    <h2 class="how-title">Up and running in 48 hours</h2>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <span class="step-number">STEP 01</span>
+      <div class="step-title">We Build Your Receptionist</div>
+      <p class="step-desc">We configure your AI receptionist with your business name, services, hours, and industry. No technical work required from you.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-number">STEP 02</span>
+      <div class="step-title">Connect Your Calendar</div>
+      <p class="step-desc">Share your Google Calendar with one click. From that point on, every booked appointment shows up automatically — no manual entry.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-number">STEP 03</span>
+      <div class="step-title">Forward Your Calls</div>
+      <p class="step-desc">We give you a dedicated number or configure call forwarding on your existing line. Your AI receptionist starts answering immediately.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq-section">
+<div class="faq-inner">
+  <div class="faq-header">
+    <span class="faq-label">Common Questions</span>
+    <h2 class="faq-title">Got questions? We've got answers.</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Does it sound like a robot? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">No. Your AI receptionist uses a natural, conversational voice and is trained to handle real questions about your business. Callers often don't realize they're talking to an AI.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What happens if it can't answer something? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">If a caller asks something outside what your AI knows, it gracefully collects their info and flags it for you to follow up — or it can transfer the call directly to your phone.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Do I need to change my existing phone number? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Nope. We can set up a dedicated number or configure your existing line to forward calls. Most clients use call forwarding so their main number stays the same.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What industries does it work for? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Roofing, HVAC, plumbing, electrical, dental, real estate, landscaping, auto detailing, epoxy flooring, window cleaning, fitness, and restaurants — with more added regularly. If you're a service-based business, we've got you covered.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I cancel anytime? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Yes. No long-term contracts. Month-to-month. If you decide it's not for you, cancel before your next billing date and you won't be charged again.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ── BUNDLE BANNER ── -->
+<section class="bundle-section">
+<div class="bundle-inner">
+  <div class="bundle-banner">
+    <div class="bundle-text">
+      <h3>Already have a Brechtland website? <span>Bundle and save.</span></h3>
+      <p>Add your AI Receptionist to an existing Brechtland website plan and get everything under one roof — one bill, one team, zero headaches. The combo of a great website and a 24/7 AI receptionist is the most powerful thing we offer.</p>
+    </div>
+    <a href="#" class="bundle-cta">See Bundles</a>
+  </div>
+</div>
+</section>
+
+<script>
+  function toggleFaq(el){
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) el.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
