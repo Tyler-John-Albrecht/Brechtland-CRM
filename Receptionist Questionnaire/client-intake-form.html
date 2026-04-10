@@ -523,6 +523,21 @@
         </div>
       </div>
 
+      <!-- ── INDUSTRY-SPECIFIC QUESTIONS ── -->
+      <div id="industry-specific-section" style="display:none">
+        <div class="divider"></div>
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-icon icon-magenta">🎯</div>
+            <div>
+              <div class="section-title" id="ind-section-title">Industry-Specific Questions</div>
+              <div class="section-note">These questions help your AI handle the conversations that matter most in your industry</div>
+            </div>
+          </div>
+          <div class="field-group" id="ind-questions-body"></div>
+        </div>
+      </div>
+
       <!-- ── SUBMIT ── -->
       <div class="submit-wrap">
         <p class="submit-note">We'll review your info and reach out within 24 hours to confirm everything before going live.</p>
@@ -542,6 +557,219 @@
 </div>
 
 <script>
+  // ── Industry-specific question sets ───────────────────────────────────────
+  const INDUSTRY_QUESTIONS = {
+
+    roofing: {
+      title: 'Roofing — Specific Questions',
+      fields: [
+        { type:'radio', name:'handles_insurance_claims', label:'Do you handle insurance claims for storm or hail damage?', options:[{v:'yes',l:'Yes — we manage the entire claim process'},{v:'no',l:'No — customers handle their own claims'},{v:'sometimes',l:'We assist but do not manage the full claim'}] },
+        { type:'textarea', name:'roofing_materials', label:'What roofing materials and systems do you install?', placeholder:'e.g. Asphalt shingles (GAF, Owens Corning), metal roofing, TPO flat roofs, tile, cedar shake' },
+        { type:'radio', name:'free_roof_inspection', label:'Do you offer free roof inspections?', options:[{v:'yes',l:'Yes, always free'},{v:'no',l:'No'},{v:'storm_only',l:'Free for storm/insurance claims only'}] },
+        { type:'textarea', name:'roofing_warranty', label:'What warranty do you offer on labor and materials?', placeholder:'e.g. 10-year labor warranty, manufacturer lifetime warranty on shingles, 5-year warranty on flat roofs' },
+        { type:'text', name:'typical_job_size', label:'What is your typical job size / price range?', placeholder:'e.g. Residential replacements $8,000–$25,000, commercial starting at $15,000' },
+        { type:'radio', name:'residential_commercial', label:'Do you work on residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both residential and commercial'}] },
+      ]
+    },
+
+    hvac: {
+      title: 'HVAC — Specific Questions',
+      fields: [
+        { type:'radio', name:'hvac_residential_commercial', label:'Do you service residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both'}] },
+        { type:'textarea', name:'hvac_brands', label:'What brands and systems do you work with?', placeholder:'e.g. Trane, Carrier, Lennox, Rheem, Goodman, mini-splits, heat pumps, geothermal' },
+        { type:'radio', name:'hvac_maintenance_plan', label:'Do you offer maintenance plans or service contracts?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'hvac_maintenance_details', label:'If yes, describe your maintenance plan options.', placeholder:'e.g. Annual tune-up plan $199/year includes 2 visits, priority scheduling, and 15% off repairs' },
+        { type:'text', name:'service_call_fee', label:'What is your diagnostic or service call fee?', placeholder:'e.g. $89 service call fee, waived with repair. Free estimates on new equipment.' },
+        { type:'radio', name:'hvac_new_installs', label:'Do you install new HVAC systems in addition to repairs?', options:[{v:'yes',l:'Yes — installs and repairs'},{v:'repairs_only',l:'Repairs and maintenance only'}] },
+        { type:'textarea', name:'hvac_financing', label:'Do you offer financing on new equipment? Details?', placeholder:'e.g. 0% financing for 18 months through GreenSky. No credit check options available.' },
+      ]
+    },
+
+    plumbing: {
+      title: 'Plumbing — Specific Questions',
+      fields: [
+        { type:'radio', name:'plumbing_emergency_24_7', label:'Do you offer 24/7 emergency plumbing service?', options:[{v:'yes',l:'Yes — 24/7 emergency available'},{v:'hours_only',l:'Business hours only'},{v:'on_call',l:'On-call after hours for existing customers'}] },
+        { type:'radio', name:'plumbing_residential_commercial', label:'Do you handle residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both'}] },
+        { type:'text', name:'plumbing_trip_charge', label:'What is your trip charge or service call fee?', placeholder:'e.g. $75 trip charge, applied toward repair cost. Free estimates for major jobs.' },
+        { type:'textarea', name:'plumbing_specialties', label:'Any plumbing specialties or services worth highlighting?', placeholder:'e.g. Water heater installation (same-day), sewer line inspection, hydro-jetting, whole-home repiping, water softeners' },
+        { type:'radio', name:'plumbing_water_heaters', label:'Do you install and service water heaters?', options:[{v:'yes',l:'Yes — all types'},{v:'traditional',l:'Traditional tank only'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'plumbing_brands', label:'What brands do you carry or recommend?', placeholder:'e.g. Rheem, Bradford White, Navien tankless, Moen fixtures, Kohler' },
+      ]
+    },
+
+    electrical: {
+      title: 'Electrical — Specific Questions',
+      fields: [
+        { type:'radio', name:'electrical_residential_commercial', label:'Do you handle residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both'}] },
+        { type:'textarea', name:'electrical_specialties', label:'What electrical services do you specialize in?', placeholder:'e.g. Panel upgrades, EV charger installation, whole-home rewiring, generator hookup, outdoor lighting, smart home integration' },
+        { type:'radio', name:'electrical_ev_chargers', label:'Do you install EV (electric vehicle) chargers?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'radio', name:'electrical_panel_upgrades', label:'Do you do panel upgrades and service upgrades?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'text', name:'electrical_service_call_fee', label:'What is your service call or diagnostic fee?', placeholder:'e.g. $95 diagnostic fee applied toward repair. Free estimates for new installs.' },
+        { type:'textarea', name:'electrical_licensing', label:'What licenses and certifications do you hold?', placeholder:'e.g. Licensed Master Electrician in Texas (License #12345), fully bonded and insured, OSHA certified' },
+        { type:'radio', name:'electrical_emergency', label:'Do you offer emergency electrical service?', options:[{v:'yes',l:'Yes — 24/7 emergency'},{v:'no',l:'Business hours only'}] },
+      ]
+    },
+
+    dental: {
+      title: 'Dental — Specific Questions',
+      fields: [
+        { type:'radio', name:'accepting_new_patients', label:'Are you currently accepting new patients?', options:[{v:'yes',l:'Yes — accepting new patients'},{v:'no',l:'Not at this time'},{v:'limited',l:'Limited availability'}] },
+        { type:'textarea', name:'insurance_plans_accepted', label:'What dental insurance plans do you accept?', placeholder:'e.g. Delta Dental, Cigna, Aetna, MetLife, United Concordia, Humana. We also accept all PPO plans.' },
+        { type:'radio', name:'dental_emergency_appointments', label:'Do you offer same-day or emergency dental appointments?', options:[{v:'yes',l:'Yes — same-day emergency slots available'},{v:'call_in',l:'Call in the morning for same-day availability'},{v:'no',l:'Scheduled appointments only'}] },
+        { type:'textarea', name:'dental_services_offered', label:'What dental services do you offer beyond basic cleanings?', placeholder:'e.g. Invisalign, teeth whitening, dental implants, veneers, crowns, root canals, extractions, dentures, oral surgery' },
+        { type:'radio', name:'dental_payment_plans', label:'Do you offer in-house payment plans or CareCredit?', options:[{v:'carecredit',l:'CareCredit accepted'},{v:'inhouse',l:'In-house payment plans'},{v:'both',l:'Both'},{v:'no',l:'No — insurance or payment in full'}] },
+        { type:'text', name:'dental_cancellation_policy', label:'What is your cancellation policy?', placeholder:'e.g. 24-hour notice required. Late cancellations may be subject to a $50 fee.' },
+        { type:'textarea', name:'dental_technology', label:'Any technology or amenities worth mentioning?', placeholder:'e.g. Digital X-rays, CEREC same-day crowns, nitrous oxide, sedation dentistry, TV in every room, evening appointments available' },
+        { type:'radio', name:'dental_accepts_uninsured', label:'Do you see patients without insurance?', options:[{v:'yes',l:'Yes — we have in-house savings plans'},{v:'yes_ffs',l:'Yes — fee for service, payment due at time of visit'},{v:'no',l:'Insurance required'}] },
+      ]
+    },
+
+    real_estate: {
+      title: 'Real Estate — Specific Questions',
+      fields: [
+        { type:'radio', name:'re_represents', label:'Do you represent buyers, sellers, or both?', options:[{v:'buyers',l:'Buyers only'},{v:'sellers',l:'Sellers / Listing agent only'},{v:'both',l:'Both buyers and sellers'}] },
+        { type:'textarea', name:'re_markets', label:'What specific cities, neighborhoods, or markets do you specialize in?', placeholder:'e.g. Dallas–Fort Worth metro, specializing in Frisco, McKinney, and Allen. Also cover greater DFW area.' },
+        { type:'textarea', name:'re_price_ranges', label:'What price ranges do you typically work in?', placeholder:'e.g. Primarily $300K–$800K residential. Also handle luxury $1M+. First-time buyers welcome at any price point.' },
+        { type:'radio', name:'re_property_types', label:'What property types do you handle?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Residential and commercial'},{v:'investment',l:'Investment properties / multi-family'}] },
+        { type:'radio', name:'re_free_consultation', label:'Do you offer free home valuations or buyer consultations?', options:[{v:'yes',l:'Yes — always free'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'re_unique_approach', label:'What is your approach or process that sets you apart?', placeholder:'e.g. Full-service concierge approach, staging included in listing, professional photography, 3D virtual tours, negotiation track record' },
+        { type:'textarea', name:'re_credentials', label:'What designations, certifications, or awards do you hold?', placeholder:'e.g. Realtor, CRS, ABR, GRI, Top Producer 2023, RE/MAX Diamond Award, 15 years experience' },
+        { type:'radio', name:'re_relocation', label:'Do you assist with relocation clients moving from out of state?', options:[{v:'yes',l:'Yes — relocation specialist'},{v:'sometimes',l:'Sometimes'},{v:'no',l:'Local clients only'}] },
+      ]
+    },
+
+    restaurant: {
+      title: 'Restaurant — Specific Questions',
+      fields: [
+        { type:'radio', name:'takes_reservations', label:'Do you accept reservations?', options:[{v:'yes',l:'Yes'},{v:'no',l:'Walk-ins only'},{v:'large_parties',l:'Reservations for large parties only (6+)'}] },
+        { type:'text', name:'reservation_lead_time', label:'How far in advance can reservations be made?', placeholder:'e.g. Up to 30 days in advance, same-day reservations accepted until 4pm' },
+        { type:'text', name:'max_party_size', label:'What is the maximum party size you can accommodate?', placeholder:'e.g. Up to 20 in the main dining room, private room seats up to 40' },
+        { type:'radio', name:'private_dining', label:'Do you have a private dining room or event space?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'private_dining_details', label:'If yes, describe your private/event space.', placeholder:'e.g. Private room seats 40, AV equipment available, minimum spend $500, perfect for corporate events and birthday parties' },
+        { type:'radio', name:'takeout_delivery', label:'Do you offer takeout and/or delivery?', options:[{v:'both',l:'Both takeout and delivery'},{v:'takeout',l:'Takeout only'},{v:'delivery',l:'Delivery only'},{v:'dine_in',l:'Dine-in only'}] },
+        { type:'textarea', name:'cuisine_description', label:'Describe your cuisine and must-try dishes.', placeholder:'e.g. Authentic Texas BBQ — brisket smoked 14 hours, house-made sausage, pulled pork. Known for our jalapeño mac and cheese and banana pudding.' },
+        { type:'radio', name:'catering', label:'Do you offer catering services?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'dietary_options', label:'What dietary options do you accommodate?', placeholder:'e.g. Vegetarian options available, gluten-free menu on request, nut-free kitchen, vegan options' },
+        { type:'radio', name:'dress_code', label:'Do you have a dress code?', options:[{v:'casual',l:'Casual — come as you are'},{v:'smart_casual',l:'Smart casual'},{v:'formal',l:'Business / formal attire'}] },
+        { type:'text', name:'parking_info', label:'What is the parking situation?', placeholder:'e.g. Free parking lot in back, street parking available, valet on weekends $10' },
+      ]
+    },
+
+    landscaping: {
+      title: 'Landscaping — Specific Questions',
+      fields: [
+        { type:'radio', name:'landscaping_service_type', label:'Do you offer one-time services, ongoing maintenance, or both?', options:[{v:'one_time',l:'One-time projects only'},{v:'maintenance',l:'Ongoing maintenance contracts only'},{v:'both',l:'Both one-time and recurring'}] },
+        { type:'textarea', name:'landscaping_services_detail', label:'What specific landscaping services do you offer?', placeholder:'e.g. Lawn mowing, edging, fertilization, aeration, sod installation, sprinkler systems, tree trimming, mulching, garden design, retaining walls' },
+        { type:'radio', name:'seasonal_services', label:'Do you offer seasonal services?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'seasonal_services_detail', label:'What seasonal services do you offer?', placeholder:'e.g. Spring: aeration and seeding. Summer: fertilization programs. Fall: leaf cleanup. Winter: snow removal and salting.' },
+        { type:'text', name:'minimum_job_size', label:'What is your minimum job size or minimum monthly contract?', placeholder:'e.g. Minimum $150/visit, $500/month for maintenance contracts, 1-acre minimum for mowing' },
+        { type:'radio', name:'commercial_landscaping', label:'Do you serve commercial properties?', options:[{v:'residential_only',l:'Residential only'},{v:'commercial_only',l:'Commercial only'},{v:'both',l:'Both residential and commercial'}] },
+        { type:'textarea', name:'landscaping_equipment', label:'Do you have any notable equipment or capabilities?', placeholder:'e.g. Bobcat skid steer, drone surveying for large properties, licensed pesticide applicator, certified arborist on staff' },
+      ]
+    },
+
+    detailing: {
+      title: 'Auto Detailing — Specific Questions',
+      fields: [
+        { type:'radio', name:'detailing_mobile_shop', label:'Do you offer mobile detailing, shop-based, or both?', options:[{v:'mobile',l:'Mobile — we come to you'},{v:'shop',l:'Shop-based only'},{v:'both',l:'Both mobile and shop'}] },
+        { type:'text', name:'detailing_travel_fee', label:'If mobile, is there a travel fee? What is your service radius?', placeholder:'e.g. No travel fee within 20 miles of downtown Dallas. $25 fee for 20–40 miles.' },
+        { type:'textarea', name:'detailing_packages', label:'What detailing packages do you offer and at what prices?', placeholder:'e.g. Basic Wash $50 (exterior only), Standard Detail $150 (interior + exterior), Premium $250 (full detail + engine bay), Paint correction from $400' },
+        { type:'text', name:'appointment_duration', label:'How long do appointments typically take?', placeholder:'e.g. Basic wash 1 hour, full detail 3–5 hours, paint correction full day' },
+        { type:'radio', name:'ceramic_coating', label:'Do you offer ceramic coating or paint protection film (PPF)?', options:[{v:'both',l:'Yes — both ceramic and PPF'},{v:'ceramic',l:'Ceramic coating only'},{v:'ppf',l:'PPF only'},{v:'no',l:'No'}] },
+        { type:'radio', name:'paint_correction', label:'Do you offer paint correction or scratch removal?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'radio', name:'deposit_required', label:'Do you require a deposit to book an appointment?', options:[{v:'yes',l:'Yes — deposit required'},{v:'no',l:'No deposit needed'}] },
+        { type:'textarea', name:'detailing_specialty_vehicles', label:'Do you work on specialty or exotic vehicles?', placeholder:'e.g. Experience with exotics, classic cars, RVs, boats, motorcycles. Specialty pricing available.' },
+      ]
+    },
+
+    epoxy_flooring: {
+      title: 'Epoxy Flooring — Specific Questions',
+      fields: [
+        { type:'radio', name:'epoxy_residential_commercial', label:'Do you serve residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both'}] },
+        { type:'textarea', name:'epoxy_coating_types', label:'What types of coatings and systems do you offer?', placeholder:'e.g. Solid color epoxy, metallic epoxy, flake/chip system, quartz broadcast, polyaspartic, polyurea, non-slip coatings for commercial kitchens' },
+        { type:'textarea', name:'epoxy_spaces', label:'What types of spaces do you coat?', placeholder:'e.g. Garage floors, basement floors, commercial warehouses, restaurant kitchens, gym floors, showroom floors, patios' },
+        { type:'text', name:'epoxy_price_range', label:'What is your typical price range per square foot?', placeholder:'e.g. Residential garage $3–$7/sq ft depending on system, commercial from $2/sq ft for large areas' },
+        { type:'text', name:'epoxy_install_time', label:'How long does installation take and what is the cure/wait time?', placeholder:'e.g. 1-car garage done in 1 day, back to full use in 72 hours. 2-day system for commercial jobs.' },
+        { type:'radio', name:'epoxy_prep_required', label:'Does the customer need to clear the space before you arrive?', options:[{v:'yes',l:'Yes — space must be fully cleared'},{v:'we_move',l:'We can move items for an additional fee'},{v:'no',l:'No prep needed'}] },
+        { type:'textarea', name:'epoxy_warranty', label:'What warranty do you offer?', placeholder:'e.g. 5-year warranty on labor and materials. Lifetime warranty on polyaspartic systems.' },
+      ]
+    },
+
+    window_cleaning: {
+      title: 'Window Cleaning — Specific Questions',
+      fields: [
+        { type:'radio', name:'window_residential_commercial', label:'Do you serve residential, commercial, or both?', options:[{v:'residential',l:'Residential only'},{v:'commercial',l:'Commercial only'},{v:'both',l:'Both'}] },
+        { type:'radio', name:'interior_exterior', label:'Do you clean interior windows, exterior only, or both?', options:[{v:'both',l:'Both interior and exterior'},{v:'exterior',l:'Exterior only'},{v:'either',l:'Your choice — interior, exterior, or both'}] },
+        { type:'radio', name:'recurring_contracts', label:'Do you offer recurring service contracts?', options:[{v:'yes',l:'Yes — weekly, monthly, quarterly available'},{v:'one_time',l:'One-time service only'},{v:'both',l:'Both one-time and recurring'}] },
+        { type:'textarea', name:'recurring_pricing', label:'What are your recurring service pricing options?', placeholder:'e.g. Monthly exterior cleaning from $75/visit, quarterly full clean from $150. Discounts for annual contracts.' },
+        { type:'text', name:'window_minimum_job', label:'What is your minimum job size or charge?', placeholder:'e.g. $75 minimum. No minimum for commercial accounts.' },
+        { type:'radio', name:'high_rise', label:'Do you handle multi-story or high-rise buildings?', options:[{v:'yes',l:'Yes — up to any height'},{v:'limited',l:'Up to 3 stories'},{v:'no',l:'Ground level and 2-story only'}] },
+        { type:'textarea', name:'additional_services', label:'Do you offer any additional services?', placeholder:'e.g. Pressure washing, gutter cleaning, solar panel cleaning, screen cleaning and repair, hard water stain removal' },
+        { type:'radio', name:'insured_bonded', label:'Are you licensed, insured, and bonded?', options:[{v:'yes',l:'Yes — fully licensed, insured, and bonded'},{v:'insured',l:'Insured only'},{v:'no',l:'No'}] },
+      ]
+    },
+
+    fitness: {
+      title: 'Fitness / Gym — Specific Questions',
+      fields: [
+        { type:'textarea', name:'membership_options', label:'What membership types and pricing do you offer?', placeholder:'e.g. Month-to-month $49/mo, 12-month $39/mo, student $29/mo, family plans from $89/mo, day pass $15' },
+        { type:'radio', name:'free_trial', label:'Do you offer a free trial or day pass?', options:[{v:'free_trial',l:'Yes — free trial period'},{v:'day_pass',l:'Day passes available for purchase'},{v:'no',l:'No free trial'}] },
+        { type:'text', name:'free_trial_details', label:'Details on your free trial or day pass offer?', placeholder:'e.g. 7-day free trial for new members, no credit card required. Day pass $15, applied toward first month membership.' },
+        { type:'textarea', name:'classes_programs', label:'What group classes or programs do you offer?', placeholder:'e.g. CrossFit, yoga, Zumba, spin cycling, HIIT, kickboxing, pilates, senior fitness, kids classes' },
+        { type:'radio', name:'personal_training', label:'Do you offer personal training?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No'}] },
+        { type:'textarea', name:'personal_training_pricing', label:'What are your personal training rates?', placeholder:'e.g. 1-on-1 sessions from $60/hr, packages of 10 sessions for $500, semi-private (2 people) from $40/person' },
+        { type:'radio', name:'initiation_fee', label:'Is there an enrollment or initiation fee?', options:[{v:'yes',l:'Yes'},{v:'no',l:'No — no initiation fee'},{v:'waived',l:'Normally yes but often waived with promotions'}] },
+        { type:'radio', name:'childcare', label:'Do you offer childcare or kids areas?', options:[{v:'yes',l:'Yes — childcare available'},{v:'no',l:'No childcare'}] },
+        { type:'textarea', name:'gym_facilities', label:'What equipment and facilities do you have?', placeholder:'e.g. Full free weight area, cardio machines, turf zone, basketball court, pool, sauna, tanning, locker rooms, smoothie bar' },
+        { type:'radio', name:'contract_required', label:'Is a long-term contract required?', options:[{v:'no',l:'No — month-to-month available'},{v:'yes',l:'Yes — annual commitment required'},{v:'both',l:'Both options available'}] },
+      ]
+    },
+
+    general: {
+      title: 'About Your Business',
+      fields: [
+        { type:'textarea', name:'business_description', label:'Briefly describe what your business does and who your typical customer is.', placeholder:'e.g. We are a mobile dog grooming service serving busy pet owners in the Phoenix area. Our typical client is a working professional with 1–2 dogs who wants convenience.' },
+        { type:'radio', name:'serves_who', label:'Do you primarily serve individuals, businesses, or both?', options:[{v:'consumers',l:'Individual consumers / residential'},{v:'businesses',l:'Other businesses (B2B)'},{v:'both',l:'Both individuals and businesses'}] },
+        { type:'text', name:'avg_transaction', label:'What is your average job, service, or transaction size?', placeholder:'e.g. Average job is $200–$400, recurring clients book monthly, packages start at $500' },
+        { type:'textarea', name:'booking_process', label:'How do customers typically book or engage with you?', placeholder:'e.g. Customers call or text to schedule, we confirm within 2 hours. Deposit of 50% required to hold the date. Final payment due at completion.' },
+        { type:'textarea', name:'common_objections', label:'What are the most common objections or hesitations customers have, and how do you handle them?', placeholder:'e.g. Price — we explain our value and offer a payment plan. Timing — we have flexible scheduling including weekends. Quality concerns — we offer a satisfaction guarantee.' },
+      ]
+    }
+
+  };
+
+  // ── Dynamic question renderer ──────────────────────────────────────────────
+  function renderIndustryQuestions(industry) {
+    const section = document.getElementById('industry-specific-section');
+    const body    = document.getElementById('ind-questions-body');
+    const title   = document.getElementById('ind-section-title');
+    const config  = INDUSTRY_QUESTIONS[industry];
+
+    if (!config) { section.style.display = 'none'; return; }
+
+    title.textContent = config.title;
+
+    body.innerHTML = config.fields.map(function(f) {
+      if (f.type === 'text') {
+        return '<div class="field"><label>' + f.label + '</label><input type="text" name="' + f.name + '" placeholder="' + (f.placeholder||'') + '"></div>';
+      }
+      if (f.type === 'textarea') {
+        return '<div class="field"><label>' + f.label + '</label><textarea name="' + f.name + '" placeholder="' + (f.placeholder||'') + '"></textarea></div>';
+      }
+      if (f.type === 'radio') {
+        var opts = f.options.map(function(o) {
+          return '<label class="radio-option"><input type="radio" name="' + f.name + '" value="' + o.v + '"><span>' + o.l + '</span></label>';
+        }).join('');
+        return '<div class="field"><label>' + f.label + '</label><div class="radio-group">' + opts + '</div></div>';
+      }
+      return '';
+    }).join('');
+
+    section.style.display = '';
+    // No auto-scroll — let the user continue filling out the form naturally
+  }
+
+  // ── Toggle day helpers ─────────────────────────────────────────────────────
   function toggleDay(checkbox, day){
     const row = checkbox.closest('.day-row');
     const inputs = row.querySelectorAll('input[type="time"]');
@@ -551,41 +779,64 @@
     });
   }
 
-  // Initialize Sunday as closed
+  // ── Init ───────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function(){
+    // Sunday starts closed
     const sunCheckbox = document.querySelector('input[name="sun_closed"]');
     if(sunCheckbox && sunCheckbox.checked) toggleDay(sunCheckbox, 'sun');
+
+    // Industry dropdown listener
+    const industrySelect = document.querySelector('select[name="industry"]');
+    if (industrySelect) {
+      industrySelect.addEventListener('change', function() {
+        renderIndustryQuestions(this.value);
+      });
+      // If already has a value on load (e.g. browser autofill)
+      if (industrySelect.value) renderIndustryQuestions(industrySelect.value);
+    }
   });
 
-  // Handle form submission
+  // ── Form submission ────────────────────────────────────────────────────────
   const form = document.getElementById('intake-form');
-  const btn = document.getElementById('submit-btn');
+  const btn  = document.getElementById('submit-btn');
 
   form.addEventListener('submit', async function(e){
     e.preventDefault();
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
+    btn.disabled    = true;
+    btn.textContent = 'Setting up your account...';
 
-    const data = new FormData(form);
+    const formData = new FormData(form);
+    const payload  = {};
+    formData.forEach(function(value, key){ payload[key] = value; });
 
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
+      const [formspreeRes] = await Promise.all([
+        fetch('https://formspree.io/f/xeepprvd', {
+          method:  'POST',
+          body:    formData,
+          headers: { 'Accept': 'application/json' }
+        }),
+        fetch('https://brechtland-receptionist-production.up.railway.app/api/v1/provision', {
+          method:  'POST',
+          body:    JSON.stringify(payload),
+          headers: {
+            'Content-Type':       'application/json',
+            'x-provision-secret': 'brechtland-provision-2024-sT2yZ1'
+          }
+        }).catch(function(err){ console.error('Provision error:', err); })
+      ]);
 
-      if(res.ok){
-        document.getElementById('form-area').style.display = 'none';
+      if(formspreeRes && formspreeRes.ok){
+        document.getElementById('form-area').style.display   = 'none';
         document.getElementById('success-screen').style.display = 'block';
-        window.scrollTo({top:0, behavior:'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        btn.disabled = false;
+        btn.disabled    = false;
         btn.textContent = 'Submit My Setup Info';
         alert('Something went wrong. Please try again or email us directly.');
       }
     } catch(err){
-      btn.disabled = false;
+      btn.disabled    = false;
       btn.textContent = 'Submit My Setup Info';
       alert('Something went wrong. Please check your connection and try again.');
     }
