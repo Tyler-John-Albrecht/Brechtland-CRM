@@ -2070,6 +2070,46 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
 @media (max-width: 520px) { #aiPanel { width: 100vw }
   #aiAssistBtn { bottom: 20px; right: 16px; left: auto }
 }
+
+/* ── COLLAPSIBLE SIDEBAR ───────────────────────────────────────────────────── */
+.sidebar { transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important; overflow-x: hidden !important; }
+.sidebar.collapsed { width: 64px !important; }
+
+/* hide text elements when collapsed */
+.sidebar.collapsed .sidebar-brand-text,
+.sidebar.collapsed .sidebar-user-info,
+.sidebar.collapsed .nav-section-label,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .sidebar-logout-label { display: none !important; }
+
+/* center brand + user when collapsed */
+.sidebar.collapsed .sidebar-brand { justify-content: center !important; padding: 16px 0 !important; gap: 0 !important; }
+.sidebar.collapsed .sidebar-user  { justify-content: center !important; padding: 14px 0 !important; gap: 0 !important; }
+
+/* nav items centered */
+.sidebar.collapsed .nav-section { padding: 0 8px !important; }
+.sidebar.collapsed .nav-item { justify-content: center !important; padding: 11px 0 !important; gap: 0 !important; border-left-color: transparent !important; border-radius: 8px !important; }
+.sidebar.collapsed .nav-item.active { background: rgba(106, 0, 255, 0.22) !important; border-left-color: #6A00FF !important; box-shadow: inset 2px 0 10px rgba(106,0,255,0.12) !important; }
+.sidebar.collapsed .nav-item .icon { font-size: 17px !important; width: auto !important; }
+
+/* badge repositioning in collapsed mode */
+.sidebar.collapsed .nav-badge { position: absolute !important; top: 4px !important; right: 5px !important; min-width: 14px !important; height: 14px !important; font-size: 8px !important; padding: 0 3px !important; line-height: 14px !important; }
+
+/* footer in collapsed mode */
+.sidebar.collapsed .sidebar-footer { padding: 10px 0 !important; display: flex !important; justify-content: center !important; align-items: center !important; flex-direction: column !important; gap: 6px !important; }
+.sidebar.collapsed .sidebar-footer .btn { width: 40px !important; height: 38px !important; min-width: unset !important; padding: 0 !important; margin: 0 !important; gap: 0 !important; }
+
+/* collapse toggle button */
+.sidebar-collapse-btn { display: flex; align-items: center; gap: 10px; width: 100%; border: none; border-top: 1px solid rgba(106, 0, 255, 0.14); background: transparent; padding: 12px 20px; color: rgba(255,255,255,0.35); cursor: pointer; font-family: 'Exo 2', sans-serif; font-size: 12.5px; font-weight: 500; transition: background 0.2s ease, color 0.2s ease; flex-shrink: 0; }
+.sidebar-collapse-btn:hover { background: rgba(106, 0, 255, 0.09) !important; color: rgba(255,255,255,0.7) !important; }
+.sidebar-collapse-icon { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1); }
+.sidebar.collapsed .sidebar-collapse-icon { transform: rotate(180deg); }
+.sidebar.collapsed .sidebar-collapse-btn { justify-content: center; padding: 12px 0; border-top-color: rgba(106,0,255,0.10); }
+.sidebar.collapsed .sidebar-collapse-label { display: none; }
+
+/* sidebar tooltip (JS-created, appended to body) */
+.sidebar-tooltip { position: fixed; left: 72px; z-index: 9999; background: rgba(16, 0, 38, 0.96); border: 1px solid rgba(106,0,255,0.35); border-radius: 7px; padding: 6px 11px; font-family: 'Exo 2', sans-serif; font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,0.88); pointer-events: none; white-space: nowrap; box-shadow: 0 4px 18px rgba(0,0,0,0.55), 0 0 0 1px rgba(106,0,255,0.18); opacity: 0; transition: opacity 0.14s ease; }
+.sidebar-tooltip.visible { opacity: 1; }
 </style>
 </head>
 <body>
@@ -2169,8 +2209,17 @@ tr[data-lead-new="1"] { animation: leadRowPulse 2.4s ease-out forwards }
     </div>
     <nav class="sidebar-nav" id="sidebarNav"></nav>
     <div class="sidebar-footer">
-      <button class="btn btn-secondary" onclick="doLogout()">Sign Out</button>
+      <button class="btn btn-secondary" onclick="doLogout()" title="Sign Out">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="sidebar-logout-label">Sign Out</span>
+      </button>
     </div>
+    <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" id="sidebarCollapseBtn" title="Collapse sidebar">
+      <span class="sidebar-collapse-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+      </span>
+      <span class="sidebar-collapse-label">Collapse</span>
+    </button>
   </aside>
 
   <!-- Main Area -->
@@ -2356,6 +2405,7 @@ const db   = firebase.firestore();
 let currentUser = null;
 let currentUserData = null;
 let currentPage = 'dashboard';
+let sidebarCollapsed = false;
 let chatUnread = 0;
 let lastChatSeen = 0;
 let unsubscribeListeners = [];
@@ -2613,6 +2663,12 @@ function initApp() {
     }
   } catch(e) {}
 
+  try {
+    if (localStorage.getItem('crmSidebarCollapsed') === '1') {
+      toggleSidebarCollapse(true);
+    }
+  } catch(e) {}
+
   navigate(currentPage);
 }
 
@@ -2771,6 +2827,34 @@ function toggleMobileSidebar(forceState) {
   backdrop.classList.toggle('show', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
+
+function toggleSidebarCollapse(forceState) {
+  if (window.innerWidth <= 900) return; // mobile uses the overlay sidebar
+  const sidebar = document.getElementById('mainSidebar');
+  if (!sidebar) return;
+  sidebarCollapsed = typeof forceState === 'boolean' ? forceState : !sidebarCollapsed;
+  sidebar.classList.toggle('collapsed', sidebarCollapsed);
+  try { localStorage.setItem('crmSidebarCollapsed', sidebarCollapsed ? '1' : '0'); } catch(e) {}
+  if (!sidebarCollapsed) hideSidebarTooltip();
+}
+
+let _sidebarTip = null;
+function showSidebarTooltip(e, label) {
+  if (!sidebarCollapsed) return;
+  if (!label) return;
+  if (!_sidebarTip) {
+    _sidebarTip = document.createElement('div');
+    _sidebarTip.className = 'sidebar-tooltip';
+    document.body.appendChild(_sidebarTip);
+  }
+  _sidebarTip.textContent = label;
+  const rect = e.currentTarget.getBoundingClientRect();
+  _sidebarTip.style.top = (rect.top + rect.height / 2 - 14) + 'px';
+  _sidebarTip.classList.add('visible');
+}
+function hideSidebarTooltip() {
+  if (_sidebarTip) _sidebarTip.classList.remove('visible');
+}
 function animateDashStats() {
   const DURATION = 1200; // ms
   const EASING   = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t; // ease-in-out quad
@@ -2928,8 +3012,8 @@ async function renderRecentActivity(clients, calEvs) {
   nav.innerHTML = sections.map(sec => {
     const secAttrs = sec.id ? ` id="${sec.id}"${sec.style ? ` style="${sec.style}"` : ''}` : '';
     const items = sec.items.map(it =>
-      `<div class="nav-item" onclick="${it.action}" id="${it.id}"${it.extra}>`+
-      `<span class="icon">${it.icon}</span> ${it.label}`+
+      `<div class="nav-item" onclick="${it.action}" id="${it.id}" data-label="${it.label}"${it.extra}>`+
+      `<span class="icon">${it.icon}</span><span class="nav-label">${it.label}</span>`+
       (it.badge ? `<span class="nav-badge" id="${it.badge}"></span>` : '')+
       `</div>`
     ).join('');
@@ -2938,6 +3022,11 @@ async function renderRecentActivity(clients, calEvs) {
   // Set Dashboard active by default (matches initApp behaviour)
   const dash = document.getElementById('navDashboard');
   if (dash) dash.classList.add('active');
+  // Attach tooltip listeners for collapsed mode
+  nav.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('mouseenter', function(e) { showSidebarTooltip(e, this.dataset.label); });
+    item.addEventListener('mouseleave', hideSidebarTooltip);
+  });
 })();
 
 // ── T2: SA service rows ──────────────────────────────────────
