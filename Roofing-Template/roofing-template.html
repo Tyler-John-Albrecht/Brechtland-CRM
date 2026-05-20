@@ -446,7 +446,7 @@
       box-shadow: 0 40px 100px rgba(0,0,0,0.65);
       position: relative;
       user-select: none;
-      cursor: col-resize;
+      cursor: crosshair;
       touch-action: none;
     }
     .slider-base img {
@@ -1396,6 +1396,7 @@
   const line      = document.getElementById('sliderLine');
   const handle    = document.getElementById('sliderHandle');
   let dragging = false;
+  let leaveAnim = null;
   let pct = 0.5; // start at 50%
 
   function fixAfterImgWidth() {
@@ -1419,12 +1420,26 @@
   fixAfterImgWidth();
   applyPct(0.5);
 
-  wrap.addEventListener('mousedown',  e => { dragging = true; applyPct(posFromEvent(e)); });
+  /* ── HOVER: cursor X drives the divider ──── */
+  wrap.addEventListener('mousemove', e => {
+    if (leaveAnim) { leaveAnim.kill(); leaveAnim = null; }
+    applyPct(posFromEvent(e));
+  });
+
+  /* Smooth return to 50% when cursor leaves */
+  wrap.addEventListener('mouseleave', () => {
+    leaveAnim = gsap.to({ val: pct }, {
+      val: 0.5,
+      duration: 0.7,
+      ease: 'power2.inOut',
+      onUpdate() { applyPct(this.targets()[0].val); }
+    });
+  });
+
+  /* ── TOUCH: still drag-based for mobile ─── */
   wrap.addEventListener('touchstart', e => { dragging = true; applyPct(posFromEvent(e)); }, { passive: true });
-  window.addEventListener('mousemove',  e => { if (dragging) applyPct(posFromEvent(e)); });
   window.addEventListener('touchmove',  e => { if (dragging) applyPct(posFromEvent(e)); }, { passive: true });
-  window.addEventListener('mouseup',  () => dragging = false);
-  window.addEventListener('touchend', () => dragging = false);
+  window.addEventListener('touchend',  () => dragging = false);
   window.addEventListener('resize',   () => { fixAfterImgWidth(); applyPct(pct); });
 
   /* ── SMOOTH SCROLL ────────────────────────── */
