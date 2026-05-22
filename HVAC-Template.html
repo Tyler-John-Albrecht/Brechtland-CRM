@@ -40,13 +40,14 @@
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
     body {
       font-family: var(--f-body);
       color: var(--slate-700);
       background: var(--white);
       overflow-x: hidden;
       line-height: 1.6;
+      max-width: 100vw;
     }
     img { display: block; width: 100%; }
     a { color: inherit; text-decoration: none; }
@@ -447,12 +448,12 @@
     /* ===========================
        STATS
     =========================== */
-    .stats-section { background: var(--navy); padding: 80px 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
-    .stat-cell { text-align: center; padding: 0 32px; position: relative; }
+    .stats-section { background: var(--navy); padding: 80px 0; overflow: hidden; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; width: 100%; }
+    .stat-cell { text-align: center; padding: 0 12px; position: relative; }
     .stat-cell:not(:last-child)::after { content:''; position:absolute; right:0; top:20%; bottom:20%; width:1px; background:rgba(255,255,255,0.08); }
-    .stat-n { font-family: var(--f-display); font-size: 4rem; font-weight: 900; color: var(--amber); line-height: 1; display: block; margin-bottom: 8px; }
-    .stat-l { font-size: 0.82rem; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+    .stat-n { font-family: var(--f-display); font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; color: var(--amber); line-height: 1; display: block; margin-bottom: 8px; }
+    .stat-l { font-size: clamp(0.6rem, 1.5vw, 0.82rem); color: rgba(255,255,255,0.45); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 700; line-height: 1.3; }
 
 
     /* ===========================
@@ -568,8 +569,13 @@
     =========================== */
     @media (max-width: 1024px) {
       .svc-cards { grid-template-columns: repeat(2,1fr); }
-      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 48px 0; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .stat-cell { padding: 28px 20px; }
       .stat-cell:nth-child(2)::after { display: none; }
+      .stat-cell:nth-child(4)::after { display: none; }
+      .stat-cell:nth-child(1), .stat-cell:nth-child(2) {
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
       .footer-main { grid-template-columns: 1fr 1fr; gap: 36px; }
     }
 
@@ -604,11 +610,107 @@
       .urgency-inner { gap: 18px; flex-direction: column; }
       .logos-inner { gap: 20px; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat-cell { padding: 24px 10px; }
+      .stat-cell::after { display: none !important; }
+      .stat-cell:nth-child(1), .stat-cell:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .stat-cell:nth-child(1) { border-right: 1px solid rgba(255,255,255,0.08); }
+      .stat-cell:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.08); }
       .areas-grid { grid-template-columns: 1fr 1fr; }
       .footer-main { grid-template-columns: 1fr; gap: 28px; }
       .footer-bottom { flex-direction: column; text-align: center; }
       .cta-btns { flex-direction: column; width: 100%; }
       .hero-proof { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+    /* ===========================
+       AC DIAGNOSTIC QUIZ
+    =========================== */
+    .quiz-section { background: var(--navy); padding: 88px 0; overflow: hidden; }
+    .quiz-wrap {
+      max-width: 640px; margin: 0 auto;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-xl); padding: 44px 44px 40px;
+      backdrop-filter: blur(16px); position: relative;
+    }
+    .quiz-header { text-align: center; margin-bottom: 36px; }
+    .quiz-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3);
+      color: var(--amber); padding: 6px 14px; border-radius: 100px;
+      font-family: var(--f-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .quiz-title { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--white); margin-bottom: 10px; }
+    .quiz-title span { color: var(--amber); }
+    .quiz-sub { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* Progress bar */
+    .quiz-progress-wrap { margin-bottom: 32px; }
+    .quiz-progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .quiz-q-label { font-family: var(--f-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .quiz-q-count { font-family: var(--f-display); font-size: 0.75rem; font-weight: 700; color: var(--amber); }
+    .quiz-bar-bg { height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+    .quiz-bar-fill { height: 100%; background: var(--amber); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
+
+    /* Question */
+    .quiz-q-wrap { min-height: 200px; }
+    .quiz-question {
+      display: none; animation: qIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .quiz-question.active { display: block; }
+    @keyframes qIn { from { opacity:0; transform: translateX(24px); } to { opacity:1; transform: translateX(0); } }
+
+    .quiz-q-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; text-align: center; }
+    .quiz-q-text {
+      font-family: var(--f-display); font-size: clamp(1.2rem, 3.5vw, 1.65rem); font-weight: 800;
+      text-transform: uppercase; color: var(--white); text-align: center; margin-bottom: 24px; line-height: 1.1;
+    }
+    .quiz-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .quiz-ans {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.82); padding: 14px 12px; border-radius: var(--r-md);
+      cursor: pointer; transition: all 0.22s; font-size: 0.85rem; font-weight: 700;
+      font-family: var(--f-body); text-align: center; line-height: 1.3;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .quiz-ans:hover { background: rgba(245,158,11,0.15); border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
+    .quiz-ans.chosen { background: rgba(245,158,11,0.2); border-color: var(--amber); color: var(--amber); }
+
+    /* Result screen */
+    .quiz-result { display: none; text-align: center; }
+    .quiz-result.show { display: block; animation: qIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+    /* SVG gauge */
+    .gauge-wrap { position: relative; width: 180px; margin: 0 auto 20px; }
+    .gauge-svg { width: 180px; height: 100px; overflow: visible; }
+    .gauge-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 14; stroke-linecap: round; }
+    .gauge-fill { fill: none; stroke-width: 14; stroke-linecap: round;
+      stroke-dasharray: 251.2; stroke-dashoffset: 251.2;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1), stroke 0.6s ease;
+    }
+    .gauge-score {
+      position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+      font-family: var(--f-display); font-size: 2.8rem; font-weight: 900; color: var(--white); line-height: 1;
+    }
+    .gauge-score span { font-size: 1rem; color: rgba(255,255,255,0.4); }
+
+    .result-grade { font-family: var(--f-display); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+    .result-msg { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.65; max-width: 380px; margin: 0 auto 24px; }
+    .result-ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .quiz-restart {
+      margin-top: 18px; background: none; border: none; cursor: pointer;
+      font-family: var(--f-display); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3);
+      transition: color 0.2s;
+    }
+    .quiz-restart:hover { color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 600px) {
+      .quiz-wrap { padding: 32px 22px 28px; border-radius: var(--r-lg); }
+      .quiz-answers { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .quiz-ans { padding: 13px 8px; font-size: 0.82rem; }
+      .result-ctas { flex-direction: column; }
+      .result-ctas .btn { justify-content: center; }
     }
   </style>
 </head>
@@ -917,6 +1019,104 @@
   </section>
 
 
+  <!-- ██████████████  AC DIAGNOSTIC QUIZ  ██████████████ -->
+  <section class="quiz-section" id="ac-quiz">
+    <div class="container">
+      <div class="quiz-wrap reveal">
+
+        <!-- Header (shown at start) -->
+        <div class="quiz-header" id="quizHeader">
+          <div class="quiz-eyebrow"><i class="fas fa-stethoscope"></i> Free Tool</div>
+          <h2 class="quiz-title">IS YOUR AC<br><span>ABOUT TO FAIL?</span></h2>
+          <p class="quiz-sub">Answer 4 quick questions and we'll tell you exactly where your system stands — and what to do about it.</p>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="quiz-progress-wrap" id="quizProgress" style="display:none">
+          <div class="quiz-progress-top">
+            <span class="quiz-q-label" id="qLabel">Question 1 of 4</span>
+            <span class="quiz-q-count" id="qCount">25%</span>
+          </div>
+          <div class="quiz-bar-bg"><div class="quiz-bar-fill" id="qBar" style="width:25%"></div></div>
+        </div>
+
+        <!-- Questions -->
+        <div class="quiz-q-wrap" id="quizQuestions" style="display:none">
+
+          <div class="quiz-question active" id="qq1">
+            <span class="quiz-q-icon">🗓️</span>
+            <div class="quiz-q-text">How old is your AC system?</div>
+            <div class="quiz-answers">
+              <button class="quiz-ans" data-score="25" onclick="pickAns(this,1)">Under 5 years</button>
+              <button class="quiz-ans" data-score="18" onclick="pickAns(this,1)">5–10 years</button>
+              <button class="quiz-ans" data-score="9" onclick="pickAns(this,1)">10–15 years</button>
+              <button class="quiz-ans" data-score="0" onclick="pickAns(this,1)">15+ years</button>
+            </div>
+          </div>
+
+          <div class="quiz-question" id="qq2">
+            <span class="quiz-q-icon">❄️</span>
+            <div class="quiz-q-text">Is it actually cooling your home?</div>
+            <div class="quiz-answers">
+              <button class="quiz-ans" data-score="25" onclick="pickAns(this,2)">Yes, perfectly</button>
+              <button class="quiz-ans" data-score="16" onclick="pickAns(this,2)">Okay, but slow</button>
+              <button class="quiz-ans" data-score="6" onclick="pickAns(this,2)">Not really</button>
+              <button class="quiz-ans" data-score="0" onclick="pickAns(this,2)">Not at all</button>
+            </div>
+          </div>
+
+          <div class="quiz-question" id="qq3">
+            <span class="quiz-q-icon">🔊</span>
+            <div class="quiz-q-text">Any unusual sounds or smells?</div>
+            <div class="quiz-answers">
+              <button class="quiz-ans" data-score="25" onclick="pickAns(this,3)">None at all</button>
+              <button class="quiz-ans" data-score="15" onclick="pickAns(this,3)">Some rattling</button>
+              <button class="quiz-ans" data-score="5" onclick="pickAns(this,3)">Loud noise</button>
+              <button class="quiz-ans" data-score="0" onclick="pickAns(this,3)">Burning smell</button>
+            </div>
+          </div>
+
+          <div class="quiz-question" id="qq4">
+            <span class="quiz-q-icon">💸</span>
+            <div class="quiz-q-text">Have your energy bills gone up?</div>
+            <div class="quiz-answers">
+              <button class="quiz-ans" data-score="25" onclick="pickAns(this,4)">No change</button>
+              <button class="quiz-ans" data-score="16" onclick="pickAns(this,4)">A little higher</button>
+              <button class="quiz-ans" data-score="7" onclick="pickAns(this,4)">Noticeably higher</button>
+              <button class="quiz-ans" data-score="0" onclick="pickAns(this,4)">Way up</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Start button -->
+        <div id="quizStart" style="text-align:center; margin-top:8px">
+          <button class="btn btn-amber" onclick="startQuiz()" style="width:100%; justify-content:center; font-size:1.05rem; padding:17px;">
+            <i class="fas fa-play-circle"></i> Check My AC Health — Free
+          </button>
+          <p style="font-size:0.72rem; color:rgba(255,255,255,0.28); margin-top:10px">Takes 30 seconds · No contact info required</p>
+        </div>
+
+        <!-- Result -->
+        <div class="quiz-result" id="quizResult">
+          <div class="gauge-wrap">
+            <svg class="gauge-svg" viewBox="0 0 180 100">
+              <!-- Half-circle arc: cx=90, cy=100, r=80 -->
+              <path class="gauge-track" d="M 10,100 A 80,80 0 0,1 170,100"/>
+              <path class="gauge-fill" id="gaugeFill" d="M 10,100 A 80,80 0 0,1 170,100"/>
+            </svg>
+            <div class="gauge-score" id="gaugeScore">0<span>/100</span></div>
+          </div>
+          <div class="result-grade" id="resultGrade">—</div>
+          <p class="result-msg" id="resultMsg">—</p>
+          <div class="result-ctas" id="resultCtas"></div>
+          <button class="quiz-restart" onclick="resetQuiz()">↩ Take it again</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ██████████████  REVIEWS  ██████████████ -->
   <section class="section" id="reviews">
     <div class="container">
@@ -1163,6 +1363,114 @@
         if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
+    /* ── AC DIAGNOSTIC QUIZ ── */
+    let quizScores = [0,0,0,0];
+    let currentQ = 0;
+
+    function startQuiz() {
+      document.getElementById('quizStart').style.display = 'none';
+      document.getElementById('quizHeader').style.display = 'none';
+      document.getElementById('quizProgress').style.display = 'block';
+      document.getElementById('quizQuestions').style.display = 'block';
+      showQ(1);
+    }
+
+    function showQ(n) {
+      currentQ = n;
+      document.querySelectorAll('.quiz-question').forEach(q => q.classList.remove('active'));
+      const qEl = document.getElementById('qq' + n);
+      if (qEl) { qEl.classList.add('active'); }
+      document.getElementById('qLabel').textContent = 'Question ' + n + ' of 4';
+      document.getElementById('qCount').textContent = (n * 25) + '%';
+      document.getElementById('qBar').style.width = (n * 25) + '%';
+    }
+
+    function pickAns(btn, qNum) {
+      // Mark selected
+      btn.closest('.quiz-answers').querySelectorAll('.quiz-ans').forEach(b => b.classList.remove('chosen'));
+      btn.classList.add('chosen');
+      quizScores[qNum - 1] = parseInt(btn.dataset.score);
+
+      // Brief delay then advance
+      setTimeout(() => {
+        if (qNum < 4) { showQ(qNum + 1); }
+        else { showResult(); }
+      }, 320);
+    }
+
+    function showResult() {
+      document.getElementById('quizQuestions').style.display = 'none';
+      document.getElementById('quizProgress').style.display = 'none';
+
+      const total = quizScores.reduce((a,b) => a + b, 0); // max 100
+
+      let grade, msg, color, ctaHTML;
+      if (total >= 80) {
+        grade = '✅ Your AC Looks Healthy';
+        color = '#22C55E';
+        msg = "Good news — your system is in solid shape. Keep it that way with an annual tune-up. A $89 maintenance visit today can prevent a $3,000 repair next summer.";
+        ctaHTML = `<a href="#quote-form" class="btn btn-amber"><i class="fas fa-calendar-check"></i> Book a $89 Tune-Up</a>`;
+      } else if (total >= 55) {
+        grade = '⚠️ Your AC Needs Attention';
+        color = '#F59E0B';
+        msg = "Your system is showing early warning signs. Catching this now means a small repair bill — not an emergency replacement at the worst possible time.";
+        ctaHTML = `<a href="tel:+18135550000" class="btn btn-amber"><i class="fas fa-phone-alt"></i> Call for a Free Diagnostic</a>`;
+      } else if (total >= 30) {
+        grade = '🔴 Your AC Is Struggling';
+        color = '#F97316';
+        msg = "Your system is working hard just to keep up. Without attention soon, you're looking at an unexpected breakdown — likely on the hottest day of the year.";
+        ctaHTML = `<a href="tel:+18135550000" class="btn btn-amber"><i class="fas fa-phone-alt"></i> Call Now — Same Day Available</a><a href="#quote-form" class="btn btn-ghost">Schedule Online</a>`;
+      } else {
+        grade = '🚨 Your AC May Be Failing';
+        color = '#DC2626';
+        msg = "Based on your answers, your system is in critical condition. Every day you wait increases the risk of a full breakdown. Let's get a tech out today.";
+        ctaHTML = `<a href="tel:+18135550000" class="btn btn-urgent"><i class="fas fa-phone-alt"></i> Call Now — Emergency Line</a>`;
+      }
+
+      document.getElementById('resultGrade').textContent = grade;
+      document.getElementById('resultGrade').style.color = color;
+      document.getElementById('resultMsg').textContent = msg;
+      document.getElementById('resultCtas').innerHTML = ctaHTML;
+
+      // Show result panel
+      const result = document.getElementById('quizResult');
+      result.classList.add('show');
+
+      // Animate gauge
+      const fill = document.getElementById('gaugeFill');
+      const scoreEl = document.getElementById('gaugeScore');
+      fill.style.stroke = color;
+
+      // Half-circle path length ≈ π×80 ≈ 251.2
+      const fullDash = 251.2;
+      const offset = fullDash - (total / 100) * fullDash;
+
+      // Animate counter
+      let cur = 0;
+      const dur = 1400;
+      const t0 = performance.now();
+      const tick = now => {
+        const pct = Math.min((now - t0) / dur, 1);
+        const ease = 1 - Math.pow(1 - pct, 3);
+        cur = Math.round(ease * total);
+        scoreEl.innerHTML = cur + '<span>/100</span>';
+        fill.style.strokeDashoffset = fullDash - (cur / 100) * fullDash;
+        if (pct < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    function resetQuiz() {
+      quizScores = [0,0,0,0];
+      currentQ = 0;
+      document.getElementById('quizResult').classList.remove('show');
+      document.getElementById('quizResult').style.display = '';
+      document.getElementById('quizHeader').style.display = 'block';
+      document.getElementById('quizStart').style.display = 'block';
+      document.querySelectorAll('.quiz-ans').forEach(b => b.classList.remove('chosen'));
+      document.getElementById('gaugeFill').style.strokeDashoffset = 251.2;
+      document.getElementById('gaugeScore').innerHTML = '0<span>/100</span>';
+    }
   </script>
 </body>
 </html>
