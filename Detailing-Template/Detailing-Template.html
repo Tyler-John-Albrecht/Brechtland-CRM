@@ -329,6 +329,11 @@
       transform: scale(1.06);
       filter: brightness(1);
     }
+    /* Showcase hero — no zoom on hover, just brightness lift */
+    .gallery-hero:hover img {
+      transform: none;
+      filter: brightness(1);
+    }
 
     /* ── CTA section ──────────────────────────────── */
     .cta-bg {
@@ -898,8 +903,8 @@
 
       <!-- Image -->
       <div>
-        <img src="Guarantee-Image.png" alt="Precision detailing"
-             class="w-full object-cover" style="height:420px;">
+        <img src="Action%20Shot.png" alt="Precision paint correction"
+             class="w-full object-cover" style="height:420px; object-position: center 40%;">
         <div class="gold-rule mt-0"></div>
       </div>
 
@@ -923,9 +928,9 @@
     </div>
 
     <!-- Gallery grid — showcase hero full-width top -->
-    <div class="gallery-item reveal mb-2">
+    <div class="gallery-item gallery-hero reveal mb-2">
       <img src="showcase.png" alt="BMW M5 paint correction result in studio"
-           class="w-full object-cover" style="height:420px; object-position: center 25%;">
+           class="w-full object-cover" style="height:420px; object-position: center 55%;">
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 reveal">
       <div class="gallery-item col-span-2">
