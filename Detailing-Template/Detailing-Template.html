@@ -510,13 +510,14 @@
     <!-- Before / After interactive drag slider -->
     <div class="max-w-4xl mx-auto reveal">
       <div class="slider-wrap" id="ba-wrap">
-        <!-- BASE: before image (full width, bottom layer) -->
-        <img src="before.jpg" alt="Paint before correction — swirl marks visible"
-             class="slider-base" id="ba-before-img">
-        <!-- OVERLAY: after image, clipped to left portion by JS -->
+        <!-- BASE: after image (clean paint) — full width, sits behind everything -->
+        <img src="after.jpg" alt="Paint after correction — mirror finish"
+             class="slider-base" id="ba-before-img"
+             style="object-position: center top;">
+        <!-- OVERLAY: before image (swirls) — clipped to left, reveals swirled paint on left side -->
         <div class="slider-overlay" id="ba-overlay">
-          <img src="after.jpg" alt="Paint after correction — mirror finish"
-               id="ba-after-img">
+          <img src="before.jpg" alt="Paint before correction — swirl marks visible"
+               id="ba-after-img" style="object-position: left top;">
         </div>
         <!-- Handle line + circle -->
         <div class="slider-handle" id="ba-handle">
@@ -853,48 +854,45 @@
 ══════════════════════════════════════ -->
 <section id="guarantee" class="w-full py-24 md:py-32 px-4 bg-ink scroll-mt-20"
          style="border-top:1px solid rgba(255,255,255,0.04);">
-  <div class="max-w-5xl mx-auto">
+  <div class="max-w-6xl mx-auto">
 
-    <div class="guarantee-wrap p-10 md:p-16 reveal">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center reveal">
 
-        <!-- Copy -->
-        <div>
-          <!-- Damaging admission -->
-          <div class="label text-muted mb-4">
-            A note before you book
-          </div>
-          <h2 class="display text-white mb-6" style="font-size: clamp(2.5rem, 5.5vw, 4.5rem);">
-            WE ONLY TAKE<br>[X] BOOKINGS<br><span class="gold-text">PER WEEK.</span>
-          </h2>
-          <p class="font-body font-300 text-muted leading-relaxed mb-5">
-            That's not a scarcity tactic. We'd rather do fewer cars right than more cars wrong.
-            Every vehicle gets the same attention whether it's a Tesla or a Lamborghini.
-          </p>
-          <p class="font-body font-300 text-muted leading-relaxed mb-8">
-            And if you're not completely satisfied before we leave — we fix it on the spot, or you
-            owe us nothing. No fine print. No hoops.
-          </p>
-          <!-- Guarantee badge -->
-          <div class="flex items-start gap-4 p-5"
-               style="background:rgba(201,169,110,0.06); border:1px solid rgba(201,169,110,0.15);">
-            <div class="display text-gold text-5xl leading-none">✓</div>
-            <div>
-              <div class="display text-white text-xl mb-1">100% SATISFACTION</div>
-              <div class="font-body font-300 text-muted text-sm">
-                Not happy? Tell us before we pack up. We fix it or it's free.
-              </div>
+      <!-- Copy -->
+      <div>
+        <div class="label text-muted mb-5">A note before you book</div>
+        <h2 class="display text-white mb-8" style="font-size: clamp(2.8rem, 6vw, 5rem);">
+          WE ONLY TAKE<br>[X] BOOKINGS<br><span class="gold-text">PER WEEK.</span>
+        </h2>
+        <p class="font-body font-300 text-muted leading-relaxed mb-5 text-lg">
+          That's not a scarcity tactic. We'd rather do fewer cars right
+          than more cars wrong. Every vehicle gets the same attention
+          whether it's a Tesla or a Lamborghini.
+        </p>
+        <p class="font-body font-300 text-muted leading-relaxed mb-10">
+          And if you're not completely satisfied before we leave — we fix it
+          on the spot, or you owe us nothing. No fine print. No hoops.
+        </p>
+        <!-- Guarantee badge -->
+        <div class="flex items-start gap-5 p-6"
+             style="background:rgba(201,169,110,0.06); border:1px solid rgba(201,169,110,0.15);">
+          <div class="display text-gold leading-none" style="font-size:2.5rem;">✓</div>
+          <div>
+            <div class="display text-white text-xl mb-1">100% SATISFACTION OR IT'S FREE</div>
+            <div class="font-body font-300 text-muted text-sm leading-relaxed">
+              Not happy? Tell us before we pack up. We fix it on the spot or you don't pay. No questions.
             </div>
           </div>
         </div>
-
-        <!-- Image -->
-        <div>
-          <img src="Guarantee-Image.png" alt="Precision detailing"
-               class="w-full object-cover" style="height:360px;">
-        </div>
-
       </div>
+
+      <!-- Image -->
+      <div>
+        <img src="Guarantee-Image.png" alt="Precision detailing"
+             class="w-full object-cover" style="height:420px;">
+        <div class="gold-rule mt-0"></div>
+      </div>
+
     </div>
 
   </div>
