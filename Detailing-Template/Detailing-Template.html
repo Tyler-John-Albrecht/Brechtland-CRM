@@ -1186,14 +1186,42 @@
     </div>
   </div>
 
-  <!-- Google badge -->
+  <!-- Google badge + review CTA -->
   <div class="text-center mt-10 reveal px-4">
-    <div class="inline-flex items-center gap-3 px-6 py-3"
+    <div class="inline-flex items-center gap-3 px-6 py-3 mb-5"
          style="background:rgba(201,169,110,0.06); border:1px solid rgba(201,169,110,0.15);">
       <span class="display text-gold text-2xl">5.0</span>
       <span class="display text-white text-xl">★★★★★</span>
       <span class="label text-muted" style="font-size:0.62rem;">on Google · 9 Reviews</span>
     </div>
+    <br>
+    <!--
+      REVIEW LINK — TO UPDATE:
+      1. Open Google Maps on desktop
+      2. Search "MD Meza Auto Detail"
+      3. Click Share → Copy Link
+      4. The URL contains the Place ID — replace the href below with:
+         https://search.google.com/local/writereview?placeid=PLACE_ID_HERE
+    -->
+    <a href="https://maps.app.goo.gl/wmYLQq6nRHCNJKNW9"
+       target="_blank" rel="noopener"
+       style="display:inline-flex; align-items:center; gap:10px;
+              border:1px solid rgba(201,169,110,0.35); color:#C9A96E;
+              font-family:'Barlow Condensed',sans-serif; font-weight:700;
+              font-size:0.8rem; letter-spacing:0.14em; text-transform:uppercase;
+              padding:13px 28px; text-decoration:none;
+              transition:border-color 0.28s, background 0.28s;"
+       onmouseover="this.style.borderColor='#C9A96E'; this.style.background='rgba(201,169,110,0.07)'"
+       onmouseout="this.style.borderColor='rgba(201,169,110,0.35)'; this.style.background='transparent'">
+      <!-- Google G icon -->
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Leave Us a Review
+    </a>
   </div>
 
 </section>
@@ -1445,11 +1473,32 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => ro.observe(el));
 
+  // ── Mobile sticky bar ─────────────────────────────
+  (function() {
+    var bar  = document.getElementById('sticky-bar');
+    var hero = document.getElementById('home');
+    if (!bar || !hero) return;
+
+    var heroObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        // Show bar once hero is no longer in view
+        if (!entry.isIntersecting) {
+          bar.style.transform = 'translateY(0)';
+        } else {
+          bar.style.transform = 'translateY(100%)';
+        }
+      });
+    }, { threshold: 0.05 });
+
+    heroObs.observe(hero);
+  })();
+
   // ── Booking Modal ─────────────────────────────────
   function openBooking(service) {
     var modal      = document.getElementById('booking-modal');
     var formState  = document.getElementById('booking-form-state');
     var successState = document.getElementById('booking-success');
+    var bar        = document.getElementById('sticky-bar');
     formState.style.display    = 'block';
     successState.style.display = 'none';
     // Pre-select service if a package button was clicked
@@ -1459,11 +1508,19 @@
     }
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    if (bar) bar.style.transform = 'translateY(100%)'; // hide bar while modal is open
   }
 
   function closeBooking() {
     document.getElementById('booking-modal').style.display = 'none';
     document.body.style.overflow = '';
+    // Re-show sticky bar if hero is out of view
+    var bar  = document.getElementById('sticky-bar');
+    var hero = document.getElementById('home');
+    if (bar && hero) {
+      var rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0) bar.style.transform = 'translateY(0)';
+    }
   }
 
   function submitBooking(e) {
@@ -1501,6 +1558,42 @@
     if (e.key === 'Escape') closeBooking();
   });
 </script>
+
+<!-- ══════════════════════════════════════
+     MOBILE STICKY BAR
+══════════════════════════════════════ -->
+<div id="sticky-bar"
+     class="md:hidden"
+     style="position:fixed; bottom:0; left:0; right:0; z-index:8000;
+            background:rgba(6,6,8,0.97); border-top:1px solid rgba(201,169,110,0.2);
+            backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+            padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+            transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);">
+
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:0.95rem;
+                letter-spacing:0.06em; text-transform:uppercase; color:#F2F0EC; line-height:1.1;">
+      Mobile Detailing
+    </div>
+    <div style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.72rem;
+                color:rgba(255,255,255,0.38); margin-top:2px;">
+      We come to you · Chula Vista
+    </div>
+  </div>
+
+  <button type="button" onclick="openBooking()"
+          style="flex-shrink:0; background:#C9A96E; color:#060608;
+                 font-family:'Barlow Condensed',sans-serif; font-weight:800;
+                 font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase;
+                 padding:11px 24px; border:none; cursor:pointer;
+                 transition:background 0.25s, transform 0.2s; white-space:nowrap;"
+          onmouseover="this.style.background='#E5D0A4'"
+          onmouseout="this.style.background='#C9A96E'">
+    Get a Free Quote
+  </button>
+
+</div>
+
 
 <!-- ══════════════════════════════════════
      BOOKING MODAL
