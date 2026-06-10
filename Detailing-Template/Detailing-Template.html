@@ -39,12 +39,12 @@
 
   <style>
     /* ── Base ─────────────────────────────────────── */
+    html { overflow-x: hidden; }
     *, *::before, *::after { box-sizing: border-box; }
     body {
       font-family: "Barlow", sans-serif;
       background-color: #060608;
       color: #F2F0EC;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -1483,11 +1483,14 @@
     if (!bar || !hero) return;
 
     function checkHero() {
-      var heroBottom = hero.getBoundingClientRect().bottom;
-      bar.style.transform = heroBottom <= 0 ? 'translateY(0)' : 'translateY(100%)';
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      bar.style.transform = scrollY >= hero.offsetHeight * 0.9
+        ? 'translateY(0)' : 'translateY(100%)';
     }
 
-    window.addEventListener('scroll', checkHero, { passive: true });
+    window.addEventListener('scroll',    checkHero, { passive: true });
+    document.addEventListener('touchmove', checkHero, { passive: true });
+    document.addEventListener('touchend',  checkHero, { passive: true });
     checkHero(); // run once on load
   })();
 
