@@ -77,12 +77,14 @@
       letter-spacing: -0.01em;
     }
 
-    /* ── Brand gradient text ──────────────────────────── */
+    /* ── Brand gradient text — animated flow ─────────── */
     .gold-text {
-      background: linear-gradient(135deg, #F01882 0%, #18B4F0 100%);
+      background: linear-gradient(90deg, #F01882, #18B4F0, #F01882);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: brand-flow 4s ease-in-out infinite;
     }
 
     /* ── Thin dividers ────────────────────────────────── */
@@ -349,7 +351,9 @@
     /* ── Buttons ──────────────────────────────────── */
     .btn-gold {
       display: inline-block;
-      background: #F01882;
+      background: linear-gradient(90deg, #F01882, #18B4F0, #F01882);
+      background-size: 200% auto;
+      animation: brand-flow 3s ease-in-out infinite;
       color: #060608;
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 800;
@@ -357,12 +361,13 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       padding: 14px 36px;
-      transition: background 0.28s ease, transform 0.25s ease, box-shadow 0.28s ease;
+      transition: transform 0.25s ease, box-shadow 0.28s ease;
+      border: none;
+      cursor: pointer;
     }
     .btn-gold:hover {
-      background: #FF3D9A;
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(240,24,130,0.28);
+      box-shadow: 0 0 30px rgba(240,24,130,0.6), 0 12px 36px rgba(240,24,130,0.35);
     }
     .btn-ghost {
       display: inline-block;
@@ -434,6 +439,57 @@
       #sticky-bar {
         padding-bottom: calc(12px + env(safe-area-inset-bottom));
       }
+    }
+
+    /* ── Animated gradient keyframe ───────────────────── */
+    @keyframes brand-flow {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Hover glow effects ────────────────────────────── */
+    .btn-ghost:hover {
+      border-color: #F01882;
+      background: rgba(240,24,130,0.07);
+      box-shadow: 0 0 22px rgba(240,24,130,0.3);
+    }
+    .pkg:hover {
+      transform: translateY(-10px);
+      border-color: rgba(240,24,130,0.4);
+      box-shadow: 0 32px 64px -16px rgba(0,0,0,0.7), 0 0 45px rgba(240,24,130,0.2);
+    }
+    .pkg-hero:hover {
+      transform: translateY(-13px);
+      border-color: rgba(240,24,130,0.65);
+      box-shadow: 0 40px 72px -16px rgba(0,0,0,0.8), 0 0 70px rgba(240,24,130,0.35);
+    }
+    .addon:hover {
+      border-color: rgba(240,24,130,0.45);
+      background: rgba(18,15,10,0.97);
+      box-shadow: 0 0 28px rgba(240,24,130,0.15);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1) drop-shadow(0 0 12px rgba(240,24,130,0.35));
+    }
+    .review-card {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .review-card:hover {
+      border-color: rgba(240,24,130,0.4);
+      box-shadow: 0 0 28px rgba(240,24,130,0.18);
+    }
+    /* Stat ticker number glow */
+    .stat-pill .display { text-shadow: 0 0 18px rgba(240,24,130,0.5); }
+    /* Social icon hover glow */
+    footer a svg { transition: filter 0.25s ease; }
+    footer a:hover svg { filter: drop-shadow(0 0 7px rgba(240,24,130,0.8)); }
+    /* Nav link hover glow */
+    nav a:not([class*="btn"]):hover { text-shadow: 0 0 14px rgba(240,24,130,0.45); }
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .gold-text, .btn-gold { animation: none !important; }
     }
 
     .review-card {
