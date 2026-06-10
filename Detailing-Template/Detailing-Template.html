@@ -429,6 +429,11 @@
     /* ── Mobile sticky bar ────────────────────────────── */
     #sticky-bar { display: flex; }
     @media (min-width: 768px) { #sticky-bar { display: none; } }
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      #sticky-bar {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      }
+    }
 
     .review-card {
       width: 300px;
@@ -1394,16 +1399,18 @@
     }
   });
 
-  // ── Nav shrink on scroll ─────────────────────────
+  // ── Nav shrink + opaque on scroll ───────────────────
   const nav = document.getElementById('nav');
   const navInner = document.getElementById('nav-inner');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
       navInner.style.paddingTop    = '10px';
       navInner.style.paddingBottom = '10px';
+      nav.style.background         = 'rgba(6,6,8,0.98)';
     } else {
       navInner.style.paddingTop    = '16px';
       navInner.style.paddingBottom = '16px';
+      nav.style.background         = '';
     }
   }, { passive: true });
 
