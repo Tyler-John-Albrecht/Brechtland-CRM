@@ -144,17 +144,16 @@
     .slider-overlay {
       position: absolute;
       top: 0; left: 0;
+      width: 100%;
       height: 100%;
-      width: 50%;
-      overflow: hidden;
       pointer-events: none;
     }
     .slider-overlay img {
       position: absolute;
       top: 0; left: 0;
+      width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: left center;
     }
     .slider-handle {
       position: absolute;
@@ -1375,13 +1374,6 @@
     initMarquee('marquee-stats',   0.55);
     initMarquee('marquee-reviews', 0.35);
 
-    // Re-sync slider width after full layout
-    var baWrap     = document.getElementById('ba-wrap');
-    var baAfterImg = document.getElementById('ba-after-img');
-    if (baWrap && baAfterImg) {
-      baAfterImg.style.width = baWrap.offsetWidth + 'px';
-    }
-
     // ── Mobile sticky bar ───────────────────────────
     // Must run after load — element is below the script block in the DOM
     var bar  = document.getElementById('sticky-bar');
@@ -1443,31 +1435,28 @@
 
   // ── Before/After Drag Slider ─────────────────────
   (function() {
-    const wrap     = document.getElementById('ba-wrap');
-    const overlay  = document.getElementById('ba-overlay');
-    const handle   = document.getElementById('ba-handle');
-    const afterImg = document.getElementById('ba-after-img');
-    const hint     = document.getElementById('ba-hint');
-    if (!wrap) return;
+    const wrap    = document.getElementById('ba-wrap');
+    const overlay = document.getElementById('ba-overlay');
+    const handle  = document.getElementById('ba-handle');
+    const hint    = document.getElementById('ba-hint');
+    const overlayImg = overlay ? overlay.querySelector('img') : null;
+    if (!wrap || !overlayImg) return;
 
     let dragging = false;
-
-    // After image must be exactly as wide as the container
-    // so both images are pixel-aligned at every drag position
-    function syncWidth() {
-      afterImg.style.width = wrap.offsetWidth + 'px';
-    }
-    syncWidth();
-    window.addEventListener('resize', syncWidth);
 
     function move(clientX) {
       const rect = wrap.getBoundingClientRect();
       let p = ((clientX - rect.left) / rect.width) * 100;
-      p = Math.max(1, Math.min(99, p));
-      overlay.style.width = p + '%';
-      handle.style.left   = p + '%';
+      p = Math.max(0.5, Math.min(99.5, p));
+      // clip-path: the overlay (before) image is always full size.
+      // We clip away the RIGHT portion — so left side shows before, right shows after.
+      overlayImg.style.clipPath = 'inset(0 ' + (100 - p).toFixed(2) + '% 0 0)';
+      handle.style.left = p + '%';
       if (hint) hint.style.opacity = '0';
     }
+
+    // Set initial position
+    move(wrap.getBoundingClientRect().left + wrap.offsetWidth * 0.5);
 
     // Mouse
     wrap.addEventListener('mousedown', e => {
