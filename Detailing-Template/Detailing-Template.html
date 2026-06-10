@@ -77,14 +77,13 @@
       letter-spacing: -0.01em;
     }
 
-    /* ── Brand gradient text — animated flow ─────────── */
+    /* ── Brand gradient text ──────────────────────────── */
     .gold-text {
       background: linear-gradient(-45deg, #F01882, #18B4F0, #F01882, #18B4F0);
       background-size: 400% 400%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: brand-flow 4s ease infinite;
     }
 
     /* ── Thin dividers ────────────────────────────────── */
@@ -353,7 +352,6 @@
       display: inline-block;
       background: linear-gradient(-45deg, #F01882, #18B4F0, #F01882, #18B4F0);
       background-size: 400% 400%;
-      animation: brand-flow 3s ease infinite;
       color: #060608;
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 800;
@@ -1435,6 +1433,22 @@
   window.addEventListener('load', function() {
     initMarquee('marquee-stats',   0.55);
     initMarquee('marquee-reviews', 0.35);
+
+    // ── Gradient animation — RAF engine ─────────────
+    // CSS animation was inconsistent on desktop Chrome.
+    // RAF directly sets backgroundPosition each frame — works everywhere.
+    (function() {
+      var pos = 0;
+      var els = document.querySelectorAll('.gold-text, .btn-gold');
+      function tick() {
+        pos = (pos + 0.15) % 100;
+        for (var i = 0; i < els.length; i++) {
+          els[i].style.backgroundPosition = pos + '% ' + pos + '%';
+        }
+        requestAnimationFrame(tick);
+      }
+      if (els.length) requestAnimationFrame(tick);
+    })();
 
     // ── Mobile sticky bar ───────────────────────────
     // Must run after load — element is below the script block in the DOM
