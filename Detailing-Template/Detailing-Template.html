@@ -1315,6 +1315,14 @@
   window.addEventListener('load', function() {
     initMarquee('marquee-stats',   0.55);   // faster — short pills
     initMarquee('marquee-reviews', 0.35);   // slower — longer cards
+
+    // Re-sync slider width after full layout — Tailwind CDN can shift
+    // container dimensions between DOMContentLoaded and load
+    var baWrap     = document.getElementById('ba-wrap');
+    var baAfterImg = document.getElementById('ba-after-img');
+    if (baWrap && baAfterImg) {
+      baAfterImg.style.width = baWrap.offsetWidth + 'px';
+    }
   });
 
   // ── Nav shrink on scroll ─────────────────────────
