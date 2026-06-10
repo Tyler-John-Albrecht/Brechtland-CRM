@@ -24,8 +24,8 @@
             carbon: '#0f0f12',
             panel: '#161619',
             rail: '#1e1e22',
-            gold: '#C9A96E',
-            'gold-lt': '#E5D0A4',
+            gold: '#F01882',
+            'gold-lt': '#FF3D9A',
             muted: '#666672',
             'off-white': '#F2F0EC',
           },
@@ -67,6 +67,8 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
+    /* Section eyebrow labels use blue — creates pink/blue contrast across the page */
+    .label.text-gold { color: #18B4F0 !important; }
     .display {
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 900;
@@ -75,22 +77,22 @@
       letter-spacing: -0.01em;
     }
 
-    /* ── Gold text gradient ───────────────────────── */
+    /* ── Brand gradient text ──────────────────────────── */
     .gold-text {
-      background: linear-gradient(135deg, #C9A96E 0%, #E5D0A4 55%, #C9A96E 100%);
+      background: linear-gradient(135deg, #F01882 0%, #18B4F0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    /* ── Thin gold divider ────────────────────────── */
+    /* ── Thin dividers ────────────────────────────────── */
     .gold-rule {
       height: 1px;
-      background: linear-gradient(90deg, transparent 0%, #C9A96E 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, #F01882 50%, transparent 100%);
     }
     .gold-rule-left {
       height: 1px;
-      background: linear-gradient(90deg, #C9A96E, transparent);
+      background: linear-gradient(90deg, #F01882, transparent);
     }
 
     /* ── Nav ──────────────────────────────────────── */
@@ -98,7 +100,7 @@
       background: rgba(6,6,8,0.82);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(201,169,110,0.07);
+      border-bottom: 1px solid rgba(240,24,130,0.07);
       transition: padding 0.3s ease;
     }
 
@@ -160,10 +162,10 @@
       top: 0; bottom: 0;
       left: 50%;
       width: 3px;
-      background: #C9A96E;
+      background: #F01882;
       transform: translateX(-50%);
       pointer-events: none;
-      box-shadow: 0 0 12px rgba(201,169,110,0.4);
+      box-shadow: 0 0 12px rgba(240,24,130,0.4);
     }
     .slider-circle {
       position: absolute;
@@ -171,7 +173,7 @@
       left: 50%;
       transform: translate(-50%,-50%);
       width: 48px; height: 48px;
-      background: #C9A96E;
+      background: #F01882;
       border-radius: 50%;
       border: 3px solid #fff;
       display: flex;
@@ -199,9 +201,9 @@
     }
     .slider-label-after {
       right: 16px;
-      background: rgba(201,169,110,0.18);
-      color: #C9A96E;
-      border: 1px solid rgba(201,169,110,0.5);
+      background: rgba(240,24,130,0.18);
+      color: #F01882;
+      border: 1px solid rgba(240,24,130,0.5);
     }
     .slider-hint {
       position: absolute;
@@ -245,22 +247,22 @@
     }
     .pkg:hover {
       transform: translateY(-10px);
-      border-color: rgba(201,169,110,0.3);
+      border-color: rgba(240,24,130,0.3);
       box-shadow: 0 32px 64px -16px rgba(0,0,0,0.7),
-                  0 0 32px rgba(201,169,110,0.05);
+                  0 0 32px rgba(240,24,130,0.05);
     }
     .pkg-hero {
-      background: linear-gradient(160deg, rgba(201,169,110,0.055) 0%, rgba(10,10,12,0.98) 100%);
-      border: 1px solid rgba(201,169,110,0.22);
+      background: linear-gradient(160deg, rgba(240,24,130,0.055) 0%, rgba(10,10,12,0.98) 100%);
+      border: 1px solid rgba(240,24,130,0.22);
     }
     .pkg-hero:hover {
       transform: translateY(-13px);
-      border-color: rgba(201,169,110,0.55);
+      border-color: rgba(240,24,130,0.55);
       box-shadow: 0 40px 72px -16px rgba(0,0,0,0.8),
-                  0 0 50px rgba(201,169,110,0.1);
+                  0 0 50px rgba(240,24,130,0.1);
     }
     .pkg-featured-badge {
-      background: #C9A96E;
+      background: #F01882;
       color: #060608;
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 800;
@@ -275,7 +277,7 @@
     /* ── Check marks ──────────────────────────────── */
     .check::before {
       content: '✓';
-      color: #C9A96E;
+      color: #F01882;
       margin-right: 10px;
       font-weight: 700;
     }
@@ -288,7 +290,7 @@
       transition: border-color 0.35s ease, background 0.35s ease;
     }
     .addon:hover {
-      border-color: rgba(201,169,110,0.25);
+      border-color: rgba(240,24,130,0.25);
       background: rgba(18,15,10,0.97);
     }
     .addon img {
@@ -304,7 +306,7 @@
       font-weight: 900;
       font-size: 6rem;
       line-height: 1;
-      color: rgba(201,169,110,0.1);
+      color: rgba(240,24,130,0.1);
       position: absolute;
       top: 0; left: -4px;
       pointer-events: none;
@@ -312,8 +314,8 @@
 
     /* ── Guarantee ────────────────────────────────── */
     .guarantee-wrap {
-      background: linear-gradient(135deg, rgba(201,169,110,0.04) 0%, rgba(6,6,8,0) 60%);
-      border: 1px solid rgba(201,169,110,0.13);
+      background: linear-gradient(135deg, rgba(240,24,130,0.04) 0%, rgba(6,6,8,0) 60%);
+      border: 1px solid rgba(240,24,130,0.13);
     }
 
     /* ── Gallery ──────────────────────────────────── */
@@ -347,7 +349,7 @@
     /* ── Buttons ──────────────────────────────────── */
     .btn-gold {
       display: inline-block;
-      background: #C9A96E;
+      background: #F01882;
       color: #060608;
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 800;
@@ -358,14 +360,14 @@
       transition: background 0.28s ease, transform 0.25s ease, box-shadow 0.28s ease;
     }
     .btn-gold:hover {
-      background: #E5D0A4;
+      background: #FF3D9A;
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(201,169,110,0.28);
+      box-shadow: 0 12px 32px rgba(240,24,130,0.28);
     }
     .btn-ghost {
       display: inline-block;
-      border: 1px solid rgba(201,169,110,0.45);
-      color: #C9A96E;
+      border: 1px solid rgba(240,24,130,0.45);
+      color: #F01882;
       font-family: "Barlow Condensed", sans-serif;
       font-weight: 700;
       font-size: 0.85rem;
@@ -375,8 +377,8 @@
       transition: border-color 0.28s ease, background 0.28s ease;
     }
     .btn-ghost:hover {
-      border-color: #C9A96E;
-      background: rgba(201,169,110,0.07);
+      border-color: #F01882;
+      background: rgba(240,24,130,0.07);
     }
 
     /* ── Scroll reveal ────────────────────────────── */
@@ -394,7 +396,7 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #060608; }
     ::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #C9A96E; }
+    ::-webkit-scrollbar-thumb:hover { background: #F01882; }
 
     /* ── Marquee (stats + reviews) ───────────────────── */
     .marquee-track {
@@ -421,7 +423,7 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: rgba(201,169,110,0.35);
+      background: rgba(240,24,130,0.35);
       flex-shrink: 0;
     }
 
@@ -443,7 +445,7 @@
       padding: 24px;
     }
     .review-stars {
-      color: #C9A96E;
+      color: #F01882;
       font-size: 0.85rem;
       letter-spacing: 2px;
       margin-bottom: 10px;
@@ -462,7 +464,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #C9A96E;
+      color: #F01882;
     }
     .review-source {
       font-family: "Barlow", sans-serif;
@@ -521,14 +523,18 @@
 <section id="home" class="relative w-full min-h-screen flex items-end overflow-hidden hero-img">
   <div class="absolute inset-0 hero-vignette"></div>
 
-  <!-- Ambient light orbs -->
-  <div class="absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full
-       bg-gold/5 blur-[100px] pointer-events-none"></div>
+  <!-- Ambient glow — brand colors -->
+  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full
+       blur-[120px] pointer-events-none"
+       style="background:rgba(240,24,130,0.07);"></div>
+  <div class="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full
+       blur-[100px] pointer-events-none"
+       style="background:rgba(24,180,240,0.06);"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pb-24 md:pb-32">
     <!-- Eyebrow -->
     <div class="flex items-center gap-3 mb-5">
-      <div class="w-10 h-px" style="background:#C9A96E;"></div>
+      <div class="w-10 h-px" style="background:#F01882;"></div>
       <span class="label text-gold">Chula Vista's Mobile Detailing Studio</span>
     </div>
 
@@ -807,7 +813,7 @@
     </div>
 
     <!-- Value reassurance strip -->
-    <div class="mt-10 p-6 reveal" style="background:rgba(201,169,110,0.04); border:1px solid rgba(201,169,110,0.1);">
+    <div class="mt-10 p-6 reveal" style="background:rgba(240,24,130,0.04); border:1px solid rgba(240,24,130,0.1);">
       <div class="display text-center text-white text-xl md:text-2xl">
         ALL PACKAGES INCLUDE: MOBILE SERVICE · 100% SATISFACTION GUARANTEE · NO HIDDEN FEES
       </div>
@@ -998,7 +1004,7 @@
         </p>
         <!-- Guarantee badge -->
         <div class="flex items-start gap-5 p-6"
-             style="background:rgba(201,169,110,0.06); border:1px solid rgba(201,169,110,0.15);">
+             style="background:rgba(240,24,130,0.06); border:1px solid rgba(240,24,130,0.15);">
           <div class="display text-gold leading-none" style="font-size:2.5rem;">✓</div>
           <div>
             <div class="display text-white text-xl mb-1">100% SATISFACTION OR IT'S FREE</div>
@@ -1196,7 +1202,7 @@
   <!-- Google badge + review CTA -->
   <div class="text-center mt-10 reveal px-4">
     <div class="inline-flex items-center gap-3 px-6 py-3 mb-5"
-         style="background:rgba(201,169,110,0.06); border:1px solid rgba(201,169,110,0.15);">
+         style="background:rgba(240,24,130,0.06); border:1px solid rgba(240,24,130,0.15);">
       <span class="display text-gold text-2xl">5.0</span>
       <span class="display text-white text-xl">★★★★★</span>
       <span class="label text-muted" style="font-size:0.62rem;">on Google · 9 Reviews</span>
@@ -1213,13 +1219,13 @@
     <a href="https://maps.app.goo.gl/wmYLQq6nRHCNJKNW9"
        target="_blank" rel="noopener"
        style="display:inline-flex; align-items:center; gap:10px;
-              border:1px solid rgba(201,169,110,0.35); color:#C9A96E;
+              border:1px solid rgba(240,24,130,0.35); color:#F01882;
               font-family:'Barlow Condensed',sans-serif; font-weight:700;
               font-size:0.8rem; letter-spacing:0.14em; text-transform:uppercase;
               padding:13px 28px; text-decoration:none;
               transition:border-color 0.28s, background 0.28s;"
-       onmouseover="this.style.borderColor='#C9A96E'; this.style.background='rgba(201,169,110,0.07)'"
-       onmouseout="this.style.borderColor='rgba(201,169,110,0.35)'; this.style.background='transparent'">
+       onmouseover="this.style.borderColor='#F01882'; this.style.background='rgba(240,24,130,0.07)'"
+       onmouseout="this.style.borderColor='rgba(240,24,130,0.35)'; this.style.background='transparent'">
       <!-- Google G icon -->
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -1274,7 +1280,7 @@
         <div class="flex gap-5 mt-6">
           <a href="https://www.instagram.com/meza_autodetail" target="_blank" rel="noopener"
              style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
-             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
              aria-label="Instagram">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -1284,7 +1290,7 @@
           </a>
           <a href="https://www.facebook.com/MezaAutoDetail" target="_blank" rel="noopener"
              style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
-             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
              aria-label="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
@@ -1292,7 +1298,7 @@
           </a>
           <a href="https://www.tiktok.com/@meza.details" target="_blank" rel="noopener"
              style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
-             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
              aria-label="TikTok">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.81a8.18 8.18 0 0 0 4.78 1.52V6.9a4.85 4.85 0 0 1-1.01-.21z"/>
@@ -1558,7 +1564,7 @@
 ══════════════════════════════════════ -->
 <div id="sticky-bar"
      style="position:fixed; bottom:0; left:0; right:0; z-index:8000;
-            background:rgba(6,6,8,0.97); border-top:1px solid rgba(201,169,110,0.2);
+            background:rgba(6,6,8,0.97); border-top:1px solid rgba(240,24,130,0.2);
             backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
             padding:12px 20px; align-items:center; justify-content:space-between; gap:12px;
             transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);">
@@ -1575,13 +1581,13 @@
   </div>
 
   <button type="button" onclick="openBooking()"
-          style="flex-shrink:0; background:#C9A96E; color:#060608;
+          style="flex-shrink:0; background:#F01882; color:#060608;
                  font-family:'Barlow Condensed',sans-serif; font-weight:800;
                  font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase;
                  padding:11px 24px; border:none; cursor:pointer;
                  transition:background 0.25s, transform 0.2s; white-space:nowrap;"
-          onmouseover="this.style.background='#E5D0A4'"
-          onmouseout="this.style.background='#C9A96E'">
+          onmouseover="this.style.background='#FF3D9A'"
+          onmouseout="this.style.background='#F01882'">
     Get a Free Quote
   </button>
 
@@ -1600,20 +1606,20 @@
   <div id="booking-card"
        style="position:relative; width:100%; max-width:520px; margin:auto;
               background:linear-gradient(160deg, rgba(22,22,25,0.99) 0%, rgba(10,10,12,1) 100%);
-              border:1px solid rgba(201,169,110,0.2); padding:40px 36px;">
+              border:1px solid rgba(240,24,130,0.2); padding:40px 36px;">
 
     <!-- Close button -->
     <button onclick="closeBooking()" aria-label="Close"
             style="position:absolute; top:16px; right:18px; background:none; border:none;
                    color:rgba(255,255,255,0.3); cursor:pointer; font-size:1.3rem; line-height:1;
                    padding:4px 8px; transition:color 0.2s;"
-            onmouseover="this.style.color='#C9A96E'"
+            onmouseover="this.style.color='#F01882'"
             onmouseout="this.style.color='rgba(255,255,255,0.3)'">✕</button>
 
     <!-- FORM STATE -->
     <div id="booking-form-state">
       <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.65rem;
-                  letter-spacing:0.2em; text-transform:uppercase; color:#C9A96E; margin-bottom:8px;">
+                  letter-spacing:0.2em; text-transform:uppercase; color:#F01882; margin-bottom:8px;">
         Meza Detail · Chula Vista
       </div>
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
@@ -1637,7 +1643,7 @@
                    style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                           color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                           padding:10px 13px; outline:none; transition:border-color 0.2s;"
-                   onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                   onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                    onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
           </div>
           <div>
@@ -1648,7 +1654,7 @@
                    style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                           color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                           padding:10px 13px; outline:none; transition:border-color 0.2s;"
-                   onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                   onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                    onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
           </div>
         </div>
@@ -1662,7 +1668,7 @@
                  style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                         color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                         padding:10px 13px; outline:none; transition:border-color 0.2s;"
-                 onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                 onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                  onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
         </div>
 
@@ -1676,7 +1682,7 @@
                          color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                          padding:10px 13px; outline:none; transition:border-color 0.2s;
                          cursor:pointer; -webkit-appearance:none; appearance:none;"
-                  onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                  onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                   onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
             <option value="">Not sure — just need a quote</option>
             <option value="The Commuter">The Commuter — $149</option>
@@ -1685,7 +1691,7 @@
             <option value="Add-On Only">Add-On Service Only</option>
           </select>
           <div style="pointer-events:none; position:absolute; right:13px; bottom:11px;
-                      color:rgba(201,169,110,0.6); font-size:0.75rem;">▼</div>
+                      color:rgba(240,24,130,0.6); font-size:0.75rem;">▼</div>
         </div>
 
         <!-- Vehicle -->
@@ -1697,7 +1703,7 @@
                  style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                         color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                         padding:10px 13px; outline:none; transition:border-color 0.2s;"
-                 onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                 onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                  onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
         </div>
 
@@ -1711,24 +1717,24 @@
                     style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                            color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                            padding:10px 13px; outline:none; resize:vertical; transition:border-color 0.2s;"
-                    onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                    onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                     onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
         </div>
 
         <button type="submit"
-                style="width:100%; text-align:center; display:block; background:#C9A96E; color:#060608;
+                style="width:100%; text-align:center; display:block; background:#F01882; color:#060608;
                        font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.88rem;
                        letter-spacing:0.12em; text-transform:uppercase; padding:16px 36px;
                        border:none; cursor:pointer; transition:background 0.28s ease, transform 0.25s ease;"
-                onmouseover="this.style.background='#E5D0A4'; this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.background='#C9A96E'; this.style.transform='translateY(0)'">
+                onmouseover="this.style.background='#FF3D9A'; this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.background='#F01882'; this.style.transform='translateY(0)'">
           Send My Request
         </button>
 
         <p style="font-family:'Barlow',sans-serif; font-size:0.72rem; color:rgba(255,255,255,0.22);
                   text-align:center; margin-top:14px;">
           Prefer to call? <a href="tel:+16195208772"
-            style="color:rgba(201,169,110,0.65); text-decoration:none;">(619) 520-8772</a>
+            style="color:rgba(240,24,130,0.65); text-decoration:none;">(619) 520-8772</a>
         </p>
       </form>
     </div>
@@ -1736,7 +1742,7 @@
     <!-- SUCCESS STATE -->
     <div id="booking-success" style="display:none; text-align:center; padding:24px 0;">
       <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:3.5rem;
-                  color:#C9A96E; margin-bottom:16px;">✓</div>
+                  color:#F01882; margin-bottom:16px;">✓</div>
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
                  font-size:clamp(1.7rem,4vw,2.3rem); color:#F2F0EC; margin-bottom:14px;">
         REQUEST SENT
@@ -1745,15 +1751,15 @@
                 color:rgba(242,240,236,0.55); line-height:1.75; margin-bottom:28px;">
         Lorenzo will reach out to confirm your booking shortly.<br>
         Look out for a call from
-        <strong style="color:#C9A96E;">(619) 520-8772</strong>.
+        <strong style="color:#F01882;">(619) 520-8772</strong>.
       </p>
       <button onclick="closeBooking()"
-              style="display:inline-block; background:#C9A96E; color:#060608;
+              style="display:inline-block; background:#F01882; color:#060608;
                      font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.88rem;
                      letter-spacing:0.12em; text-transform:uppercase; padding:14px 40px;
                      border:none; cursor:pointer; transition:background 0.25s;"
-              onmouseover="this.style.background='#E5D0A4'"
-              onmouseout="this.style.background='#C9A96E'">Done</button>
+              onmouseover="this.style.background='#FF3D9A'"
+              onmouseout="this.style.background='#F01882'">Done</button>
     </div>
 
   </div>
