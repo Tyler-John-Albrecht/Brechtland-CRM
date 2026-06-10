@@ -483,7 +483,7 @@
       <a href="#packages" class="font-body font-500 text-muted hover:text-white transition-colors tracking-wide">Packages</a>
       <a href="#process"  class="font-body font-500 text-muted hover:text-white transition-colors tracking-wide">Process</a>
       <a href="#guarantee" class="font-body font-500 text-muted hover:text-white transition-colors tracking-wide">Guarantee</a>
-      <a href="#contact" class="btn-gold text-sm px-6 py-2.5">Book Now</a>
+      <button type="button" onclick="openBooking()" class="btn-gold text-sm px-6 py-2.5">Book Now</button>
     </div>
 
     <!-- Mobile toggle -->
@@ -504,7 +504,7 @@
   <a href="#packages" class="mob-link display text-5xl text-white">PACKAGES</a>
   <a href="#process"  class="mob-link display text-5xl text-white">PROCESS</a>
   <a href="#guarantee" class="mob-link display text-5xl text-white">GUARANTEE</a>
-  <a href="#contact" class="btn-gold mt-4 text-base px-14 py-4">Book Now</a>
+  <button type="button" onclick="openBooking()" class="mob-link btn-gold mt-4 text-base px-14 py-4">Book Now</button>
 </div>
 
 
@@ -734,7 +734,7 @@
             <div class="display text-white text-4xl">$149</div>
             <div class="font-body text-xs text-muted mt-1">Sedan / Standard SUV — oversize quoted</div>
           </div>
-          <a href="#contact" class="btn-ghost block text-center w-full">Book the Commuter</a>
+          <button type="button" onclick="openBooking('The Commuter')" class="btn-ghost block text-center w-full">Book the Commuter</button>
         </div>
       </div>
 
@@ -764,7 +764,7 @@
             <div class="display text-white text-4xl">$349</div>
             <div class="font-body text-xs text-muted mt-1">Sedan / Standard SUV — oversize quoted</div>
           </div>
-          <a href="#contact" class="btn-gold block text-center w-full">Book the Reset</a>
+          <button type="button" onclick="openBooking('The New Car Reset')" class="btn-gold block text-center w-full">Book the Reset</button>
         </div>
       </div>
 
@@ -793,7 +793,7 @@
             <div class="display text-white text-4xl">$849+</div>
             <div class="font-body text-xs text-muted mt-1">Quoted by vehicle — no surprises</div>
           </div>
-          <a href="#contact" class="btn-ghost block text-center w-full">Request a Quote</a>
+          <button type="button" onclick="openBooking('The Asset Protector')" class="btn-ghost block text-center w-full">Request a Quote</button>
         </div>
       </div>
 
@@ -1213,7 +1213,7 @@
     <p class="font-body font-300 text-off-white/70 text-xl mb-10 max-w-lg leading-relaxed">
       We come to you. You do nothing. Your car leaves looking better than the day you drove it off the lot.
     </p>
-    <a href="#contact" class="btn-gold text-base px-14 py-5">Claim My Spot</a>
+    <button type="button" onclick="openBooking()" class="btn-gold text-base px-14 py-5">Claim My Spot</button>
   </div>
 </section>
 
@@ -1235,11 +1235,34 @@
         <p class="font-body font-300 text-muted text-sm leading-relaxed max-w-xs">
           Chula Vista's mobile detailing studio. Professional-grade results at your driveway.
         </p>
-        <!-- Social placeholder -->
-        <div class="flex gap-4 mt-6">
-          <a href="https://www.instagram.com/meza_autodetail" target="_blank" rel="noopener" class="label text-muted hover:text-gold transition-colors">IG</a>
-          <a href="#" class="label text-muted hover:text-gold transition-colors">FB</a>
-          <a href="#" class="label text-muted hover:text-gold transition-colors">TIKTOK</a>
+        <!-- Social icons -->
+        <div class="flex gap-5 mt-6">
+          <a href="https://www.instagram.com/meza_autodetail" target="_blank" rel="noopener"
+             style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
+             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/MezaAutoDetail" target="_blank" rel="noopener"
+             style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
+             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@meza.details" target="_blank" rel="noopener"
+             style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
+             onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
+             aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.81a8.18 8.18 0 0 0 4.78 1.52V6.9a4.85 4.85 0 0 1-1.01-.21z"/>
+            </svg>
+          </a>
         </div>
       </div>
 
@@ -1263,7 +1286,7 @@
           <div>📍 Serving Chula Vista &amp; surrounding areas</div>
         </div>
         <div class="mt-6">
-          <a href="tel:+16195208772" class="btn-gold text-sm">Call to Book</a>
+          <button type="button" onclick="openBooking()" class="btn-gold text-sm">Book My Detail</button>
         </div>
       </div>
 
@@ -1421,7 +1444,235 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => ro.observe(el));
+
+  // ── Booking Modal ─────────────────────────────────
+  function openBooking(service) {
+    var modal      = document.getElementById('booking-modal');
+    var formState  = document.getElementById('booking-form-state');
+    var successState = document.getElementById('booking-success');
+    formState.style.display    = 'block';
+    successState.style.display = 'none';
+    // Pre-select service if a package button was clicked
+    if (service) {
+      var sel = document.getElementById('b-service');
+      if (sel) sel.value = service;
+    }
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBooking() {
+    document.getElementById('booking-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function submitBooking(e) {
+    e.preventDefault();
+    // ── FORMSPREE INTEGRATION POINT ─────────────────
+    // When ready, create a free Formspree form at formspree.io
+    // and replace YOUR_FORMSPREE_ID below:
+    //
+    // var formData = {
+    //   name:    document.getElementById('b-name').value,
+    //   phone:   document.getElementById('b-phone').value,
+    //   email:   document.getElementById('b-email').value,
+    //   service: document.getElementById('b-service').value,
+    //   vehicle: document.getElementById('b-vehicle').value,
+    //   message: document.getElementById('b-message').value
+    // };
+    // fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    //   body: JSON.stringify(formData)
+    // });
+    // ─────────────────────────────────────────────────
+
+    document.getElementById('booking-form-state').style.display  = 'none';
+    document.getElementById('booking-success').style.display      = 'block';
+  }
+
+  // Close on overlay click (outside the card)
+  document.getElementById('booking-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeBooking();
+  });
 </script>
+
+<!-- ══════════════════════════════════════
+     BOOKING MODAL
+══════════════════════════════════════ -->
+<div id="booking-modal" aria-modal="true" role="dialog"
+     style="display:none; position:fixed; inset:0; z-index:9000;
+            background:rgba(6,6,8,0.93); backdrop-filter:blur(8px);
+            -webkit-backdrop-filter:blur(8px);
+            align-items:center; justify-content:center; padding:16px; overflow-y:auto;">
+
+  <div id="booking-card"
+       style="position:relative; width:100%; max-width:520px; margin:auto;
+              background:linear-gradient(160deg, rgba(22,22,25,0.99) 0%, rgba(10,10,12,1) 100%);
+              border:1px solid rgba(201,169,110,0.2); padding:40px 36px;">
+
+    <!-- Close button -->
+    <button onclick="closeBooking()" aria-label="Close"
+            style="position:absolute; top:16px; right:18px; background:none; border:none;
+                   color:rgba(255,255,255,0.3); cursor:pointer; font-size:1.3rem; line-height:1;
+                   padding:4px 8px; transition:color 0.2s;"
+            onmouseover="this.style.color='#C9A96E'"
+            onmouseout="this.style.color='rgba(255,255,255,0.3)'">✕</button>
+
+    <!-- FORM STATE -->
+    <div id="booking-form-state">
+      <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.65rem;
+                  letter-spacing:0.2em; text-transform:uppercase; color:#C9A96E; margin-bottom:8px;">
+        Meza Detail · Chula Vista
+      </div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
+                 line-height:0.95; font-size:clamp(1.9rem,5vw,2.7rem); color:#F2F0EC; margin-bottom:10px;">
+        BOOK YOUR DETAIL
+      </h2>
+      <p style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.875rem;
+                color:rgba(242,240,236,0.5); margin-bottom:28px; line-height:1.65;">
+        Fill this out and Lorenzo will reach out to confirm your booking within a few hours.
+      </p>
+
+      <form id="booking-form" onsubmit="submitBooking(event)">
+
+        <!-- Name + Phone -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div>
+            <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                          letter-spacing:0.18em; text-transform:uppercase;
+                          color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Full Name *</label>
+            <input type="text" id="b-name" required placeholder="Jane Smith"
+                   style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                          color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                          padding:10px 13px; outline:none; transition:border-color 0.2s;"
+                   onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                   onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          </div>
+          <div>
+            <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                          letter-spacing:0.18em; text-transform:uppercase;
+                          color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Phone *</label>
+            <input type="tel" id="b-phone" required placeholder="(619) 555-0100"
+                   style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                          color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                          padding:10px 13px; outline:none; transition:border-color 0.2s;"
+                   onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                   onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div style="margin-bottom:12px;">
+          <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                        letter-spacing:0.18em; text-transform:uppercase;
+                        color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Email</label>
+          <input type="email" id="b-email" placeholder="jane@email.com"
+                 style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                        color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                        padding:10px 13px; outline:none; transition:border-color 0.2s;"
+                 onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                 onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+        </div>
+
+        <!-- Service select -->
+        <div style="margin-bottom:12px; position:relative;">
+          <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                        letter-spacing:0.18em; text-transform:uppercase;
+                        color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Service</label>
+          <select id="b-service"
+                  style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                         color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                         padding:10px 13px; outline:none; transition:border-color 0.2s;
+                         cursor:pointer; -webkit-appearance:none; appearance:none;"
+                  onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                  onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+            <option value="">Not sure — just need a quote</option>
+            <option value="The Commuter">The Commuter — $149</option>
+            <option value="The New Car Reset">The New Car Reset — $349</option>
+            <option value="The Asset Protector">The Asset Protector — $849+</option>
+            <option value="Add-On Only">Add-On Service Only</option>
+          </select>
+          <div style="pointer-events:none; position:absolute; right:13px; bottom:11px;
+                      color:rgba(201,169,110,0.6); font-size:0.75rem;">▼</div>
+        </div>
+
+        <!-- Vehicle -->
+        <div style="margin-bottom:12px;">
+          <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                        letter-spacing:0.18em; text-transform:uppercase;
+                        color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Vehicle (Year / Make / Model)</label>
+          <input type="text" id="b-vehicle" placeholder="e.g. 2019 Honda Civic"
+                 style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                        color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                        padding:10px 13px; outline:none; transition:border-color 0.2s;"
+                 onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                 onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+        </div>
+
+        <!-- Message -->
+        <div style="margin-bottom:24px;">
+          <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
+                        letter-spacing:0.18em; text-transform:uppercase;
+                        color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Anything Else?</label>
+          <textarea id="b-message" rows="3"
+                    placeholder="Best time to reach you, specific concerns, etc."
+                    style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
+                           color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
+                           padding:10px 13px; outline:none; resize:vertical; transition:border-color 0.2s;"
+                    onfocus="this.style.borderColor='rgba(201,169,110,0.55)'"
+                    onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+        </div>
+
+        <button type="submit"
+                style="width:100%; text-align:center; display:block; background:#C9A96E; color:#060608;
+                       font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.88rem;
+                       letter-spacing:0.12em; text-transform:uppercase; padding:16px 36px;
+                       border:none; cursor:pointer; transition:background 0.28s ease, transform 0.25s ease;"
+                onmouseover="this.style.background='#E5D0A4'; this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.background='#C9A96E'; this.style.transform='translateY(0)'">
+          Send My Request
+        </button>
+
+        <p style="font-family:'Barlow',sans-serif; font-size:0.72rem; color:rgba(255,255,255,0.22);
+                  text-align:center; margin-top:14px;">
+          Prefer to call? <a href="tel:+16195208772"
+            style="color:rgba(201,169,110,0.65); text-decoration:none;">(619) 520-8772</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="booking-success" style="display:none; text-align:center; padding:24px 0;">
+      <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:3.5rem;
+                  color:#C9A96E; margin-bottom:16px;">✓</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
+                 font-size:clamp(1.7rem,4vw,2.3rem); color:#F2F0EC; margin-bottom:14px;">
+        REQUEST SENT
+      </h2>
+      <p style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.9rem;
+                color:rgba(242,240,236,0.55); line-height:1.75; margin-bottom:28px;">
+        Lorenzo will reach out to confirm your booking shortly.<br>
+        Look out for a call from
+        <strong style="color:#C9A96E;">(619) 520-8772</strong>.
+      </p>
+      <button onclick="closeBooking()"
+              style="display:inline-block; background:#C9A96E; color:#060608;
+                     font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:0.88rem;
+                     letter-spacing:0.12em; text-transform:uppercase; padding:14px 40px;
+                     border:none; cursor:pointer; transition:background 0.25s;"
+              onmouseover="this.style.background='#E5D0A4'"
+              onmouseout="this.style.background='#C9A96E'">Done</button>
+    </div>
+
+  </div>
+</div>
+
 
 </body>
 </html>
