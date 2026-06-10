@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meza Detail | Chula Vista's Premier Mobile Auto Care</title>
+  <title>Meza Auto Detail | Chula Vista's Premier Mobile Auto Care</title>
 
   <!-- Fonts: Barlow Condensed (display) + Barlow (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -537,8 +537,8 @@
 <nav class="fixed top-0 w-full z-50 nav-glass" id="nav">
   <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
 
-    <a href="#home" class="font-display text-lg md:text-xl tracking-widest text-white">
-      MEZA <span class="gold-text">DETAIL</span>
+    <a href="#home" class="font-display text-base md:text-lg tracking-wider text-white whitespace-nowrap">
+      MEZA AUTO <span class="gold-text">DETAIL</span>
     </a>
 
     <!-- Desktop links -->
@@ -1324,8 +1324,8 @@
 
       <!-- Brand -->
       <div>
-        <div class="display text-white text-2xl tracking-widest mb-4">
-          MEZA <span class="gold-text">DETAIL</span>
+        <div class="display text-white text-xl tracking-wider mb-4">
+          MEZA AUTO <span class="gold-text">DETAIL</span>
         </div>
         <p class="font-body font-300 text-muted text-sm leading-relaxed max-w-xs">
           Chula Vista's mobile detailing studio. Professional-grade results at your driveway.
@@ -1391,7 +1391,7 @@
     <div class="gold-rule mb-8"></div>
     <div class="flex flex-col md:flex-row justify-between items-center gap-3
          font-body font-300 text-xs text-muted">
-      <div>© 2025 Meza Detail. All rights reserved.</div>
+      <div>© 2025 Meza Auto Detail. All rights reserved.</div>
       <div>Website design by <span class="text-gold">Brechtland</span></div>
     </div>
 
@@ -1404,25 +1404,28 @@
 ══════════════════════════════════════ -->
 <script>
   // ── Marquee — requestAnimationFrame engine ───────
-  // Bulletproof: works offline, no CDN dependency.
-  // Each track must have exactly 2 identical sets of children.
-  // We scroll until pos === halfWidth, then snap back to 0 — seamless.
-  function initMarquee(trackId, pxPerFrame) {
+  // Speed is in px/second — frame-rate independent via deltaTime.
+  function initMarquee(trackId, pxPerSecond) {
     const track = document.getElementById(trackId);
     if (!track) return;
     let pos = 0;
+    let last = null;
     let paused = false;
     const vp = track.closest('.marquee-viewport');
     if (vp) {
-      vp.addEventListener('mouseenter', () => { paused = true;  });
-      vp.addEventListener('mouseleave', () => { paused = false; });
+      vp.addEventListener('mouseenter', () => { paused = true; });
+      vp.addEventListener('mouseleave', () => { paused = false; last = null; });
     }
-    function step() {
+    function step(ts) {
       if (!paused) {
-        const halfW = track.scrollWidth / 2;
-        pos += pxPerFrame;
-        if (pos >= halfW) pos -= halfW;
-        track.style.transform = 'translateX(-' + pos + 'px)';
+        if (last !== null) {
+          const dt = Math.min(ts - last, 50); // cap at 50ms to avoid jump after tab switch
+          const halfW = track.scrollWidth / 2;
+          pos += (pxPerSecond * dt) / 1000;
+          if (pos >= halfW) pos -= halfW;
+          track.style.transform = 'translateX(-' + pos + 'px)';
+        }
+        last = ts;
       }
       requestAnimationFrame(step);
     }
@@ -1431,20 +1434,25 @@
 
   // Wait for fonts + Tailwind to settle, then start
   window.addEventListener('load', function() {
-    initMarquee('marquee-stats',   0.55);
-    initMarquee('marquee-reviews', 0.35);
+    initMarquee('marquee-stats',   38);  // 38px/s
+    initMarquee('marquee-reviews', 26);  // 26px/s
 
     // ── Gradient animation — RAF engine ─────────────
-    // CSS animation was inconsistent on desktop Chrome.
-    // RAF directly sets backgroundPosition each frame — works everywhere.
+    // Uses deltaTime so speed is identical on 60hz and 120hz screens.
     (function() {
       var pos = 0;
+      var last = null;
+      var pctPerSec = 7; // 7% per second — full cycle ~14s
       var els = document.querySelectorAll('.gold-text, .btn-gold');
-      function tick() {
-        pos = (pos + 0.15) % 100;
-        for (var i = 0; i < els.length; i++) {
-          els[i].style.backgroundPosition = pos + '% ' + pos + '%';
+      function tick(ts) {
+        if (last !== null) {
+          var dt = Math.min(ts - last, 50);
+          pos = (pos + (pctPerSec * dt) / 1000) % 100;
+          for (var i = 0; i < els.length; i++) {
+            els[i].style.backgroundPosition = pos + '% ' + pos + '%';
+          }
         }
+        last = ts;
         requestAnimationFrame(tick);
       }
       if (els.length) requestAnimationFrame(tick);
@@ -1690,7 +1698,7 @@
     <div id="booking-form-state">
       <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.65rem;
                   letter-spacing:0.2em; text-transform:uppercase; color:#F01882; margin-bottom:8px;">
-        Meza Detail · Chula Vista
+        Meza Auto Detail · Chula Vista
       </div>
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
                  line-height:0.95; font-size:clamp(1.9rem,5vw,2.7rem); color:#F2F0EC; margin-bottom:10px;">
