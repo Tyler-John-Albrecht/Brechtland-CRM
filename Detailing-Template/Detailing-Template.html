@@ -1367,15 +1367,30 @@
 
   // Wait for fonts + Tailwind to settle, then start
   window.addEventListener('load', function() {
-    initMarquee('marquee-stats',   0.55);   // faster — short pills
-    initMarquee('marquee-reviews', 0.35);   // slower — longer cards
+    initMarquee('marquee-stats',   0.55);
+    initMarquee('marquee-reviews', 0.35);
 
-    // Re-sync slider width after full layout — Tailwind CDN can shift
-    // container dimensions between DOMContentLoaded and load
+    // Re-sync slider width after full layout
     var baWrap     = document.getElementById('ba-wrap');
     var baAfterImg = document.getElementById('ba-after-img');
     if (baWrap && baAfterImg) {
       baAfterImg.style.width = baWrap.offsetWidth + 'px';
+    }
+
+    // ── Mobile sticky bar ───────────────────────────
+    // Must run after load — element is below the script block in the DOM
+    var bar  = document.getElementById('sticky-bar');
+    var hero = document.getElementById('home');
+    if (bar && hero) {
+      function checkSticky() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        bar.style.transform = scrollY >= hero.offsetHeight * 0.85
+          ? 'translateY(0)' : 'translateY(100%)';
+      }
+      window.addEventListener('scroll',     checkSticky, { passive: true });
+      document.addEventListener('touchmove', checkSticky, { passive: true });
+      document.addEventListener('touchend',  checkSticky, { passive: true });
+      checkSticky();
     }
   });
 
@@ -1475,24 +1490,6 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => ro.observe(el));
-
-  // ── Mobile sticky bar ─────────────────────────────
-  (function() {
-    var bar  = document.getElementById('sticky-bar');
-    var hero = document.getElementById('home');
-    if (!bar || !hero) return;
-
-    function checkHero() {
-      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-      bar.style.transform = scrollY >= hero.offsetHeight * 0.9
-        ? 'translateY(0)' : 'translateY(100%)';
-    }
-
-    window.addEventListener('scroll',    checkHero, { passive: true });
-    document.addEventListener('touchmove', checkHero, { passive: true });
-    document.addEventListener('touchend',  checkHero, { passive: true });
-    checkHero(); // run once on load
-  })();
 
   // ── Booking Modal ─────────────────────────────────
   function openBooking(service) {
