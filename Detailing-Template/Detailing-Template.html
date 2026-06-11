@@ -430,7 +430,21 @@
       flex-shrink: 0;
     }
 
-    /* ── Mobile sticky bar ────────────────────────────── */
+    /* ── Logo color animation (blend mode overlay) ───── */
+    .logo-wrapper {
+      position: relative;
+      display: inline-block;
+      isolation: isolate; /* blend only affects the image, not the page behind */
+    }
+    .logo-anim-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #F01882, #18B4F0, #F01882, #18B4F0);
+      background-size: 400% 400%;
+      animation: brand-flow 4s ease infinite;
+      mix-blend-mode: color;
+      pointer-events: none;
+    }
     #sticky-bar { display: flex; will-change: transform; }
     @media (min-width: 768px) { #sticky-bar { display: none; } }
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
@@ -537,8 +551,10 @@
 <nav class="fixed top-0 w-full z-50 nav-glass" id="nav">
   <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
 
-    <a href="#home" class="font-display text-base md:text-lg tracking-wider text-white whitespace-nowrap">
-      MEZA AUTO <span class="gold-text">DETAIL</span>
+    <a href="#home" class="logo-wrapper">
+      <img src="MezaLogo.png" alt="Meza Auto Detail"
+           style="height:44px;width:auto;display:block;">
+      <div class="logo-anim-overlay"></div>
     </a>
 
     <!-- Desktop links -->
@@ -1451,6 +1467,7 @@
           for (var i = 0; i < els.length; i++) {
             els[i].style.backgroundPosition = pos + '% ' + pos + '%';
           }
+          // Animate SVG logo gradient in sync — removed (using img tag now)
         }
         last = ts;
         requestAnimationFrame(tick);
