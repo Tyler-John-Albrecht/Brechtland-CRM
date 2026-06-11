@@ -434,7 +434,8 @@
     .logo-wrapper {
       position: relative;
       display: inline-block;
-      isolation: isolate; /* blend only affects the image, not the page behind */
+      isolation: isolate;
+      mix-blend-mode: screen; /* makes black background invisible against dark nav */
     }
     .logo-anim-overlay {
       position: absolute;
@@ -442,7 +443,7 @@
       background: linear-gradient(-45deg, #F01882, #18B4F0, #F01882, #18B4F0);
       background-size: 400% 400%;
       animation: brand-flow 4s ease infinite;
-      mix-blend-mode: color;
+      mix-blend-mode: hue; /* replaces hue only — no purple mixing */
       pointer-events: none;
     }
     #sticky-bar { display: flex; will-change: transform; }
