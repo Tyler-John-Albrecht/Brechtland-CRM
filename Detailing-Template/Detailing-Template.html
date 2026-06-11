@@ -1581,7 +1581,46 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => ro.observe(el));
 
-  // ── Booking Modal ─────────────────────────────────
+    // ── Logo background removal via Canvas ──────────────
+    // PNG background is rgb(26,26,26) — not pure black.
+    // We can't use mix-blend-mode reliably. Canvas approach:
+    // pixels that are near-gray AND dark → transparent.
+    (function() {
+      var img = document.querySelector('.logo-animated');
+      if (!img) return;
+
+      function process() {
+        try {
+          var canvas = document.createElement('canvas');
+          canvas.width  = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var px = data.data;
+          for (var i = 0; i < px.length; i += 4) {
+            var r = px[i], g = px[i+1], b = px[i+2];
+            var brightness = (r + g + b) / 3;
+            var isGray = Math.abs(r-g) < 10 && Math.abs(g-b) < 10;
+            // Background: rgb(26,26,26) — brightness ~26, near-gray
+            if (brightness < 38 && isGray) {
+              px[i+3] = 0; // transparent
+            }
+          }
+          ctx.putImageData(data, 0, 0);
+          img.src = canvas.toDataURL('image/png');
+          img.style.mixBlendMode = ''; // no longer needed
+        } catch(e) {
+          console.log('Logo bg removal skipped:', e.message);
+        }
+      }
+
+      if (img.complete && img.naturalWidth) {
+        process();
+      } else {
+        img.addEventListener('load', process);
+      }
+    })();
   function openBooking(service) {
     var modal      = document.getElementById('booking-modal');
     var formState  = document.getElementById('booking-form-state');
