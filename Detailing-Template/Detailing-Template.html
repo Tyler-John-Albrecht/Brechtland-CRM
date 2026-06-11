@@ -430,21 +430,14 @@
       flex-shrink: 0;
     }
 
-    /* ── Logo color animation (blend mode overlay) ───── */
-    .logo-wrapper {
-      position: relative;
-      display: inline-block;
-      isolation: isolate;
-      mix-blend-mode: screen; /* makes black background invisible against dark nav */
+    /* ── Logo color animation ─────────────────────────── */
+    .logo-animated {
+      mix-blend-mode: screen;       /* screen makes black pixels disappear into nav */
+      animation: logo-hue 4s ease-in-out infinite;
     }
-    .logo-anim-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #F01882, #18B4F0, #F01882, #18B4F0);
-      background-size: 400% 400%;
-      animation: brand-flow 4s ease infinite;
-      mix-blend-mode: hue; /* replaces hue only — no purple mixing */
-      pointer-events: none;
+    @keyframes logo-hue {
+      0%, 100% { filter: hue-rotate(0deg);   }  /* original blue */
+      50%      { filter: hue-rotate(130deg); }  /* pink/magenta */
     }
     #sticky-bar { display: flex; will-change: transform; }
     @media (min-width: 768px) { #sticky-bar { display: none; } }
@@ -552,10 +545,9 @@
 <nav class="fixed top-0 w-full z-50 nav-glass" id="nav">
   <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
 
-    <a href="#home" class="logo-wrapper">
-      <img src="MezaLogo.png" alt="Meza Auto Detail"
+    <a href="#home">
+      <img src="MezaLogo.png" alt="Meza Auto Detail" class="logo-animated"
            style="height:44px;width:auto;display:block;">
-      <div class="logo-anim-overlay"></div>
     </a>
 
     <!-- Desktop links -->
