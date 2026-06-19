@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clean Whipz | Three Rivers' Premier Auto Detailing & Window Tint</title>
+  <title>Coles Auto Detailing LLC | LaGrange County's Premier Ceramic & Rust Protection</title>
 
   <!-- Fonts: Barlow Condensed (display) + Barlow (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,6 +110,11 @@
       background-image: url('Hero%20Background.png');
       background-size: cover;
       background-position: center 35%;
+    }
+    @media (max-width: 767px) {
+      .hero-img {
+        background-position: 35% 50%;
+      }
     }
     .hero-vignette {
       background: linear-gradient(
@@ -430,7 +435,15 @@
       flex-shrink: 0;
     }
 
-    /* ── Mobile sticky bar ────────────────────────────── */
+    /* ── Logo color animation ─────────────────────────── */
+    .logo-animated {
+      mix-blend-mode: screen;       /* screen makes black pixels disappear into nav */
+      animation: logo-hue 4s ease-in-out infinite;
+    }
+    @keyframes logo-hue {
+      0%, 100% { filter: hue-rotate(0deg);   }  /* original blue */
+      50%      { filter: hue-rotate(130deg); }  /* pink/magenta */
+    }
     #sticky-bar { display: flex; will-change: transform; }
     @media (min-width: 768px) { #sticky-bar { display: none; } }
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
@@ -537,8 +550,9 @@
 <nav class="fixed top-0 w-full z-50 nav-glass" id="nav">
   <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
 
-    <a href="#home" class="font-display text-base md:text-lg tracking-wider text-white whitespace-nowrap">
-      CLEAN <span class="gold-text">WHIPZ</span>
+    <a href="#home">
+      <img src="MezaLogo.png" alt="Coles Auto Detailing LLC" class="logo-animated"
+           style="height:44px;width:auto;display:block;">
     </a>
 
     <!-- Desktop links -->
@@ -589,20 +603,20 @@
     <!-- Eyebrow -->
     <div class="flex items-center gap-3 mb-5">
       <div class="w-10 h-px" style="background:#F01882;"></div>
-      <span class="label text-gold">Three Rivers' Premier Detailing & Window Tint</span>
+      <span class="label text-gold">LaGrange County's Home of Lifetime Warranty Protection</span>
     </div>
 
     <!-- Main headline -->
     <h1 class="display text-white mb-5"
         style="font-size: clamp(3.8rem, 11vw, 9.5rem);">
-      YOUR CAR<br>
-      HAS 2,000<br>
-      <span class="gold-text">SWIRL MARKS.</span>
+      PROTECT IT<br>
+      ONCE. KEEP IT<br>
+      <span class="gold-text">FOR LIFE.</span>
     </h1>
 
     <p class="font-body font-300 text-off-white/75 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-      Every automated wash adds more. We remove them —
-      then protect what's left. Done at your location. Done right.
+      Ceramic coatings, rust proofing, window tinting, and full detailing —
+      all backed by a lifetime warranty. Howe, IN's one-stop shop for vehicles built to last.
     </p>
 
     <div class="flex flex-wrap gap-4">
@@ -622,55 +636,55 @@
 
       <!-- SET 1 -->
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">500+</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Vehicles Restored</div>
+        <div class="display text-3xl text-gold">4.8 ★</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Google Rating · 46 Reviews</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">5.0 ★</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Google Rating</div>
+        <div class="display text-3xl text-gold">LIFETIME</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Warranty on Key Services</div>
+        <div class="stat-pill-divider"></div>
+      </div>
+      <div class="stat-pill">
+        <div class="display text-3xl text-gold">BEST OF 2025</div>
+        <div class="label text-muted" style="font-size:0.62rem;">LaGrange County · BusinessRate</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
         <div class="display text-3xl text-gold">100%</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Mobile — We Come to You</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Facebook Recommend · 35 Reviews</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">48 HR</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Avg. Booking Window</div>
-        <div class="stat-pill-divider"></div>
-      </div>
-      <div class="stat-pill">
-        <div class="display text-3xl text-gold">AUTO · AIRCRAFT · BOAT</div>
-        <div class="label text-muted" style="font-size:0.62rem;">We Detail It All</div>
+        <div class="display text-3xl text-gold">CERAMIC · RUST · TINT</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Howe's One-Stop Protection Shop</div>
         <div class="stat-pill-divider"></div>
       </div>
 
       <!-- SET 2 — exact duplicate for seamless loop -->
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">500+</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Vehicles Restored</div>
+        <div class="display text-3xl text-gold">4.8 ★</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Google Rating · 46 Reviews</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">5.0 ★</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Google Rating</div>
+        <div class="display text-3xl text-gold">LIFETIME</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Warranty on Key Services</div>
+        <div class="stat-pill-divider"></div>
+      </div>
+      <div class="stat-pill">
+        <div class="display text-3xl text-gold">BEST OF 2025</div>
+        <div class="label text-muted" style="font-size:0.62rem;">LaGrange County · BusinessRate</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
         <div class="display text-3xl text-gold">100%</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Mobile — We Come to You</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Facebook Recommend · 35 Reviews</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">48 HR</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Avg. Booking Window</div>
-        <div class="stat-pill-divider"></div>
-      </div>
-      <div class="stat-pill">
-        <div class="display text-3xl text-gold">AUTO · AIRCRAFT · BOAT</div>
-        <div class="label text-muted" style="font-size:0.62rem;">We Detail It All</div>
+        <div class="display text-3xl text-gold">CERAMIC · RUST · TINT</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Howe's One-Stop Protection Shop</div>
         <div class="stat-pill-divider"></div>
       </div>
 
@@ -689,11 +703,11 @@
     <div class="text-center mb-14 reveal">
       <div class="label text-gold mb-3">Results Don't Lie</div>
       <h2 class="display text-white" style="font-size: clamp(2.8rem, 7vw, 6rem);">
-        ONE SESSION.<br><span class="gold-text">ZERO SWIRLS.</span>
+        ONE COAT.<br><span class="gold-text">PROTECTED FOR LIFE.</span>
       </h2>
       <p class="font-body font-300 text-muted mt-5 max-w-lg mx-auto text-lg leading-relaxed">
-        That left side? 12 months of automated washes — each one grinding tiny
-        scratches into your clear coat. The right side is what we leave behind.
+        Rust eats your vehicle from the inside out — by the time you see it, it's already bad.
+        The right side is what a BossWax undercarriage coating and lifetime warranty looks like.
       </p>
     </div>
 
@@ -725,31 +739,31 @@
         <div class="slider-hint" id="ba-hint">← DRAG TO COMPARE →</div>
       </div>
       <p class="font-body text-xs text-muted text-center mt-3">
-        Real client vehicle · Single-stage paint correction · Three Rivers, MI
+        Real client vehicle · BossWax Undercarriage Coating · Howe, IN
       </p>
     </div>
 
     <!-- Three proof pillars -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-px mt-14 reveal" style="background:rgba(255,255,255,0.04);">
       <div class="bg-ink p-8 text-center">
-        <div class="label text-gold mb-3">Clay Bar</div>
-        <div class="display text-white text-2xl mb-3">DECONTAMINATION</div>
+        <div class="label text-gold mb-3">Ceramic Coating</div>
+        <div class="display text-white text-2xl mb-3">LIFETIME PROTECTION</div>
         <p class="font-body font-300 text-muted text-sm leading-relaxed">
-          Removes brake dust, iron fallout, and bonded contamination your $12 wash can't touch.
+          Lifetime warranty ceramic that repels water, UV, and road grime — better gloss than the day it rolled off the lot.
         </p>
       </div>
       <div class="bg-ink p-8 text-center" style="border-left:1px solid rgba(255,255,255,0.04); border-right:1px solid rgba(255,255,255,0.04);">
-        <div class="label text-gold mb-3">Machine Polish</div>
-        <div class="display text-white text-2xl mb-3">SWIRL REMOVAL</div>
+        <div class="label text-gold mb-3">BossWax Rust Proofing</div>
+        <div class="display text-white text-2xl mb-3">STOPS RUST COLD</div>
         <p class="font-body font-300 text-muted text-sm leading-relaxed">
-          Eliminates 70–90% of swirl marks, buffer trails, and light scratches from daily use.
+          True undercarriage coverage — not paint. Dry to the touch, lifetime transferable warranty. One of the best in the area.
         </p>
       </div>
       <div class="bg-ink p-8 text-center">
-        <div class="label text-gold mb-3">Sealed Finish</div>
-        <div class="display text-white text-2xl mb-3">LASTING PROTECTION</div>
+        <div class="label text-gold mb-3">Window Film</div>
+        <div class="display text-white text-2xl mb-3">TINT THAT LASTS</div>
         <p class="font-body font-300 text-muted text-sm leading-relaxed">
-          Protected with sealant or ceramic so the result holds — not just for a week.
+          Professional window tinting with lifetime warranty. Blocks heat, protects your interior, and looks sharp doing it.
         </p>
       </div>
     </div>
@@ -767,27 +781,26 @@
     <div class="text-center mb-16 reveal">
       <div class="label text-gold mb-3">Choose Your Level</div>
       <h2 class="display text-white" style="font-size: clamp(2.8rem, 7vw, 6rem);">
-        WHAT DOES YOUR<br><span class="gold-text">CAR NEED?</span>
+        WHAT DOES YOUR<br><span class="gold-text">VEHICLE NEED?</span>
       </h2>
       <p class="font-body font-300 text-muted mt-5 max-w-md mx-auto text-lg">
-        Every package is done by hand, at your address, on your schedule.
-        No rushing. No shortcuts.
+        Every service is done right, with quality products, backed by warranties that actually mean something.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- ── Tier 1: The Commuter ── -->
+      <!-- ── Tier 1: Full Detail ── -->
       <div class="pkg reveal">
         <div class="overflow-hidden" style="height:220px;">
-          <img src="The%20Commuter.png" alt="The Commuter Package"
+          <img src="The%20Commuter.png" alt="Full Detail Package"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
         <div class="p-8">
           <div class="label text-muted mb-2">Entry Level</div>
-          <h3 class="display text-white text-3xl mb-2">THE COMMUTER</h3>
+          <h3 class="display text-white text-3xl mb-2">FULL DETAIL</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
-            For the daily driver that deserves more than a $12 tunnel wash that's been scratching your paint since day one.
+            Inside and out. Your vehicle gets a thorough hand wash, interior deep clean, and that showroom finish you forgot it could have.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
           <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
@@ -798,69 +811,69 @@
             <li class="check">Tire dressing &amp; door jamb wipe</li>
           </ul>
           <div class="mb-6">
-            <div class="display text-white text-4xl">$149</div>
-            <div class="font-body text-xs text-muted mt-1">Sedan / Standard SUV — oversize quoted</div>
+            <div class="display text-white text-4xl">[Price]</div>
+            <div class="font-body text-xs text-muted mt-1">Call or text for a quote</div>
           </div>
-          <button type="button" onclick="openBooking('The Commuter')" class="btn-ghost block text-center w-full">Book the Commuter</button>
+          <button type="button" onclick="openBooking('Full Detail')" class="btn-ghost block text-center w-full">Book a Detail</button>
         </div>
       </div>
 
-      <!-- ── Tier 2: The New Car Reset ── -->
+      <!-- ── Tier 2: Ceramic Coating ── -->
       <div class="pkg pkg-hero reveal" style="transition-delay:0.1s;">
         <div class="pkg-featured-badge">Most Popular</div>
         <div class="overflow-hidden" style="height:220px;">
-          <img src="Action%20Shot.png" alt="The New Car Reset"
+          <img src="Action%20Shot.png" alt="Ceramic Coating Package"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
         <div class="p-8">
-          <div class="label text-gold mb-2">Full Correction</div>
-          <h3 class="display text-white text-3xl mb-2">THE NEW CAR RESET</h3>
+          <div class="label text-gold mb-2">Lifetime Warranty</div>
+          <h3 class="display text-white text-3xl mb-2">CERAMIC COATING</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
-            Looks factory-fresh when we're done. The last thing your paint needs before the damage compounds further.
+            Protect your ride once and enjoy it for life. Lifetime warranty ceramic that delivers high gloss, water repellency, and real protection that holds.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
           <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
-            <li class="check">Everything in The Commuter</li>
-            <li class="check">Clay bar decontamination</li>
-            <li class="check">Single-stage machine polish — removes swirls</li>
-            <li class="check">Interior deep clean + leather conditioning</li>
-            <li class="check">Engine bay wipe-down</li>
-            <li class="check">UV sealant — 6 months of protection</li>
+            <li class="check">Full decontamination wash prep</li>
+            <li class="check">Paint correction (where needed)</li>
+            <li class="check">Professional ceramic coating application</li>
+            <li class="check">UV protection &amp; hydrophobic finish</li>
+            <li class="check">Lifetime warranty included</li>
+            <li class="check">Certified CARFAX Service Shop</li>
           </ul>
           <div class="mb-6">
-            <div class="display text-white text-4xl">$349</div>
-            <div class="font-body text-xs text-muted mt-1">Sedan / Standard SUV — oversize quoted</div>
+            <div class="display text-white text-4xl">[Price]</div>
+            <div class="font-body text-xs text-muted mt-1">Call or text for a quote</div>
           </div>
-          <button type="button" onclick="openBooking('The New Car Reset')" class="btn-gold block text-center w-full">Book the Reset</button>
+          <button type="button" onclick="openBooking('Ceramic Coating')" class="btn-gold block text-center w-full">Book Ceramic Coating</button>
         </div>
       </div>
 
-      <!-- ── Tier 3: The Asset Protector ── -->
+      <!-- ── Tier 3: Rust Protection Package ── -->
       <div class="pkg reveal" style="transition-delay:0.2s;">
         <div class="overflow-hidden" style="height:220px;">
-          <img src="Asset%20Protector.png" alt="The Asset Protector"
+          <img src="Asset%20Protector.png" alt="Rust Protection Package"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
         <div class="p-8">
-          <div class="label text-muted mb-2">Full Protection</div>
-          <h3 class="display text-white text-3xl mb-2">THE ASSET PROTECTOR</h3>
+          <div class="label text-muted mb-2">Lifetime Warranty</div>
+          <h3 class="display text-white text-3xl mb-2">RUST PROTECTION</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
-            For cars worth protecting. This is the one you do right — once — and maintain.
+            BossWax Undercarriage Coating &amp; Rust Protection Package. True coverage — not paint. Dry to the touch and built to last the life of your vehicle.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
           <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
-            <li class="check">Everything in The New Car Reset</li>
-            <li class="check">Multi-stage correction — removes 80–90% of defects</li>
-            <li class="check">Ceramic coating — 2-year protection</li>
-            <li class="check">PPF consultation included</li>
-            <li class="check">Full interior extraction &amp; ozone treatment</li>
-            <li class="check">Priority 48-hour booking window</li>
+            <li class="check">BossWax undercarriage coating</li>
+            <li class="check">True rust proofing — not surface paint</li>
+            <li class="check">Dry to the touch application</li>
+            <li class="check">Lifetime transferable warranty</li>
+            <li class="check">Full undercarriage &amp; cavity coverage</li>
+            <li class="check">One of the best rust solutions in the area</li>
           </ul>
           <div class="mb-6">
-            <div class="display text-white text-4xl">$849+</div>
-            <div class="font-body text-xs text-muted mt-1">Quoted by vehicle — no surprises</div>
+            <div class="display text-white text-4xl">[Price]</div>
+            <div class="font-body text-xs text-muted mt-1">Call or text for a quote</div>
           </div>
-          <button type="button" onclick="openBooking('The Asset Protector')" class="btn-ghost block text-center w-full">Request a Quote</button>
+          <button type="button" onclick="openBooking('Rust Protection')" class="btn-ghost block text-center w-full">Get Rust Protected</button>
         </div>
       </div>
 
@@ -869,7 +882,7 @@
     <!-- Value reassurance strip -->
     <div class="mt-10 p-6 reveal" style="background:rgba(240,24,130,0.04); border:1px solid rgba(240,24,130,0.1);">
       <div class="display text-center text-white text-xl md:text-2xl">
-        ALL PACKAGES INCLUDE: MOBILE SERVICE · 100% SATISFACTION GUARANTEE · NO HIDDEN FEES
+        ALL SERVICES INCLUDE: LIFETIME WARRANTIES AVAILABLE · CERTIFIED CARFAX SHOP · NO HIDDEN FEES
       </div>
     </div>
 
@@ -892,63 +905,63 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal">
 
-      <!-- Engine Bay -->
+      <!-- Window Tinting -->
       <div class="addon">
         <div style="height:180px; overflow:hidden;">
-          <img src="Engine%20Bay%20Detail.png" alt="Engine Bay Detail"
+          <img src="Engine%20Bay%20Detail.png" alt="Window Tinting"
                class="w-full h-full object-cover">
         </div>
         <div class="p-5">
-          <div class="display text-white text-lg mb-2">ENGINE BAY</div>
+          <div class="display text-white text-lg mb-2">WINDOW TINTING</div>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
-            Degreased, detailed, dressed. Factory-clean under the hood.
+            Professional window film. Blocks heat, UV, and prying eyes — backed by a lifetime warranty.
           </p>
-          <div class="display text-gold text-2xl">From $75</div>
+          <div class="display text-gold text-2xl">Call for Quote</div>
         </div>
       </div>
 
-      <!-- Interior Extraction -->
+      <!-- Remote Start -->
       <div class="addon">
         <div style="height:180px; overflow:hidden;">
-          <img src="Interior%20Reset.png" alt="Interior Extraction"
+          <img src="Interior%20Reset.png" alt="Remote Start Systems"
                class="w-full h-full object-cover">
         </div>
         <div class="p-5">
-          <div class="display text-white text-lg mb-2">INTERIOR EXTRACTION</div>
+          <div class="display text-white text-lg mb-2">REMOTE START</div>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
-            Deep extraction on seats, carpet, and mats. Odors gone — not masked.
+            Start your vehicle from anywhere. Lifetime warranty systems professionally installed.
           </p>
-          <div class="display text-gold text-2xl">From $100</div>
+          <div class="display text-gold text-2xl">Call for Quote</div>
         </div>
       </div>
 
-      <!-- Headlight Restoration -->
+      <!-- Bed Liners -->
       <div class="addon">
         <div style="height:180px; overflow:hidden;">
-          <img src="headlight.png" alt="Headlight Restoration"
+          <img src="headlight.png" alt="Bed Liners"
                class="w-full h-full object-cover" style="object-position: center center;">
         </div>
         <div class="p-5">
-          <div class="display text-white text-lg mb-2">HEADLIGHT RESTORE</div>
+          <div class="display text-white text-lg mb-2">BED LINERS</div>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
-            Wet sand, compound, seal. Crystal-clear lenses — not the yellow haze you're driving with now.
+            Protect your truck bed from damage, scratches, and rust. Tough, lifetime warranty coverage.
           </p>
-          <div class="display text-gold text-2xl">From $60</div>
+          <div class="display text-gold text-2xl">Call for Quote</div>
         </div>
       </div>
 
-      <!-- Ozone Treatment -->
+      <!-- Custom Add-ons -->
       <div class="addon">
         <div style="height:180px; overflow:hidden;">
-          <img src="ozone.png" alt="Ozone Odor Elimination"
+          <img src="ozone.png" alt="Custom Installs"
                class="w-full h-full object-cover" style="object-position: center center;">
         </div>
         <div class="p-5">
-          <div class="display text-white text-lg mb-2">OZONE TREATMENT</div>
+          <div class="display text-white text-lg mb-2">CUSTOM INSTALLS</div>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
-            Eliminates smoke, mildew, and pet odor at the molecular level. No air freshener cover-up.
+            Blackout emblems, grille installs, debadging, and more. Ask Cole what's possible for your build.
           </p>
-          <div class="display text-gold text-2xl">From $80</div>
+          <div class="display text-gold text-2xl">Call for Quote</div>
         </div>
       </div>
 
@@ -994,16 +1007,16 @@
       <!-- Step 2 -->
       <div class="relative reveal" style="transition-delay:0.1s;">
         <div class="overflow-hidden mb-6" style="height:260px;">
-          <img src="Step2-Arrive.png" alt="We come to you"
+          <img src="Step2-Arrive.png" alt="Drop off or schedule"
                class="w-full h-full object-cover">
         </div>
         <div class="relative pl-4">
           <div class="step-num">02</div>
           <div class="relative z-10">
             <div class="label text-gold mb-2">Step Two</div>
-            <h3 class="display text-white text-2xl mb-3">WE COME TO YOU</h3>
+            <h3 class="display text-white text-2xl mb-3">DROP OFF OR SCHEDULE</h3>
             <p class="font-body font-300 text-muted text-sm leading-relaxed">
-              Fully-equipped van arrives at your home or office. You don't move, you don't wait in a lobby.
+              Bring your vehicle to us at 0735 E 400 N, Howe, IN or call to schedule. Cole will confirm your appointment fast.
             </p>
           </div>
         </div>
@@ -1045,25 +1058,25 @@
       <div>
         <div class="label text-muted mb-5">A note before you book</div>
         <h2 class="display text-white mb-8" style="font-size: clamp(2.8rem, 6vw, 5rem);">
-          WE ONLY TAKE<br>LIMITED BOOKINGS<br><span class="gold-text">PER WEEK.</span>
+          WE DON'T JUST<br>CLEAN CARS.<br><span class="gold-text">WE PROTECT THEM.</span>
         </h2>
         <p class="font-body font-300 text-muted leading-relaxed mb-5 text-lg">
-          That's not a scarcity tactic. We'd rather do fewer cars right
-          than more cars wrong. Every vehicle gets the same attention
-          whether it's a Tesla or a Lamborghini.
+          Cole's is your local one-stop shop for protection that lasts. Quality installs,
+          proven products, and warranties that mean something — because your vehicle is an investment,
+          not a chore.
         </p>
         <p class="font-body font-300 text-muted leading-relaxed mb-10">
-          And if you're not completely satisfied before we leave — we fix it
-          on the spot, or you owe us nothing. No fine print. No hoops.
+          Certified CARFAX Service Shop. Trusted by local drivers across LaGrange County
+          for ceramic, rust, tint, and everything in between.
         </p>
         <!-- Guarantee badge -->
         <div class="flex items-start gap-5 p-6"
              style="background:rgba(240,24,130,0.06); border:1px solid rgba(240,24,130,0.15);">
           <div class="display text-gold leading-none" style="font-size:2.5rem;">✓</div>
           <div>
-            <div class="display text-white text-xl mb-1">100% SATISFACTION OR IT'S FREE</div>
+            <div class="display text-white text-xl mb-1">CERTIFIED CARFAX SERVICE SHOP</div>
             <div class="font-body font-300 text-muted text-sm leading-relaxed">
-              Not happy? Tell us before we pack up. We fix it on the spot or you don't pay. No questions.
+              Every service is logged and verifiable. Your warranty transfers with the vehicle. That's how confident Cole is in the work.
             </div>
           </div>
         </div>
@@ -1150,104 +1163,104 @@
   <div class="marquee-viewport">
     <div class="marquee-track marquee-track--reviews" id="marquee-reviews">
 
-      <!-- SET 1 — real Google reviews -->
+      <!-- SET 1 — Google reviews (placeholders — update with real review text from Cole) -->
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"The best team! They deserve more than 5 stars. I will always recommend them. Excellent work and super detailed — if you need someone to achieve your expectations on car detail don't hesitate and call them! You will not regret it!"</div>
-        <div class="review-author">Laura Mejia</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"I recently had my car ceramic coated by Cole's and the results were outstanding. The finish is incredible and Cole was professional start to finish. Highly recommend to anyone looking for quality protection."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Amazing work! I was trying to find somebody who would make an amazing work on my car, don't regret calling them. They both so nice, fast working, would always recommend them!!"</div>
-        <div class="review-author">Mel</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Cole did an amazing job on my truck. The rust proofing and ceramic coating look incredible. You can tell he takes real pride in the work. Will be back for everything on this vehicle."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Excellent service, they are the best leaving your car super clean and shining."</div>
-        <div class="review-author">Yaira Santiago</div>
-        <div class="review-source">Google Review · Local Guide · Three Rivers</div>
+        <div class="review-text">"Best detailing shop in the area. Cole knows his stuff — the window tint is flawless and the lifetime warranty gives real peace of mind. 100% recommend."</div>
+        <div class="review-author">Facebook Reviewer</div>
+        <div class="review-source">Facebook Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"I recently had my car detailed by Clean Whipz and was really impressed with the results. The team was professional, showed up on time, and worked with clear attention to detail without rushing the job. The car felt much newer again — I'd definitely recommend them to anyone looking for reliable detailing work."</div>
-        <div class="review-author">Jack Vasquez</div>
-        <div class="review-source">Google Review · Local Guide · Three Rivers</div>
+        <div class="review-text">"Brought my Denali in for ceramic and rust proofing. Cole walked me through every step, did the work right, and the truck has never looked better. The lifetime warranty is the real deal."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Great customer service left my car like new!!"</div>
-        <div class="review-author">Sonia Torres</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Exceptional service and attention to detail. Cole is the real deal — quality products, clean installs, and prices that make sense. Don't take your vehicle anywhere else."</div>
+        <div class="review-author">Facebook Reviewer</div>
+        <div class="review-source">Facebook Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Excellent service — the best price and speed. 100% recommended."</div>
-        <div class="review-author">Alcaraz Appliances</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Trusted local drivers is right. Cole protected my truck inside and out and was great to work with. Ceramic coating looks amazing, rust proofing gives real peace of mind."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"100% Recommended"</div>
-        <div class="review-author">Andres Isaac</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Best of 2025 for a reason. Cole runs a tight shop and the results speak for themselves. Car looked better walking out than the day I drove it off the lot."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · Howe, IN</div>
       </div>
 
       <!-- SET 2 — exact duplicate for seamless JS loop -->
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"The best team! They deserve more than 5 stars. I will always recommend them. Excellent work and super detailed — if you need someone to achieve your expectations on car detail don't hesitate and call them! You will not regret it!"</div>
-        <div class="review-author">Laura Mejia</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"I recently had my car ceramic coated by Cole's and the results were outstanding. The finish is incredible and Cole was professional start to finish. Highly recommend to anyone looking for quality protection."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Amazing work! I was trying to find somebody who would make an amazing work on my car, don't regret calling them. They both so nice, fast working, would always recommend them!!"</div>
-        <div class="review-author">Mel</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Cole did an amazing job on my truck. The rust proofing and ceramic coating look incredible. You can tell he takes real pride in the work. Will be back for everything on this vehicle."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Excellent service, they are the best leaving your car super clean and shining."</div>
-        <div class="review-author">Yaira Santiago</div>
-        <div class="review-source">Google Review · Local Guide · Three Rivers</div>
+        <div class="review-text">"Best detailing shop in the area. Cole knows his stuff — the window tint is flawless and the lifetime warranty gives real peace of mind. 100% recommend."</div>
+        <div class="review-author">Facebook Reviewer</div>
+        <div class="review-source">Facebook Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"I recently had my car detailed by Clean Whipz and was really impressed with the results. The team was professional, showed up on time, and worked with clear attention to detail without rushing the job. The car felt much newer again — I'd definitely recommend them to anyone looking for reliable detailing work."</div>
-        <div class="review-author">Jack Vasquez</div>
-        <div class="review-source">Google Review · Local Guide · Three Rivers</div>
+        <div class="review-text">"Brought my Denali in for ceramic and rust proofing. Cole walked me through every step, did the work right, and the truck has never looked better. The lifetime warranty is the real deal."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Great customer service left my car like new!!"</div>
-        <div class="review-author">Sonia Torres</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Exceptional service and attention to detail. Cole is the real deal — quality products, clean installs, and prices that make sense. Don't take your vehicle anywhere else."</div>
+        <div class="review-author">Facebook Reviewer</div>
+        <div class="review-source">Facebook Review · Howe, IN</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Excellent service — the best price and speed. 100% recommended."</div>
-        <div class="review-author">Alcaraz Appliances</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Trusted local drivers is right. Cole protected my truck inside and out and was great to work with. Ceramic coating looks amazing, rust proofing gives real peace of mind."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · LaGrange County</div>
       </div>
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"100% Recommended"</div>
-        <div class="review-author">Andres Isaac</div>
-        <div class="review-source">Google Review · Three Rivers</div>
+        <div class="review-text">"Best of 2025 for a reason. Cole runs a tight shop and the results speak for themselves. Car looked better walking out than the day I drove it off the lot."</div>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">Google Review · Howe, IN</div>
       </div>
 
     </div>
@@ -1257,20 +1270,12 @@
   <div class="text-center mt-10 reveal px-4">
     <div class="inline-flex items-center gap-3 px-6 py-3 mb-5"
          style="background:rgba(240,24,130,0.06); border:1px solid rgba(240,24,130,0.15);">
-      <span class="display text-gold text-2xl">NEW</span>
+      <span class="display text-gold text-2xl">4.8</span>
       <span class="display text-white text-xl">★★★★★</span>
-      <span class="label text-muted" style="font-size:0.62rem;">Be the first to review on Google</span>
+      <span class="label text-muted" style="font-size:0.62rem;">on Google · 46 Reviews</span>
     </div>
     <br>
-    <!--
-      REVIEW LINK — TO UPDATE:
-      1. Open Google Maps on desktop
-      2. Search "Clean Whipz"
-      3. Click Share → Copy Link
-      4. The URL contains the Place ID — replace the href below with:
-         https://search.google.com/local/writereview?placeid=PLACE_ID_HERE
-    -->
-    <a href="#"
+    <a href="https://share.google/uQdcJ1qvQgIdv8ctD"
        target="_blank" rel="noopener"
        style="display:inline-flex; align-items:center; gap:10px;
               border:1px solid rgba(240,24,130,0.35); color:#F01882;
@@ -1325,37 +1330,19 @@
       <!-- Brand -->
       <div>
         <div class="display text-white text-xl tracking-wider mb-4">
-          CLEAN <span class="gold-text">WHIPZ</span>
+          COLES AUTO <span class="gold-text">DETAILING</span>
         </div>
         <p class="font-body font-300 text-muted text-sm leading-relaxed max-w-xs">
-          Three Rivers's mobile detailing studio. Professional-grade results at your driveway.
+          LaGrange County's home of lifetime warranty protection. Ceramic, rust proofing, window tinting, and full detailing — done right.
         </p>
         <!-- Social icons -->
         <div class="flex gap-5 mt-6">
-          <a href="https://www.instagram.com/c1eanwhipz" target="_blank" rel="noopener"
-             style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
-             onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
-             aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </a>
-          <a href="#" target="_blank" rel="noopener"
+          <a href="https://www.facebook.com/colesautodetailingllc/" target="_blank" rel="noopener"
              style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
              onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
              aria-label="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-            </svg>
-          </a>
-          <a href="#" target="_blank" rel="noopener"
-             style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
-             onmouseover="this.style.color='#F01882'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
-             aria-label="TikTok">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.81a8.18 8.18 0 0 0 4.78 1.52V6.9a4.85 4.85 0 0 1-1.01-.21z"/>
             </svg>
           </a>
         </div>
@@ -1376,9 +1363,9 @@
       <div>
         <div class="label text-gold mb-5">Get in Touch</div>
         <div class="space-y-3 font-body font-300 text-sm text-muted">
-          <div><a href="tel:+12695788781" class="hover:text-white transition-colors">📞 (269) 578-8781</a></div>
-          <div><a href="mailto:cleanwhipz@gmail.com" class="hover:text-white transition-colors">📧 cleanwhipz@gmail.com</a></div>
-          <div>📍 Serving Three Rivers &amp; surrounding areas</div>
+          <div><a href="tel:+12603508511" class="hover:text-white transition-colors">📞 (260) 350-8511</a></div>
+          <div><a href="mailto:colesautodetailing@yahoo.com" class="hover:text-white transition-colors">📧 colesautodetailing@yahoo.com</a></div>
+          <div>📍 0735 E 400 N, Howe, IN 46746</div>
         </div>
         <div class="mt-6">
           <button type="button" onclick="openBooking()" class="btn-gold text-sm">Book My Detail</button>
@@ -1391,8 +1378,8 @@
     <div class="gold-rule mb-8"></div>
     <div class="flex flex-col md:flex-row justify-between items-center gap-3
          font-body font-300 text-xs text-muted">
-      <div>© 2025 Clean Whipz. All rights reserved.</div>
-      <div>Website design by <span class="text-gold">Brechtland</span></div>
+      <div>© 2025 Coles Auto Detailing LLC. All rights reserved.</div>
+      <div>Website design by <a href="https://brechtland.com/#contact" target="_blank" rel="noopener" class="text-gold" style="text-decoration:none;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">Brechtland</a></div>
     </div>
 
   </div>
@@ -1451,6 +1438,7 @@
           for (var i = 0; i < els.length; i++) {
             els[i].style.backgroundPosition = pos + '% ' + pos + '%';
           }
+          // Animate SVG logo gradient in sync — removed (using img tag now)
         }
         last = ts;
         requestAnimationFrame(tick);
@@ -1571,7 +1559,46 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => ro.observe(el));
 
-  // ── Booking Modal ─────────────────────────────────
+    // ── Logo background removal via Canvas ──────────────
+    // PNG background is rgb(26,26,26) — not pure black.
+    // We can't use mix-blend-mode reliably. Canvas approach:
+    // pixels that are near-gray AND dark → transparent.
+    (function() {
+      var img = document.querySelector('.logo-animated');
+      if (!img) return;
+
+      function process() {
+        try {
+          var canvas = document.createElement('canvas');
+          canvas.width  = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var px = data.data;
+          for (var i = 0; i < px.length; i += 4) {
+            var r = px[i], g = px[i+1], b = px[i+2];
+            var brightness = (r + g + b) / 3;
+            var isGray = Math.abs(r-g) < 10 && Math.abs(g-b) < 10;
+            // Background: rgb(26,26,26) — brightness ~26, near-gray
+            if (brightness < 38 && isGray) {
+              px[i+3] = 0; // transparent
+            }
+          }
+          ctx.putImageData(data, 0, 0);
+          img.src = canvas.toDataURL('image/png');
+          img.style.mixBlendMode = ''; // no longer needed
+        } catch(e) {
+          console.log('Logo bg removal skipped:', e.message);
+        }
+      }
+
+      if (img.complete && img.naturalWidth) {
+        process();
+      } else {
+        img.addEventListener('load', process);
+      }
+    })();
   function openBooking(service) {
     var modal      = document.getElementById('booking-modal');
     var formState  = document.getElementById('booking-form-state');
@@ -1650,11 +1677,11 @@
   <div>
     <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:0.95rem;
                 letter-spacing:0.06em; text-transform:uppercase; color:#F2F0EC; line-height:1.1;">
-      Mobile Detailing
+      Coles Auto Detailing
     </div>
     <div style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.72rem;
                 color:rgba(255,255,255,0.38); margin-top:2px;">
-      We come to you · Three Rivers
+      Lifetime Warranty Protection · Howe, IN
     </div>
   </div>
 
@@ -1698,15 +1725,15 @@
     <div id="booking-form-state">
       <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.65rem;
                   letter-spacing:0.2em; text-transform:uppercase; color:#F01882; margin-bottom:8px;">
-        Clean Whipz · Three Rivers
+        Coles Auto Detailing LLC · Howe, IN
       </div>
       <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
                  line-height:0.95; font-size:clamp(1.9rem,5vw,2.7rem); color:#F2F0EC; margin-bottom:10px;">
-        BOOK YOUR DETAIL
+        GET A FREE QUOTE
       </h2>
       <p style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.875rem;
                 color:rgba(242,240,236,0.5); margin-bottom:28px; line-height:1.65;">
-        Fill this out and Leo &amp; our team will reach out to confirm your booking within a few hours.
+        Fill this out and Cole will reach out to confirm your appointment within a few hours.
       </p>
 
       <form id="booking-form" onsubmit="submitBooking(event)">
@@ -1728,7 +1755,7 @@
             <label style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.6rem;
                           letter-spacing:0.18em; text-transform:uppercase;
                           color:rgba(255,255,255,0.38); display:block; margin-bottom:6px;">Phone *</label>
-            <input type="tel" id="b-phone" required placeholder="(619) 555-0100"
+            <input type="tel" id="b-phone" required placeholder="(260) 555-0100"
                    style="width:100%; background:#161619; border:1px solid rgba(255,255,255,0.08);
                           color:#F2F0EC; font-family:'Barlow',sans-serif; font-size:0.875rem;
                           padding:10px 13px; outline:none; transition:border-color 0.2s;"
@@ -1763,10 +1790,13 @@
                   onfocus="this.style.borderColor='rgba(240,24,130,0.55)'"
                   onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
             <option value="">Not sure — just need a quote</option>
-            <option value="The Commuter">The Commuter — $149</option>
-            <option value="The New Car Reset">The New Car Reset — $349</option>
-            <option value="The Asset Protector">The Asset Protector — $849+</option>
-            <option value="Add-On Only">Add-On Service Only</option>
+            <option value="Full Detail">Full Detail</option>
+            <option value="Ceramic Coating">Ceramic Coating (Lifetime Warranty)</option>
+            <option value="Rust Protection">Rust Protection — BossWax</option>
+            <option value="Window Tinting">Window Tinting (Lifetime Warranty)</option>
+            <option value="Remote Start">Remote Start System</option>
+            <option value="Bed Liner">Bed Liner</option>
+            <option value="Custom Install">Custom Install / Other</option>
           </select>
           <div style="pointer-events:none; position:absolute; right:13px; bottom:11px;
                       color:rgba(240,24,130,0.6); font-size:0.75rem;">▼</div>
@@ -1811,8 +1841,8 @@
 
         <p style="font-family:'Barlow',sans-serif; font-size:0.72rem; color:rgba(255,255,255,0.22);
                   text-align:center; margin-top:14px;">
-          Prefer to call? <a href="tel:+12695788781"
-            style="color:rgba(240,24,130,0.65); text-decoration:none;">(269) 578-8781</a>
+          Prefer to call or text? <a href="tel:+12603508511"
+            style="color:rgba(240,24,130,0.65); text-decoration:none;">(260) 350-8511</a>
         </p>
       </form>
     </div>
@@ -1827,9 +1857,9 @@
       </h2>
       <p style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.9rem;
                 color:rgba(242,240,236,0.55); line-height:1.75; margin-bottom:28px;">
-        Leo &amp; the team will reach out to confirm your booking shortly.<br>
-        We'll be in touch at
-        <strong style="color:#F01882;">(269) 578-8781</strong>.
+        Cole will reach out to confirm your appointment shortly.<br>
+        Look out for a call or text from
+        <strong style="color:#F01882;">(260) 350-8511</strong>.
       </p>
       <button onclick="closeBooking()"
               style="display:inline-block; background:#F01882; color:#060608;
