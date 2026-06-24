@@ -590,6 +590,13 @@
 ══════════════════════════════════════ -->
 <section id="home" class="relative w-full min-h-screen flex flex-col overflow-hidden hero-img">
   <div class="absolute inset-0 hero-vignette"></div>
+  <div class="absolute inset-0 pointer-events-none"
+       style="background:linear-gradient(90deg, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.38) 50%, transparent 75%);
+              z-index:1;"></div>
+  <!-- Left-column gradient — darkens background behind text for legibility -->
+  <div class="absolute inset-0 pointer-events-none"
+       style="background: linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 45%, transparent 75%);
+              z-index:1;"></div>
 
   <!-- Ambient glow — brand colors -->
   <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full
@@ -603,12 +610,6 @@
   <div class="flex-1" style="min-height:6rem;"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pb-4 md:pb-6">
-    <!-- Logo in hero -->
-    <div class="mb-5">
-      <img src="FastLaneDetailingLogo.png" alt="Fast Lane Detailing"
-           style="height:64px; width:auto; display:block;">
-    </div>
-
     <!-- Eyebrow -->
     <div class="flex items-center gap-3 mb-5">
       <div class="w-10 h-px" style="background:#509BCD;"></div>
@@ -623,13 +624,28 @@
       <span class="gold-text">SWIRL MARKS.</span>
     </h1>
 
-    <p class="font-body font-300 text-off-white/75 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+    <p class="font-body font-300 text-off-white/80 text-xl md:text-2xl max-w-xl mb-8 leading-loose">
       Every car wash adds more. Jake removes them — paint correction, ceramic coatings, and full interior restoration. Battle Creek, MI since 2017.
     </p>
 
+    <!-- Social proof strip -->
+    <div class="flex items-center gap-3 mb-7"
+         style="flex-wrap:wrap;">
+      <div style="color:#F59E0B; font-size:1rem; letter-spacing:0.05em;">★★★★★</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700;
+                  font-size:0.8rem; letter-spacing:0.14em; text-transform:uppercase;
+                  color:rgba(255,255,255,0.75);">
+        5.0 &nbsp;&middot;&nbsp; 35+ Five-Star Reviews
+      </div>
+      <div style="font-family:'Barlow',sans-serif; font-weight:300;
+                  font-size:0.72rem; color:rgba(255,255,255,0.35); letter-spacing:0.06em;">
+        Google &amp; Facebook &middot; Battle Creek, MI
+      </div>
+    </div>
+
     <div class="flex flex-wrap gap-4">
-      <a href="#packages" class="btn-gold">See My Options</a>
-      <a href="#proof"    class="btn-ghost">See the Results</a>
+      <a href="#packages" class="btn-gold">Get a Free Quote</a>
+      <a href="#proof"    class="btn-ghost">See Before &amp; Afters</a>
     </div>
   </div>
 
