@@ -614,7 +614,7 @@
 
     <!-- Main headline -->
     <h1 class="display text-white mb-5"
-        style="font-size: clamp(3.8rem, 11vw, 9.5rem);">
+        style="font-size: clamp(2.6rem, 7vw, 6.8rem);">
       YOUR CAR<br>
       DESERVES<br>
       <span class="gold-text">BETTER THAN<br>A CAR WASH.</span>
@@ -796,48 +796,47 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
       <!-- ── Tier 1: The Commuter ── -->
-      <div class="pkg reveal">
+      <div class="pkg reveal flex flex-col">
         <div class="overflow-hidden" style="height:220px;">
           <img src="The%20Commuter.png" alt="The Commuter Package"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
-        <div class="p-8">
+        <div class="p-8 flex flex-col flex-1">
           <div class="label text-muted mb-2">Entry Level</div>
           <h3 class="display text-white text-3xl mb-2">THE FULL DETAIL</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
             Inside and out. Your vehicle gets a thorough hand wash, deep interior clean, and that showroom finish you forgot it could have.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
-          <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
+          <ul class="space-y-3 mb-6 font-body text-sm text-off-white/80">
             <li class="check">Full exterior hand wash &amp; dry</li>
             <li class="check">Wheel, tire &amp; brake dust treatment</li>
             <li class="check">Interior deep vacuum &amp; surface wipe-down</li>
             <li class="check">Glass cleaning — interior &amp; exterior</li>
             <li class="check">Tire dressing &amp; door jamb wipe</li>
           </ul>
-          <div class="mb-6">
-            <div class="display text-white text-4xl">Get a Quote</div>
-            <div class="font-body text-xs text-muted mt-1">Price based on vehicle size &amp; condition</div>
+          <div class="mt-auto">
+            <div class="display text-white text-3xl mb-5">Get a Quote</div>
+            <button type="button" onclick="openBooking('Full Detail')" class="btn-ghost block text-center w-full">GET MY QUOTE</button>
           </div>
-          <button type="button" onclick="openBooking('Full Detail')" class="btn-ghost block text-center w-full">Book a Full Detail</button>
         </div>
       </div>
 
       <!-- ── Tier 2: The New Car Reset ── -->
-      <div class="pkg pkg-hero reveal" style="transition-delay:0.1s;">
+      <div class="pkg pkg-hero reveal flex flex-col" style="transition-delay:0.1s;">
         <div class="pkg-featured-badge">Most Popular</div>
         <div class="overflow-hidden" style="height:220px;">
           <img src="Action%20Shot.png" alt="The New Car Reset"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
-        <div class="p-8">
+        <div class="p-8 flex flex-col flex-1">
           <div class="label text-gold mb-2">Most Popular</div>
           <h3 class="display text-white text-3xl mb-2">STAGE 1 CORRECTION</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
             Jake's most-booked service. Machine polish removes swirl marks, scratches, and oxidation — your paint looks new again.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
-          <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
+          <ul class="space-y-3 mb-6 font-body text-sm text-off-white/80">
             <li class="check">Everything in the Full Detail</li>
             <li class="check">Clay bar decontamination wash</li>
             <li class="check">Single-stage machine polish — removes swirls &amp; scratches</li>
@@ -845,28 +844,27 @@
             <li class="check">Paint sealant for added protection</li>
             <li class="check">Looks better than the day you drove it off the lot</li>
           </ul>
-          <div class="mb-6">
-            <div class="display text-white text-4xl">Get a Quote</div>
-            <div class="font-body text-xs text-muted mt-1">Price based on vehicle size &amp; condition</div>
+          <div class="mt-auto">
+            <div class="display text-white text-3xl mb-5">Get a Quote</div>
+            <button type="button" onclick="openBooking('Stage 1 Paint Correction')" class="btn-gold block text-center w-full">BOOK STAGE 1</button>
           </div>
-          <button type="button" onclick="openBooking('Stage 1 Paint Correction')" class="btn-gold block text-center w-full">Book Stage 1</button>
         </div>
       </div>
 
       <!-- ── Tier 3: The Asset Protector ── -->
-      <div class="pkg reveal" style="transition-delay:0.2s;">
+      <div class="pkg reveal flex flex-col" style="transition-delay:0.2s;">
         <div class="overflow-hidden" style="height:220px;">
           <img src="Asset%20Protector.png" alt="The Asset Protector"
                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
         </div>
-        <div class="p-8">
+        <div class="p-8 flex flex-col flex-1">
           <div class="label text-muted mb-2">Maximum Protection</div>
           <h3 class="display text-white text-3xl mb-2">CERAMIC COATING</h3>
           <p class="font-body font-300 text-muted text-sm leading-relaxed mb-6">
             Jake is a certified ceramic coating specialist. One application protects your paint for years — repels water, UV, and road grime.
           </p>
           <div class="gold-rule-left mb-6" style="width: 48px;"></div>
-          <ul class="space-y-3 mb-8 font-body text-sm text-off-white/80">
+          <ul class="space-y-3 mb-6 font-body text-sm text-off-white/80">
             <li class="check">Full decontamination wash &amp; clay bar</li>
             <li class="check">Paint correction prep (defects removed before coating)</li>
             <li class="check">Certified ceramic coating application</li>
@@ -874,11 +872,10 @@
             <li class="check">UV protection — real years of coverage</li>
             <li class="check">Quoted by vehicle — no surprises</li>
           </ul>
-          <div class="mb-6">
-            <div class="display text-white text-4xl">Custom Quote</div>
-            <div class="font-body text-xs text-muted mt-1">Text Jake at (269) 832-5628</div>
+          <div class="mt-auto">
+            <div class="display text-white text-3xl mb-5">Custom Quote</div>
+            <button type="button" onclick="openBooking('Ceramic Coating')" class="btn-ghost block text-center w-full">GET MY QUOTE</button>
           </div>
-          <button type="button" onclick="openBooking('Ceramic Coating')" class="btn-ghost block text-center w-full">Request a Quote</button>
         </div>
       </div>
 
@@ -911,62 +908,62 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal">
 
       <!-- Engine Bay -->
-      <div class="addon">
+      <div class="addon flex flex-col">
         <div style="height:180px; overflow:hidden;">
           <img src="Engine%20Bay%20Detail.png" alt="Engine Bay Detail"
                class="w-full h-full object-cover">
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="display text-white text-lg mb-2">ENGINE BAY</div>
-          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
+          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4 flex-1">
             Degreased, detailed, dressed. Factory-clean under the hood.
           </p>
-          <div class="display text-gold text-2xl">Get a Quote</div>
+          <button type="button" onclick="openBooking('Engine Bay Detail')" class="btn-ghost block text-center w-full mt-auto">GET A QUOTE</button>
         </div>
       </div>
 
       <!-- Interior Extraction -->
-      <div class="addon">
+      <div class="addon flex flex-col">
         <div style="height:180px; overflow:hidden;">
           <img src="Interior%20Reset.png" alt="Interior Extraction"
                class="w-full h-full object-cover">
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="display text-white text-lg mb-2">INTERIOR EXTRACTION</div>
-          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
+          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4 flex-1">
             Deep extraction on seats, carpet, and mats. Odors gone — not masked.
           </p>
-          <div class="display text-gold text-2xl">Get a Quote</div>
+          <button type="button" onclick="openBooking('Interior Extraction')" class="btn-ghost block text-center w-full mt-auto">GET A QUOTE</button>
         </div>
       </div>
 
       <!-- Headlight Restoration -->
-      <div class="addon">
+      <div class="addon flex flex-col">
         <div style="height:180px; overflow:hidden;">
           <img src="headlight.png" alt="Headlight Restoration"
                class="w-full h-full object-cover" style="object-position: center center;">
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="display text-white text-lg mb-2">HEADLIGHT RESTORE</div>
-          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
+          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4 flex-1">
             Wet sand, compound, seal. Crystal-clear lenses — not the yellow haze you're driving with now.
           </p>
-          <div class="display text-gold text-2xl">Get a Quote</div>
+          <button type="button" onclick="openBooking('Headlight Restoration')" class="btn-ghost block text-center w-full mt-auto">GET A QUOTE</button>
         </div>
       </div>
 
       <!-- Boat / Motorcycle -->
-      <div class="addon">
+      <div class="addon flex flex-col">
         <div style="height:180px; overflow:hidden;">
           <img src="ozone.png" alt="Boat and Motorcycle Detailing"
                class="w-full h-full object-cover" style="object-position: center center;">
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="display text-white text-lg mb-2">BOAT &amp; MOTORCYCLE</div>
-          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4">
+          <p class="font-body font-300 text-muted text-sm leading-relaxed mb-4 flex-1">
             Jake details more than just cars. Boats, motorcycles, and more — same attention to detail, same quality results.
           </p>
-          <div class="display text-gold text-2xl">Get a Quote</div>
+          <button type="button" onclick="openBooking('Boat or Motorcycle Detail')" class="btn-ghost block text-center w-full mt-auto">GET A QUOTE</button>
         </div>
       </div>
 
