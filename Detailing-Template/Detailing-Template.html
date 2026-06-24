@@ -550,15 +550,22 @@
 <nav class="fixed top-0 w-full z-50 nav-glass" id="nav">
   <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
 
-    <a href="#home" style="text-decoration:none; display:inline-flex; flex-direction:column; gap:1px; line-height:1.15;">
-      <span style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.22rem;
-                   letter-spacing:0.07em; text-transform:uppercase; color:#F2F0EC;">
-        FAST LANE <span style="color:#1E7FE8; text-shadow:0 0 18px rgba(30,127,232,0.4);">DETAILING</span>
-      </span>
-      <span style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.48rem;
-                   letter-spacing:0.27em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-top:1px;">
-        BATTLE CREEK, MI &middot; EST. 2017
-      </span>
+    <a href="#home" style="text-decoration:none; display:inline-flex; align-items:center; gap:10px;">
+      <img src="FLD_Logo.png" alt="Fast Lane Detailing"
+           style="height:44px; width:44px; border-radius:50%; mix-blend-mode:screen; flex-shrink:0;
+                  transition:filter 0.3s ease;"
+           onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(30,127,232,0.7))'"
+           onmouseout="this.style.filter='none'">
+      <div style="display:inline-flex; flex-direction:column; gap:1px; line-height:1.15;">
+        <span style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.22rem;
+                     letter-spacing:0.07em; text-transform:uppercase; color:#F2F0EC;">
+          FAST LANE <span style="color:#1E7FE8; text-shadow:0 0 18px rgba(30,127,232,0.4);">DETAILING</span>
+        </span>
+        <span style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.48rem;
+                     letter-spacing:0.27em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-top:1px;">
+          BATTLE CREEK, MI &middot; EST. 2017
+        </span>
+      </div>
     </a>
 
     <!-- Desktop links -->
@@ -620,9 +627,25 @@
       <span class="gold-text">SWIRL MARKS.</span>
     </h1>
 
-    <p class="font-body font-300 text-off-white/75 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+    <p class="font-body font-300 text-off-white/75 text-lg md:text-xl max-w-xl mb-7 leading-relaxed">
       Every car wash adds more. Jake removes them — paint correction, ceramic coatings, and full interior restoration. Battle Creek, MI since 2017.
     </p>
+
+    <!-- Founder trust element — face = credibility -->
+    <div class="flex items-center gap-4 mb-9">
+      <img src="FLD_Logo.png" alt="Jake McBride — Fast Lane Detailing"
+           style="width:56px; height:56px; border-radius:50%; mix-blend-mode:screen; flex-shrink:0;
+                  border:1px solid rgba(30,127,232,0.35); box-shadow:0 0 14px rgba(30,127,232,0.2);">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.62rem;
+                    letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.38);
+                    margin-bottom:2px;">Owner &amp; Operator</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.1rem;
+                    text-transform:uppercase; letter-spacing:0.05em; color:#F2F0EC;">Jake McBride</div>
+        <div style="font-family:'Barlow',sans-serif; font-weight:300; font-size:0.72rem;
+                    color:rgba(255,255,255,0.3); margin-top:1px;">Fast Lane Detailing &middot; Est. 2017</div>
+      </div>
+    </div>
 
     <div class="flex flex-wrap gap-4">
       <a href="#packages" class="btn-gold">See My Options</a>
