@@ -539,6 +539,13 @@
       color: rgba(255,255,255,0.25);
       margin-top: 2px;
     }
+
+    /* Mobile hero gradient — more opaque base for text legibility */
+    @media (max-width: 768px) {
+      #home > div[style*="linear-gradient"] {
+        background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.75) 100%) !important;
+      }
+    }
   </style>
 </head>
 
@@ -611,13 +618,13 @@
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pb-4 md:pb-6">
     <!-- Eyebrow -->
-    <div class="flex items-center gap-3 mb-5">
+    <div class="flex items-center gap-3 mb-8">
       <div class="w-10 h-px" style="background:#509BCD;"></div>
       <span class="label text-gold">Battle Creek, MI &middot; Est. 2017</span>
     </div>
 
     <!-- Main headline -->
-    <h1 class="display text-white mb-5"
+    <h1 class="display text-white mb-8"
         style="font-size: clamp(2.6rem, 7vw, 6.8rem);">
       YOUR PAINT<br>
       HAS 1,000<br>
@@ -629,7 +636,7 @@
     </p>
 
     <!-- Social proof strip -->
-    <div class="flex items-center gap-3 mb-7"
+    <div class="flex items-center gap-3 mb-9"
          style="flex-wrap:wrap;">
       <div style="color:#F59E0B; font-size:1rem; letter-spacing:0.05em;">★★★★★</div>
       <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700;
@@ -643,14 +650,14 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-4">
-      <a href="#packages" class="btn-gold">Get a Free Quote</a>
-      <a href="#proof"    class="btn-ghost">See Before &amp; Afters</a>
+    <div class="flex flex-col sm:flex-row flex-wrap gap-4">
+      <a href="#packages" class="btn-gold w-full sm:w-auto text-center">Get a Free Quote</a>
+      <a href="#proof"    class="btn-ghost w-full sm:w-auto text-center">See Before &amp; Afters</a>
     </div>
   </div>
 
   <!-- STATS STRIP — inside hero, scrolls on page load -->
-  <div class="stat-strip w-full py-5" style="flex-shrink:0; position:relative; z-index:10;">
+  <div class="stat-strip w-full py-7" style="flex-shrink:0; position:relative; z-index:10;">
   <div class="marquee-viewport">
     <div class="marquee-track marquee-track--stats" id="marquee-stats">
 
@@ -1636,24 +1643,21 @@
 
   function submitBooking(e) {
     e.preventDefault();
-    // ── FORMSPREE INTEGRATION POINT ─────────────────
-    // When ready, create a free Formspree form at formspree.io
-    // and replace YOUR_FORMSPREE_ID below:
-    //
-    // var formData = {
-    //   name:    document.getElementById('b-name').value,
-    //   phone:   document.getElementById('b-phone').value,
-    //   email:   document.getElementById('b-email').value,
-    //   service: document.getElementById('b-service').value,
-    //   vehicle: document.getElementById('b-vehicle').value,
-    //   message: document.getElementById('b-message').value
-    // };
-    // fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    //   body: JSON.stringify(formData)
-    // });
-    // ─────────────────────────────────────────────────
+    // ── FORMSPREE — sends to fastlanedetailingbc@gmail.com ──────────────
+    var formData = {
+      name:    document.getElementById('b-name').value,
+      phone:   document.getElementById('b-phone').value,
+      email:   document.getElementById('b-email').value,
+      service: document.getElementById('b-service').value,
+      vehicle: document.getElementById('b-vehicle').value,
+      message: document.getElementById('b-message').value
+    };
+    fetch('https://formspree.io/fastlanedetailingbc@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    }).catch(function(err) { console.log('Form error:', err); });
+    // ────────────────────────────────────────────────────────────────────
 
     document.getElementById('booking-form-state').style.display  = 'none';
     document.getElementById('booking-success').style.display      = 'block';
