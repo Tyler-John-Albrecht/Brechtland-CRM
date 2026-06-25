@@ -546,6 +546,27 @@
         background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 55%, transparent 85%) !important;
       }
     }
+
+    /* ── Hero Rotating Stamp ─────────────────────────── */
+    @keyframes stampFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes stampRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes coinSpin {
+      0%   { transform: rotateY(0deg); }
+      12%  { transform: rotateY(360deg); }
+      24%  { transform: rotateY(720deg); }
+      100% { transform: rotateY(720deg); }
+    }
+    @keyframes drawRing {
+      from { stroke-dashoffset: 898.5; }
+      to   { stroke-dashoffset: 0; }
+    }
   </style>
 </head>
 
@@ -613,6 +634,63 @@
        blur-[100px] pointer-events-none"
        style="background:rgba(124,197,224,0.06);"></div>
 
+  <!-- ── Hero Rotating Stamp — desktop only, upper-right ─────────────── -->
+  <div id="heroStamp" class="hidden lg:block absolute"
+       style="right:12%; top:44%; transform:translateY(-50%); z-index:10;
+              width:310px; height:310px; opacity:0;
+              animation:stampFadeIn 0.5s ease 0.5s forwards;">
+
+    <!-- Layer 1: Circle draws itself on load -->
+    <svg style="position:absolute; top:0; left:0; width:310px; height:310px;"
+         viewBox="0 0 310 310" xmlns="http://www.w3.org/2000/svg">
+      <!-- Animated draw ring -->
+      <circle cx="155" cy="155" r="143"
+              fill="none"
+              stroke="rgba(80,155,205,0.55)"
+              stroke-width="1.5"
+              stroke-dasharray="898.5"
+              stroke-dashoffset="898.5"
+              style="animation:drawRing 2s cubic-bezier(0.4,0,0.2,1) 0.8s forwards;"/>
+      <!-- Static inner accent ring -->
+      <circle cx="155" cy="155" r="133"
+              fill="none"
+              stroke="rgba(80,155,205,0.12)"
+              stroke-width="1"/>
+    </svg>
+
+    <!-- Layer 2: Text ring — fades in after circle draws, then rotates forever -->
+    <div style="position:absolute; top:0; left:0; width:310px; height:310px;
+                opacity:0; animation:stampFadeIn 0.8s ease 2.9s forwards;">
+      <svg style="width:310px; height:310px;
+                  animation:stampRotate 26s linear 2.9s infinite;"
+           viewBox="0 0 310 310" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="textRingPath"
+                d="M155,155 m-138,0 a138,138 0 1,1 276,0 a138,138 0 1,1 -276,0"/>
+        </defs>
+        <text fill="#509BCD" font-size="12.5" letter-spacing="4"
+              font-family="'Barlow Condensed', sans-serif" font-weight="700">
+          <textPath href="#textRingPath" startOffset="0%">
+            FASTLANE DETAILING &bull; PAINT CORRECTION &bull; CERAMIC COATINGS &bull; 5 STAR RATED &bull;
+          </textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Layer 3: Static center logo — fades in with container -->
+    <div style="position:absolute; top:50%; left:50%;
+                transform:translate(-50%,-50%);
+                width:200px; height:200px;
+                display:flex; align-items:center; justify-content:center;
+                perspective:600px;
+                opacity:0; animation:stampFadeIn 0.8s ease 0.6s forwards;">
+      <img src="FastLaneDetailingLogo.png" alt="Fast Lane Detailing"
+           style="width:190px; height:auto; display:block;
+                  animation:coinSpin 6s ease-in-out 4s infinite;
+                  transform-origin:center center;">
+    </div>
+  </div>
+
   <!-- Spacer — absorbs space above content, headline can never clip under nav -->
   <div class="flex-1" style="min-height:6rem;"></div>
 
@@ -673,8 +751,8 @@
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">CERTIFIED</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Ceramic Coating Specialist</div>
+        <div class="display text-3xl text-gold">PAINT CORRECTION</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Swirls &amp; Scratches Removed</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
@@ -700,8 +778,8 @@
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
-        <div class="display text-3xl text-gold">CERTIFIED</div>
-        <div class="label text-muted" style="font-size:0.62rem;">Ceramic Coating Specialist</div>
+        <div class="display text-3xl text-gold">PAINT CORRECTION</div>
+        <div class="label text-muted" style="font-size:0.62rem;">Swirls &amp; Scratches Removed</div>
         <div class="stat-pill-divider"></div>
       </div>
       <div class="stat-pill">
