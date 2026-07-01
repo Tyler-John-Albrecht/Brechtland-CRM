@@ -1416,8 +1416,7 @@
         </p>
         <!-- Social icons -->
         <div class="flex gap-5 mt-6">
-          <!-- FACEBOOK LINK — TO UPDATE: paste Kris's exact facebook.com/p/... URL here -->
-          <a href="https://www.facebook.com/search/top?q=Kustom%20Detailing%20Portage%20MI" target="_blank" rel="noopener"
+          <a href="https://www.facebook.com/p/Kustom-Detailing-61555329212298/" target="_blank" rel="noopener"
              style="color:rgba(102,102,114,0.9); transition:color 0.25s;"
              onmouseover="this.style.color='#39FF14'" onmouseout="this.style.color='rgba(102,102,114,0.9)'"
              aria-label="Facebook">
@@ -1679,7 +1678,7 @@
 
   function submitBooking(e) {
     e.preventDefault();
-    // ── FORMSPREE — TODO: set up a Formspree form with Kris real email, then paste the endpoint above ──────────────
+    // ── FORMSPREE — sends to kustomdetailingportage@gmail.com ──────────────
     var formData = {
       name:    document.getElementById('b-name').value,
       phone:   document.getElementById('b-phone').value,
@@ -1688,7 +1687,7 @@
       vehicle: document.getElementById('b-vehicle').value,
       message: document.getElementById('b-message').value
     };
-    fetch('https://formspree.io/REPLACE_WITH_KRIS_EMAIL', {
+    fetch('https://formspree.io/kustomdetailingportage@gmail.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(formData)
