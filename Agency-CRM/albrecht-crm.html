@@ -541,6 +541,54 @@ h1,h2,h3,h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   animation: rot .7s linear infinite; margin: 36px auto;
 }
 @keyframes rot { to { transform: rotate(360deg); } }
+
+/* ═══════════════ DARK MODE ═══════════════
+   Toggled by the sun/moon button; persisted per browser. */
+html[data-theme="dark"] {
+  --ink:        #E9EEF5;
+  --ink-soft:   #B9C3D2;
+  --mute:       #8B96A8;
+  --faint:      #6B7890;
+  --line:       #232C3B;
+  --line-2:     #1A2230;
+  --canvas:     #0C111B;
+  --surface:    #131A28;
+  --accent-soft:rgba(11,165,201,.16);
+  --green-soft: rgba(34,197,94,.16);
+  --amber-soft: rgba(245,158,11,.16);
+  --red-soft:   rgba(239,68,68,.16);
+  --violet-soft:rgba(139,92,246,.18);
+  --blue-soft:  rgba(59,130,246,.18);
+  --shadow-card:0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.25);
+  --shadow-lift:0 4px 12px rgba(0,0,0,.35), 0 12px 32px rgba(0,0,0,.35);
+  --shadow-pop: 0 8px 24px rgba(0,0,0,.45), 0 24px 64px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #2A3548; border-color: var(--canvas); }
+html[data-theme="dark"] .btn-primary { background: #E9EEF5; color: #0C111B; }
+html[data-theme="dark"] .btn-primary:hover { background: #FFFFFF; }
+html[data-theme="dark"] .btn-ghost { background: var(--surface); }
+html[data-theme="dark"] .kb-card,
+html[data-theme="dark"] .modal-box,
+html[data-theme="dark"] .drawer,
+html[data-theme="dark"] .notif-pop,
+html[data-theme="dark"] .search-results,
+html[data-theme="dark"] .mention-pop,
+html[data-theme="dark"] .cal-cell,
+html[data-theme="dark"] .auth-card,
+html[data-theme="dark"] .frame-bar,
+html[data-theme="dark"] .chat-input-wrap { background: var(--surface); }
+html[data-theme="dark"] .cal-cell.other { background: transparent; }
+html[data-theme="dark"] .frame-viewer { background: var(--canvas); }
+html[data-theme="dark"] .topbar { background: rgba(19,26,40,.85); }
+html[data-theme="dark"] .search-input { background: var(--canvas); }
+html[data-theme="dark"] .search-input:focus { background: var(--surface); }
+html[data-theme="dark"] .seg { background: #0F1520; }
+html[data-theme="dark"] .seg button.on { background: #243048; color: var(--ink); box-shadow: none; }
+html[data-theme="dark"] .fld input, html[data-theme="dark"] .fld select, html[data-theme="dark"] .fld textarea { background: var(--canvas); }
+html[data-theme="dark"] .demo-banner { background: var(--accent-soft); border-color: var(--line); }
+html[data-theme="dark"] .card[style*="linear-gradient"] { background: var(--surface) !important; border-color: var(--line) !important; }
+html[data-theme="dark"] .toast { background: #E9EEF5; color: #0C111B; }
+.evt-google { background: var(--line-2); color: var(--ink-soft); border: 1px dashed var(--faint); }
 </style>
 </head>
 <body>
@@ -643,6 +691,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
                oninput="runGlobalSearch(this.value)" onfocus="runGlobalSearch(this.value)">
         <div class="search-results" id="searchResults"></div>
       </div>
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Light / dark mode"></button>
       <div style="position:relative">
         <button class="btn-icon" style="position:relative" onclick="toggleNotifs(event)" title="Notifications">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
@@ -1239,7 +1288,7 @@ const PAGE_META = {
   company:   { title:'Company Pulse',    sub: () => 'Global metrics across Brechtland' },
   revenue:   { title:'Revenue (Stripe)', sub: () => 'Live billing truth — MRR, churn, signups, rep attribution' },
   team:      { title:'Team',             sub: () => 'Approvals, roles, and permissions' },
-  commissions: { title:'Commissions',    sub: () => '40% rep / 60% company split' },
+  commissions: { title:'Commissions',    sub: () => '60% rep / 40% company split' },
 };
 
 function buildNav() {
@@ -1587,7 +1636,7 @@ async function renderCockpit() {
             <div class="stat-sub num">${counts.lead} lead${counts.lead===1?'':'s'} · ${counts.working} working</div>
           </div>
           <div class="card card-pad card-hover" data-stagger>
-            <div class="stat-label">${adminView ? 'Commission pool (40%)' : 'Your commission (40%)'}</div>
+            <div class="stat-label">${adminView ? 'Commission pool (60%)' : 'Your commission (60%)'}</div>
             <div class="stat-value num" id="statComm">—</div>
             <div class="stat-sub">per month at current MRR</div>
           </div>
@@ -1667,7 +1716,7 @@ async function renderCockpit() {
   countUp(document.getElementById('statMRR'), mrr, v => money(v));
   countUp(document.getElementById('statARR'), arr, v => money(v));
   countUp(document.getElementById('statPipe'), counts.lead + counts.working, v => Math.round(v).toString());
-  countUp(document.getElementById('statComm'), mrr * 0.4, v => money(v));
+  countUp(document.getElementById('statComm'), mrr * 0.6, v => money(v));
   countUp(document.getElementById('mrrCount'), mrr, v => money(v));
   drawRing('goalRing', goalPct, goalPct >= 1 ? 'var(--green)' : 'var(--accent)');
   animateViewIn();
@@ -2290,6 +2339,13 @@ async function renderEmail() {
   const sent = campaigns.filter(c => c.status === 'sent');
 
   view.innerHTML = `
+    ${campaignsBlocked ? `
+    <div class="card" data-stagger style="margin-bottom:16px;border-color:#F5C6C6;background:var(--red-soft)">
+      <div class="card-pad" style="padding-top:14px;padding-bottom:14px">
+        <div style="font-size:13px;font-weight:700;color:var(--red)">⚠️ Firestore is blocking the email_campaigns collection</div>
+        <div style="font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.6">Campaigns can't load or save until you add the new collections to your security rules. Firebase console → Firestore Database → Rules → add read/write rules for <b>email_campaigns</b>, <b>stripe_links</b>, <b>app_settings</b>, and <b>resources</b> (same pattern as your existing collections).</div>
+      </div>
+    </div>` : ''}
     <div class="card" data-stagger style="margin-bottom:16px;background:linear-gradient(120deg,#F0FAFD, #fff);border-color:#D5EEF6">
       <div class="card-pad" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
         <div style="flex:1;min-width:260px">
@@ -3550,7 +3606,7 @@ async function savePermissions(uid) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   COMMISSIONS — 40% rep / 60% company, CSV export
+   COMMISSIONS — 60% rep / 40% company, CSV export
    ═══════════════════════════════════════════════════════════════ */
 let commPeriod = 'current';
 async function renderCommissions() {
@@ -3609,19 +3665,19 @@ async function renderCommissions() {
         <div class="stat-value num">${money2(totals.mrr)}</div>
       </div>
       <div class="card card-pad" data-stagger>
-        <div class="stat-label">Rep commissions (40%)</div>
-        <div class="stat-value num" style="color:var(--green)">${money2(totals.mrr*0.4)}</div>
+        <div class="stat-label">Rep commissions (60%)</div>
+        <div class="stat-value num" style="color:var(--green)">${money2(totals.mrr*0.6)}</div>
       </div>
       <div class="card card-pad" data-stagger>
-        <div class="stat-label">Company share (60%)</div>
-        <div class="stat-value num" style="color:var(--accent-deep)">${money2(totals.mrr*0.6)}</div>
+        <div class="stat-label">Company share (40%)</div>
+        <div class="stat-value num" style="color:var(--accent-deep)">${money2(totals.mrr*0.4)}</div>
       </div>
     </div>
 
     <div class="card" data-stagger>
       <div style="overflow-x:auto">
         <table class="tbl">
-          <thead><tr><th>Rep</th><th>Deals closed</th><th>Monthly MRR</th><th>Rep commission (40%)</th><th>Company revenue (60%)</th></tr></thead>
+          <thead><tr><th>Rep</th><th>Deals closed</th><th>Monthly MRR</th><th>Rep commission (60%)</th><th>Company revenue (40%)</th></tr></thead>
           <tbody>
             ${rows.length ? rows.map(r => `
               <tr>
@@ -3632,15 +3688,15 @@ async function renderCommissions() {
                 </td>
                 <td class="num">${r.deals}</td>
                 <td class="num" style="font-weight:600">${money2(r.mrr)}</td>
-                <td class="num" style="font-weight:700;color:var(--green)">${money2(r.mrr*0.4)}</td>
-                <td class="num" style="font-weight:600;color:var(--accent-deep)">${money2(r.mrr*0.6)}</td>
+                <td class="num" style="font-weight:700;color:var(--green)">${money2(r.mrr*0.6)}</td>
+                <td class="num" style="font-weight:600;color:var(--accent-deep)">${money2(r.mrr*0.4)}</td>
               </tr>`).join('') +
               `<tr style="background:var(--canvas)">
                 <td style="font-weight:800">TOTALS</td>
                 <td class="num" style="font-weight:700">${totals.deals}</td>
                 <td class="num" style="font-weight:700">${money2(totals.mrr)}</td>
-                <td class="num" style="font-weight:800;color:var(--green)">${money2(totals.mrr*0.4)}</td>
-                <td class="num" style="font-weight:800;color:var(--accent-deep)">${money2(totals.mrr*0.6)}</td>
+                <td class="num" style="font-weight:800;color:var(--green)">${money2(totals.mrr*0.6)}</td>
+                <td class="num" style="font-weight:800;color:var(--accent-deep)">${money2(totals.mrr*0.4)}</td>
               </tr>`
             : '<tr><td colspan="5"><div class="empty"><div class="t">No commission data for this period</div><div class="s">Signed deals show up here the moment a client goes active.</div></div></td></tr>'}
           </tbody>
@@ -3655,11 +3711,11 @@ function commExportCSV() {
   if (!data || !data.rows.length) return toast('No data to export', 'bad');
   const periodLabel = data.period === 'current' ? 'This Month' : data.period === 'last' ? 'Last Month' : 'All Time';
   let csv = 'Brechtland Commission Report (' + periodLabel + ')\n';
-  csv += 'Rep Name,Deals Closed,Monthly MRR,Rep Commission (40%),Company Revenue (60%)\n';
+  csv += 'Rep Name,Deals Closed,Monthly MRR,Rep Commission (60%),Company Revenue (40%)\n';
   data.rows.forEach(r => {
-    csv += '"' + r.name + '",' + r.deals + ',' + r.mrr.toFixed(2) + ',' + (r.mrr*0.4).toFixed(2) + ',' + (r.mrr*0.6).toFixed(2) + '\n';
+    csv += '"' + r.name + '",' + r.deals + ',' + r.mrr.toFixed(2) + ',' + (r.mrr*0.6).toFixed(2) + ',' + (r.mrr*0.4).toFixed(2) + '\n';
   });
-  csv += '\nTOTALS,' + data.totals.deals + ',' + data.totals.mrr.toFixed(2) + ',' + (data.totals.mrr*0.4).toFixed(2) + ',' + (data.totals.mrr*0.6).toFixed(2) + '\n';
+  csv += '\nTOTALS,' + data.totals.deals + ',' + data.totals.mrr.toFixed(2) + ',' + (data.totals.mrr*0.6).toFixed(2) + ',' + (data.totals.mrr*0.4).toFixed(2) + '\n';
   const blob = new Blob([csv], { type:'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -3751,6 +3807,20 @@ async function stripeSyncAll() {
     }
   }
 
+  // Checkout sessions carry client_reference_id = the rep's uid when the
+  // customer paid through a rep's personalized payment link. Needs the
+  // restricted key to also have "Checkout Sessions: Read" — degrades
+  // gracefully to email-matching if it doesn't.
+  const sessionRep = {}; // customerId -> repId
+  if (!DEMO) {
+    try {
+      const sess = await stripeFetch('/v1/checkout/sessions?limit=100');
+      (sess.data || []).forEach(s => {
+        if (s.client_reference_id && s.customer) sessionRep[s.customer] = s.client_reference_id;
+      });
+    } catch(e) { console.warn('checkout sessions (add Checkout Sessions read to the key to enable rep links):', e.message); }
+  }
+
   // Load existing rep links + CRM clients for auto-matching
   let links = {};
   if (!DEMO) {
@@ -3760,8 +3830,11 @@ async function stripeSyncAll() {
     } catch(e) { console.warn('stripe_links read:', e.message); }
   }
   const clients = await fetchClients();
-  const clientByEmail = {};
-  clients.forEach(c => { if (c.email) clientByEmail[c.email.trim().toLowerCase()] = c; });
+  const clientByEmail = {}, clientByStripeId = {};
+  clients.forEach(c => {
+    if (c.email) clientByEmail[c.email.trim().toLowerCase()] = c;
+    if (c.stripeCustomerId) clientByStripeId[c.stripeCustomerId] = c;
+  });
 
   const now = Date.now();
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime() / 1000;
@@ -3773,6 +3846,16 @@ async function stripeSyncAll() {
     const cust = (typeof sub.customer === 'object' && sub.customer) ? sub.customer : { id: sub.customer };
     const email = (cust.email || '').trim().toLowerCase();
     let link = links[cust.id];
+    // 1st: payment-link attribution (client_reference_id = rep uid)
+    if (!link && sessionRep[cust.id]) {
+      const rep = allTeamUsers.find(u => u.id === sessionRep[cust.id]);
+      if (rep) {
+        link = { customerId: cust.id, customerEmail: cust.email || '', customerName: cust.name || '', repId: rep.id, repName: rep.name, auto: true };
+        links[cust.id] = link;
+        autoLinks.push(link);
+      }
+    }
+    // 2nd: email match against an existing CRM client
     if (!link && email && clientByEmail[email]) {
       const cl = clientByEmail[email];
       if (cl.employeeId) {
@@ -4013,7 +4096,7 @@ async function renderRevenue() {
               </div>
               <div style="text-align:right">
                 <div style="font-size:14px;font-weight:800" class="num">${money(r.mrr)}<span style="font-size:11px;color:var(--mute);font-weight:500">/mo</span></div>
-                <div style="font-size:11px;color:var(--green);font-weight:700" class="num">${r.repId ? money(r.mrr*0.4) + ' comm.' : ''}</div>
+                <div style="font-size:11px;color:var(--green);font-weight:700" class="num">${r.repId ? money(r.mrr*0.6) + ' comm.' : ''}</div>
               </div>
             </div>`).join('')
           : '<div style="font-size:12.5px;color:var(--mute)">No paying subscriptions yet.</div>'}
