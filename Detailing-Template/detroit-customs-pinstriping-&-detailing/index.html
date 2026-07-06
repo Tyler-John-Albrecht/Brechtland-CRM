@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detroit Customs | Taylor, MI Custom Pinstriping & Hand-Painted Auto Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { display:['"Barlow Condensed"','sans-serif'], body:['"Barlow"','sans-serif'] } } }
+    }
+  </script>
+  <style>
+    :root {
+      --black:    #0A0A0A;
+      --black-dk: #000000;
+      --charcoal: #161616;
+      --charcoal-lt:#1F1F1F;
+      --red:      #D6202C;
+      --red-lt:   #FF4D5E;
+      --white:    #FFFFFF;
+      --off-white:#F5F5F3;
+      --text:     #1A1A1A;
+      --muted:    #6B6B6B;
+      --muted-lt: #B8B8B8;
+      --border:   #E2E2E2;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:"Barlow",sans-serif; background:var(--black); color:var(--text); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    .display { font-family:"Barlow Condensed",sans-serif; font-weight:900; text-transform:uppercase; line-height:0.92; letter-spacing:-0.01em; }
+    .label   { font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; }
+    .red-text { background:linear-gradient(-45deg,#8E0F1D,#D6202C,#8E0F1D,#FF4D5E); background-size:400% 400%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    /* BUTTONS */
+    .btn-black { display:inline-block; background:var(--black); color:#fff; font-family:"Barlow Condensed",sans-serif; font-weight:800; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; padding:14px 36px; border:none; cursor:pointer; border-radius:6px; transition:background .25s,transform .25s,box-shadow .25s; }
+    .btn-black:hover { background:var(--black-dk); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .btn-red { display:inline-block; background:var(--red); color:#fff; font-family:"Barlow Condensed",sans-serif; font-weight:800; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; padding:14px 36px; border:none; cursor:pointer; border-radius:6px; transition:background .25s,transform .25s,box-shadow .25s; }
+    .btn-red:hover { background:var(--red-lt); transform:translateY(-2px); box-shadow:0 8px 24px rgba(214,32,44,.45); }
+    .btn-ghost-white { display:inline-block; border:2px solid rgba(255,255,255,.7); color:#fff; font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; padding:13px 36px; border-radius:6px; transition:background .25s,border-color .25s; }
+    .btn-ghost-white:hover { background:rgba(255,255,255,.12); border-color:#fff; }
+    .btn-ghost-black { display:inline-block; border:2px solid var(--black); color:var(--black); font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; padding:13px 36px; border-radius:6px; background:transparent; cursor:pointer; transition:background .25s,border-color .25s,color .25s; }
+    .btn-ghost-black:hover { background:var(--black); color:#fff; }
+    /* NAV */
+    .nav-wrap { background:var(--black); border-bottom:3px solid var(--red); transition:padding .3s; }
+    /* HERO */
+    .hero-img { background-image:url('../Hero%20Background.png'); background-size:cover; background-position:center 35%; }
+    @media(max-width:767px){ .hero-img { background-position:70% 35%; } }
+    .hero-ov { background:linear-gradient(to bottom, rgba(10,10,10,.55) 0%, rgba(10,10,10,.5) 35%, rgba(5,5,5,.93) 80%, rgba(5,5,5,1) 100%); }
+    /* STATS STRIP */
+    .stat-strip { background:var(--black); border-top:3px solid var(--red); border-bottom:3px solid var(--red); }
+    .marquee-track { display:flex; flex-wrap:nowrap; will-change:transform; }
+    .marquee-viewport { overflow:hidden; width:100%; -webkit-mask-image:linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%); mask-image:linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%); }
+    .stat-pill { display:flex; align-items:center; gap:14px; padding:0 44px; white-space:nowrap; }
+    .stat-pill-dot { width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
+    /* SECTIONS */
+    .sec-white    { background:#fff; }
+    .sec-charcoal { background:var(--charcoal); }
+    .sec-black    { background:var(--black); }
+    /* SERVICE CARDS */
+    .svc-card { background:#fff; border:2px solid var(--border); border-radius:12px; overflow:hidden; transition:transform .35s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .35s; display:flex; flex-direction:column; }
+    .svc-card:hover { transform:translateY(-8px); border-color:var(--red); box-shadow:0 20px 48px rgba(0,0,0,.35), 0 0 0 3px rgba(214,32,44,.15); }
+    .svc-card-featured { background:var(--black); border-color:var(--red); }
+    .svc-card-featured:hover { box-shadow:0 20px 48px rgba(0,0,0,.5), 0 0 0 3px rgba(214,32,44,.4); }
+    .featured-badge { background:var(--red); color:#fff; font-family:"Barlow Condensed",sans-serif; font-weight:800; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; padding:7px 0; text-align:center; width:100%; }
+    .check::before { content:'✓'; color:var(--red); margin-right:10px; font-weight:700; }
+    .check-black::before { content:'✓'; color:var(--black); margin-right:10px; font-weight:700; }
+    /* ADDON CARDS */
+    .addon-card { background:#fff; border:2px solid var(--border); border-radius:10px; overflow:hidden; transition:border-color .3s, box-shadow .3s; display:flex; flex-direction:column; }
+    .addon-card:hover { border-color:var(--black); box-shadow:0 8px 24px rgba(0,0,0,.15); }
+    .addon-card img { transition:transform .5s ease; }
+    .addon-card:hover img { transform:scale(1.05); }
+    /* PROCESS */
+    .step-num-circle { width:56px; height:56px; border-radius:50%; background:var(--red); color:#fff; font-family:"Barlow Condensed",sans-serif; font-weight:900; font-size:1.4rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 4px 16px rgba(214,32,44,.35); }
+    /* GALLERY */
+    .gallery-item { overflow:hidden; border-radius:8px; }
+    .gallery-item img { transition:transform .5s ease, filter .4s ease; filter:brightness(.88); }
+    .gallery-item:hover img { transform:scale(1.05); filter:brightness(1); }
+    /* REVIEWS */
+    .review-card { width:320px; flex-shrink:0; margin:0 12px; background:#fff; border:2px solid var(--border); border-radius:12px; padding:24px; transition:border-color .3s, box-shadow .3s; }
+    .review-card:hover { border-color:var(--red); box-shadow:0 8px 24px rgba(0,0,0,.12); }
+    .review-stars { color:var(--red); font-size:.9rem; letter-spacing:2px; margin-bottom:12px; }
+    .review-text { font-size:.9rem; color:#4A4A4A; line-height:1.7; margin-bottom:16px; }
+    .review-author { font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--black); }
+    .review-source { font-size:.72rem; color:#9E9E9E; margin-top:2px; }
+    /* SLIDER */
+    .slider-wrap { position:relative; overflow:hidden; cursor:col-resize; user-select:none; -webkit-user-select:none; touch-action:pan-y; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.3); }
+    .slider-base { display:block; width:100%; height:460px; object-fit:cover; }
+    .slider-overlay { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+    .slider-overlay img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
+    .slider-handle { position:absolute; top:0; bottom:0; left:50%; width:3px; background:var(--red); transform:translateX(-50%); pointer-events:none; box-shadow:0 0 12px rgba(214,32,44,.6); }
+    .slider-circle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:48px; height:48px; background:var(--red); border-radius:50%; border:3px solid #fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(0,0,0,.3); }
+    .slider-label { position:absolute; top:16px; font-family:"Barlow Condensed",sans-serif; font-weight:800; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; padding:5px 12px; backdrop-filter:blur(8px); pointer-events:none; border-radius:4px; }
+    .slider-label-before { left:16px; background:rgba(0,0,0,.75); color:#fff; }
+    .slider-label-after  { right:16px; background:rgba(214,32,44,.88); color:#fff; }
+    .slider-hint { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); font-family:"Barlow Condensed",sans-serif; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.7); white-space:nowrap; pointer-events:none; transition:opacity .5s ease; background:rgba(0,0,0,.4); padding:4px 12px; border-radius:20px; }
+    /* CTA */
+    .cta-bg { background-image:url('../CTA-Background.png'); background-size:cover; background-position:center; }
+    .cta-ov  { background:linear-gradient(135deg, rgba(10,10,10,.94) 0%, rgba(10,10,10,.85) 60%, rgba(30,8,10,.78) 100%); }
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1); }
+    .reveal.on { opacity:1; transform:none; }
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:#161616; }
+    ::-webkit-scrollbar-thumb { background:var(--red); border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background:var(--red-lt); }
+    /* MOBILE STICKY */
+    #sticky-bar { display:flex; will-change:transform; }
+    @media(min-width:768px){ #sticky-bar { display:none; } }
+    /* ROTATING STAMP KEYFRAMES */
+    @keyframes stampFadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes stampRotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes drawRing    { from{stroke-dashoffset:898.5} to{stroke-dashoffset:0} }
+    @keyframes gradFlow    { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @media(prefers-reduced-motion:reduce){ .red-text,.btn-red{animation:none!important} }
+    /* GUARANTEE BOX */
+    .guarantee-box { background:linear-gradient(135deg,rgba(214,32,44,.12),rgba(10,10,10,.06)); border:2px solid var(--red); border-radius:10px; }
+  </style>
+</head>
+<body>
+<!-- NAV -->
+<nav class="fixed top-0 w-full z-50 nav-wrap" id="nav">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between" id="nav-inner">
+    <a href="#home" style="text-decoration:none; display:inline-flex; align-items:center; gap:10px;">
+      <span style="font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.5rem; letter-spacing:0.04em; color:#fff; text-transform:uppercase;">DETROIT <span style="color:#D6202C;">CUSTOMS</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm">
+      <a href="#packages" style="color:rgba(255,255,255,.8); font-family:'Barlow',sans-serif; font-weight:500; transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Services</a>
+      <a href="#process"  style="color:rgba(255,255,255,.8); font-family:'Barlow',sans-serif; font-weight:500; transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Process</a>
+      <a href="#guarantee" style="color:rgba(255,255,255,.8); font-family:'Barlow',sans-serif; font-weight:500; transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Guarantee</a>
+      <a href="#reviews"  style="color:rgba(255,255,255,.8); font-family:'Barlow',sans-serif; font-weight:500; transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.8)'">Reviews</a>
+      <button type="button" onclick="openBooking()" class="btn-red text-sm px-6 py-2.5">Book Now</button>
+    </div>
+    <button id="mob-btn" class="md:hidden p-2 z-50 relative" aria-label="Menu" style="color:#fff;">
+      <svg id="ic-open"  class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg id="ic-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+</nav>
+<!-- Mobile menu -->
+<div id="mob-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" style="background:var(--black); backdrop-filter:blur(20px);">
+  <a href="#packages"  class="mob-link display text-5xl" style="color:#fff;">SERVICES</a>
+  <a href="#process"   class="mob-link display text-5xl" style="color:#fff;">PROCESS</a>
+  <a href="#guarantee" class="mob-link display text-5xl" style="color:#fff;">GUARANTEE</a>
+  <a href="#reviews"   class="mob-link display text-5xl" style="color:#fff;">REVIEWS</a>
+  <button type="button" onclick="openBooking()" class="mob-link btn-red mt-4 text-base px-14 py-4">Book Now</button>
+</div>
+<!-- HERO -->
+<section id="home" class="relative w-full min-h-screen flex flex-col overflow-hidden hero-img">
+  <div class="absolute inset-0 hero-ov"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(90deg,rgba(10,10,10,.75) 0%,rgba(10,10,10,.45) 50%,transparent 80%); z-index:1;"></div>
+  <!-- Rotating stamp -->
+  <div class="hidden lg:block absolute" style="right:8%; top:30%; transform:translateY(-50%); z-index:10; width:320px; height:320px; opacity:0; animation:stampFadeIn .5s ease .8s forwards;">
+    <svg style="position:absolute;top:0;left:0;width:320px;height:320px;" viewBox="0 0 320 320">
+      <circle cx="160" cy="160" r="148" fill="none" stroke="rgba(214,32,44,.75)" stroke-width="2" stroke-dasharray="929.5" stroke-dashoffset="929.5" style="animation:drawRing 2s cubic-bezier(.4,0,.2,1) 1s forwards;"/>
+      <circle cx="160" cy="160" r="136" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+    </svg>
+    <div style="position:absolute;top:0;left:0;width:320px;height:320px;opacity:0;animation:stampFadeIn .8s ease 3s forwards;">
+      <svg style="width:320px;height:320px;animation:stampRotate 28s linear 3s infinite;" viewBox="0 0 320 320">
+        <defs><path id="rp" d="M160,160 m-142,0 a142,142 0 1,1 284,0 a142,142 0 1,1 -284,0"/></defs>
+        <text fill="#D6202C" font-size="14" letter-spacing="3" font-family="'Barlow Condensed',sans-serif" font-weight="700">
+          <textPath href="#rp" startOffset="0%">DETROIT CUSTOMS &bull; HAND PAINTED &bull; 5 STAR RATED &bull; TAYLOR MI &bull;</textPath>
+        </text>
+      </svg>
+    </div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;animation:stampFadeIn .8s ease .9s forwards;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.4rem;color:#D6202C;text-transform:uppercase;line-height:1.1;">DETROIT</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;color:#fff;text-transform:uppercase;letter-spacing:.1em;">CUSTOMS</div>
+    </div>
+  </div>
+  <div class="flex-1" style="min-height:6rem;"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pb-4 md:pb-6">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-px" style="background:#D6202C;"></div>
+      <span class="label" style="color:#D6202C;">Taylor, MI &middot; Hand-Painted, Not Printed</span>
+    </div>
+    <h1 class="display text-white mb-6" style="font-size:clamp(2.6rem,7vw,6.8rem);">
+      EVERY LINE.<br>HAND PAINTED.<br><span class="red-text">NEVER PRINTED.</span>
+    </h1>
+    <p style="font-family:'Barlow',sans-serif;font-weight:300;color:rgba(255,255,255,.85);font-size:1.15rem;max-width:540px;margin-bottom:28px;line-height:1.7;">
+      Nate has spent his career turning trucks, cars, and motorcycles into rolling art — pinstriping, custom lettering, gold leaf, and logo work, all painted freehand. If you can picture it, he can paint it. Taylor, MI.
+    </p>
+    <div class="flex items-center gap-3 mb-8" style="flex-wrap:wrap;">
+      <div style="color:#D6202C;font-size:1rem;">★★★★★</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);">4.9 &nbsp;&middot;&nbsp; 33 Five-Star Reviews</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.45);">Google &middot; Taylor, MI</div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button type="button" onclick="openBooking()" class="btn-red w-full sm:w-auto text-center">Get a Free Quote</button>
+      <a href="#proof" class="btn-ghost-white w-full sm:w-auto text-center">See the Work</a>
+    </div>
+  </div>
+  <!-- Stats strip -->
+  <div class="stat-strip w-full py-6" style="flex-shrink:0;position:relative;z-index:10;overflow:hidden;">
+    <div class="marquee-viewport">
+      <div class="marquee-track" id="marquee-stats">
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">4.9 ★</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Google &middot; 33 Reviews</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#fff;">1.4K+</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Facebook Followers</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">992</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Instagram &middot; @xnatej</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#fff;">TAYLOR, MI</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Beech Daly Rd</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">100% HAND-PAINTED</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">No Vinyl. No Shortcuts.</div><div class="stat-pill-dot"></div></div>
+        <!-- Duplicate -->
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">4.9 ★</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Google &middot; 33 Reviews</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#fff;">1.4K+</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Facebook Followers</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">992</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Instagram &middot; @xnatej</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#fff;">TAYLOR, MI</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">Beech Daly Rd</div><div class="stat-pill-dot"></div></div>
+        <div class="stat-pill"><div class="display text-2xl" style="color:#D6202C;">100% HAND-PAINTED</div><div class="label" style="color:rgba(255,255,255,.6);font-size:.6rem;">No Vinyl. No Shortcuts.</div><div class="stat-pill-dot"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- PROOF -->
+<section id="proof" class="w-full py-24 md:py-32 px-4 sec-white scroll-mt-20">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <div class="label mb-3" style="color:var(--red);">Results Don't Lie</div>
+      <h2 class="display" style="font-size:clamp(2.6rem,6vw,5.5rem);color:var(--black);">ONE PANEL.<br><span class="red-text">COMPLETELY TRANSFORMED.</span></h2>
+      <p style="font-family:'Barlow',sans-serif;font-weight:300;color:var(--muted);margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto;font-size:1.05rem;line-height:1.7;">A blank fender is just primer until Nate gets to it. Freehand pinstriping and lettering that turns any panel into a signature piece.</p>
+    </div>
+    <div class="max-w-4xl mx-auto reveal">
+      <div class="slider-wrap" id="ba-wrap">
+        <img src="../after.jpg"  alt="After hand-painted pinstriping" class="slider-base" id="ba-before-img" style="object-position:55% top;">
+        <div class="slider-overlay" id="ba-overlay"><img src="../before.jpg" alt="Before pinstriping — bare panel" id="ba-after-img" style="object-position:55% top;"></div>
+        <div class="slider-handle" id="ba-handle"><div class="slider-circle"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M5 1L1 7L5 13" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 1L17 7L13 13" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="slider-label slider-label-before">BEFORE</div>
+        <div class="slider-label slider-label-after">AFTER</div>
+        <div class="slider-hint" id="ba-hint">← DRAG TO COMPARE →</div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:10px;">Real client vehicle &middot; Freehand Pinstriping &middot; Taylor, MI</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 reveal">
+      <div style="background:#F5F5F3;border-radius:12px;padding:28px;text-align:center;border:2px solid var(--border);">
+        <div style="width:52px;height:52px;background:var(--black);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;">🎨</div>
+        <div class="label mb-2" style="color:var(--black);">Pinstriping</div>
+        <div class="display mb-2" style="font-size:1.3rem;color:var(--black);">FREEHAND PINSTRIPING</div>
+        <p style="font-size:.88rem;color:var(--muted);line-height:1.65;">No tape, no vinyl. Every line laid down by hand, exactly where you want it.</p>
+      </div>
+      <div style="background:#F5F5F3;border-radius:12px;padding:28px;text-align:center;border:2px solid var(--border);">
+        <div style="width:52px;height:52px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;">✍️</div>
+        <div class="label mb-2" style="color:var(--black);">Lettering</div>
+        <div class="display mb-2" style="font-size:1.3rem;color:var(--black);">CUSTOM LETTERING &amp; GRAPHICS</div>
+        <p style="font-size:.88rem;color:var(--muted);line-height:1.65;">Business names, truck lettering, logos — painted on, not stuck on. Built to last.</p>
+      </div>
+      <div style="background:#F5F5F3;border-radius:12px;padding:28px;text-align:center;border:2px solid var(--border);">
+        <div style="width:52px;height:52px;background:var(--black);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;">✨</div>
+        <div class="label mb-2" style="color:var(--black);">Gold Leaf</div>
+        <div class="display mb-2" style="font-size:1.3rem;color:var(--black);">GOLD LEAF &amp; FINE DETAIL</div>
+        <p style="font-size:.88rem;color:var(--muted);line-height:1.65;">True gold leaf application for the pieces that need to shine like nothing else on the road.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- PACKAGES / SERVICES -->
+<section id="packages" class="w-full py-24 md:py-32 px-4 sec-charcoal scroll-mt-20">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="label mb-3" style="color:var(--red);">Choose Your Piece</div>
+      <h2 class="display" style="font-size:clamp(2.6rem,6vw,5rem);color:#fff;">WHAT DOES YOUR<br><span class="red-text">RIDE NEED?</span></h2>
+      <p style="font-family:'Barlow',sans-serif;font-weight:300;color:rgba(255,255,255,.6);margin-top:14px;max-width:460px;margin-left:auto;margin-right:auto;font-size:1rem;line-height:1.7;">Every line is painted by hand at the shop on Beech Daly Rd — book a time to talk design and drop off.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="svc-card reveal">
+        <div style="height:220px;overflow:hidden;"><img src="../The%20Commuter.png" alt="Pinstriping" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"></div>
+        <div style="padding:28px;display:flex;flex-direction:column;flex:1;">
+          <div class="label mb-2" style="color:var(--muted);">Most Requested</div>
+          <div class="display mb-2" style="font-size:1.7rem;color:var(--black);">PINSTRIPING</div>
+          <p style="font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:18px;">Classic freehand pinstriping on cars, trucks, and motorcycles. Single line to full multi-color designs.</p>
+          <div style="height:2px;background:linear-gradient(90deg,var(--red),transparent);width:48px;margin-bottom:18px;"></div>
+          <ul style="font-size:.88rem;color:var(--text);line-height:2;margin-bottom:20px;list-style:none;flex:1;">
+            <li class="check-black">Freehand line work — no tape, no vinyl</li>
+            <li class="check-black">Single or multi-color striping</li>
+            <li class="check-black">Cars, trucks &amp; motorcycles</li>
+            <li class="check-black">Color-matched to your ride</li>
+            <li class="check-black">Consultation on design &amp; placement</li>
+          </ul>
+          <button type="button" onclick="openBooking('Pinstriping')" class="btn-ghost-black block text-center w-full mt-auto">GET MY QUOTE</button>
+        </div>
+      </div>
+      <div class="svc-card svc-card-featured reveal" style="transition-delay:.1s;">
+        <div class="featured-badge">Most Popular</div>
+        <div style="height:220px;overflow:hidden;"><img src="../Action%20Shot.png" alt="Custom Lettering & Graphics" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"></div>
+        <div style="padding:28px;display:flex;flex-direction:column;flex:1;">
+          <div class="label mb-2" style="color:var(--red);">Most Popular</div>
+          <div class="display mb-2" style="font-size:1.7rem;color:#fff;">CUSTOM LETTERING &amp; GRAPHICS</div>
+          <p style="font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.65;margin-bottom:18px;">Nate's most-booked service. Business names, truck lettering, and full graphics packages — hand-painted so they hold up for years.</p>
+          <div style="height:2px;background:linear-gradient(90deg,var(--red),transparent);width:48px;margin-bottom:18px;"></div>
+          <ul style="font-size:.88rem;color:rgba(255,255,255,.85);line-height:2;margin-bottom:20px;list-style:none;flex:1;">
+            <li class="check">Everything in Pinstriping</li>
+            <li class="check">Business &amp; truck lettering</li>
+            <li class="check">Custom logo painting</li>
+            <li class="check">Old decal &amp; adhesive removal</li>
+            <li class="check">Full graphics packages</li>
+            <li class="check">Painted, not printed — built to last</li>
+          </ul>
+          <button type="button" onclick="openBooking('Custom Lettering & Graphics')" class="btn-red block text-center w-full mt-auto">BOOK LETTERING</button>
+        </div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.2s;">
+        <div style="height:220px;overflow:hidden;"><img src="../Asset%20Protector.png" alt="Gold Leaf & Fine Art" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"></div>
+        <div style="padding:28px;display:flex;flex-direction:column;flex:1;">
+          <div class="label mb-2" style="color:var(--muted);">Maximum Craftsmanship</div>
+          <div class="display mb-2" style="font-size:1.7rem;color:var(--black);">GOLD LEAF &amp; FINE ART</div>
+          <p style="font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:18px;">True gold leaf application and one-of-a-kind custom art pieces — for the builds that need to stand alone.</p>
+          <div style="height:2px;background:linear-gradient(90deg,var(--red),transparent);width:48px;margin-bottom:18px;"></div>
+          <ul style="font-size:.88rem;color:var(--text);line-height:2;margin-bottom:20px;list-style:none;flex:1;">
+            <li class="check-black">Everything in Lettering &amp; Graphics</li>
+            <li class="check-black">Genuine gold leaf application</li>
+            <li class="check-black">Glass sign painting</li>
+            <li class="check-black">Custom art pieces &amp; helmets</li>
+            <li class="check-black">One-of-a-kind design work</li>
+            <li class="check-black">Quoted by project — no surprises</li>
+          </ul>
+          <button type="button" onclick="openBooking('Gold Leaf & Fine Art')" class="btn-ghost-black block text-center w-full mt-auto">GET MY QUOTE</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 p-6 reveal" style="background:var(--black);border-radius:10px;border-left:5px solid var(--red);">
+      <div class="display text-center" style="font-size:clamp(1rem,2.5vw,1.4rem);color:#fff;">ALL WORK INCLUDES: 100% HAND-PAINTED &middot; FREEHAND CRAFTSMANSHIP &middot; HONEST PRICING &middot; NO VINYL SHORTCUTS</div>
+    </div>
+  </div>
+</section>
+<!-- ADD-ONS -->
+<section class="w-full py-20 px-4 sec-white" style="border-top:3px solid var(--border);">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <div class="label mb-3" style="color:var(--red);">Enhance Your Project</div>
+      <h2 class="display" style="font-size:clamp(2rem,5vw,3.5rem);color:var(--black);">ADD-ON SERVICES</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
+      <div class="addon-card">
+        <div style="height:180px;overflow:hidden;"><img src="../Engine%20Bay%20Detail.png" alt="Color Matching" class="w-full h-full object-cover"></div>
+        <div style="padding:18px;display:flex;flex-direction:column;flex:1;">
+          <div class="display mb-2" style="font-size:1.1rem;color:var(--black);">COLOR MATCHING</div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1;">Difficult color matches are Nate's specialty — factory color or something entirely custom.</p>
+          <button type="button" onclick="openBooking('Color Matching')" class="btn-black block text-center w-full" style="font-size:.78rem;padding:10px;">GET A QUOTE</button>
+        </div>
+      </div>
+      <div class="addon-card">
+        <div style="height:180px;overflow:hidden;"><img src="../Interior%20Reset.png" alt="Paint Correction" class="w-full h-full object-cover"></div>
+        <div style="padding:18px;display:flex;flex-direction:column;flex:1;">
+          <div class="display mb-2" style="font-size:1.1rem;color:var(--black);">PAINT CORRECTION</div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1;">Swirls, scratches, and dull paint corrected before the artwork goes on — or on its own.</p>
+          <button type="button" onclick="openBooking('Paint Correction')" class="btn-black block text-center w-full" style="font-size:.78rem;padding:10px;">GET A QUOTE</button>
+        </div>
+      </div>
+      <div class="addon-card">
+        <div style="height:180px;overflow:hidden;"><img src="../headlight.png" alt="Motorcycle & Helmet Art" class="w-full h-full object-cover" style="object-position:center;"></div>
+        <div style="padding:18px;display:flex;flex-direction:column;flex:1;">
+          <div class="display mb-2" style="font-size:1.1rem;color:var(--black);">MOTORCYCLE &amp; HELMET ART</div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1;">From fenders to full helmets, Nate paints two wheels with the same care as four.</p>
+          <button type="button" onclick="openBooking('Motorcycle & Helmet Art')" class="btn-black block text-center w-full" style="font-size:.78rem;padding:10px;">GET A QUOTE</button>
+        </div>
+      </div>
+      <div class="addon-card">
+        <div style="height:180px;overflow:hidden;"><img src="../ozone.png" alt="Signs & Glass Signs" class="w-full h-full object-cover" style="object-position:center;"></div>
+        <div style="padding:18px;display:flex;flex-direction:column;flex:1;">
+          <div class="display mb-2" style="font-size:1.1rem;color:var(--black);">SIGNS &amp; GLASS SIGNS</div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1;">Hand-painted business signs and glass signage — a dying art, done right.</p>
+          <button type="button" onclick="openBooking('Signs & Glass Signs')" class="btn-black block text-center w-full" style="font-size:.78rem;padding:10px;">GET A QUOTE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- PROCESS -->
+<section id="process" class="w-full py-24 md:py-32 px-4 sec-black scroll-mt-20">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="label mb-3" style="color:var(--red);">How It Works</div>
+      <h2 class="display" style="font-size:clamp(2.6rem,6vw,5rem);color:#fff;">THREE STEPS.<br><span class="red-text">ONE-OF-A-KIND RESULT.</span></h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="reveal text-center">
+        <div class="overflow-hidden mb-5" style="height:240px;border-radius:10px;"><img src="../Step1-Book.png" alt="Call Nate" class="w-full h-full object-cover"></div>
+        <div class="step-num-circle mx-auto mb-4"><span class="display" style="font-size:1.4rem;color:#fff;">01</span></div>
+        <div class="label mb-2" style="color:var(--red);">Step One</div>
+        <div class="display mb-2" style="font-size:1.5rem;color:#fff;">CALL OR TEXT NATE</div>
+        <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;">Call (734) 447-4241. Tell Nate what you're picturing — he'll help you land on the design, colors, and placement.</p>
+      </div>
+      <div class="reveal text-center" style="transition-delay:.1s;">
+        <div class="overflow-hidden mb-5" style="height:240px;border-radius:10px;"><img src="../Step2-Arrive.png" alt="Bring it in" class="w-full h-full object-cover"></div>
+        <div class="step-num-circle mx-auto mb-4"><span class="display" style="font-size:1.4rem;color:#fff;">02</span></div>
+        <div class="label mb-2" style="color:var(--red);">Step Two</div>
+        <div class="display mb-2" style="font-size:1.5rem;color:#fff;">BRING IT IN</div>
+        <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;">Bring your vehicle, panel, or helmet to the shop on Beech Daly Rd in Taylor. Nate gets to work.</p>
+      </div>
+      <div class="reveal text-center" style="transition-delay:.2s;">
+        <div class="overflow-hidden mb-5" style="height:240px;border-radius:10px;"><img src="../Action%20Shot.png" alt="Drive out with art" class="w-full h-full object-cover"></div>
+        <div class="step-num-circle mx-auto mb-4"><span class="display" style="font-size:1.4rem;color:#fff;">03</span></div>
+        <div class="label mb-2" style="color:var(--red);">Step Three</div>
+        <div class="display mb-2" style="font-size:1.5rem;color:#fff;">DRIVE OUT WITH ART</div>
+        <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.65;">Every line hand-painted, no shortcuts. You leave with something nobody else on the road has.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- GUARANTEE -->
+<section id="guarantee" class="w-full py-24 md:py-32 px-4 sec-white scroll-mt-20">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-20 items-center reveal">
+      <div>
+        <div class="label mb-4" style="color:var(--red);">Nate's Standard</div>
+        <h2 class="display mb-6" style="font-size:clamp(2.6rem,6vw,4.5rem);color:var(--black);">NATE DOESN'T<br>CALL IT DONE<br><span class="red-text">UNTIL IT'S RIGHT.</span></h2>
+        <p style="font-family:'Barlow',sans-serif;font-weight:300;color:var(--muted);font-size:1.05rem;line-height:1.72;margin-bottom:18px;">A 4.9 rating across 33 Google reviews isn't luck — it's what happens when painting is somebody's actual passion, not just a job.</p>
+        <p style="font-family:'Barlow',sans-serif;font-weight:300;color:var(--muted);font-size:1.05rem;line-height:1.72;margin-bottom:28px;">Nate takes the time to get the design, the color match, and the linework right — whether it's a daily driver, a show car, or a motorcycle that took three hours just to get here.</p>
+        <div class="guarantee-box p-6">
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="width:44px;height:44px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff;flex-shrink:0;">✓</div>
+            <div>
+              <div class="display mb-1" style="font-size:1.2rem;color:var(--black);">SATISFACTION GUARANTEED</div>
+              <div style="font-size:.88rem;color:var(--muted);line-height:1.65;">Not happy? Nate makes it right. His reputation in the Detroit custom car and bike community is everything.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="border-radius:12px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.25);border:3px solid var(--red);">
+          <img src="../Guarantee-Image.png" alt="Detroit Customs hand-painted results" class="w-full object-cover" style="height:420px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- GALLERY -->
+<section class="w-full py-20 sec-charcoal" style="border-top:3px solid var(--red);">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-12 reveal">
+      <div class="label mb-3" style="color:var(--red);">Portfolio</div>
+      <h2 class="display" style="font-size:clamp(2rem,5vw,3.5rem);color:#fff;">THE WORK SPEAKS</h2>
+    </div>
+    <div class="gallery-item reveal mb-3" style="border:3px solid var(--red);"><img src="../showcase.png" alt="Hand-painted result" class="w-full object-cover" style="height:400px;object-position:center 25%;"></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 reveal">
+      <div class="gallery-item col-span-2"><img src="../Asset%20Protector.png" alt="Pinstriping detail" class="w-full object-cover" style="height:230px;"></div>
+      <div class="gallery-item"><img src="../Interior%20Reset.png" alt="Custom lettering" class="w-full object-cover" style="height:230px;"></div>
+      <div class="gallery-item"><img src="../Engine%20Bay%20Detail.png" alt="Color match work" class="w-full object-cover" style="height:230px;"></div>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mt-3 reveal">
+      <div class="gallery-item"><img src="../The%20Commuter.png" alt="Full graphics package" class="w-full object-cover" style="height:160px;"></div>
+      <div class="gallery-item"><img src="../Action%20Shot.png" alt="Work in progress" class="w-full object-cover" style="height:160px;"></div>
+      <div class="gallery-item"><img src="../Guarantee-Image.png" alt="Finished piece" class="w-full object-cover" style="height:160px;object-position:center;"></div>
+    </div>
+  </div>
+</section>
+<!-- REVIEWS -->
+<section id="reviews" class="w-full py-20 sec-white" style="border-top:3px solid var(--border);">
+  <div class="text-center mb-12 reveal px-4">
+    <div class="label mb-3" style="color:var(--red);">What Clients Say</div>
+    <h2 class="display" style="font-size:clamp(2rem,5vw,3.5rem);color:var(--black);">REAL PEOPLE.<br><span class="red-text">REAL RESULTS.</span></h2>
+  </div>
+  <div class="marquee-viewport">
+    <div class="marquee-track" id="marquee-reviews">
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Nate J is a true professional! Talented and congenial. I loved chatting with him about his trade and how he came to learn and apply his skill. Once he was done with my friend's truck, he had a piece of artwork for sale that another friend of mine is going to love receiving as a gift. It was a great day!!"</div><div class="review-author">Joel Fulton</div><div class="review-source">Google Review &middot; Local Guide &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Detroit Customs did a wonderful job on my car. Nate was the one who painted my pinstripes on my car and he did an AWESOME job! He is a great guy and very artistic!"</div><div class="review-author">Aj Singleton</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Nate J. did an excellent job putting my biz name on my doors. Old decals and adhesives removed as well on the tool boxes. My truck looks so much better, thank you for awesome service!"</div><div class="review-author">Joseph Shudark</div><div class="review-source">Google Review &middot; Local Guide &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Wanted to have SUPER DUTY lettering painted on my truck instead of stick-on inlays. Nate, you are the man! You talk about making a paint job pop — you hit a home run."</div><div class="review-author">Rob Girard</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Very pleased with how my Harley front fender turned out. Very difficult color match and Nate nailed it. Great communication and turned it around in a couple days."</div><div class="review-author">Rob Garrick</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"I am a firm believer that you give the artist the canvas and you let him give you his artistic talent. I am also thankful for the exceptional turnaround time and honest pricing. Looking forward to working more with Nate in the future."</div><div class="review-author">Jason Byars</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Extremely professional and his work speaks for itself. He is amazing at his craft and takes his time to ensure you receive the best quality work!"</div><div class="review-author">Mariah Merritt</div><div class="review-source">Google Review &middot; Local Guide &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"I won one of the helmets at a charity auction at Autorama! I'm so stoked to own such a piece of art. Can't wait to buy another piece from this artist — it's on display in my garage and not for sale!"</div><div class="review-author">Amy Guerra</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <!-- Duplicate set for seamless loop -->
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Nate J is a true professional! Talented and congenial. I loved chatting with him about his trade and how he came to learn and apply his skill. Once he was done with my friend's truck, he had a piece of artwork for sale that another friend of mine is going to love receiving as a gift. It was a great day!!"</div><div class="review-author">Joel Fulton</div><div class="review-source">Google Review &middot; Local Guide &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Detroit Customs did a wonderful job on my car. Nate was the one who painted my pinstripes on my car and he did an AWESOME job! He is a great guy and very artistic!"</div><div class="review-author">Aj Singleton</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Nate J. did an excellent job putting my biz name on my doors. Old decals and adhesives removed as well on the tool boxes. My truck looks so much better, thank you for awesome service!"</div><div class="review-author">Joseph Shudark</div><div class="review-source">Google Review &middot; Local Guide &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Wanted to have SUPER DUTY lettering painted on my truck instead of stick-on inlays. Nate, you are the man! You talk about making a paint job pop — you hit a home run."</div><div class="review-author">Rob Girard</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Very pleased with how my Harley front fender turned out. Very difficult color match and Nate nailed it. Great communication and turned it around in a couple days."</div><div class="review-author">Rob Garrick</div><div class="review-source">Google Review &middot; Taylor, MI</div></div>
+    </div>
+  </div>
+  <div class="text-center mt-10 reveal px-4">
+    <div class="inline-flex items-center gap-3 px-6 py-3 mb-5" style="background:#F5F5F3;border:2px solid var(--red);border-radius:8px;">
+      <span class="display text-2xl" style="color:var(--red);">4.9</span>
+      <span class="display" style="font-size:1.2rem;color:var(--black);">★★★★★</span>
+      <span class="label" style="color:var(--muted);font-size:.6rem;">on Google &middot; 33 Reviews</span>
+    </div>
+    <br>
+    <a href="https://www.google.com/search?q=Detroit+Customs+Pinstriping+Taylor+MI" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:10px;background:var(--black);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;padding:13px 28px;text-decoration:none;border-radius:6px;transition:background .25s;"
+       onmouseover="this.style.background='#000'" onmouseout="this.style.background='#0A0A0A'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Leave Us a Review
+    </a>
+  </div>
+</section>
+<!-- CTA -->
+<section class="w-full py-32 md:py-48 relative overflow-hidden cta-bg">
+  <div class="absolute inset-0 cta-ov"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 md:px-10 reveal">
+    <div class="label mb-4" style="color:var(--red);">Ready?</div>
+    <h2 class="display mb-5" style="font-size:clamp(3rem,9vw,7.5rem);color:#fff;max-width:650px;">BOOK YOUR<br><span class="red-text">PIECE.</span></h2>
+    <p style="font-family:'Barlow',sans-serif;font-weight:300;color:rgba(255,255,255,.8);font-size:1.1rem;max-width:480px;margin-bottom:32px;line-height:1.72;">Call Nate at (734) 447-4241 or stop by the shop on Beech Daly Rd in Taylor. Tell him what you're picturing — he'll paint it.</p>
+    <button type="button" onclick="openBooking()" class="btn-red text-base px-14 py-5">Claim My Spot</button>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer id="contact" class="w-full pt-20 pb-10 px-4" style="background:var(--black); border-top:4px solid var(--red);">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
+      <div>
+        <div class="mb-5"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;letter-spacing:.04em;color:#fff;text-transform:uppercase;">DETROIT <span style="color:#D6202C;">CUSTOMS</span></span></div>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.65;max-width:260px;">Hand-painted pinstriping, lettering, and custom art in Taylor, MI. Every line painted by Nate — nothing printed, nothing stuck on.</p>
+      </div>
+      <div>
+        <div class="label mb-5" style="color:var(--red);">Navigate</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="#packages"  style="color:rgba(255,255,255,.55);font-size:.9rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Services</a></li>
+          <li><a href="#process"   style="color:rgba(255,255,255,.55);font-size:.9rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">How It Works</a></li>
+          <li><a href="#guarantee" style="color:rgba(255,255,255,.55);font-size:.9rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">Our Guarantee</a></li>
+          <li><a href="#proof"     style="color:rgba(255,255,255,.55);font-size:.9rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">See Results</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="label mb-5" style="color:var(--red);">Get in Touch</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:.9rem;color:rgba(255,255,255,.55);">
+          <div><a href="tel:+17344474241" style="color:rgba(255,255,255,.55);text-decoration:none;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📞 (734) 447-4241</a></div>
+          <div>📍 Beech Daly Rd, Taylor, MI 48180</div>
+          <div>🌍 Serving Taylor &amp; Metro Detroit</div>
+          <div><a href="https://instagram.com/xnatej" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);text-decoration:none;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">📷 @xnatej</a></div>
+          <div><a href="sms:+17344474241" style="color:rgba(255,255,255,.55);text-decoration:none;" onmouseover="this.style.color='#D6202C'" onmouseout="this.style.color='rgba(255,255,255,.55)'">💬 Text to book: (734) 447-4241</a></div>
+        </div>
+        <div style="margin-top:20px;"><button type="button" onclick="openBooking()" class="btn-red text-sm">Book My Piece</button></div>
+      </div>
+    </div>
+    <div style="height:2px;background:rgba(214,32,44,.3);margin-bottom:24px;"></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;" class="md:flex-row md:justify-between">
+      <div style="font-size:.8rem;color:rgba(255,255,255,.3);">© 2026 Detroit Customs Pinstriping &amp; Detailing. All rights reserved.</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.3);">Website design by <a href="https://brechtland.com" target="_blank" rel="noopener" style="color:#D6202C;text-decoration:none;">Brechtland</a></div>
+    </div>
+  </div>
+</footer>
+<!-- MOBILE STICKY BAR -->
+<div id="sticky-bar" style="position:fixed;bottom:0;left:0;right:0;z-index:8000;background:var(--black);border-top:3px solid var(--red);padding:12px 20px;align-items:center;justify-content:space-between;gap:12px;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);">
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;line-height:1.1;">Detroit Customs</div>
+    <div style="font-family:'Barlow',sans-serif;font-weight:300;font-size:.72rem;color:rgba(255,255,255,.5);margin-top:2px;">Taylor, MI &middot; Hand-Painted Custom Art</div>
+  </div>
+  <button type="button" onclick="openBooking()" style="flex-shrink:0;background:#D6202C;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;padding:11px 24px;border:none;cursor:pointer;border-radius:5px;transition:background .25s;white-space:nowrap;" onmouseover="this.style.background='#FF4D5E'" onmouseout="this.style.background='#D6202C'">Get a Free Quote</button>
+</div>
+<!-- BOOKING MODAL -->
+<div id="booking-modal" aria-modal="true" role="dialog" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,10,10,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:16px;overflow-y:auto;">
+  <div style="position:relative;width:100%;max-width:520px;margin:auto;background:#fff;border-radius:16px;border-top:5px solid #D6202C;padding:40px 36px;box-shadow:0 24px 80px rgba(0,0,0,.5);">
+    <button onclick="closeBooking()" aria-label="Close" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#9E9E9E;cursor:pointer;font-size:1.3rem;line-height:1;padding:4px 8px;transition:color .2s;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='#9E9E9E'">✕</button>
+    <div id="booking-form-state">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#D6202C;margin-bottom:8px;">Detroit Customs &middot; Taylor, MI</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;line-height:.95;font-size:clamp(1.9rem,5vw,2.7rem);color:#0A0A0A;margin-bottom:10px;">GET A FREE QUOTE</h2>
+      <p style="font-size:.875rem;color:#6B6B6B;margin-bottom:24px;line-height:1.65;">Fill this out and Nate will reach out to talk design, timeline, and pricing.</p>
+      <form id="booking-form" onsubmit="submitBooking(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Full Name *</label>
+            <input type="text" id="b-name" required placeholder="Jane Smith" style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;border-radius:6px;transition:border-color .2s;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'">
+          </div>
+          <div>
+            <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Phone *</label>
+            <input type="tel" id="b-phone" required placeholder="(734) 555-0100" style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;border-radius:6px;transition:border-color .2s;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Email</label>
+          <input type="email" id="b-email" placeholder="jane@email.com" style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;border-radius:6px;transition:border-color .2s;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'">
+        </div>
+        <div style="margin-bottom:12px;position:relative;">
+          <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Service</label>
+          <select id="b-service" style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;border-radius:6px;transition:border-color .2s;cursor:pointer;-webkit-appearance:none;appearance:none;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'">
+            <option value="">Not sure — just want to talk options</option>
+            <option value="Pinstriping">Pinstriping</option>
+            <option value="Custom Lettering & Graphics">Custom Lettering &amp; Graphics</option>
+            <option value="Gold Leaf & Fine Art">Gold Leaf &amp; Fine Art</option>
+            <option value="Color Matching">Color Matching</option>
+            <option value="Paint Correction">Paint Correction</option>
+            <option value="Motorcycle & Helmet Art">Motorcycle &amp; Helmet Art</option>
+            <option value="Signs & Glass Signs">Signs &amp; Glass Signs</option>
+          </select>
+          <div style="pointer-events:none;position:absolute;right:13px;bottom:11px;color:#D6202C;font-size:.75rem;">▼</div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Vehicle / Project</label>
+          <input type="text" id="b-vehicle" placeholder="e.g. 2020 Harley Davidson, or 'motorcycle helmet'" style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;border-radius:6px;transition:border-color .2s;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'">
+        </div>
+        <div style="margin-bottom:24px;">
+          <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;display:block;margin-bottom:6px;">Describe What You're Picturing</label>
+          <textarea id="b-message" rows="3" placeholder="Design ideas, colors, inspiration photos you have, timeline..." style="width:100%;background:#F5F5F3;border:2px solid #E2E2E2;color:#1A1A1A;font-family:'Barlow',sans-serif;font-size:.875rem;padding:10px 13px;outline:none;resize:vertical;border-radius:6px;transition:border-color .2s;" onfocus="this.style.borderColor='#D6202C'" onblur="this.style.borderColor='#E2E2E2'"></textarea>
+        </div>
+        <button type="submit" style="width:100%;text-align:center;display:block;background:#D6202C;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;padding:16px 36px;border:none;cursor:pointer;border-radius:6px;transition:background .25s,transform .25s;" onmouseover="this.style.background='#FF4D5E';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#D6202C';this.style.transform='translateY(0)'">Send My Request</button>
+        <p style="font-size:.72rem;color:#9E9E9E;text-align:center;margin-top:12px;">Prefer to call? <a href="tel:+17344474241" style="color:#0A0A0A;text-decoration:none;font-weight:600;">(734) 447-4241</a></p>
+      </form>
+    </div>
+    <div id="booking-success" style="display:none;text-align:center;padding:24px 0;">
+      <div style="width:64px;height:64px;background:#D6202C;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;color:#fff;font-weight:900;">✓</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.7rem,4vw,2.3rem);color:#0A0A0A;margin-bottom:14px;">REQUEST SENT</h2>
+      <p style="font-size:.9rem;color:#6B6B6B;line-height:1.75;margin-bottom:28px;">Nate will reach out to talk details and get you scheduled.<br>Look out for a call or text from <strong style="color:#0A0A0A;">(734) 447-4241</strong>.</p>
+      <button onclick="closeBooking()" style="display:inline-block;background:#0A0A0A;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;padding:14px 40px;border:none;cursor:pointer;border-radius:6px;transition:background .25s;" onmouseover="this.style.background='#000'" onmouseout="this.style.background='#0A0A0A'">Done</button>
+    </div>
+  </div>
+</div>
+<!-- SCRIPTS -->
+<script>
+  function initMarquee(id, pps) {
+    const track = document.getElementById(id);
+    if (!track) return;
+    let pos=0, last=null, paused=false;
+    const vp = track.closest('.marquee-viewport');
+    if (vp) { vp.addEventListener('mouseenter',()=>{paused=true;}); vp.addEventListener('mouseleave',()=>{paused=false;last=null;}); }
+    function step(ts) {
+      if (!paused) { if (last!==null) { const dt=Math.min(ts-last,50); const hw=track.scrollWidth/2; pos+=(pps*dt)/1000; if(pos>=hw)pos-=hw; track.style.transform='translateX(-'+pos+'px)'; } last=ts; }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  window.addEventListener('load', function() {
+    initMarquee('marquee-stats', 38);
+    initMarquee('marquee-reviews', 26);
+    (function(){
+      var pos=0,last=null,pps=7,els=document.querySelectorAll('.red-text,.btn-red');
+      function tick(ts){ if(last!==null){var dt=Math.min(ts-last,50);pos=(pos+(pps*dt)/1000)%100;for(var i=0;i<els.length;i++)els[i].style.backgroundPosition=pos+'% '+pos+'%';}last=ts;requestAnimationFrame(tick);}
+      if(els.length)requestAnimationFrame(tick);
+    })();
+    var bar=document.getElementById('sticky-bar'), hero=document.getElementById('home');
+    if(bar&&hero){
+      function checkSticky(){bar.style.transform=window.pageYOffset>=hero.offsetHeight*.85?'translateY(0)':'translateY(100%)';}
+      window.addEventListener('scroll',checkSticky,{passive:true});
+      checkSticky();
+    }
+  });
+  // Mobile menu
+  const mobBtn=document.getElementById('mob-btn'),mobMenu=document.getElementById('mob-menu'),icOpen=document.getElementById('ic-open'),icClose=document.getElementById('ic-close');
+  let menuOpen=false;
+  mobBtn.addEventListener('click',()=>{menuOpen=!menuOpen;mobMenu.style.opacity=menuOpen?'1':'0';mobMenu.style.pointerEvents=menuOpen?'all':'none';icOpen.classList.toggle('hidden',menuOpen);icClose.classList.toggle('hidden',!menuOpen);document.body.style.overflow=menuOpen?'hidden':'';});
+  document.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>{menuOpen=false;mobMenu.style.opacity='0';mobMenu.style.pointerEvents='none';icOpen.classList.remove('hidden');icClose.classList.add('hidden');document.body.style.overflow='';}));
+  // Slider
+  (function(){
+    const wrap=document.getElementById('ba-wrap'),overlay=document.getElementById('ba-overlay'),handle=document.getElementById('ba-handle'),hint=document.getElementById('ba-hint');
+    const overlayImg=overlay?overlay.querySelector('img'):null;
+    if(!wrap||!overlayImg)return;
+    let dragging=false;
+    function move(clientX){const rect=wrap.getBoundingClientRect();let p=((clientX-rect.left)/rect.width)*100;p=Math.max(.5,Math.min(99.5,p));overlayImg.style.clipPath='inset(0 '+(100-p).toFixed(2)+'% 0 0)';handle.style.left=p+'%';if(hint)hint.style.opacity='0';}
+    move(wrap.getBoundingClientRect().left+wrap.offsetWidth*.5);
+    wrap.addEventListener('mousedown',e=>{dragging=true;move(e.clientX);e.preventDefault();});
+    window.addEventListener('mousemove',e=>{if(dragging)move(e.clientX);});
+    window.addEventListener('mouseup',()=>{dragging=false;});
+    wrap.addEventListener('touchstart',e=>{dragging=true;move(e.touches[0].clientX);},{passive:true});
+    window.addEventListener('touchmove',e=>{if(dragging)move(e.touches[0].clientX);},{passive:true});
+    window.addEventListener('touchend',()=>{dragging=false;});
+  })();
+  // Reveal
+  const reveals=document.querySelectorAll('.reveal');
+  const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  reveals.forEach(el=>ro.observe(el));
+  // Modal
+  function openBooking(service){
+    var modal=document.getElementById('booking-modal'),fs=document.getElementById('booking-form-state'),ss=document.getElementById('booking-success'),bar=document.getElementById('sticky-bar');
+    fs.style.display='block';ss.style.display='none';
+    if(service){var sel=document.getElementById('b-service');if(sel)sel.value=service;}
+    modal.style.display='flex';document.body.style.overflow='hidden';
+    if(bar)bar.style.transform='translateY(100%)';
+  }
+  function closeBooking(){
+    document.getElementById('booking-modal').style.display='none';document.body.style.overflow='';
+    var bar=document.getElementById('sticky-bar'),hero=document.getElementById('home');
+    if(bar&&hero)bar.style.transform=hero.getBoundingClientRect().bottom<=0?'translateY(0)':'translateY(100%)';
+  }
+  function submitBooking(e){
+    e.preventDefault();
+    var d={name:document.getElementById('b-name').value,phone:document.getElementById('b-phone').value,email:document.getElementById('b-email').value,service:document.getElementById('b-service').value,vehicle:document.getElementById('b-vehicle').value,message:document.getElementById('b-message').value};
+    fetch('https://formspree.io/f/meelwrne',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)}).catch(err=>console.log(err));
+    document.getElementById('booking-form-state').style.display='none';
+    document.getElementById('booking-success').style.display='block';
+  }
+  document.getElementById('booking-modal').addEventListener('click',function(e){if(e.target===this)closeBooking();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBooking();});
+</script>
+</body>
+</html>
