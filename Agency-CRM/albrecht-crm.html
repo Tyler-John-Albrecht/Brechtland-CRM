@@ -415,7 +415,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 .member-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 9px; cursor: pointer; transition: background .12s; }
 .member-item:hover { background: var(--line-2); }
 .member-item.on { background: var(--accent-soft); }
-.online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); border: 2px solid #fff; position: absolute; bottom: -1px; right: -1px; }
+.online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); border: 2px solid var(--surface); position: absolute; bottom: -1px; right: -1px; }
+.online-dot.off { background: var(--faint); opacity: .55; }
 .mention-pop {
   position: absolute; bottom: calc(100% + 8px); left: 12px;
   background: #fff; border: 1px solid var(--line); border-radius: 12px;
@@ -1026,9 +1027,9 @@ function seedDemo() {
   const now = Date.now(), day = 86400000;
   const mkTs = (daysAgo, h) => new Date(now - daysAgo*day + (h||0)*3600000);
   demoDB.users = [
-    { id:'demo-tyler', name:'Tyler Albrecht', email:'tyler@brechtland.com', role:'owner',  status:'approved', permissions:{}, avatarColor:'#0891B2' },
-    { id:'demo-sam',   name:'Sam Rivera',     email:'sam@brechtland.com',   role:'marketing_consultant', status:'approved', permissions:{}, avatarColor:'#7C3AED' },
-    { id:'demo-jess',  name:'Jess Chen',      email:'jess@brechtland.com',  role:'web_developer', status:'approved', permissions:{}, avatarColor:'#22C55E' },
+    { id:'demo-tyler', name:'Tyler Albrecht', email:'tyler@brechtland.com', role:'owner',  status:'approved', permissions:{}, avatarColor:'#0891B2', lastSeenAt:new Date() },
+    { id:'demo-sam',   name:'Sam Rivera',     email:'sam@brechtland.com',   role:'marketing_consultant', status:'approved', permissions:{}, avatarColor:'#7C3AED', lastSeenAt:new Date(now - 60000) },
+    { id:'demo-jess',  name:'Jess Chen',      email:'jess@brechtland.com',  role:'web_developer', status:'approved', permissions:{}, avatarColor:'#22C55E', lastSeenAt:new Date(now - 3*3600000) },
     { id:'demo-new',   name:'Alex Morgan',    email:'alex@brechtland.com',  role:'employee', status:'pending', permissions:{}, avatarColor:'#F97316' },
   ];
   const C = (n,b,ind,city,st,plan,mo,uid,uname,extra) => Object.assign({
@@ -1237,6 +1238,7 @@ const NAV = [
     { key:'clients',   label:'Clients',        ico:'users' },
     { key:'calendar',  label:'Calendar',       ico:'calendar', badge:'calBadge' },
     { key:'chat',      label:'Team Chat',      ico:'chat', badge:'chatNavBadge' },
+    { key:'standings', label:'Standings',      ico:'trophy' },
   ]},
   { section: 'Fulfillment', items: [
     { key:'websites',  label:'Websites',       ico:'globe' },
@@ -1272,12 +1274,14 @@ const ICONS = {
   shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
   dollar:'<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
   card:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+  trophy:'<path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3a3 3 0 0 0 3 4"/><path d="M18 5h3a3 3 0 0 1-3 4"/><line x1="12" y1="15" x2="12" y2="18"/><path d="M8 21h8"/><path d="M10 18h4v3h-4z"/>',
 };
 const PAGE_META = {
   cockpit:   { title:'HQ',               sub: () => adminView ? 'Company-wide performance' : 'Your personal command center' },
   clients:   { title:'Clients',          sub: () => adminView ? 'Every client across the team' : 'Your book of business' },
   calendar:  { title:'Calendar',         sub: () => 'Appointments and follow-ups' },
   chat:      { title:'Team Chat',        sub: () => '#general and direct messages' },
+  standings: { title:'Standings',        sub: () => 'The scoreboard — verified by Stripe where connected' },
   websites:  { title:'Websites',         sub: () => 'Fulfillment pipeline — onboarding to live' },
   email:     { title:'Email Marketing',  sub: () => 'Reactivation engine: reviews, referrals, rebooking' },
   reception: { title:'AI Receptionist',  sub: () => 'Autonomous conversations and routing' },
@@ -1343,6 +1347,11 @@ function initApp() {
     }
     initChatBadge();
     initNotifications();
+    // Presence heartbeat — powers the real online dots in chat
+    const beat = () => db.collection('users').doc(currentUser.uid).update({ lastSeenAt: TS() }).catch(()=>{});
+    beat();
+    const beatId = setInterval(beat, 120000);
+    addUnsub(() => clearInterval(beatId));
   } else {
     setBadge('pendingNavBadge', demoDB.users.filter(u=>u.status==='pending').length);
     renderNotifList(demoDB.notifications);
@@ -1374,7 +1383,7 @@ function navigate(page, instant) {
   const view = document.getElementById('view');
   const render = {
     cockpit: renderCockpit, clients: renderClients, calendar: renderCalendar,
-    chat: renderChat, websites: renderWebsites, email: renderEmail,
+    chat: renderChat, standings: renderStandings, websites: renderWebsites, email: renderEmail,
     reception: renderReception, services: renderServices,
     templates: () => renderTQ('templates'), questionnaires: () => renderTQ('questionnaires'),
     academy: renderAcademy,
@@ -1540,8 +1549,8 @@ function openQuickAdd() {
       ${[
         ['👤','New client','openClientModal()'],
         ['📅','Calendar event','openEventModal()'],
-        ['🧾','Invoice','openInvoiceModal()'],
         ['🔗','Payment link','openPaymentLinks()'],
+        ...(isAdminRole(currentUserData.role) || hasPermission('canManageInvoices') ? [['🧾','Manual invoice','openInvoiceModal()']] : []),
       ].map(([ico,label,fn]) => `
         <button class="btn btn-ghost" style="flex-direction:column;gap:8px;padding:20px 10px;border-radius:14px" onclick="closeModal();setTimeout(()=>${fn},220)">
           <span style="font-size:24px">${ico}</span>
@@ -1611,6 +1620,8 @@ async function renderCockpit() {
       </div>
       ${!adminView ? `<button class="btn btn-ghost btn-sm" onclick="openGoalModal()">🎯 Monthly goal: <b class="num">&nbsp;${money(goal)}</b></button>` : ''}
     </div>
+
+    <div id="hqAlerts"></div>
 
     <div style="display:grid;grid-template-columns:340px 1fr;gap:16px;margin-bottom:16px" class="cockpit-top">
       <!-- Goal ring -->
@@ -2974,11 +2985,14 @@ function renderChatMembers() {
   if (!root) return;
   root.innerHTML = allTeamUsers.filter(u => u.id !== currentUser.uid).map(u => {
     const color = u.avatarColor || getAvatarColor(u.name);
+    // Real presence: green only if their heartbeat fired in the last 5 min
+    const seen = tsToDate(u.lastSeenAt);
+    const online = seen && (Date.now() - seen.getTime()) < 5 * 60000;
     return `
     <div class="member-item" id="dm_${u.id}" onclick="chatOpenDM('${u.id}')">
       <div style="position:relative">
         <div class="avatar avatar-sm" style="background:${color}">${initials(u.name)}</div>
-        <div class="online-dot"></div>
+        <div class="online-dot${online ? '' : ' off'}" title="${online ? 'Online now' : (seen ? 'Last seen ' + timeAgo(u.lastSeenAt) : 'Offline')}"></div>
       </div>
       <div style="min-width:0">
         <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(u.name)}</div>
@@ -3269,11 +3283,12 @@ async function renderServices() {
         </div>`).join('')}
     </div>
 
+    ${(isAdminRole(currentUserData.role) || hasPermission('canManageInvoices')) ? `
     <div class="card" data-stagger>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px">
         <div>
-          <div class="card-title">Invoices</div>
-          <div class="card-sub">${invoices.length} invoice${invoices.length===1?'':'s'}${(isAdminRole(currentUserData.role)||hasPermission('canManageInvoices')) ? ' across the team' : ' on your book'}</div>
+          <div class="card-title">Manual invoices <span class="chip chip-neutral" style="margin-left:6px">Admin</span></div>
+          <div class="card-sub">Stripe bills everything automatically — this is only for one-off manual charges (${invoices.length} on record)</div>
         </div>
         <button class="btn btn-accent btn-sm" onclick="openInvoiceModal()">+ New invoice</button>
       </div>
@@ -3298,7 +3313,7 @@ async function renderServices() {
           </tbody>
         </table>
       </div>
-    </div>
+    </div>` : ''}
   `;
   animateViewIn();
 }
@@ -3660,59 +3675,81 @@ async function savePermissions(uid) {
    COMMISSIONS — 60% rep / 40% company, CSV export
    ═══════════════════════════════════════════════════════════════ */
 let commPeriod = 'current';
+let commSource = 'stripe';   // 'stripe' = billing truth (default) | 'crm' = hand-entered client rates
 async function renderCommissions() {
   if (!canSeeTeamData()) return navigate('cockpit');
   const view = document.getElementById('view');
   view.innerHTML = '<div class="spin"></div>';
-  const all = await fetchClients();
 
-  const now = new Date();
-  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const lastMonthStart = new Date(now.getFullYear(), now.getMonth()-1, 1);
-  const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+  // Stripe-verified source: per-rep MRR straight from billing
+  const snap = await loadStripeSnapshot();
+  const stripeAvailable = !!(snap && snap.perRep && snap.perRep.length);
+  if (commSource === 'stripe' && !stripeAvailable) commSource = 'crm';
 
-  const filtered = all.filter(c => {
-    if (c.status !== 'active') return false;
-    if (commPeriod === 'all') return true;
-    const d = tsToDate(c.createdAt);
-    if (!d) return commPeriod === 'all';
-    if (commPeriod === 'current') return d >= thisMonthStart;
-    if (commPeriod === 'last') return d >= lastMonthStart && d <= lastMonthEnd;
-    return true;
-  });
+  let rows, totals, sourceNote;
+  if (commSource === 'stripe') {
+    rows = snap.perRep
+      .filter(r => r.repId)
+      .map(r => ({ name: r.repName, deals: r.count, mrr: r.mrr }))
+      .sort((a,b) => b.mrr - a.mrr);
+    totals = rows.reduce((t,r) => ({ deals: t.deals + r.deals, mrr: t.mrr + r.mrr }), { deals:0, mrr:0 });
+    sourceNote = `Live from Stripe billing · synced ${timeAgo(tsToDate(snap.fetchedAt) || snap.fetchedAt)} — this is what payroll runs on`;
+  } else {
+    const all = await fetchClients();
+    const now = new Date();
+    const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
 
-  const repStats = {};
-  filtered.forEach(c => {
-    const uid = c.employeeId || c.repId;
-    if (!uid) return;
-    if (!repStats[uid]) {
-      const u = allTeamUsers.find(x => x.id === uid);
-      repStats[uid] = { name: u ? u.name : (c.employeeName || 'Unknown'), deals: 0, mrr: 0 };
-    }
-    repStats[uid].deals++;
-    repStats[uid].mrr += parseFloat(c.monthly) || 0;
-  });
-  const rows = Object.values(repStats).sort((a,b) => b.mrr - a.mrr);
-  const totals = rows.reduce((t,r) => ({ deals: t.deals + r.deals, mrr: t.mrr + r.mrr }), { deals:0, mrr:0 });
-  window._commData = { rows, totals, period: commPeriod };
+    const filtered = all.filter(c => {
+      if (c.status !== 'active') return false;
+      if (commPeriod === 'all') return true;
+      const d = tsToDate(c.createdAt);
+      if (!d) return commPeriod === 'all';
+      if (commPeriod === 'current') return d >= thisMonthStart;
+      if (commPeriod === 'last') return d >= lastMonthStart && d <= lastMonthEnd;
+      return true;
+    });
+
+    const repStats = {};
+    filtered.forEach(c => {
+      const uid = c.employeeId || c.repId;
+      if (!uid) return;
+      if (!repStats[uid]) {
+        const u = allTeamUsers.find(x => x.id === uid);
+        repStats[uid] = { name: u ? u.name : (c.employeeName || 'Unknown'), deals: 0, mrr: 0 };
+      }
+      repStats[uid].deals++;
+      repStats[uid].mrr += parseFloat(c.monthly) || 0;
+    });
+    rows = Object.values(repStats).sort((a,b) => b.mrr - a.mrr);
+    totals = rows.reduce((t,r) => ({ deals: t.deals + r.deals, mrr: t.mrr + r.mrr }), { deals:0, mrr:0 });
+    sourceNote = 'From hand-entered client rates in the CRM — can drift from actual billing';
+  }
+  window._commData = { rows, totals, period: commSource === 'stripe' ? 'stripe-live' : commPeriod };
 
   view.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap">
       <div class="seg">
+        <button class="${commSource==='stripe'?'on':''}" ${stripeAvailable ? `onclick="commSource='stripe';renderCommissions()"` : 'disabled title="Connect Stripe on the Revenue page first"'}>💳 Stripe-verified</button>
+        <button class="${commSource==='crm'?'on':''}" onclick="commSource='crm';renderCommissions()">CRM data</button>
+      </div>
+      ${commSource === 'crm' ? `<div class="seg">
         <button class="${commPeriod==='current'?'on':''}" onclick="commPeriod='current';renderCommissions()">This month</button>
         <button class="${commPeriod==='last'?'on':''}" onclick="commPeriod='last';renderCommissions()">Last month</button>
         <button class="${commPeriod==='all'?'on':''}" onclick="commPeriod='all';renderCommissions()">All time</button>
-      </div>
+      </div>` : ''}
       <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="commExportCSV()">⬇ Export CSV</button>
     </div>
+    <div style="font-size:12px;color:var(--mute);margin-bottom:16px">${sourceNote}</div>
 
     <div class="grid-stats" style="margin-bottom:16px">
       <div class="card card-pad" data-stagger>
-        <div class="stat-label">Deals in period</div>
+        <div class="stat-label">${commSource==='stripe' ? 'Paying subscriptions' : 'Deals in period'}</div>
         <div class="stat-value num">${totals.deals}</div>
       </div>
       <div class="card card-pad" data-stagger>
-        <div class="stat-label">MRR signed</div>
+        <div class="stat-label">${commSource==='stripe' ? 'Verified MRR' : 'MRR signed'}</div>
         <div class="stat-value num">${money2(totals.mrr)}</div>
       </div>
       <div class="card card-pad" data-stagger>
@@ -4011,6 +4048,28 @@ async function stripeSyncAll() {
   // Snapshot to Firestore so reps + other admins see numbers without the key
   if (!DEMO && canSeeTeamData()) {
     try {
+      // Alert reps about THEIR failing payments (deduped — max one alert
+      // per subscription per 7 days, tracked in the snapshot doc)
+      let alerted = {};
+      try {
+        const prev = await db.collection('app_settings').doc('stripe').get();
+        alerted = (prev.exists && prev.data().pastDueAlerted) || {};
+      } catch(e) {}
+      const WEEK = 7 * 86400000;
+      for (const r of pastDue) {
+        if (!r.repId) continue;
+        if (alerted[r.subId] && Date.now() - alerted[r.subId] < WEEK) continue;
+        alerted[r.subId] = Date.now();
+        try {
+          await db.collection('notifications').add({
+            userId: r.repId, type: 'payment_failed', icon: '⚠️',
+            title: 'Payment Failing — Your Client',
+            message: r.custName + ' · ' + money(r.monthly) + '/mo at risk. Call them today.',
+            read: false, timestamp: TS()
+          });
+        } catch(e) {}
+      }
+
       await db.collection('app_settings').doc('stripe').set({
         fetchedAt: TS(),
         mrr, arr: mrr * 12,
@@ -4019,9 +4078,12 @@ async function stripeSyncAll() {
         churned30: churned30.length,
         churnRate: Math.round(churnRate * 100),
         pastDueCount: pastDue.length,
+        pastDue: pastDue.map(r => ({ subId: r.subId, custName: r.custName, custEmail: r.custEmail, monthly: r.monthly, repId: r.repId || '', repName: r.repName || '' })),
+        pastDueAlerted: alerted,
         perRep: stripeCache.perRep.map(r => ({ repId: r.repId || '', repName: r.repName, mrr: r.mrr, count: r.count })),
         recent: stripeCache.rows.slice(0, 10).map(r => ({ custName: r.custName, monthly: r.monthly, status: r.status, repName: r.repName || '', created: r.created })),
       });
+      stripeSnapCache = null; // force fresh read next time HQ asks
     } catch(e) { console.warn('snapshot write:', e.message); }
   }
   return stripeCache;
@@ -4030,7 +4092,7 @@ async function stripeSyncAll() {
 async function loadStripeSnapshot() {
   if (stripeSnapCache) return stripeSnapCache;
   if (DEMO) { try { await stripeSyncAll(); } catch(e){}
-    if (stripeCache) stripeSnapCache = { mrr: stripeCache.mrr, arr: stripeCache.arr, activeCount: stripeCache.activeCount, newThisMonth: stripeCache.newThisMonth.length, churned30: stripeCache.churned30.length, churnRate: Math.round(stripeCache.churnRate*100), pastDueCount: stripeCache.pastDue.length, perRep: stripeCache.perRep, fetchedAt: new Date() };
+    if (stripeCache) stripeSnapCache = { mrr: stripeCache.mrr, arr: stripeCache.arr, activeCount: stripeCache.activeCount, newThisMonth: stripeCache.newThisMonth.length, churned30: stripeCache.churned30.length, churnRate: Math.round(stripeCache.churnRate*100), pastDueCount: stripeCache.pastDue.length, pastDue: stripeCache.pastDue.map(r => ({ subId: r.subId, custName: r.custName, custEmail: r.custEmail, monthly: r.monthly, repId: r.repId || '', repName: r.repName || '' })), perRep: stripeCache.perRep, fetchedAt: new Date() };
     return stripeSnapCache;
   }
   try {
@@ -4321,16 +4383,38 @@ async function fillPulseStripe() {
 }
 
 async function fillCockpitStripe() {
-  const el = document.getElementById('mrrVerify');
-  if (!el) return;
   const snap = await loadStripeSnapshot();
-  if (!snap || !snap.perRep || !document.getElementById('mrrVerify')) return;
-  if (adminView) {
-    el.innerHTML = `<div style="font-size:11.5px;font-weight:600;color:#635BFF;margin-top:6px" class="num">💳 Stripe-verified: ${money(snap.mrr)}/mo</div>`;
-    return;
+  if (!snap) return;
+
+  // Verified-MRR line under the HQ MRR card
+  const el = document.getElementById('mrrVerify');
+  if (el && snap.perRep) {
+    if (adminView) {
+      el.innerHTML = `<div style="font-size:11.5px;font-weight:600;color:#635BFF;margin-top:6px" class="num">💳 Stripe-verified: ${money(snap.mrr)}/mo</div>`;
+    } else {
+      const mine = (snap.perRep || []).find(r => r.repId === currentUser.uid);
+      if (mine) el.innerHTML = `<div style="font-size:11.5px;font-weight:600;color:#635BFF;margin-top:6px" class="num">💳 Stripe-verified: ${money(mine.mrr)}/mo yours</div>`;
+    }
   }
-  const mine = (snap.perRep || []).find(r => r.repId === currentUser.uid);
-  if (mine) el.innerHTML = `<div style="font-size:11.5px;font-weight:600;color:#635BFF;margin-top:6px" class="num">💳 Stripe-verified: ${money(mine.mrr)}/mo yours</div>`;
+
+  // Failing-payment banner: reps see their own accounts, admin view sees all
+  const alerts = document.getElementById('hqAlerts');
+  if (alerts && snap.pastDue && snap.pastDue.length) {
+    const mine = adminView ? snap.pastDue : snap.pastDue.filter(p => p.repId === currentUser.uid);
+    if (mine.length) {
+      const atRisk = mine.reduce((s,p) => s + (p.monthly||0), 0);
+      alerts.innerHTML = `
+        <div class="card" style="margin-bottom:16px;border-color:#F5C6C6;background:var(--red-soft)">
+          <div class="card-pad" style="padding-top:14px;padding-bottom:14px">
+            <div style="font-size:13.5px;font-weight:800;color:var(--red)">⚠️ ${mine.length} payment${mine.length===1?'':'s'} failing — ${money(atRisk)}/mo at risk. Call ${mine.length===1?'them':'these clients'} today.</div>
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+              ${mine.map(p => `<div style="font-size:12.5px;color:var(--ink-soft)"><b>${esc(p.custName)}</b> · <span class="num">${money(p.monthly)}/mo</span>${p.custEmail ? ` · <a href="mailto:${esc(p.custEmail)}" style="color:var(--accent-deep);font-weight:600">${esc(p.custEmail)}</a>` : ''}${adminView && p.repName ? ` · Rep: ${esc(p.repName)}` : ''}</div>`).join('')}
+            </div>
+          </div>
+        </div>`;
+      gsap.fromTo(alerts.firstElementChild, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: .35, ease: 'power2.out' });
+    }
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -4714,6 +4798,105 @@ async function saveGoogleCfg() {
     closeModal(); toast('Google sync is live — everyone can connect now');
     if (currentPage === 'calendar') renderCalendar();
   } catch(e) { toast('Error: ' + e.message, 'bad'); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STANDINGS — the scoreboard. Visible to every rep, read-only.
+   Verified Stripe MRR wins ties over hand-entered CRM numbers.
+   ═══════════════════════════════════════════════════════════════ */
+async function renderStandings() {
+  const view = document.getElementById('view');
+  view.innerHTML = '<div class="spin"></div>';
+
+  const [all, snap] = await Promise.all([fetchClients(), loadStripeSnapshot()]);
+  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const monthLabel = new Date().toLocaleDateString('en-US', { month:'long', year:'numeric' });
+
+  // Build per-rep stats from CRM clients
+  const reps = {};
+  const ensure = (uid, name) => {
+    if (!reps[uid]) reps[uid] = { uid, name, active: 0, mrr: 0, dealsMonth: 0, leads: 0, stripeMrr: null };
+    return reps[uid];
+  };
+  allTeamUsers.forEach(u => ensure(u.id, u.name));
+  all.forEach(c => {
+    const uid = c.employeeId || c.repId;
+    if (!uid) return;
+    const r = ensure(uid, c.employeeName || 'Unknown');
+    if (c.status === 'active') {
+      r.active++;
+      r.mrr += parseFloat(c.monthly) || 0;
+      const d = tsToDate(c.createdAt);
+      if (d && d >= monthStart) r.dealsMonth++;
+    }
+    if (c.status === 'lead' || c.status === 'working') r.leads++;
+  });
+  // Overlay Stripe-verified MRR where we have it
+  const verified = !!(snap && snap.perRep && snap.perRep.length);
+  if (verified) {
+    snap.perRep.forEach(p => {
+      if (p.repId && reps[p.repId]) reps[p.repId].stripeMrr = p.mrr;
+    });
+  }
+  const board = Object.values(reps)
+    .map(r => ({ ...r, score: r.stripeMrr != null ? r.stripeMrr : r.mrr }))
+    .filter(r => r.score > 0 || r.active > 0 || r.leads > 0 || r.dealsMonth > 0)
+    .sort((a,b) => b.score - a.score || b.dealsMonth - a.dealsMonth);
+  const topScore = Math.max(...board.map(r => r.score), 1);
+  const medals = ['🥇','🥈','🥉'];
+  const podium = board.slice(0, 3);
+
+  view.innerHTML = `
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+      <div>
+        <h1 style="font-size:22px;font-weight:800;letter-spacing:-0.02em">🏆 The Board — ${monthLabel}</h1>
+        <div style="font-size:12.5px;color:var(--mute);margin-top:3px">${verified ? '💳 MRR verified by Stripe billing' : 'MRR from CRM records — connects to Stripe once an admin syncs Revenue'}</div>
+      </div>
+    </div>
+
+    ${podium.length ? `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px">
+      ${podium.map((r, i) => `
+        <div class="card card-pad card-hover" data-stagger style="text-align:center;${i===0 ? 'border-color:#EBC868;background:linear-gradient(160deg,#FFFBEE,#fff)' : ''}">
+          <div style="font-size:30px;margin-bottom:6px">${medals[i]}</div>
+          <div class="avatar avatar-lg" style="background:${getAvatarColor(r.name)};margin:0 auto 10px">${initials(r.name)}</div>
+          <div style="font-size:14.5px;font-weight:800">${esc(r.name)}</div>
+          <div style="font-size:21px;font-weight:800;margin-top:6px" class="num" id="pod${i}">—</div>
+          <div style="font-size:11.5px;color:var(--mute)" class="num">${r.stripeMrr != null ? '💳 verified' : 'MRR'} · ${r.dealsMonth} deal${r.dealsMonth===1?'':'s'} this month</div>
+        </div>`).join('')}
+    </div>` : ''}
+
+    <div class="card" data-stagger>
+      <div style="padding:18px 22px 6px">
+        <div class="card-title">Full standings</div>
+        <div class="card-sub">Ranked by monthly recurring revenue${verified ? ' (Stripe-verified where linked)' : ''}</div>
+      </div>
+      <div style="padding:8px 22px 20px">
+        ${board.length ? board.map((r, i) => `
+          <div style="padding:11px 0;border-bottom:1px solid var(--line-2)">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:7px">
+              <div style="width:26px;font-size:13px;font-weight:800;color:${i<3 ? 'var(--amber)' : 'var(--faint)'}" class="num">${i < 3 ? medals[i] : '#' + (i+1)}</div>
+              <div class="avatar avatar-sm" style="background:${getAvatarColor(r.name)}">${initials(r.name)}</div>
+              <div style="flex:1;min-width:0">
+                <span style="font-size:13.5px;font-weight:700">${esc(r.name)}</span>
+                ${r.uid === currentUser.uid ? '<span class="chip chip-accent" style="margin-left:8px">You</span>' : ''}
+              </div>
+              <div style="text-align:right">
+                <span style="font-size:14px;font-weight:800" class="num">${money(r.score)}</span><span style="font-size:11px;color:var(--mute)">/mo${r.stripeMrr != null ? ' 💳' : ''}</span>
+              </div>
+            </div>
+            <div class="bar" style="margin-left:37px"><i style="width:${(r.score/topScore)*100}%;background:${i===0 ? 'var(--amber)' : 'var(--accent)'}"></i></div>
+            <div style="font-size:11.5px;color:var(--mute);margin:5px 0 0 37px" class="num">${r.dealsMonth} deal${r.dealsMonth===1?'':'s'} this month · ${r.active} active · ${r.leads} in pipeline</div>
+          </div>`).join('')
+        : `<div class="empty"><div class="big">🏁</div><div class="t">The board is empty</div><div class="s">First deal on the board owns it. Go.</div></div>`}
+      </div>
+    </div>
+  `;
+  podium.forEach((r, i) => {
+    const el = document.getElementById('pod' + i);
+    if (el) countUp(el, r.score, v => money(v));
+  });
+  animateViewIn();
 }
 </script>
 </body>
