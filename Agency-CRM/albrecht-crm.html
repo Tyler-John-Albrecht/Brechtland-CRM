@@ -2765,6 +2765,17 @@ async function renderCalendar() {
   if (gcalOn()) {
     try { gcalMonthEvents = await gcalFetchMonth(y, m); }
     catch(e) { console.warn('gcal fetch:', e.message); }
+  } else if (!DEMO && gCfg && gCfg.clientId && !window._gcalAutoTried) {
+    // Auto-reconnect: consent was already granted on this browser, so the
+    // Google popup self-approves and closes instantly — no clicks needed.
+    // Tried once per page load; if the browser blocks it, the Connect
+    // button still works as the fallback.
+    let granted = false;
+    try { granted = localStorage.getItem('bos_gcal_granted') === '1'; } catch(e) {}
+    if (granted) {
+      window._gcalAutoTried = true;
+      gcalConnect(true); // re-renders the calendar on success
+    }
   }
 
   const firstDow = new Date(y, m, 1).getDay();
@@ -4733,33 +4744,42 @@ async function gcalEnsureLib() {
     document.head.appendChild(s);
   });
 }
-async function gcalConnect() {
+async function gcalConnect(silent) {
   if (DEMO) { demoGcalOn = true; toast('Google Calendar connected (demo)'); renderCalendar(); return; }
   const cfg = await loadGoogleCfg();
-  if (!cfg || !cfg.clientId) return toast('Ask Tyler to set up Google sync first', 'bad');
+  if (!cfg || !cfg.clientId) { if (!silent) toast('Ask Tyler to set up Google sync first', 'bad'); return; }
   try {
     await gcalEnsureLib();
     const tc = google.accounts.oauth2.initTokenClient({
       client_id: cfg.clientId,
       scope: 'https://www.googleapis.com/auth/calendar.events',
       callback: (resp) => {
-        if (resp.error) { toast('Google: ' + resp.error, 'bad'); return; }
+        if (resp.error) { if (!silent) toast('Google: ' + resp.error, 'bad'); return; }
         try {
           localStorage.setItem('bos_gcal', JSON.stringify({
             t: resp.access_token,
             exp: Date.now() + ((resp.expires_in || 3600) - 120) * 1000
           }));
+          // Remember consent was granted → future visits auto-reconnect
+          localStorage.setItem('bos_gcal_granted', '1');
         } catch(e) {}
-        toast('Google Calendar connected');
+        if (!silent) toast('Google Calendar connected');
         if (currentPage === 'calendar') renderCalendar();
+      },
+      error_callback: (err) => {
+        // Popup blocked or closed — silent attempts fail quietly,
+        // the Connect button is still there as fallback
+        if (!silent) toast('Google sign-in was closed before finishing', 'bad');
+        console.warn('gcal connect:', err && err.type);
       }
     });
     tc.requestAccessToken({ prompt: '' });
-  } catch(e) { toast(e.message, 'bad'); }
+  } catch(e) { if (!silent) toast(e.message, 'bad'); }
 }
 function gcalDisconnect() {
   if (DEMO) { demoGcalOn = false; renderCalendar(); return; }
   localStorage.removeItem('bos_gcal');
+  localStorage.removeItem('bos_gcal_granted');
   toast('Google Calendar disconnected on this browser');
   if (currentPage === 'calendar') renderCalendar();
 }
