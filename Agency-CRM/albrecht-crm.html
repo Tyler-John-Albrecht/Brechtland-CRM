@@ -1262,6 +1262,7 @@ const NAV = [
     { key:'websites',  label:'Websites',       ico:'globe' },
     { key:'email',     label:'Email Marketing',ico:'mail' },
     { key:'reception', label:'AI Receptionist',ico:'phone' },
+    { key:'smsemail',  label:'Missed-Call',    ico:'phone' },
   ]},
   { section: 'Sales tools', items: [
     { key:'services',  label:'Services & Billing', ico:'tag' },
@@ -1303,6 +1304,7 @@ const PAGE_META = {
   websites:  { title:'Websites',         sub: () => 'Fulfillment pipeline — onboarding to live' },
   email:     { title:'Email Marketing',  sub: () => 'Reactivation engine: reviews, referrals, rebooking' },
   reception: { title:'AI Receptionist',  sub: () => 'Autonomous conversations and routing' },
+  smsemail:  { title:'Missed-Call Text-Back', sub: () => 'Instant text-backs that turn missed calls into leads' },
   services:  { title:'Services & Billing', sub: () => 'Pricing, payment links, and invoices' },
   templates: { title:'Templates',        sub: () => 'Industry website templates to show prospects' },
   questionnaires: { title:'Questionnaires', sub: () => 'Client onboarding forms by industry' },
@@ -1402,7 +1404,7 @@ function navigate(page, instant) {
   const render = {
     cockpit: renderCockpit, clients: renderClients, calendar: renderCalendar,
     chat: renderChat, standings: renderStandings, websites: renderWebsites, email: renderEmail,
-    reception: renderReception, services: renderServices,
+    reception: renderReception, smsemail: renderSmsEmail, services: renderServices,
     templates: () => renderTQ('templates'), questionnaires: () => renderTQ('questionnaires'),
     academy: renderAcademy,
     company: renderCompany, team: renderTeam, commissions: renderCommissions,
@@ -2733,6 +2735,196 @@ function copyServiceLink(type) {
     receptionist: RECEPTIONIST_PRICING_URL + '?repId=' + repId
   };
   navigator.clipboard.writeText(links[type]).then(() => toast('Your rep link is copied — send it to the client'));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MISSED-CALL TEXT-BACK + EMAIL BLASTS (live Railway admin API)
+   Managed with the ADMIN_API_KEY. Like the Stripe key, it lives in
+   localStorage on this machine only — never in this file, never in
+   Firestore, never on GitHub.
+   ═══════════════════════════════════════════════════════════════ */
+const ADMIN_KEY_LS = 'bos_admin_key';
+const MC_DEFAULT_TPL = "Sorry we missed your call! This is {{businessName}}. Reply 1 and we'll call you back within {{callbackMinutes}} minutes, or reply 2 to get a text instead.";
+let opsTab = 'mc';
+let opsBiz = [];
+
+function adminKey() { try { return localStorage.getItem(ADMIN_KEY_LS) || ''; } catch(e) { return ''; } }
+async function aApi(path, opts = {}) {
+  const key = adminKey();
+  const res = await fetch(RAILWAY_API + path, {
+    ...opts,
+    headers: { 'Content-Type':'application/json', ...(key ? { Authorization:'Bearer ' + key } : {}), ...(opts.headers||{}) },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  const ct = res.headers.get('content-type') || '';
+  const data = ct.includes('json') ? await res.json().catch(()=>({})) : await res.text();
+  if (!res.ok) throw new Error((data && data.error) || ('Request failed (' + res.status + ')'));
+  return data;
+}
+
+async function renderSmsEmail() {
+  const view = document.getElementById('view');
+  if (!adminKey()) {
+    view.innerHTML = `
+      <div style="max-width:480px;margin:40px auto">
+        <div class="card card-pad" data-stagger style="text-align:center">
+          <div style="font-size:38px;margin-bottom:12px">⚡</div>
+          <h2 style="font-size:17px;margin-bottom:6px">Connect the Missed-Call engine</h2>
+          <p style="font-size:13px;color:var(--mute);line-height:1.6;margin:0 0 20px">Paste your Brechtland <b>admin key</b> to manage Missed-Call Text-Back across every client. It stays in this browser only — never saved to the cloud.</p>
+          <div class="fld" style="text-align:left"><label>Admin API key</label><input id="ak_input" type="password" placeholder="paste ADMIN_API_KEY" onkeydown="if(event.key==='Enter')opsConnect()"></div>
+          <div id="ak_err" style="display:none;background:var(--red-soft);color:var(--red);border-radius:10px;padding:9px 13px;font-size:12.5px;margin-bottom:12px;text-align:left"></div>
+          <button class="btn btn-accent btn-lg" style="width:100%" id="ak_go" onclick="opsConnect()">Connect</button>
+        </div>
+      </div>`;
+    animateViewIn();
+    return;
+  }
+  view.innerHTML = '<div class="spin"></div>';
+  try {
+    opsBiz = await aApi('/api/v1/admin/missed-call/businesses');
+  } catch(e) {
+    view.innerHTML = `<div class="card"><div class="empty"><div class="big">📡</div><div class="t">Could not reach the admin API</div><div class="s">${esc(e.message)}</div><button class="btn btn-ghost" style="margin-top:14px" onclick="opsDisconnect()">Re-enter key</button></div></div>`;
+    return;
+  }
+  view.innerHTML = opsShell();
+  opsRenderBody();
+  animateViewIn();
+}
+function opsShell() {
+  return `
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+      <span class="chip chip-green"><span class="dot"></span>Admin connected</span>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="opsRefresh()">↻ Refresh</button>
+        <button class="btn btn-ghost btn-sm" onclick="opsDisconnect()">Disconnect</button>
+      </div>
+    </div>
+    <div id="opsBody"></div>`;
+}
+async function opsRefresh() { try { opsBiz = await aApi('/api/v1/admin/missed-call/businesses'); toast('Refreshed'); } catch(e){ toast(e.message,'bad'); } opsRenderBody(); }
+function opsRenderBody() { opsRenderMC(); }
+
+async function opsConnect() {
+  const key = document.getElementById('ak_input').value.trim();
+  const err = document.getElementById('ak_err');
+  const btn = document.getElementById('ak_go');
+  err.style.display = 'none';
+  if (!key) { err.textContent = 'Paste your admin key.'; err.style.display=''; return; }
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try {
+    localStorage.setItem(ADMIN_KEY_LS, key);
+    await aApi('/api/v1/admin/missed-call/businesses');
+    toast('Admin engine connected');
+    renderSmsEmail();
+  } catch(e) {
+    localStorage.removeItem(ADMIN_KEY_LS);
+    err.textContent = /401|invalid|unauth/i.test(e.message) ? 'That admin key was rejected.' : e.message;
+    err.style.display = '';
+    btn.disabled = false; btn.textContent = 'Connect';
+  }
+}
+function opsDisconnect() { localStorage.removeItem(ADMIN_KEY_LS); toast('Admin key removed from this browser'); renderSmsEmail(); }
+
+/* ── Missed-Call tab ─────────────────────────────────────── */
+function opsRenderMC() {
+  const body = document.getElementById('opsBody'); if (!body) return;
+  const on = opsBiz.filter(b => b.enabled).length;
+  const tb = opsBiz.reduce((s,b)=>s+(b.textbacksSent30d||0),0);
+  const ld = opsBiz.reduce((s,b)=>s+(b.leadsGenerated30d||0),0);
+  body.innerHTML = `
+    <div class="grid-stats" style="margin-bottom:16px">
+      <div class="card card-pad"><div class="stat-label">Clients live</div><div class="stat-value num">${on}<span style="font-size:15px;color:var(--mute)"> / ${opsBiz.length}</span></div><div class="stat-sub">missed-call text-back ON</div></div>
+      <div class="card card-pad"><div class="stat-label">Text-backs (30d)</div><div class="stat-value num">${tb}</div><div class="stat-sub">across all clients</div></div>
+      <div class="card card-pad"><div class="stat-label">Leads (30d)</div><div class="stat-value num">${ld}</div><div class="stat-sub">captured from missed calls</div></div>
+    </div>
+    <div class="card">
+      <div style="padding:18px 22px 6px"><div class="card-title">Clients</div><div class="card-sub">Flip a client on to start texting their missed callers</div></div>
+      <div style="overflow-x:auto"><table class="tbl">
+        <thead><tr><th>Client</th><th>Twilio #</th><th>Status</th><th>Texts 30d</th><th>Leads 30d</th><th></th></tr></thead>
+        <tbody>
+          ${opsBiz.length ? opsBiz.map(b => `
+            <tr>
+              <td style="font-weight:600">${esc(b.name)}</td>
+              <td class="num" style="color:var(--mute)">${esc(b.twilioNumber||'—')}</td>
+              <td><span class="chip ${b.enabled?'chip-green':'chip-neutral'}">${b.enabled?'ON':'off'}</span></td>
+              <td class="num">${b.textbacksSent30d||0}</td>
+              <td class="num">${b.leadsGenerated30d||0}</td>
+              <td style="white-space:nowrap;text-align:right">
+                <button class="btn btn-sm ${b.enabled?'btn-ghost':'btn-accent'}" onclick="opsToggle('${b.id}', ${b.enabled?'false':'true'})">${b.enabled?'Turn off':'Turn on'}</button>
+                <button class="btn btn-sm btn-soft" onclick="opsMcSettings('${b.id}')">Settings</button>
+                <button class="btn btn-sm btn-ghost" onclick="opsFwd('${b.id}')">Forwarding</button>
+                <button class="btn btn-sm btn-ghost" onclick="opsLog('${b.id}')">Log</button>
+              </td>
+            </tr>`).join('')
+          : '<tr><td colspan="6"><div class="empty"><div class="t">No clients found</div><div class="s">Provision a receptionist number first.</div></div></td></tr>'}
+        </tbody>
+      </table></div>
+    </div>`;
+}
+async function opsToggle(id, enable) {
+  const on = (enable === true || enable === 'true');
+  try {
+    await aApi('/api/v1/admin/missed-call/businesses/' + id + '/settings', { method:'PUT', body:{ enabled: on } });
+    const b = opsBiz.find(x => x.id === id); if (b) b.enabled = on;
+    toast(on ? 'Service turned ON' : 'Service turned off'); opsRenderMC();
+  } catch(e) { toast(e.message, 'bad'); }
+}
+function opsMcSettings(id) {
+  const b = opsBiz.find(x => x.id === id) || {};
+  openModal('Missed-Call Settings — ' + esc(b.name||''), `
+    <div class="fld"><label>Service</label>
+      <select id="mc_en"><option value="true" ${b.enabled?'selected':''}>ON — texting missed callers</option><option value="false" ${!b.enabled?'selected':''}>off</option></select></div>
+    <div class="fld"><label>Text-back message <span style="color:var(--faint);font-weight:400">(blank = keep current · {{businessName}}, {{callbackMinutes}} allowed · max 320)</span></label>
+      <textarea id="mc_tpl" style="min-height:110px" placeholder="${esc(MC_DEFAULT_TPL)}"></textarea></div>
+    <div class="fld"><label>Callback window (minutes)</label><input id="mc_min" type="number" value="${b.callbackMinutes||15}"></div>
+    <div class="fld"><label>Owner alert phone — their cell (+1…)</label><input id="mc_owner" value="${esc(b.ownerAlertPhone||'')}" placeholder="+1XXXXXXXXXX"></div>
+    <div class="fld"><label>After the text, send caller to voicemail?</label>
+      <select id="mc_vm"><option value="true" ${b.voicemailEnabled!==false?'selected':''}>Yes — greeting + record</option><option value="false" ${b.voicemailEnabled===false?'selected':''}>No — short goodbye</option></select></div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-accent" onclick="opsSaveMc('${id}')">Save</button>
+  `, true);
+}
+async function opsSaveMc(id) {
+  const body = {
+    enabled: document.getElementById('mc_en').value === 'true',
+    mode: 'standalone',
+    callback_minutes: parseInt(document.getElementById('mc_min').value) || 15,
+    voicemail_enabled: document.getElementById('mc_vm').value === 'true',
+  };
+  const tpl = document.getElementById('mc_tpl').value.trim(); if (tpl) body.initial_template = tpl;
+  const owner = document.getElementById('mc_owner').value.trim(); if (owner) body.owner_alert_phone = owner;
+  try {
+    await aApi('/api/v1/admin/missed-call/businesses/' + id + '/settings', { method:'PUT', body });
+    closeModal(); toast('Settings saved');
+    opsBiz = await aApi('/api/v1/admin/missed-call/businesses'); opsRenderMC();
+  } catch(e) { toast(e.message, 'bad'); }
+}
+async function opsFwd(id) {
+  openModal('Carrier forwarding setup', '<div class="spin"></div>', '<button class="btn btn-ghost" onclick="closeModal()">Close</button>', true);
+  try {
+    const d = await aApi('/api/v1/admin/missed-call/businesses/' + id + '/forwarding-instructions');
+    let h = `<p style="font-size:12.5px;color:var(--mute);line-height:1.6;margin:0 0 14px">${esc(d.instructions)}</p>`;
+    for (const k in d.carriers) {
+      const c = d.carriers[k];
+      h += `<div style="font-weight:700;font-size:13px;margin:14px 0 6px">${esc(c.label)}</div><table class="tbl">`;
+      c.enable.concat(c.disable).forEach(e => { h += `<tr><td style="font-size:12.5px">${esc(e.label)}</td><td><code style="background:var(--line-2);padding:2px 7px;border-radius:5px;font-size:12.5px">${esc(e.code)}</code></td></tr>`; });
+      h += `</table>`;
+    }
+    h += `<p style="font-size:11.5px;color:var(--faint);margin-top:14px;line-height:1.5">${esc(d.disclaimer)}</p>`;
+    document.getElementById('modalBody').innerHTML = h;
+  } catch(e) { document.getElementById('modalBody').innerHTML = `<div class="empty"><div class="s">${esc(e.message)}</div></div>`; }
+}
+async function opsLog(id) {
+  openModal('Text-back log', '<div class="spin"></div>', '<button class="btn btn-ghost" onclick="closeModal()">Close</button>', true);
+  try {
+    const rows = await aApi('/api/v1/admin/missed-call/businesses/' + id + '/events?limit=100');
+    document.getElementById('modalBody').innerHTML = rows.length ? `
+      <div style="overflow-x:auto;max-height:440px"><table class="tbl">
+        <thead><tr><th>When</th><th>Caller</th><th>Via</th><th>Status</th><th>Reply</th></tr></thead>
+        <tbody>${rows.map(e => `<tr><td style="color:var(--mute);white-space:nowrap">${fmtDT(e.created_at)}</td><td class="num">${esc(e.caller_phone)}</td><td>${esc(e.detected_via||'')}</td><td><span class="chip ${e.status==='converted_lead'?'chip-green':e.status==='replied'?'chip-blue':(String(e.status).indexOf('suppressed')===0||e.status==='opted_out')?'chip-neutral':'chip-violet'}">${esc(e.status)}</span></td><td>${esc(e.replied_keyword||'')}</td></tr>`).join('')}</tbody>
+      </table></div>` : '<div class="empty"><div class="t">No text-backs yet</div><div class="s">They appear here the moment a missed call comes in.</div></div>';
+  } catch(e) { document.getElementById('modalBody').innerHTML = `<div class="empty"><div class="s">${esc(e.message)}</div></div>`; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
