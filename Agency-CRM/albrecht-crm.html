@@ -811,54 +811,42 @@ const PLAYBOOK_PDF          = 'https://tyler-john-albrecht.github.io/Brechtland-
 
 const TQ_URL_STORE = {
   'questionnaire-ai-receptionist': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Receptionist%20Questionnaire/client-intake-form.html',
-  'template-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Template/roofing-template.html',
-  'questionnaire-roofing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Roofing-Questionnaire/roofing-questionnaire.html',
-  'template-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Real%20Estate%202.0/realtor-template.html',
-  'questionnaire-realestate': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/realtor-onboarding-survey.html',
-  'template-dental': 'https://tyler-john-albrecht.github.io/Dental-Template/Dental%20Template/',
-  'questionnaire-dental': 'https://tyler-john-albrecht.github.io/Dental-Template/Dental%20Questionnaire/Dental-Questionnaire.html',
-  'template-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Template.html',
-  'questionnaire-hvac': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/HVAC-Questionnaire.html',
-  'template-plumbing': 'https://tyler-john-albrecht.github.io/Plumbing/Plumbing%20Template/index.html',
-  'questionnaire-plumbing': 'https://tyler-john-albrecht.github.io/Plumbing/Plumbing%20Questionnaire/plumbing-questionnaire.html',
-  'template-restaurant': 'https://crm.brechtland.com/Restaurant%20Template/hb-bbq.html',
-  'questionnaire-restaurant': 'https://crm.brechtland.com/Restaurant%20Questionnaire/Restaurant%20Questionnaire.html',
-  'template-landscaping': 'https://tyler-john-albrecht.github.io/Landscaping/Landscaping%20Template/',
-  'questionnaire-landscaping': 'https://tyler-john-albrecht.github.io/Landscaping/Landscaping%20Questionnaire/landscaping-questionnaire.html',
   'template-detailing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Detailing-Template/Detailing-Template.html',
-  'questionnaire-detailing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Detailing-Questionnaire/Detailing-Questionnaire.html',
-  'template-fitness': 'https://tyler-john-albrecht.github.io/Gym-Template/',
-  'questionnaire-fitness': 'https://tyler-john-albrecht.github.io/Gym-Template/Gym%20Questionnaire/Gym%20Questionnaire.html',
-  'template-window-cleaning': 'https://tyler-john-albrecht.github.io/Window-Cleaning/',
-  'questionnaire-window-cleaning': 'https://tyler-john-albrecht.github.io/Window-Cleaning/Window%20Cleaning%20Questionnaire/clearview-questionnaire.html',
-  'template-epoxy-flooring': 'https://tyler-john-albrecht.github.io/Epoxy-Flooring/Epoxy%20Flooring%20Template/index.html',
-  'questionnaire-epoxy-flooring': 'https://tyler-john-albrecht.github.io/Epoxy-Flooring/Epoxy%20Flooring%20Questionnaire/questionnaire.html',
-  'template-cleaning': 'https://tyler-john-albrecht.github.io/cleaning-template/',
-  'questionnaire-cleaning': 'https://tyler-john-albrecht.github.io/cleaning-template/Cleaning%20Services%20Questionnaire/',
-  'template-legal': 'https://tyler-john-albrecht.github.io/Legal-Template/Legal%20Template/',
-  'questionnaire-legal': 'https://tyler-john-albrecht.github.io/Legal-Template/Legal%20Questionnaire/legal-questionnaire.html',
-  'template-junk-removal': 'https://tyler-john-albrecht.github.io/Junk-Removal/Junk%20Removal%20Template/',
-  'questionnaire-junk-removal': 'https://tyler-john-albrecht.github.io/Junk-Removal/Junk%20Removal%20Questionnaire/'
+  'questionnaire-detailing': 'https://tyler-john-albrecht.github.io/Brechtland-CRM/Detailing-Questionnaire/Detailing-Questionnaire.html'
+  // Automotive industries below (window-tint, wraps, ceramic-coating, ppf,
+  // restoration, interior, aviation-detailing) have no template/questionnaire
+  // yet — intentionally omitted so their cards render as "Coming soon" rather
+  // than pointing at a dead or non-automotive link. Add entries here as built.
 };
 
 const TQ_INDUSTRIES = [
-  { id:'roofing', icon:'🏠', name:'Roofing' }, { id:'hvac', icon:'❄️', name:'HVAC' },
-  { id:'plumbing', icon:'🔧', name:'Plumbing' }, { id:'window-cleaning', icon:'🪟', name:'Window Cleaning' },
-  { id:'landscaping', icon:'🌿', name:'Landscaping' }, { id:'dental', icon:'🦷', name:'Dental' },
-  { id:'realestate', icon:'🏢', name:'Real Estate' }, { id:'restaurant', icon:'🍽️', name:'Restaurant' },
-  { id:'fitness', icon:'💪', name:'Fitness / Gym' }, { id:'detailing', icon:'✨', name:'Detailing' },
-  { id:'epoxy-flooring', icon:'🏗️', name:'Epoxy Flooring' }, { id:'junk-removal', icon:'🗑️', name:'Junk Removal' },
-  { id:'legal', icon:'⚖️', name:'Legal' }, { id:'cleaning', icon:'🧹', name:'Cleaning Services' },
+  { id:'detailing', icon:'✨', name:'Detailing' }, { id:'window-tint', icon:'🪟', name:'Window Tint' },
+  { id:'wraps', icon:'🎨', name:'Vehicle Wraps' }, { id:'ceramic-coating', icon:'💎', name:'Ceramic Coating' },
+  { id:'ppf', icon:'🛡️', name:'Paint Protection (PPF)' }, { id:'restoration', icon:'🔧', name:'Restoration' },
+  { id:'interior', icon:'🪑', name:'Auto Interior' }, { id:'aviation-detailing', icon:'✈️', name:'Aviation Detailing' },
   { id:'ai-receptionist', icon:'🤖', name:'AI Receptionist', noTemplate:true },
 ];
 
+// Live demo library — the 8 branded template demos, hosted at portfolio.brechtland.com.
+// Shown in the Templates tab so reps can open a demo in-CRM or copy its link to a prospect.
+const PORTFOLIO_BASE = 'https://portfolio.brechtland.com';
+const PORTFOLIO_DEMOS = [
+  { name:'Signature Detailing',        slug:'signature',  cat:'Detailing · Flagship', desc:'Red/blue video hero, drag before & after, scrolling reviews, live map, sticky mobile call bar.' },
+  { name:'Evergreen Eco Detailing',    slug:'evergreen',  cat:'Detailing · Eco',      desc:'Eco/steam angle, green editorial, before & after slider, map + appointment split.' },
+  { name:'Fast Exotic — Dark Editorial', slug:'fast-exotic', cat:'Detailing · Exotic', desc:'Moody dark-editorial for high-end work: drag before & after, package tiers, guarantee section.' },
+  { name:'Lakeshore Auto Pros',        slug:'lakeshore',  cat:'PPF / Tint',           desc:'Multi-service, multi-location — zig-zag service rows, work gallery, dual-location footer.' },
+  { name:'Meridian Detail Atelier',    slug:'meridian',   cat:'Detailing · Luxury',   desc:'Quiet-luxury for concours/collector work: huge editorial type, membership offer.' },
+  { name:'Apex Neon Tint Studio',      slug:'apex',       cat:'Window Tint',          desc:'Interactive shade picker (5% vs 35%), neon dark styling, free-estimate flow.' },
+  { name:'Stateline Restorations',     slug:'stateline',  cat:'Restoration',          desc:'Scroll-scrubbed film — a barn-find Charger rebuilds itself as the visitor scrolls.' },
+  { name:'Velocity Wraps',             slug:'velocity',   cat:'Wraps / PPF',          desc:'Loud color-change work: collection galleries, 4-step process, good-fit / bad-fit columns.' },
+];
+
 const SA_PLANS = {
-  'mtm': { label:'Month-to-Month Agreement', title:'Month-to-Month Website Plan', price:'$349', term:'Billed monthly — cancel anytime', total:'No long-term commitment required', months:'1', monthly:349 },
-  '12':  { label:'12-Month Agreement', title:'12-Month Website Plan', price:'$299', term:'12 monthly payments', total:'Total Contract Value: $3,588', months:'12', monthly:299 },
-  '24':  { label:'24-Month Agreement', title:'24-Month Website Plan', price:'$199', term:'24 monthly payments', total:'Total Contract Value: $4,776', months:'24', monthly:199 },
-  '36':  { label:'36-Month Agreement', title:'36-Month Website Plan', price:'$149', term:'36 monthly payments', total:'Total Contract Value: $5,364', months:'36', monthly:149 }
+  'own': { label:'Own It (One-Time)', title:'One-Time Website Purchase', price:'$2,997 one-time', term:'One-time payment of $2,997', total:'One-time build: $2,997 · then $49.99/mo hosting & maintenance', months:'0', monthly:49.99, oneTime:2997, hosting:49.99 },
+  '24':  { label:'24-Month Plan', title:'24-Month Website Plan', price:'$149/mo', term:'24 monthly payments', total:'Total Contract Value: $3,576 · then $49.99/mo hosting', months:'24', monthly:149, hosting:49.99 },
+  '12':  { label:'12-Month Plan', title:'12-Month Website Plan', price:'$249/mo', term:'12 monthly payments', total:'Total Contract Value: $2,988 · then $49.99/mo hosting', months:'12', monthly:249, hosting:49.99 }
 };
-const PLAN_RATES = { 'Month-to-Month':349, '12-Month':299, '24-Month':199, '36-Month':149 };
+const PLAN_RATES = { 'Own It':49.99, '24-Month':149, '12-Month':249, 'Hosting':49.99 };
 
 const CLIENT_STATUSES = [
   { key:'lead',           label:'Lead',           chip:'chip-lead' },
@@ -1058,45 +1046,45 @@ function seedDemo() {
     employeeId:uid, employeeName:uname, createdAt: mkTs(Math.floor(Math.random()*40)+2)
   }, extra||{});
   demoDB.clients = [
-    C('Mike Harrison','Harrison Roofing','Roofing','Tampa','active','24-Month',199,'demo-tyler','Tyler Albrecht',{ fulfillmentStage:'live', lastActivityAt:mkTs(1), lastDisposition:'Signed' }),
-    C('Dana Whitfield','Whitfield HVAC','HVAC','Brandon','active','12-Month',299,'demo-tyler','Tyler Albrecht',{ fulfillmentStage:'staging', lastActivityAt:mkTs(2), lastDisposition:'Signed' }),
-    C('Luis Ortega','Ortega Plumbing Pros','Plumbing','Riverview','active','36-Month',149,'demo-sam','Sam Rivera',{ fulfillmentStage:'design', lastActivityAt:mkTs(3), lastDisposition:'Signed' }),
-    C('Rachel Kim','ClearView Windows','Window Cleaning','St. Pete','active','Month-to-Month',349,'demo-sam','Sam Rivera',{ fulfillmentStage:'wireframe', lastActivityAt:mkTs(1), lastDisposition:'Contacted' }),
-    C('Tony Marchetti','Marchetti Landscaping','Landscaping','Lutz','working','',0,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(4), lastDisposition:'Callback Scheduled' }),
-    C('Priya Patel','Bright Smile Dental','Dental','Wesley Chapel','working','',0,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(6), lastDisposition:'Follow-Up Needed' }),
-    C('Greg Boone','Boone Junk Removal','Junk Removal','Tampa','lead','',0,'demo-tyler','Tyler Albrecht',{}),
-    C('Elena Vasquez','Vasquez Legal Group','Legal','Downtown Tampa','lead','',0,'demo-sam','Sam Rivera',{}),
-    C('Chris Dalton','Dalton Detailing','Detailing','Clearwater','pending','12-Month',299,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(2), lastDisposition:'Signed' }),
-    C('Wanda Blake','Blake Fitness Studio','Fitness / Gym','Carrollwood','not_interested','',0,'demo-jess','Jess Chen',{ lastActivityAt:mkTs(9), lastDisposition:'Not Interested' }),
-    C('Omar Reyes','Reyes Epoxy Floors','Epoxy Flooring','Plant City','active','24-Month',199,'demo-jess','Jess Chen',{ fulfillmentStage:'onboarding', lastActivityAt:mkTs(1), lastDisposition:'Signed' }),
+    C('Marcus Bell','Apex Auto Detailing','Detailing','Tampa','active','24-Month',149,'demo-tyler','Tyler Albrecht',{ fulfillmentStage:'live', lastActivityAt:mkTs(1), lastDisposition:'Signed' }),
+    C('Diego Ramos','Elite Window Tint','Window Tint','Brandon','active','12-Month',249,'demo-tyler','Tyler Albrecht',{ fulfillmentStage:'staging', lastActivityAt:mkTs(2), lastDisposition:'Signed' }),
+    C('Sasha Ivanov','Velocity Car Wraps','Car Wrap','Riverview','active','Own It',49.99,'demo-sam','Sam Rivera',{ fulfillmentStage:'design', lastActivityAt:mkTs(3), lastDisposition:'Signed' }),
+    C('Ken Park','Lakeshore Ceramic Coatings','Ceramic Coating','St. Pete','active','24-Month',149,'demo-sam','Sam Rivera',{ fulfillmentStage:'wireframe', lastActivityAt:mkTs(1), lastDisposition:'Contacted' }),
+    C('Tony Marchetti','Marchetti Restorations','Restoration','Lutz','working','',0,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(4), lastDisposition:'Callback Scheduled' }),
+    C('Priya Patel','Stateline Auto Interiors','Auto Interior','Wesley Chapel','working','',0,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(6), lastDisposition:'Follow-Up Needed' }),
+    C('Greg Boone','Boone Mobile Detailing','Detailing','Tampa','lead','',0,'demo-tyler','Tyler Albrecht',{}),
+    C('Elena Vasquez','SkyShine Aviation Detailing','Aviation Detailing','Downtown Tampa','lead','',0,'demo-sam','Sam Rivera',{}),
+    C('Chris Dalton','Dalton PPF & Tint','Paint Protection','Clearwater','pending','12-Month',249,'demo-tyler','Tyler Albrecht',{ lastActivityAt:mkTs(2), lastDisposition:'Signed' }),
+    C('Wanda Blake','Blake Auto Spa','Detailing','Carrollwood','not_interested','',0,'demo-jess','Jess Chen',{ lastActivityAt:mkTs(9), lastDisposition:'Not Interested' }),
+    C('Omar Reyes','Reyes Exotic Detailing','Detailing','Plant City','active','Own It',49.99,'demo-jess','Jess Chen',{ fulfillmentStage:'onboarding', lastActivityAt:mkTs(1), lastDisposition:'Signed' }),
   ];
   demoDB.invoices = [
-    { id:'di1', clientName:'Harrison Roofing (Mike Harrison)', amount:199, status:'paid', notes:'24-Month plan', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(12) },
-    { id:'di2', clientName:'Whitfield HVAC (Dana Whitfield)', amount:299, status:'paid', notes:'12-Month plan', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(8) },
-    { id:'di3', clientName:'Ortega Plumbing Pros', amount:149, status:'sent', notes:'36-Month plan', employeeId:'demo-sam', employeeName:'Sam Rivera', createdAt:mkTs(3) },
-    { id:'di4', clientName:'Dalton Detailing', amount:299, status:'overdue', notes:'12-Month plan — signed last month', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(34) },
+    { id:'di1', clientName:'Apex Auto Detailing (Marcus Bell)', amount:149, status:'paid', notes:'24-Month plan', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(12) },
+    { id:'di2', clientName:'Elite Window Tint (Diego Ramos)', amount:249, status:'paid', notes:'12-Month plan', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(8) },
+    { id:'di3', clientName:'Velocity Car Wraps', amount:2997, status:'sent', notes:'Own It — one-time', employeeId:'demo-sam', employeeName:'Sam Rivera', createdAt:mkTs(3) },
+    { id:'di4', clientName:'Dalton PPF & Tint', amount:249, status:'overdue', notes:'12-Month plan — signed last month', employeeId:'demo-tyler', employeeName:'Tyler Albrecht', createdAt:mkTs(34) },
   ];
   const today = new Date(); const iso = d => d.toISOString().split('T')[0];
   demoDB.events = [
-    { id:'de1', title:'Demo call — Boone Junk Removal', date:iso(today), time:'10:00', color:'blue', notes:'Walk through roofing template', assignedTo:'demo-tyler', assignedToName:'Tyler Albrecht', participants:['demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(1) },
-    { id:'de2', title:'Follow-up — Bright Smile Dental', date:iso(today), time:'14:30', color:'orange', notes:'', assignedTo:'demo-tyler', assignedToName:'Tyler Albrecht', participants:['demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(2) },
-    { id:'de3', title:'Site review — Whitfield HVAC', date:iso(new Date(now+day)), time:'11:00', color:'green', notes:'Staging walkthrough', assignedTo:'demo-jess', assignedToName:'Jess Chen', participants:['demo-jess','demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(1) },
-    { id:'de4', title:'Kickoff — Reyes Epoxy Floors', date:iso(new Date(now+3*day)), time:'09:30', color:'purple', notes:'', assignedTo:'demo-sam', assignedToName:'Sam Rivera', participants:['demo-sam','demo-tyler'], createdBy:'demo-sam', createdByName:'Sam Rivera', timestamp:mkTs(1) },
+    { id:'de1', title:'Demo call — Boone Mobile Detailing', date:iso(today), time:'10:00', color:'blue', notes:'Walk through detailing template', assignedTo:'demo-tyler', assignedToName:'Tyler Albrecht', participants:['demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(1) },
+    { id:'de2', title:'Follow-up — Stateline Auto Interiors', date:iso(today), time:'14:30', color:'orange', notes:'', assignedTo:'demo-tyler', assignedToName:'Tyler Albrecht', participants:['demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(2) },
+    { id:'de3', title:'Site review — Elite Window Tint', date:iso(new Date(now+day)), time:'11:00', color:'green', notes:'Staging walkthrough', assignedTo:'demo-jess', assignedToName:'Jess Chen', participants:['demo-jess','demo-tyler'], createdBy:'demo-tyler', createdByName:'Tyler Albrecht', timestamp:mkTs(1) },
+    { id:'de4', title:'Kickoff — Reyes Exotic Detailing', date:iso(new Date(now+3*day)), time:'09:30', color:'purple', notes:'', assignedTo:'demo-sam', assignedToName:'Sam Rivera', participants:['demo-sam','demo-tyler'], createdBy:'demo-sam', createdByName:'Sam Rivera', timestamp:mkTs(1) },
   ];
   demoDB.messages = [
-    { id:'dm1', text:'Morning team — Harrison Roofing site is officially live 🎉', userId:'demo-jess', userName:'Jess Chen', userRole:'web_developer', avatarColor:'#22C55E', mentions:[], timestamp:mkTs(0,-6) },
+    { id:'dm1', text:'Morning team — Apex Auto Detailing site is officially live 🎉', userId:'demo-jess', userName:'Jess Chen', userRole:'web_developer', avatarColor:'#22C55E', mentions:[], timestamp:mkTs(0,-6) },
     { id:'dm2', text:'Huge! @Tyler Albrecht want me to kick off the review push email for them?', userId:'demo-sam', userName:'Sam Rivera', userRole:'marketing_consultant', avatarColor:'#7C3AED', mentions:['demo-tyler'], timestamp:mkTs(0,-5) },
     { id:'dm3', text:'Yes — use the Google Review playbook, they have 40+ happy customers from spring.', userId:'demo-tyler', userName:'Tyler Albrecht', userRole:'owner', avatarColor:'#0891B2', mentions:[], timestamp:mkTs(0,-4) },
-    { id:'dm4', text:'On it. Also Whitfield staging link is ready for review whenever.', userId:'demo-sam', userName:'Sam Rivera', userRole:'marketing_consultant', avatarColor:'#7C3AED', mentions:[], timestamp:mkTs(0,-3) },
+    { id:'dm4', text:'On it. Also Elite Window Tint staging link is ready for review whenever.', userId:'demo-sam', userName:'Sam Rivera', userRole:'marketing_consultant', avatarColor:'#7C3AED', mentions:[], timestamp:mkTs(0,-3) },
   ];
   demoDB.notifications = [
-    { id:'dn1', userId:'demo-tyler', type:'signup', icon:'🎉', title:'New Client Signup', message:'Reyes Epoxy Floors · Epoxy Flooring · Plant City', read:false, timestamp:mkTs(0,-2) },
+    { id:'dn1', userId:'demo-tyler', type:'signup', icon:'🎉', title:'New Client Signup', message:'Reyes Exotic Detailing · Detailing · Plant City', read:false, timestamp:mkTs(0,-2) },
     { id:'dn2', userId:'demo-tyler', type:'mention', icon:'💬', title:'You Were Mentioned', message:'Sam Rivera mentioned you in Team Chat', read:false, timestamp:mkTs(0,-5) },
-    { id:'dn3', userId:'demo-tyler', type:'calendar', icon:'📅', title:'Event Added to Your Calendar', message:'Demo call — Boone Junk Removal', read:true, timestamp:mkTs(1) },
+    { id:'dn3', userId:'demo-tyler', type:'calendar', icon:'📅', title:'Event Added to Your Calendar', message:'Demo call — Boone Mobile Detailing', read:true, timestamp:mkTs(1) },
   ];
   demoDB.campaigns = [
-    { id:'dg1', clientId:demoDB.clients[0].id, clientName:'Harrison Roofing', type:'review', status:'sent', subject:'Mike, a quick favor? (30 seconds)', createdBy:'demo-sam', createdByName:'Sam Rivera', createdAt:mkTs(5), sentAt:mkTs(4) },
-    { id:'dg2', clientId:demoDB.clients[1].id, clientName:'Whitfield HVAC', type:'rebook', status:'draft', subject:'Time for your fall tune-up, Dana', createdBy:'demo-sam', createdByName:'Sam Rivera', createdAt:mkTs(2) },
+    { id:'dg1', clientId:demoDB.clients[0].id, clientName:'Apex Auto Detailing', type:'review', status:'sent', subject:'Marcus, a quick favor? (30 seconds)', createdBy:'demo-sam', createdByName:'Sam Rivera', createdAt:mkTs(5), sentAt:mkTs(4) },
+    { id:'dg2', clientId:demoDB.clients[1].id, clientName:'Elite Window Tint', type:'rebook', status:'draft', subject:'Time to refresh your tint, Diego', createdBy:'demo-sam', createdByName:'Sam Rivera', createdAt:mkTs(2) },
   ];
 }
 
@@ -3058,7 +3046,7 @@ function openEventModal(prefillDate) {
   const today = new Date().toISOString().split('T')[0];
   const userOpts = allTeamUsers.map(u => `<option value="${u.id}" ${u.id===currentUser.uid?'selected':''}>${esc(u.name)} (${roleLabel(u.role)})</option>`).join('');
   openModal('New calendar event', `
-    <div class="fld"><label>Title *</label><input id="ev_title" placeholder="e.g. Demo call — Harrison Roofing"></div>
+    <div class="fld"><label>Title *</label><input id="ev_title" placeholder="e.g. Demo call — Apex Auto Detailing"></div>
     <div class="fld-row">
       <div class="fld"><label>Date</label><input type="date" id="ev_date" value="${prefillDate || today}"></div>
       <div class="fld"><label>Time</label><input type="time" id="ev_time" value="09:00"></div>
@@ -3435,6 +3423,25 @@ function renderTQ(type) {
   const view = document.getElementById('view');
   const label = type === 'templates' ? 'Template' : 'Questionnaire';
   const prefix = type === 'templates' ? 'template-' : 'questionnaire-';
+  if (type === 'templates') {
+    view.innerHTML = `
+      <div style="font-size:12.5px;color:var(--mute);margin:0 0 15px;line-height:1.6">Your live demo library — click any to open it full-screen inside the CRM, or use the copy button to grab the link and send it to a prospect. All 8 are live at <b>portfolio.brechtland.com</b>.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
+        ${PORTFOLIO_DEMOS.map(d => `
+          <div class="card card-hover" data-stagger style="cursor:pointer;text-align:left"
+               onclick="openFrame('${esc(d.name)} — Live Demo', '${PORTFOLIO_BASE}/${d.slug}/', true)">
+            <div style="padding:18px 19px 17px">
+              <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:7px">${esc(d.cat)}</div>
+              <div style="font-size:15px;font-weight:700;letter-spacing:-.01em">${esc(d.name)}</div>
+              <div style="font-size:12px;color:var(--mute);line-height:1.5;margin-top:6px">${esc(d.desc)}</div>
+              <div style="margin-top:13px;font-size:12.5px;font-weight:600;color:var(--accent-deep)">Open live demo →</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    `;
+    animateViewIn();
+    return;
+  }
   view.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px">
       ${TQ_INDUSTRIES.filter(ind => !(type === 'templates' && ind.noTemplate)).map(ind => {
@@ -3485,7 +3492,7 @@ async function renderServices() {
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:20px">
       ${[
-        ['🌐','Website Design','$149 – $349 / mo','Custom site, hosting, unlimited edits, SEO. Pay-to-own over 12/24/36 months — cancel anytime, no contracts.',
+        ['🌐','Website Design','$2,997 or $149–$249/mo','Custom site, hosting, unlimited edits, SEO. Pay-to-own: one-time $2,997, or over 12/24 months — then $49.99/mo hosting. No contracts.',
           `openPaymentLinks('website')`, 'Payment links', ''],
         ['✉️','Email Marketing','$79 – $399 / mo','Done-for-you reactivation campaigns: reviews, referrals, rebooking.',
           `openPaymentLinks('email')`, 'Payment links', `copyServiceLink('email')`],
@@ -3598,7 +3605,7 @@ function openAgreementModal() {
   openModal('Website service agreement', `
     <div class="fld"><label>Plan</label>
       <select id="sa_plan" onchange="saUpdatePlanInfo()">
-        ${Object.entries(SA_PLANS).map(([k,p]) => `<option value="${k}">${p.label} — ${p.price}/mo</option>`).join('')}
+        ${Object.entries(SA_PLANS).map(([k,p]) => `<option value="${k}">${p.label} — ${p.price}</option>`).join('')}
       </select>
       <div class="hint" id="sa_planInfo"></div>
     </div>
@@ -3707,7 +3714,7 @@ async function submitAgreement() {
 
   try {
     await db.collection('signed_agreements').add(agreementData);
-    const planMap = { 'mtm':'Month-to-Month', '12':'12-Month', '24':'24-Month', '36':'36-Month' };
+    const planMap = { 'own':'Own It', '12':'12-Month', '24':'24-Month' };
     await db.collection('clients').add({
       name: ownerName, businessName: bizName, email, phone, address,
       website: '', industry: '',
@@ -4091,12 +4098,12 @@ function demoStripeData() {
     items: { data: [{ quantity: 1, price: { unit_amount: amount*100, recurring: { interval: 'month', interval_count: 1 } } }] }
   });
   return [
-    mk('Mike Harrison',  'mike@harrisonroofing.com', 199, 'active', 42),
-    mk('Dana Whitfield', 'dana@whitfieldhvac.com',   299, 'active', 25),
-    mk('Luis Ortega',    'luis@ortegaplumbingpros.com', 149, 'active', 9),
-    mk('Omar Reyes',     'omar@reyesepoxyfloors.com', 199, 'active', 4),
-    mk('Rachel Kim',     'rachel@clearviewwindows.com', 349, 'past_due', 60),
-    mk('Wanda Blake',    'wanda@blakefitnessstudio.com', 199, 'canceled', 90, 12),
+    mk('Marcus Bell',  'marcus@apexautodetailing.com', 149, 'active', 42),
+    mk('Diego Ramos',  'diego@elitewindowtint.com',    249, 'active', 25),
+    mk('Sasha Ivanov', 'sasha@velocitycarwraps.com',   49.99, 'active', 9),
+    mk('Ken Park',     'ken@lakeshoreceramic.com',     149, 'active', 4),
+    mk('Wanda Blake',  'wanda@blakeautospa.com',       249, 'past_due', 60),
+    mk('Nate Foster',  'nate@fosterrestorations.com',  149, 'canceled', 90, 12),
   ];
 }
 
@@ -4201,7 +4208,7 @@ async function stripeSyncAll() {
   // The customer's info lands in the CRM with zero manual entry, credited
   // to the rep from the payment link (or left unassigned for one click).
   if (!DEMO) {
-    const planGuess = m => ({149:'36-Month',199:'24-Month',299:'12-Month',349:'Month-to-Month',497:'AI Receptionist'})[Math.round(m)] || '';
+    const planGuess = m => ({50:'Hosting',149:'24-Month',249:'12-Month',2997:'Own It',497:'AI Receptionist'})[Math.round(m)] || '';
     const seen = {};
     for (const r of rows) {
       if (!(r.status === 'active' || r.status === 'past_due')) continue;
@@ -4703,9 +4710,10 @@ async function loadPayLinks() {
   if (payLinksCache) return payLinksCache;
   if (DEMO) {
     payLinksCache = [
-      { label:'Website — 36-Month ($149/mo)', url:'https://buy.stripe.com/demo36mo', cat:'website' },
-      { label:'Website — 24-Month ($199/mo)', url:'https://buy.stripe.com/demo24mo', cat:'website' },
-      { label:'Website — 12-Month ($299/mo)', url:'https://buy.stripe.com/demo12mo', cat:'website' },
+      { label:'Website — Own It ($2,997 one-time)', url:'https://buy.stripe.com/28E9AV64Q7IWeRl9xv3Ru0h', cat:'website' },
+      { label:'Website — 24-Month ($149/mo)', url:'https://buy.stripe.com/6oU9AV1OA1kygZt3973Ru0m', cat:'website' },
+      { label:'Website — 12-Month ($249/mo)', url:'https://buy.stripe.com/5kQ8wReBm8N0gZtdNL3Ru0n', cat:'website' },
+      { label:'Hosting & Maintenance ($49.99/mo)', url:'https://buy.stripe.com/cNiaEZ0Kw6ESeRl5hf3Ru0o', cat:'website' },
       { label:'AI Receptionist ($497/mo)',    url:'https://buy.stripe.com/demoai',   cat:'receptionist' },
     ];
     return payLinksCache;
@@ -4755,7 +4763,7 @@ async function managePaymentLinks() {
   openModal('Manage payment links', `
     <p style="font-size:12.5px;color:var(--mute);margin:0 0 12px;line-height:1.6">One link per line: <b>Label | URL | category</b> (category is optional: website, email, or receptionist). Grab the URLs from Stripe Dashboard → Payment Links.</p>
     <div class="fld">
-      <textarea id="pl_text" style="min-height:180px;font-size:12.5px;font-family:ui-monospace,monospace" placeholder="Website — 36-Month ($149/mo) | https://buy.stripe.com/… | website">${esc(text)}</textarea>
+      <textarea id="pl_text" style="min-height:180px;font-size:12.5px;font-family:ui-monospace,monospace" placeholder="Website — 24-Month ($149/mo) | https://buy.stripe.com/… | website">${esc(text)}</textarea>
     </div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
