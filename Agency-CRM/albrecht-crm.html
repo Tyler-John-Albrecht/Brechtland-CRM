@@ -830,6 +830,8 @@ const TQ_INDUSTRIES = [
 // Live demo library — the 8 branded template demos, hosted at portfolio.brechtland.com.
 // Shown in the Templates tab so reps can open a demo in-CRM or copy its link to a prospect.
 const PORTFOLIO_BASE = 'https://portfolio.brechtland.com';
+// Universal automotive intake — answers export straight into Brechtland Studio.
+const QUESTIONNAIRE_URL = 'https://portfolio.brechtland.com/questionnaire/';
 const PORTFOLIO_DEMOS = [
   { name:'Signature Detailing',        slug:'signature',  cat:'Detailing · Flagship', desc:'Red/blue video hero, drag before & after, scrolling reviews, live map, sticky mobile call bar.' },
   { name:'Evergreen Eco Detailing',    slug:'evergreen',  cat:'Detailing · Eco',      desc:'Eco/steam angle, green editorial, before & after slider, map + appointment split.' },
@@ -3442,18 +3444,30 @@ function renderTQ(type) {
     animateViewIn();
     return;
   }
+  // Questionnaires: one universal automotive intake (feeds Brechtland Studio) + the AI Receptionist intake.
+  const receptionistQ = TQ_URL_STORE['questionnaire-ai-receptionist'];
   view.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px">
-      ${TQ_INDUSTRIES.filter(ind => !(type === 'templates' && ind.noTemplate)).map(ind => {
-        const url = TQ_URL_STORE[prefix + ind.id];
-        return `
-        <div class="card card-pad ${url ? 'card-hover' : ''}" data-stagger style="text-align:center;${url ? 'cursor:pointer' : 'opacity:.55'}"
-             ${url ? `onclick="openFrame('${ind.icon} ${esc(ind.name)} — ${label}', '${url}', true)"` : ''}>
-          <div style="font-size:34px;margin-bottom:10px">${ind.icon}</div>
-          <div style="font-size:13.5px;font-weight:700">${ind.name}</div>
-          <div style="font-size:11.5px;font-weight:600;margin-top:5px;color:${url ? 'var(--green)' : 'var(--faint)'}">${url ? '● Ready' : '◌ Coming soon'}</div>
-        </div>`;
-      }).join('')}
+    <div style="font-size:12.5px;color:var(--mute);margin:0 0 15px;line-height:1.6">Send a prospect the questionnaire link — their answers import straight into Brechtland Studio as a ready-to-build client profile. Use the copy button in the viewer to grab the link.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+      <div class="card card-hover" data-stagger style="cursor:pointer;text-align:left"
+           onclick="openFrame('Website Questionnaire', '${QUESTIONNAIRE_URL}', true)">
+        <div style="padding:19px 20px 18px">
+          <div style="font-size:26px;margin-bottom:9px">📝</div>
+          <div style="font-size:15px;font-weight:700;letter-spacing:-.01em">Website Questionnaire</div>
+          <div style="font-size:12px;color:var(--mute);line-height:1.5;margin-top:6px">One universal intake for every automotive niche — detailing, tint, wraps, restoration, aviation. Answers export into Brechtland Studio in one click.</div>
+          <div style="margin-top:13px;font-size:12.5px;font-weight:600;color:var(--accent-deep)">Open · copy link to send →</div>
+        </div>
+      </div>
+      ${receptionistQ ? `
+      <div class="card card-hover" data-stagger style="cursor:pointer;text-align:left"
+           onclick="openFrame('AI Receptionist Questionnaire', '${receptionistQ}', true)">
+        <div style="padding:19px 20px 18px">
+          <div style="font-size:26px;margin-bottom:9px">🤖</div>
+          <div style="font-size:15px;font-weight:700;letter-spacing:-.01em">AI Receptionist Questionnaire</div>
+          <div style="font-size:12px;color:var(--mute);line-height:1.5;margin-top:6px">Client intake for the AI receptionist setup — hours, services, call routing and FAQs.</div>
+          <div style="margin-top:13px;font-size:12.5px;font-weight:600;color:var(--accent-deep)">Open · copy link to send →</div>
+        </div>
+      </div>` : ''}
     </div>
   `;
   animateViewIn();
