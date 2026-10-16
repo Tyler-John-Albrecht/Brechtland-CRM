@@ -827,7 +827,7 @@ const TQ_INDUSTRIES = [
   { id:'ai-receptionist', icon:'🤖', name:'AI Receptionist', noTemplate:true },
 ];
 
-// Live demo library — the 8 branded template demos, hosted at portfolio.brechtland.com.
+// Live demo library — the 9 branded template demos, hosted at portfolio.brechtland.com.
 // Shown in the Templates tab so reps can open a demo in-CRM or copy its link to a prospect.
 const PORTFOLIO_BASE = 'https://portfolio.brechtland.com';
 // Universal automotive intake — answers export straight into Brechtland Studio.
@@ -835,6 +835,7 @@ const QUESTIONNAIRE_URL = 'https://portfolio.brechtland.com/questionnaire/';
 const PORTFOLIO_DEMOS = [
   { name:'Signature Detailing',        slug:'signature',  cat:'Detailing · Flagship', desc:'Red/blue video hero, drag before & after, scrolling reviews, live map, sticky mobile call bar.' },
   { name:'Evergreen Eco Detailing',    slug:'evergreen',  cat:'Detailing · Eco',      desc:'Eco/steam angle, green editorial, before & after slider, map + appointment split.' },
+  { name:'Curbside Mobile Detailing',  slug:'curbside',   cat:'Detailing · Mobile',   desc:'"We bring water & power" angle, service-area map instead of a shop address, 3 priced packages, boats/RVs/motorcycles rail.' },
   { name:'Fast Exotic — Dark Editorial', slug:'fast-exotic', cat:'Detailing · Exotic', desc:'Moody dark-editorial for high-end work: drag before & after, package tiers, guarantee section.' },
   { name:'Lakeshore Auto Pros',        slug:'lakeshore',  cat:'PPF / Tint',           desc:'Multi-service, multi-location — zig-zag service rows, work gallery, dual-location footer.' },
   { name:'Meridian Detail Atelier',    slug:'meridian',   cat:'Detailing · Luxury',   desc:'Quiet-luxury for concours/collector work: huge editorial type, membership offer.' },
@@ -3427,7 +3428,7 @@ function renderTQ(type) {
   const prefix = type === 'templates' ? 'template-' : 'questionnaire-';
   if (type === 'templates') {
     view.innerHTML = `
-      <div style="font-size:12.5px;color:var(--mute);margin:0 0 15px;line-height:1.6">Your live demo library — click any to open it full-screen inside the CRM, or use the copy button to grab the link and send it to a prospect. All 8 are live at <b>portfolio.brechtland.com</b>.</div>
+      <div style="font-size:12.5px;color:var(--mute);margin:0 0 15px;line-height:1.6">Your live demo library — click any to open it full-screen inside the CRM, or use the copy button to grab the link and send it to a prospect. All 9 are live at <b>portfolio.brechtland.com</b>.</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
         ${PORTFOLIO_DEMOS.map(d => `
           <div class="card card-hover" data-stagger style="cursor:pointer;text-align:left"
